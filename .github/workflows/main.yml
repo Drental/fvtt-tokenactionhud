@@ -1,64 +1,44 @@
-name: Create Release Archive
-on:
-  push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+name: Release Creation
+
+on: 
+  release:
+    types: [published]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+
+    # get part of the tag after the `v`
+    - name: Extract tag version number
+      id: get_version
+      uses: battila7/get-version-action@v2
+
+    # Substitute the Manifest and Download URLs in the module.json
+    - name: Substitute Manifest and Download Links For Versioned Ones
+      id: sub_manifest_link_version
+      uses: microsoft/variable-substitution@v1
       with:
-        persist-credentials: false
-        fetch-depth: 0
-    - name: Get tag
-      id: tagName
-      uses: dawidd6/action-get-tag@v1
-    - name: Patch files
-      uses: onlyutkarsh/patch-files-action@v1.0.2
+        files: 'module.json'
       env:
-        author: ^ and stick#0520, Drental#7146
+        version: ${{steps.get_version.outputs.version-without-v}}
+        url: https://github.com/${{github.repository}}
+        manifest: https://github.com/${{github.repository}}/releases/latest/download/module.json
+        download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
+
+    # Create a zip file with all files required by the module to add to the release
+    - run: zip -r ./module.zip module.json readme.md lang/ lib/ scripts/ styles/ templates/
+
+    # Create a release for this specific version
+    - name: Update Release with Files
+      id: create_version_release
+      uses: ncipollo/release-action@v1
       with:
-        files: |
-          module.json
-        patch-syntax: |
-          = /version => "${{ steps.tagName.outputs.tag }}"
-          = /author => "${{ env.author }}"
-          = /download => "https://github.com/Drental/fvtt-tokenactionhud/releases/download/${{ steps.tagName.outputs.tag }}/release_${{ steps.tagName.outputs.tag }}.zip"
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.tagName.outputs.tag }}
-        release_name: Release_${{ steps.tagName.outputs.tag }}
+        allowUpdates: true # Set this to false if you want to prevent updating existing releases
+        name: ${{ github.event.release.name }}
         draft: false
-        prerelease: false
-    - name: Archive Release
-      uses: thedoctor0/zip-release@master
-      with:
-        filename: 'release_${{ steps.tagName.outputs.tag }}.zip'
-        exclusions: '*.git* *.md .editorconfig foundry.js'
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release_${{ steps.tagName.outputs.tag }}.zip
-        asset_name: release_${{ steps.tagName.outputs.tag }}.zip
-        asset_content_type: application/zip
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add module.json
-        git commit -m "Update module.json"
-    - name: Push changes to master
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: master
+        token: ${{ secrets.GITHUB_TOKEN }}
+        artifacts: './module.json, ./module.zip'
+        tag: ${{ github.event.release.tag_name }}
+        body: ${{ github.event.release.body }}
