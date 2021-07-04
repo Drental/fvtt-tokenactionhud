@@ -384,7 +384,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
         let heightenedSignatureSpells = [];
         spells.forEach(spell => {
-            if (signatureSpellIds.includes(spell.data.id)) {
+            if (signatureSpellIds.includes(spell.data._id)) {
                 const spellBaseLevel = spell.data.data.level.value;
                 for (let i=(spellBaseLevel+1); i<=highestSpellSlot; i++) {
                     let heightenedSpell = Object.create(Object.getPrototypeOf(spell));
