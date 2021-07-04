@@ -35,7 +35,7 @@ export class RollHandlerBasePf2e extends RollHandler {
             if (tokenId === 'multi') {
                 const controlled = canvas.tokens.controlled.filter(t => knownCharacters.includes(t.actor?.data.type));
                 for (let token of controlled) {
-                    let idToken = token.data.id;
+                    let idToken = token.data._id;
                     await this._handleMacros(event, macroType, idToken, actionId);
                 }
             } else {
