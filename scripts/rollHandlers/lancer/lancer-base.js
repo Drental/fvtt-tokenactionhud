@@ -44,7 +44,7 @@ export class RollHandlerBaseLancer extends RollHandler {
     }
 
     _rollHaseMacro(actor, action) {
-        game.lancer.prepareStatMacro(actor._id, `data.mech.${action}`);
+        game.lancer.prepareStatMacro(actor._id, `data.${action}`);
     }
 
     _rollStatMacro(actor, action) {

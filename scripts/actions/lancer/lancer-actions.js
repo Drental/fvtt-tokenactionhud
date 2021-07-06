@@ -22,11 +22,13 @@ export class ActionHandlerLancer extends ActionHandler {
         if (!actor)
             return result;
 
-        result.actorId = actor._id;
+        result.actorId = actor.id;
 
         switch (actor.data.type) {
             case 'pilot':
                 this._combineCategoryWithList(result, this.i18n('tokenactionhud.pilot'), this._pilotCategory(actor, tokenId));
+                break;
+            case 'mech':
                 this._combineCategoryWithList(result, this.i18n('tokenactionhud.mech'), this._mechCategory(actor, tokenId));
                 this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), this._weaponsCategory(actor, tokenId));
                 this._combineCategoryWithList(result, this.i18n('tokenactionhud.systems'), this._systemsCategory(actor, tokenId));
@@ -70,13 +72,12 @@ export class ActionHandlerLancer extends ActionHandler {
 
         result.name = name
         result.actions = actor.data.items.filter(item => {
-            return item.type === 'npc_feature'
+            return item.data.type === 'npc_feature'
         }).filter(item => {
-            return item.data.feature_type === itemType;
+            return item.data.data.type === itemType;
         }).map( item => {
             return this._makeAction(item.name, macro, tokenId, item._id)
         })
-
         return result
     }
 
@@ -261,7 +262,9 @@ export class ActionHandlerLancer extends ActionHandler {
         let frame = actor.data.items.find(item => {
             return item.type === 'frame'
         })
-        let core = frame.data.core_system
+        
+        let core = frame.data.data.core_system;
+        
 
         result.name = core.name
 
