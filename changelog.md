@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.11] 2021-07-07
+### Bugfix
+- dnd3.5 Fix for skills by Rughalt
+- LANCER fixes by PurringInsanity (System seems not to be up to date though)
+- PF2e fix cantrip display for spont spellcasting
+
 ## [1.1.10] 2021-07-06
 ### Bugfix
 - sfrpg show HUD for starships with weapons
