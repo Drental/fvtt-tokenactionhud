@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.10] 2021-07-06
+### Bugfix
+- sfrpg show HUD for starships with weapons
+
 ## [1.1.7] 2021-07-04
 ### Bugfix
 - PF2E Fix rolling saves with multiple actors
