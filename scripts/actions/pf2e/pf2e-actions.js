@@ -416,6 +416,9 @@ export class ActionHandlerPf2e extends ActionHandler {
     }    
 
     _getSpellLevel(spellItem) {
+        if (spellItem.isCantrip) {
+            return 0;
+        }
         return !!spellItem.data.data.heightenedLevel?.value ? parseInt(spellItem.data.data.heightenedLevel.value) : parseInt(spellItem.data.data.level.value);
     }
     
