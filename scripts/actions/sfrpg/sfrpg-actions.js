@@ -355,7 +355,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
         const category = this.initializeEmptyCategory(itemType);
         
         const groupedWeapons = weapons.reduce((grouped, w) => {
-            const groupName = w.data.mount.arc;
+            const groupName = w.data.data.mount.arc;
             if (!grouped.hasOwnProperty(groupName))
             grouped[groupName] = [];
             
