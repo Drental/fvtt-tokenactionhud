@@ -2,7 +2,7 @@
 
 ## [1.1.12] 2021-07-07
 ### Bugfix
-- pf2e Disable attacks for familiars, restoring the HUD for them
+- pf2e Fix HUD for Familiars that don't have a master
 
 ## [1.1.11] 2021-07-07
 ### Bugfix
