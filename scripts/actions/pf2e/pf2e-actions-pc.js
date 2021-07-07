@@ -29,11 +29,11 @@ export class PcActionHandlerPf2e {
 
     /** @private */
     _forFamiliar(result, tokenId, actor) {
-        let attack = this._getFamiliarAttack(actor, tokenId);
+        //let attack = this._getFamiliarAttack(actor, tokenId);
         let items = this.baseHandler._getItemsList(actor, tokenId);
         let effects = this.baseHandler._getEffectsList(actor, tokenId);
         this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.inventory'), items);
-        this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
+        //this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
         this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.effects'), effects);
     }
 
