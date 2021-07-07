@@ -12,7 +12,7 @@ export class RollHandler {
     }
     
     getItem(actor, itemId) {
-        return actor.getOwnedItem(itemId);
+        return actor.items.get(itemId);
     }
     
     getToken(tokenId) {

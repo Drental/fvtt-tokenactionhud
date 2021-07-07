@@ -33,7 +33,7 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
     }
 
     _rollForcePower(actor, itemId) {
-        let item = actor.getOwnedItem(itemId);
+        let item = actor.items.get(itemId);
         if (!item) {
           item = game.items.get(itemId);
         }

@@ -19,7 +19,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let actor = super.getActor(tokenId);
     let charType;
     if (actor) charType = actor.data.type;
-    let item = actionId ? actor.getOwnedItem(actionId) : null;
+    let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ['item', 'armor'];
     if (renderable.includes(macroType) && this.isRenderItem()) return this.doRenderItem(tokenId, actionId);
@@ -250,7 +250,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
   /** @private */
   _rollItem(actor, tokenId, actionId, macroType) {
-    let item = actor.getOwnedItem(actionId);
+    let item = actor.items.get(actionId);
     let renderable = ['item'];
     if (renderable.includes(macroType)) {
       return this.doRenderItem(tokenId, actionId);

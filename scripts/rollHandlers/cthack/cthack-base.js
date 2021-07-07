@@ -52,12 +52,12 @@ export class RollHandlerBaseCthack extends RollHandler {
     }
 
     _handleWeapon(macroType, event, actor, actionId) {
-        let item = actor.getOwnedItem(actionId);
+        let item = actor.items.get(actionId);
         actor.rollMaterial(item);
     }
 
     _handleItem(macroType, event, actor, actionId) {
-        let item = actor.getOwnedItem(actionId);
+        let item = actor.items.get(actionId);
         actor.rollMaterial(item);
     }
 
