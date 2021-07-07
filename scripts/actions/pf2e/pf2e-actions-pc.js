@@ -29,11 +29,11 @@ export class PcActionHandlerPf2e {
 
     /** @private */
     _forFamiliar(result, tokenId, actor) {
-        //let attack = this._getFamiliarAttack(actor, tokenId);
+        let attack = this._getFamiliarAttack(actor, tokenId);
         let items = this.baseHandler._getItemsList(actor, tokenId);
         let effects = this.baseHandler._getEffectsList(actor, tokenId);
         this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.inventory'), items);
-        //this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
+        this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
         this.baseHandler._combineCategoryWithList(result, this.i18n('tokenactionhud.effects'), effects);
     }
 
@@ -126,15 +126,17 @@ export class PcActionHandlerPf2e {
         let subcategory = this.baseHandler.initializeEmptySubcategory();
                 
         const att = actor.data.data.attack;
-        const attMod = att.totalModifier < 0 ? att.totalModifier : `+${att.totalModifier}`;
+        if (att) {
+            const attMod = att.totalModifier < 0 ? att.totalModifier : `+${att.totalModifier}`;
 
-        let name = att.name.charAt(0).toUpperCase() + att.name.slice(1);
+            let name = att.name.charAt(0).toUpperCase() + att.name.slice(1);
 
-        let encodedValue = [macroType, tokenId, att.name].join(this.baseHandler.delimiter);
+            let encodedValue = [macroType, tokenId, att.name].join(this.baseHandler.delimiter);
 
-        let action = {name: name, encodedValue: encodedValue, encodedValue, info1: attMod}
+            let action = {name: name, encodedValue: encodedValue, encodedValue, info1: attMod}
             
-        subcategory.actions = [action];
+            subcategory.actions = [action];
+        }
             
         this.baseHandler._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.attack'), subcategory);
 
