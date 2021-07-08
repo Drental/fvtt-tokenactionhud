@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.13] 2021-07-08
+### Bugfix
+- use actor.items.get instead of actor.getOwnedItems (deprecation)
+### Changed
+- PF1 add setting to hide disabled features
+
 ## [1.1.12] 2021-07-07
 ### Bugfix
 - pf2e Fix HUD for Familiars that don't have a master
