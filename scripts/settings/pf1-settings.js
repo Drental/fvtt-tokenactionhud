@@ -30,5 +30,16 @@ export function register(app, updateSettings) {
         default: false,
         onChange: value => { updateSettings(value); }
     });
+    
+    game.settings.register(app,'ignoreDisabledFeats', {
+        name: game.i18n.localize('tokenactionhud.settings.pf1.showDisabled.name'),
+        hint: game.i18n.localize('tokenactionhud.settings.pf1.showDisabled.hint'),
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true,
+        onChange: value => { updateSettings(value); }
+    });
+    
 }
     
