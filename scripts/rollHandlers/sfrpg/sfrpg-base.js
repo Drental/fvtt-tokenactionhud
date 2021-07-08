@@ -75,7 +75,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     
     rollItemMacro(event, tokenId, itemId) {
         let actor = super.getActor(tokenId);
-        let item = actor.getOwnedItem(itemId);
+        let item = actor.items.get(itemId);
 
         if (this.needsRecharge(item)) {
             item.rollRecharge();

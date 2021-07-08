@@ -68,7 +68,7 @@ export class RollHandlerBaseDw extends RollHandler {
     }
 
     _handleMove(macroType, event, tokenId, actor, actionId) {
-        let move = actor.getOwnedItem(actionId);
+        let move = actor.items.get(actionId);
  
         if (this.isRenderItem()) {
             this.doRenderItem(tokenId, actionId);

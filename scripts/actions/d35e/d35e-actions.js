@@ -706,7 +706,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
             if (consumeType === 'charges') {
                 let consumeId = item.data.data.consume.target;
-                let target = actor.getOwnedItem(consumeId);
+                let target = actor.items.get(consumeId);
                 let uses = target?.data.data.uses;
                 if (uses?.value) {
                     result = uses.value;
@@ -717,7 +717,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
             if (!(consumeType === 'attribute' || consumeType === 'charges')) {
                 let consumeId = item.data.data.consume.target;
-                let target = actor.getOwnedItem(consumeId);
+                let target = actor.items.get(consumeId);
                 let quantity = target?.data.data.quantity;
                 if (quantity) {
                     result = quantity;

@@ -30,7 +30,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
         let actor = super.getActor(tokenId);
         let item = null
         if (['weapon', 'specialaction', 'spell', 'talent'].includes(macroType)) {
-            item = actor.getOwnedItem(actionId);
+            item = actor.items.get(actionId);
         }
 
         switch (macroType) {

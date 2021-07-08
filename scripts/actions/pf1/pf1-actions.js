@@ -402,6 +402,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     _categoriseFeats(tokenId, actor, feats) {
         let active = this.initializeEmptySubcategory();
         let passive = this.initializeEmptySubcategory();
+        let disabled = this.initializeEmptySubcategory();
 
         let dispose = feats.reduce(function (dispose, f) {
             const activationType = f.data.activation.type;
@@ -409,6 +410,11 @@ export class ActionHandlerPf1 extends ActionHandler {
 
             let feat = this._buildItem(tokenId, actor, macroType, f);
             
+            if (!f.document.isActive) {
+                disabled.actions.push(feat);
+                return;
+            }
+
             if (!activationType || activationType === '' || activationType === 'passive') {
                 passive.actions.push(feat);
                 return;
@@ -427,6 +433,11 @@ export class ActionHandlerPf1 extends ActionHandler {
         if (!settings.get('ignorePassiveFeats')) {
             let passiveTitle = this.i18n('tokenactionhud.passive');
             this._combineSubcategoryWithCategory(result, passiveTitle, passive);
+        }
+        
+        if (!settings.get('ignoreDisabledFeats')) {
+            let disabledTitle = this.i18n('tokenactionhud.pf1.disabled');
+            this._combineSubcategoryWithCategory(result, disabledTitle, disabled);
         }
 
         
@@ -824,7 +835,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
             if (consumeType === 'charges') {
                 let consumeId = item.data.consume.target;
-                let target = actor.getOwnedItem(consumeId);
+                let target = actor.items.get(consumeId);
                 let uses = target?.data.data.uses;
                 if (uses?.value) {
                     result = uses.value;
@@ -835,7 +846,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
             if (!(consumeType === 'attribute' || consumeType === 'charges')) {
                 let consumeId = item.data.consume.target;
-                let target = actor.getOwnedItem(consumeId);
+                let target = actor.items.get(consumeId);
                 let quantity = target?.data.data.quantity;
                 if (quantity) {
                     result = quantity;

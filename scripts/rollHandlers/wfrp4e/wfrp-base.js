@@ -26,7 +26,7 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
         if (this.isRenderItem())
             return this.doRenderItem(tokenId, actionId);
 
-        let item = actor.getOwnedItem(actionId);
+        let item = actor.items.get(actionId);
         let itemData;
         if (!!item) {
             itemData = duplicate(item.data);
