@@ -62,7 +62,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         let combatActions = [];
         for (let action in game.od6s.config.actions) {
             if (game.od6s.config.actions[action].rollable) {
-                let name = game.i18n.localize(action);
+                let name = game.i18n.localize(game.od6s.config.actions[action].name);
                 let encodedValue = [macroType, tokenId, game.od6s.config.actions[action].type].join(this.delimiter);
                 combatActions.push({name: name, id: action, encodedValue: encodedValue});
                 if (name === game.i18n.localize('OD6S.ACTION_PARRY')) {
@@ -103,7 +103,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         let macroType = 'skill';
         let result = this.initializeEmptyCategory(categoryName);
         let items = actor.items;
-        let skills = items.filter(i => i.data.type === 'skill');
+        let skills = items.filter(i => i.data.type === 'skill'||i.data.type === 'specialization');
         skills.sort((a,b) => a.name.localeCompare(b.name));
         let skillActions = this._produceMap(tokenId, skills, macroType);
         let skillsSubcategory = this.initializeEmptySubcategory();
