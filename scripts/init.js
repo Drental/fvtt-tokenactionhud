@@ -61,20 +61,20 @@ Hooks.on('canvasReady', async () => {
             game.tokenActionHUD.update();
     });
     
-    Hooks.on('deleteOwnedItem', (source, item) => {
-        let actor = source.data;
+    Hooks.on('deleteItem', (item) => {
+        let actor = item.actor;
         if (game.tokenActionHUD.validActorOrItemUpdate(actor))
             game.tokenActionHUD.update();
     });
     
-    Hooks.on('createOwnedItem', (source, item) => {
-        let actor = source.data;
+    Hooks.on('createItem', (item) => {
+        let actor = item.actor;
         if (game.tokenActionHUD.validActorOrItemUpdate(actor))
             game.tokenActionHUD.update();
     });
     
-    Hooks.on('updateOwnedItem', (source, item) => {
-        let actor = source.data;
+    Hooks.on('updateItem', (item) => {
+        let actor = item.actor;
         if (game.tokenActionHUD.validActorOrItemUpdate(actor))
             game.tokenActionHUD.update();
     });
