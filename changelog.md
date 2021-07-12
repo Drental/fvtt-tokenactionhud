@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.14] 2021-07-08
+### Bugfix
+- Update hooks so the HUD updates when changes happen to the cuttent actor
+
 ## [1.1.13] 2021-07-08
 ### Bugfix
 - use actor.items.get instead of actor.getOwnedItems (deprecation)
