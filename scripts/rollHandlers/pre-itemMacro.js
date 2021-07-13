@@ -31,14 +31,10 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
 
     _tryExecuteItemMacro(event, tokenId, actionId) {
         let actor = super.getActor(tokenId);
+        let item = super.getItem(actor, actionId);
 
         try {
-            if(actor.isToken)
-            {
-                ItemMacro.runMacro(tokenId, actionId);
-            }else{
-                ItemMacro.runMacro(actor.id, actionId);
-            } 
+            item.executeMacro()
         } catch (e) {
             settings.Logger.error('ItemMacro error: ', e);
             return false;
