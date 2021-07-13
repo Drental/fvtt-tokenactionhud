@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.15] 2021-07-08
+### Bugfix
+- DnD5e Item Macro integration - execute the Item macro instead of throwing an error.
+
 ## [1.1.14] 2021-07-08
 ### Bugfix
 - Update hooks so the HUD updates when changes happen to the cuttent actor
