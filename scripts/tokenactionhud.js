@@ -424,21 +424,23 @@ export class TokenActionHUD extends Application {
 
     // Basically update any time. All this logic could be improved.
     validActorOrItemUpdate(actor) {
-        settings.Logger.debug(`actor change, comparing actors`);
-        settings.Logger.debug(`actor.id: ${actor.id}; this.targetActions.actorId: ${this.targetActions?.actorId}`);
+        if (actor) {
+            settings.Logger.debug(`actor change, comparing actors`);
+            settings.Logger.debug(`actor.id: ${actor.id}; this.targetActions.actorId: ${this.targetActions?.actorId}`);
 
-        if (!actor) {
-            settings.Logger.debug('No actor, possibly deleted, should update HUD.');
-            return true;
-        }
-            
-        if (this.targetActions && actor.id === this.targetActions.actorId) {
-            settings.Logger.debug('Same actor IDs, should update HUD.');
-            return true;
-        }
+            if (!actor) {
+                settings.Logger.debug('No actor, possibly deleted, should update HUD.');
+                return true;
+            }
+                
+            if (this.targetActions && actor.id === this.targetActions.actorId) {
+                settings.Logger.debug('Same actor IDs, should update HUD.');
+                return true;
+            }
 
-        settings.Logger.debug('Different actor, no need to update HUD.');
-        return false;
+            settings.Logger.debug('Different actor, no need to update HUD.');
+            return false;
+        }
     }
 
     showHudEnabled() {
