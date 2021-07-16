@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.16] 2021-07-08
+### Bugfix
+- remove errors when closing or creating items in the sidebar
+
 ## [1.1.15] 2021-07-08
 ### Bugfix
 - DnD5e Item Macro integration - execute the Item macro instead of throwing an error.
