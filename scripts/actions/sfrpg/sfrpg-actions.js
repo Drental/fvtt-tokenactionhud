@@ -22,7 +22,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
         if (!actor)
             return actionList;
 
-        actionList.actorId = actor._id;
+        actionList.actorId = actor.id;
 
         if (actor.data.type !== 'starship') {
             this._buildItemCategory(token, actionList);
@@ -178,7 +178,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     _addSubcategoryByActionType(subCategoryName, actionType, macroType, itemList, tokenId, category) {  
         let subCategory = this.initializeEmptySubcategory();    
 
-        let itemsOfType = itemList.filter(item => item.data.actionType == actionType);
+        let itemsOfType = itemList.filter(item => item.data.data.actionType == actionType);
         subCategory.actions = itemsOfType.map(item => this._buildItemAction(tokenId, macroType, item));
                   
         this._combineSubcategoryWithCategory(category, subCategoryName, subCategory);
@@ -213,7 +213,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
         
         let subCategory = this.initializeEmptySubcategory();    
 
-        let itemsOfType = itemList.filter(item => item.data.level == level);
+        let itemsOfType = itemList.filter(item => item.data.data.level === level);
         subCategory.actions = itemsOfType.map(item => {
             let action = this._buildItemAction(tokenId, macroType, item);
             if (settings.get('showSpellInfo'))
@@ -246,10 +246,10 @@ export class ActionHandlerSfrpg extends ActionHandler {
     }
 
     _buildItemAction(tokenId, macroType, item) {
-        let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
+        let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
         let img = this._getImage(item);
-        let icon = this._getActionIcon(item.data.activation?.type)
-        let result = { name: item.name, id: item._id, encodedValue: encodedValue, img:img, icon: icon }        
+        let icon = this._getActionIcon(item.data.data.activation?.type)
+        let result = { name: item.name, id: item.id, encodedValue: encodedValue, img:img, icon: icon }
 
         result.info1 = this._getQuantityData(item);
 
@@ -263,8 +263,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
     /** @private */
     _getQuantityData(item) {
         let result = '';
-        if (item.data.quantity > 1) {
-            result = item.data.quantity;
+        if (item.data.data.quantity > 1) {
+            result = item.data.data.quantity;
         }
 
         return result;
@@ -274,7 +274,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     _getUsesOrUsageData(item) {
         let result = '';
 
-        let uses = item.data.uses;
+        let uses = item.data.data.uses;
         if (uses?.max || uses?.value) {
             result = uses.value ?? '';
             
@@ -301,7 +301,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     _getCapacityData(item) {
         let result = '';
 
-        let capacity = item.data.capacity;
+        let capacity = item.data.data.capacity;
         if (!capacity)
             return result;
 
@@ -375,9 +375,9 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
             groupWeapons.forEach(a => {
                 const actionName = a.name;
-                const encodedValue = [macroType, token.id, a._id].join(this.delimiter);
-                const action = {name: actionName, encodedValue: encodedValue, id: a._id, img: this._getImage(a)};
-                action.info1 = a.data.pcu ?? '';
+                const encodedValue = [macroType, token.id, a.id].join(this.delimiter);
+                const action = {name: actionName, encodedValue: encodedValue, id: a.id, img: this._getImage(a)};
+                action.info1 = a.data.data.pcu ?? '';
 
                 subcategory.actions.push(action);
             });
@@ -398,7 +398,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
             
         const macroType = 'crewAction';
         const category = this.initializeEmptyCategory(macroType);
-        const actions = await game.packs.get("sfrpg.starship-actions").getContent();
+        const actions = await game.packs.get("sfrpg.starship-actions").getDocuments();
 
         const groupedActions = actions.reduce((grouped, a) => {
             const role = a.data.data.role;
@@ -425,8 +425,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
             groupActions.forEach(a => {
                 const actionName = a.name;
-                const encodedValue = [macroType, token.id, a._id].join(this.delimiter);
-                const action = {name: actionName, encodedValue: encodedValue, id: a._id, img: this._getImage(a)};
+                const encodedValue = [macroType, token.id, a.id].join(this.delimiter);
+                const action = {name: actionName, encodedValue: encodedValue, id: a.id, img: this._getImage(a)};
                 action.info1 = a.data.data.resolvePointCost ?? '';
 
                 subcategory.actions.push(action);
