@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.17] 2021-07-08
+### Bugfix
+- SFRPG - restore spellbooks and fix deprecated calls
+
 ## [1.1.16] 2021-07-08
 ### Bugfix
 - remove errors when closing or creating items in the sidebar
