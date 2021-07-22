@@ -2,7 +2,7 @@
 
 ## [1.1.18] 2021-07-08
 ### Bugfix
-- WFRP4e - updates for Version 4.0.2 and foundry 0.8.8 compatibility
+- WFRP4e - updates for Version 4.0.2 and foundry 0.8.8 compatibility by Silentmark
 
 ## [1.1.17] 2021-07-08
 ### Bugfix
