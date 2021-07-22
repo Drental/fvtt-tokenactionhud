@@ -28,10 +28,7 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
 
         let item = actor.items.get(actionId);
         let itemData;
-        if (!!item) {
-            itemData = duplicate(item.data);
-        } 
-        
+       
         if (this.rightClick)
             return item.postItem();
 
@@ -45,33 +42,33 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
             case 'improvise':
                 return this.improvise(actor);
             case 'weapon': {      
-                let promise = actor.setupWeapon(itemData, bypassData);
-                if (!(itemData.loading && !itemData.data.loaded.value)) {
+                let promise = actor.setupWeapon(item, bypassData);
+                if (!(item.loading && !item.loaded.value)) {
                     return promise.then(setupData => actor.weaponTest(setupData));
                 } else {
                     break; // do nothing, setupweapon will show skill test dialog for reload.
                 }
             }
             case 'spell':
-                return this.castSpell(actor, itemData, bypassData);
+                return this.castSpell(actor, item, bypassData);
             case 'prayer':
-                return actor.setupPrayer(itemData, bypassData)
+                return actor.setupPrayer(item, bypassData)
                     .then(setupData => actor.prayerTest(setupData));
             case 'trait':
             case 'talent':
-                if (itemData.data.rollable?.value)
-                    return actor.setupTrait(itemData, bypassData)
+                if (item.rollable?.value)
+                    return actor.setupTrait(item, bypassData)
                         .then(setupData => actor.traitTest(setupData));
                 else 
                     return item.postItem();
             case 'skill':
-                return actor.setupSkill(itemData, bypassData)
+                return actor.setupSkill(item, bypassData)
                     .then(setupData => actor.basicTest(setupData));
         }
     }
 
     dodge(actor) {
-        let skill = actor.data.skills.find(s => s.name == game.i18n.localize("NAME.Dodge") && s.type == "skill")
+        let skill = actor.getItemTypes("skill").find(s => s.name == game.i18n.localize("NAME.Dodge"));
         if (skill) {
             actor.setupSkill(skill).then(setupData => {
                 actor.basicTest(setupData)
