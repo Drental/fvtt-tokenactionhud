@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.18] 2021-07-08
+### Bugfix
+- WFRP4e - updates for Version 4.0.2 and foundry 0.8.8 compatibility
+
 ## [1.1.17] 2021-07-08
 ### Bugfix
 - SFRPG - restore spellbooks and fix deprecated calls
