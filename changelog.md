@@ -1,26 +1,26 @@
 # Changelog
 
-## [1.1.19] 2021-07-08
+## [1.1.19] 2021-07-23
 ### Bugfix
 - PF2e - Fix Chatcard created by spells
 
-## [1.1.18] 2021-07-08
+## [1.1.18] 2021-07-22
 ### Bugfix
 - WFRP4e - updates for Version 4.0.2 and foundry 0.8.8 compatibility by Silentmark
 
-## [1.1.17] 2021-07-08
+## [1.1.17] 2021-07-17
 ### Bugfix
 - SFRPG - restore spellbooks and fix deprecated calls
 
-## [1.1.16] 2021-07-08
+## [1.1.16] 2021-07-16
 ### Bugfix
 - remove errors when closing or creating items in the sidebar
 
-## [1.1.15] 2021-07-08
+## [1.1.15] 2021-07-13
 ### Bugfix
 - DnD5e Item Macro integration - execute the Item macro instead of throwing an error.
 
-## [1.1.14] 2021-07-08
+## [1.1.14] 2021-07-12
 ### Bugfix
 - Update hooks so the HUD updates when changes happen to the cuttent actor
 
