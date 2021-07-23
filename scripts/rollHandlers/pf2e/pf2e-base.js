@@ -497,7 +497,7 @@ export class RollHandlerBasePf2e extends RollHandler {
 
     async _executeMacroById(id) {
         let pack = game.packs.get('pf2e.pf2e-macros');
-        pack.getEntity(id).then(e => e.execute());
+        pack.getDocument(id).then(e => e.execute());
     }
 
     async _adjustAttribute(event, actor, property, valueName, actionId) {
