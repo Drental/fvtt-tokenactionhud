@@ -445,9 +445,16 @@ export class RollHandlerBasePf2e extends RollHandler {
           const chatData = {
             user: game.user.id,
             speaker: {
-              actor: actor.id,
-              token: actor.token,
-              alias: actor.name,
+                actor: actor.id,
+                token: actor.getActiveTokens()[0]?.id,
+            },
+            flags: {
+                core: {
+                    canPopout: true,
+                },
+                pf2e: {
+                    origin: { uuid: item.uuid, type: item.type },
+                },
             },
             type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           };
@@ -461,7 +468,7 @@ export class RollHandlerBasePf2e extends RollHandler {
           chatData.content = await renderTemplate(template, templateData);
       
           // Create the chat message
-          return ChatMessage.create(chatData, { displaySheet: false });
+          return ChatMessage.create(chatData, { renderSheet: false });
     }
 
     _performUtilityMacro(event, tokenId, actionId) {
