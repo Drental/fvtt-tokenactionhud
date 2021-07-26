@@ -2,7 +2,7 @@
 
 ## [1.1.20] 2021-07-26
 ### Changed
-- dnd35e - sort skulls alphabetically for translations
+- dnd35e - sort skulls alphabetically for translations - thanks David
 
 ## [1.1.19] 2021-07-23
 ### Bugfix
