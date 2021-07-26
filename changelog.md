@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.20] 2021-07-26
+### Changed
+- dnd35e - sort skulls alphabetically for translations
+
 ## [1.1.19] 2021-07-23
 ### Bugfix
 - PF2e - Fix Chatcard created by spells
