@@ -15,6 +15,13 @@ export class SystemManager {
         this.appName = appName;
     }
 
+    /** OVERRIDDEN BY SYSTEM */
+
+    doGetActionHandler() {}
+    doGetRollHandler(handlerId) {}
+    getAvailableRollHandlers() {}
+    doRegisterSettings(appName, updateFunc) {}
+
 
     /** ACTION HANDLERS */
 
@@ -28,8 +35,6 @@ export class SystemManager {
         this.addActionExtenders(actionHandler);
         return actionHandler;
     }
-
-    doGetActionHandler() {}
 
     addActionExtenders(actionHandler) {
         if (SystemManager.isModuleActive('itemacro'))
@@ -63,16 +68,12 @@ export class SystemManager {
         return rollHandler;
     }
 
-    doGetRollHandler(handlerId) {}
-
     addPreHandlers(rollHandler) {
         rollHandler.addPreRollHandler(new CompendiumMacroPreHandler())
 
         if (SystemManager.isModuleActive('itemacro'))
             rollHandler.addPreRollHandler(new ItemMacroPreRollHandler())
     }
-
-    getAvailableRollHandlers() {}
 
 
     /** SETTINGS */

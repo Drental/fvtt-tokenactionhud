@@ -17,6 +17,7 @@ import { AlienrpgSystemManager } from './alienrpg.js';
 import { OD6SSystemManager } from './od6s.js';
 import { CthackSystemManager } from './cthack.js';
 import { KamigakariSystemManager } from './kamigakari.js';
+import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
 
 export class SystemManagerFactory {
     static create(system, appName) {
@@ -59,6 +60,8 @@ export class SystemManagerFactory {
                 return new CthackSystemManager(appName);
             case 'kamigakari':
                 return new KamigakariSystemManager(appName);
+            case 'forbidden-lands':
+                return new ForbiddenLandsSystemManager(appName);
         }
     }
 }
