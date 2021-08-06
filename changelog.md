@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.21] 2021-08-06
+### Changed
+- localisation - new localisation for korean by drdwing
+### Bugfix
+- PF2e - restore focus point adjustments
+
 ## [1.1.20] 2021-07-26
 ### Changed
 - dnd35e - sort skulls alphabetically for translations - thanks David
