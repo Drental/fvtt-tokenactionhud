@@ -481,7 +481,7 @@ export class ActionHandlerPf2e extends ActionHandler {
                 if (result.subcategories.find(s => s.name === bookName)?.subcategories.length === 0) {
                     levelName = `${bookName} - ${levelName}`;
                     if (actor.data.type === 'character')
-                        this._setSpellSlotInfo(tokenId, levelSubcategory, spellbook, level, true);
+                        this._setSpellSlotInfo(actor, tokenId, levelSubcategory, spellbook, level, true);
 
                     levelSubcategory.info2 = this._getSpellDcInfo(spellbook);
                 }
@@ -524,7 +524,7 @@ export class ActionHandlerPf2e extends ActionHandler {
                 category.subcategories.push(levelCategory);
                 
                 if (actor.data.type === 'character')
-                    this._setSpellSlotInfo(tokenId, levelCategory, spellbook, level, true);
+                    this._setSpellSlotInfo(actor, tokenId, levelCategory, spellbook, level, true);
 
                 levelCategory.info2 = this._getSpellDcInfo(spellbook);
             }
@@ -538,7 +538,7 @@ export class ActionHandlerPf2e extends ActionHandler {
                 category.subcategories.push(levelCategory);
 
                 if (actor.data.type === 'character')
-                    this._setSpellSlotInfo(tokenId, levelCategory, spellbook, level, false);
+                    this._setSpellSlotInfo(actor, tokenId, levelCategory, spellbook, level, false);
             }
             
             let categoryName = stillFirstSubcategory ? levelNameWithBook : levelName;
@@ -571,17 +571,16 @@ export class ActionHandlerPf2e extends ActionHandler {
     }
 
     /** @private */
-    _setSpellSlotInfo(tokenId, category, spellbook, level, firstSubcategory) {
-        let tradition = spellbook.data.data.tradition.value;
+    _setSpellSlotInfo(actor, tokenId, category, spellbook, level, firstSubcategory) {
         let prepType = spellbook.data.data.prepared.value;
 
         let slotInfo = !['prepared', 'focus'].includes(prepType);
 
         let maxSlots, valueSlots, increaseId, decreaseId;
-        if (firstSubcategory && tradition === 'focus') {
-            let focus = spellbook.data.data.focus;
-            maxSlots = focus.pool;
-            valueSlots = focus.points;
+        if (firstSubcategory && prepType === 'focus') {
+            let focus = actor.data.data.resources.focus;
+            maxSlots = focus.max;
+            valueSlots = focus.value;
             
             if (maxSlots > 0) {          
                 category.info1 = `${valueSlots}/${maxSlots}`;
@@ -596,7 +595,7 @@ export class ActionHandlerPf2e extends ActionHandler {
             }
         }
         
-        if (slotInfo && level > 0 && tradition !== 'focus') {
+        if (slotInfo && level > 0 && prepType !== 'focus') {
             let slots = spellbook.data.data.slots;
             let slotLevel = `slot${level}`
             maxSlots = slots[slotLevel].max;

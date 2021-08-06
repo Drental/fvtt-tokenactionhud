@@ -207,8 +207,8 @@ export class RollHandlerBasePf2e extends RollHandler {
 
         let value, max;
         if (slot === 'focus') {
-            value = spellbook.data.data.focus.points;
-            max = spellbook.data.data.focus.pool;
+            value = actor.data.data.resources.focus.value;
+            max = actor.data.data.resources.focus.max;
         } else {
             let slots = spellbook.data.data.slots;
             value = slots[slot].value;
@@ -230,12 +230,14 @@ export class RollHandlerBasePf2e extends RollHandler {
         }
 
         let update;
-        if (slot === 'focus')
-            update = [{_id: spellbook.id, data: { focus: {points: value}}}];
-        else
+        if (slot === 'focus') {
+            actor.update({ 'data.resources.focus.value': value });
+        }
+        else {
             update = [{_id: spellbook.id, data: { slots: {[slot]: {value: value}}}}];
+            await Item.updateDocuments(update, {parent: actor});
+        }
 
-        await Item.updateDocuments(update, {parent: actor});
         Hooks.callAll('forceUpdateTokenActionHUD');
     }
 
