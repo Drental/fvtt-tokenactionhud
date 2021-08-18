@@ -22,7 +22,7 @@ export class ActionHandlerKg extends ActionHandler {
 		
 		let actorType = actor.data.type;
 		if (actorType === "enemy") {
-			let attack = this._getAttackOptions(actor, tokenId);
+			let attack = this._getEnemyTalents(actor, tokenId);
 			
 			this._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
 		} else if (actorType === "character") {
@@ -39,19 +39,6 @@ export class ActionHandlerKg extends ActionHandler {
 			this._combineCategoryWithList(result, this.i18n('tokenactionhud.kamigakari.items'), items);
 
 		}
-		
-		return result;
-	}
-	
-	_getAttackOptions(actor, tokenId) {
-		let result = this.initializeEmptyCategory('attackOption');
-		
-		let attack = actor.items.filter(a => a.data.type === "attackOption");
-		let attackAction = this._produceMap(tokenId, attack, "attackOption");
-		
-		let attackCategory = this.initializeEmptySubcategory();
-		attackCategory.actions = attackAction;
-		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.attack'), attackCategory);
 		
 		return result;
 	}
@@ -119,6 +106,38 @@ export class ActionHandlerKg extends ActionHandler {
 		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.constant'), constant);
 		
 		return result;
+	}
+	
+	_getEnemyTalents(actor, tokenId) {
+		let result = this.initializeEmptyCategory('talent');
+		
+		let start = this._getTalentsByTiming(actor, tokenId, 'Start');
+		let prep = this._getTalentsByTiming(actor, tokenId, 'Prep');
+		let attack = this._getTalentsByManyTiming(actor, tokenId, ['Attack', 'Melee', 'Physical', 'Ranged', 'Magical']);
+		let defense = this._getTalentsByTiming(actor, tokenId, 'Defense');
+		let end = this._getTalentsByTiming(actor, tokenId, 'End');
+		let constant = this._getTalentsByTiming(actor, tokenId, 'Constant');
+		let free = this._getTalentsByTiming(actor, tokenId, 'Free');
+		
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.start'), start);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.prep'), prep);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.attack'), attack);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.free'), free);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.defense'), defense);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.end'), end);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.kamigakari.constant'), constant);
+		
+		return result;
+	}
+	
+	_getTalentsByManyTiming(actor, tokenId, timings) {
+		let talent = actor.items.filter(a => timings.includes(a.data.data.timing));
+		let talentAction = this._produceMap(tokenId, talent, "item");
+		
+		let talentCategory = this.initializeEmptySubcategory();
+		talentCategory.actions = talentAction;
+	
+		return talentCategory;
 	}
 	
 	_getTalentsByTiming(actor, tokenId, timing) {
