@@ -161,7 +161,7 @@ export class ActionHandlerLancer extends ActionHandler {
             subcat.name = talent.Name
 
             for (let i = 0; i < talent.CurrentRank; i++) {
-                let option = {'rank': i+1}
+                let option = {'rank': `${i}`}
                 let action = this._makeAction(`${this.i18n('tokenactionhud.rank')} ${i+1}`, macro, actorId, talent.RegistryID, option)
                 subcat.actions.push(action)
             }
