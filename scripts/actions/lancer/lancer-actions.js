@@ -12,83 +12,82 @@ export class ActionHandlerLancer extends ActionHandler {
 
         if (!token)
             return result;
+        console.log(token);
 
-        let tokenId = token.data._id;
-
-        result.tokenId = tokenId;
-
+        let actorId = token.actor.id;
+        result.actorId = actorId;
         let actor = token.actor;
+        let mm = actor.data.data.derived.mm;
 
         if (!actor)
-            return result;
-
-        result.actorId = actor.id;
+        return result;
 
         switch (actor.data.type) {
             case 'pilot':
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.pilot'), this._pilotCategory(actor, tokenId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.pilot'), this._pilotCategory(mm, actorId));
                 break;
             case 'mech':
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.mech'), this._mechCategory(actor, tokenId));
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), this._weaponsCategory(actor, tokenId));
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.systems'), this._systemsCategory(actor, tokenId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.pilot'), this._pilotCategory(mm.Pilot, mm.Pilot.RegistryID));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.mech'), this._mechCategory(mm, actorId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), this._weaponsCategory(mm.Loadout.WepMounts, actorId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.systems'), this._systemsCategory(mm.Loadout.SysMounts, actorId));
                 break;
             case 'npc':
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.stats'), this._npcBaseCategory(actor, tokenId));
-                this._combineCategoryWithList(result, this.i18n('tokenactionhud.features'), this._npcFeatureCategory(actor, tokenId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.stats'), this._npcBaseCategory(actor, actorId));
+                this._combineCategoryWithList(result, this.i18n('tokenactionhud.features'), this._npcFeatureCategory(actor, actorId));
                 break;
         }
-            
+
         if (settings.get('showHudTitle'))
             result.hudTitle = token.data?.name;
 
         return result;
     }
 
-    _makeAction(actionName, macroType, tokenId, actionId, option) {
+    _makeAction(actionName, macroType, actorId, actionId, option) {
         let action = this.initializeEmptyAction();
         action.name = actionName;
-        action.encodedValue = [macroType, tokenId, actionId, JSON.stringify(option ? option : {})].join(this.delimiter);
+        action.encodedValue = [macroType, actorId, actionId, JSON.stringify(option ? option : {})].join(this.delimiter);
         return action;
     }
 
-    _makeItemSubCat(name, itemType, actor, tokenId) {
+    _makeItemSubCat(name, itemType, mm, actorId) {
         let result = this.initializeEmptySubcategory();
         let macro = 'item'
 
         result.name = name
-        result.actions = actor.data.items.filter(item => {
-            return item.type === itemType;
+        result.actions = mm.filter(item => {
+            if(item != null) return item.Type === itemType;
         }).map( item => {
-            return this._makeAction(item.name, macro, tokenId, item._id)
+            return this._makeAction(item.Name, macro, actorId, item.RegistryID)
         })
 
         return result
     }
 
-    _makeNPCItemSubCat(name, itemType, actor, tokenId) {
+    _makeNPCItemSubCat(name, itemType, actor, actorId) {
         let result = this.initializeEmptySubcategory();
         let macro = 'item'
 
         result.name = name
         result.actions = actor.data.items.filter(item => {
-            return item.data.type === 'npc_feature'
+            if(item != null) return item.data.type === 'npc_feature'
         }).filter(item => {
             return item.data.data.type === itemType;
         }).map( item => {
-            return this._makeAction(item.name, macro, tokenId, item._id)
+            return this._makeAction(item.name, macro, actorId, item.id)
         })
         return result
     }
 
-    _pilotCategory(actor, tokenId) {
+    _pilotCategory(mm, actorId) {
         let result = this.initializeEmptyCategory('pilot');
 
         [
-            this._skillsSubCategory(actor, tokenId),
-            this._talentsSubCategory(actor, tokenId),
-            this._pilotGearSubCategory(actor, tokenId),
-            this._pilotWeaponSubCategory(actor, tokenId),
+            this._skillsSubCategory(mm, actorId),
+            this._talentsSubCategory(mm, actorId),
+            this._pilotGearSubCategory(mm, actorId),
+            this._pilotWeaponSubCategory(mm, actorId),
         ].forEach(subCat => {
             this._combineSubcategoryWithCategory(result, subCat.name, subCat);
         });
@@ -96,14 +95,11 @@ export class ActionHandlerLancer extends ActionHandler {
         return result
     }
 
-    _mechCategory(actor, tokenId) {
+    _npcBaseCategory(actor, actorId) {
         let result = this.initializeEmptyCategory('mech');
 
         [
-            this._haseSubCategory(tokenId),
-            this._statSubCategory(tokenId),
-            this._coreBonSubCategory(actor, tokenId),
-            this._corePowerSubCategory(actor, tokenId),
+            this._haseSubCategory(actorId),
         ].forEach(subCat => {
             this._combineSubcategoryWithCategory(result, subCat.name, subCat);
         });
@@ -111,74 +107,62 @@ export class ActionHandlerLancer extends ActionHandler {
         return result
     }
 
-    _npcBaseCategory(actor, tokenId) {
-        let result = this.initializeEmptyCategory('mech');
-
-        [
-            this._haseSubCategory(tokenId),
-        ].forEach(subCat => {
-            this._combineSubcategoryWithCategory(result, subCat.name, subCat);
-        });
-
-        return result
-    }
-
-    _npcFeatureCategory(actor, tokenId) {
+    _npcFeatureCategory(actor, actorId) {
         let result = this.initializeEmptyCategory('feature');
 
-        [   
-            this._npcWeaponSubCat(actor, tokenId),
-            this._npcTechSubCat(actor, tokenId),
-            this._npcReactionSubCat(actor, tokenId),
-            this._npcSystemSubCat(actor, tokenId),
-            this._npcTraitSubCat(actor, tokenId),
+        [
+            this._npcWeaponSubCat(actor, actorId),
+            this._npcTechSubCat(actor, actorId),
+            this._npcReactionSubCat(actor, actorId),
+            this._npcSystemSubCat(actor, actorId),
+            this._npcTraitSubCat(actor, actorId),
         ].forEach(subCat => {
             this._combineSubcategoryWithCategory(result, subCat.name, subCat);
         });
 
-        return result    
+        return result
     }
 
-    _npcWeaponSubCat(actor, tokenId) {
-        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.weapons'), 'Weapon', actor, tokenId)
+    _npcWeaponSubCat(actor, actorId) {
+        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.weapons'), 'Weapon', actor, actorId)
     }
 
-    _npcTraitSubCat(actor, tokenId) {
-        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.traits'), 'Trait', actor, tokenId)
-    }
-    
-    _npcSystemSubCat(actor, tokenId) {
-        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.systems'), 'System', actor, tokenId)
+    _npcTraitSubCat(actor, actorId) {
+        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.traits'), 'Trait', actor, actorId)
     }
 
-    _npcTechSubCat(actor, tokenId) {
-        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.techs'), 'Tech', actor, tokenId)
+    _npcSystemSubCat(actor, actorId) {
+        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.systems'), 'System', actor, actorId)
     }
 
-    _npcReactionSubCat(actor, tokenId) {
-        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.reactions'), 'Reaction', actor, tokenId)
+    _npcTechSubCat(actor, actorId) {
+        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.techs'), 'Tech', actor, actorId)
     }
 
-    _skillsSubCategory(actor, tokenId) {
-        return this._makeItemSubCat(this.i18n('tokenactionhud.skilltriggers'), 'skill', actor, tokenId)
+    _npcReactionSubCat(actor, actorId) {
+        return this._makeNPCItemSubCat(this.i18n('tokenactionhud.reactions'), 'Reaction', actor, actorId)
     }
 
-    _talentsSubCategory(actor, tokenId) {
+    _skillsSubCategory(mm, actorId) {
+        return this._makeItemSubCat(this.i18n('tokenactionhud.skilltriggers'), 'skill', mm._skills, actorId)
+    }
+
+    _talentsSubCategory(mm, actorId) {
         let result = this.initializeEmptySubcategory();
         let macro = 'item'
 
         result.id = 'talent'
         result.name = this.i18n('tokenactionhud.talents')
 
-        let itemSubCats = actor.data.items.filter(item => {
-            return item.type === 'talent'
+        let itemSubCats = mm._talents.filter(item => {
+            if(item != null) return item.Type === 'talent'
         }).map( talent => {
             let subcat = this.initializeEmptySubcategory()
-            subcat.name = talent.name
-            
-            for (let i = 0; i < talent.data.rank; i++) {
-                let option = {'rank': i}
-                let action = this._makeAction(`${this.i18n('tokenactionhud.rank')} ${i+1}`, macro, tokenId, talent._id, option)
+            subcat.name = talent.Name
+
+            for (let i = 0; i < talent.CurrentRank; i++) {
+                let option = {'rank': i+1}
+                let action = this._makeAction(`${this.i18n('tokenactionhud.rank')} ${i+1}`, macro, actorId, talent.RegistryID, option)
                 subcat.actions.push(action)
             }
 
@@ -188,23 +172,39 @@ export class ActionHandlerLancer extends ActionHandler {
         this._combineSubcategoryWithCategory
 
         result.subcategories = itemSubCats
-        
+
         return result
     }
 
-    _pilotWeaponSubCategory(actor, tokenId) {
-        return this._makeItemSubCat(this.i18n('tokenactionhud.weapons'), 'pilot_weapon', actor, tokenId)
+    _pilotWeaponSubCategory(mm, actorId) {
+        return this._makeItemSubCat(this.i18n('tokenactionhud.weapons'), 'pilot_weapon', mm.Loadout.Weapons, actorId)
     }
 
-    _pilotGearSubCategory(actor, tokenId) {
-        return this._makeItemSubCat(this.i18n('tokenactionhud.gear'), 'pilot_gear', actor, tokenId)
+    _pilotGearSubCategory(mm, actorId) {
+        return this._makeItemSubCat(this.i18n('tokenactionhud.gear'), 'pilot_gear', mm.Loadout.Gear, actorId)
     }
-    
 
-    _haseSubCategory(tokenId) {
+
+
+    _mechCategory(mm, actorId) {
+        let result = this.initializeEmptyCategory('mech');
+
+            [
+            this._haseSubCategory(actorId),
+            this._statSubCategory(actorId),
+            this._coreBonSubCategory(mm, actorId),
+            this._corePowerSubCategory(mm.Loadout.Frame, actorId),
+        ].forEach(subCat => {
+            this._combineSubcategoryWithCategory(result, subCat.name, subCat);
+        });
+
+        return result
+    }
+
+    _haseSubCategory(actorId) {
         let result = this.initializeEmptySubcategory();
         let macro = 'hase'
-        
+
         result.id = 'hase'
         result.name = this.i18n('tokenactionhud.hase');
 
@@ -213,14 +213,14 @@ export class ActionHandlerLancer extends ActionHandler {
         let systems = this.i18n('tokenactionhud.systems');
         let engineering = this.i18n('tokenactionhud.engineering');
 
-        let haseActionData = [{name: hull, id: 'hull'}, 
-            {name: agility, id: 'agility'}, 
-            {name: systems, id: 'systems'}, 
+        let haseActionData = [{name: hull, id: 'hull'},
+            {name: agility, id: 'agility'},
+            {name: systems, id: 'systems'},
             {name: engineering, id: 'engineering'}
         ]
 
         let haseActions = haseActionData.map( actionData => {
-            return this._makeAction(actionData.name, macro, tokenId, actionData.id)
+            return this._makeAction(actionData.name, macro, actorId, actionData.id)
         })
 
         result.actions = haseActions
@@ -228,7 +228,7 @@ export class ActionHandlerLancer extends ActionHandler {
         return result
     }
 
-    _statSubCategory(tokenId) {
+    _statSubCategory(actorId) {
         let result = this.initializeEmptySubcategory();
         let macro = 'stat'
 
@@ -244,7 +244,7 @@ export class ActionHandlerLancer extends ActionHandler {
         ]
 
         let statActions = statActionData.map( actionData => {
-            return this._makeAction(actionData.name, macro, tokenId, actionData.data)
+            return this._makeAction(actionData.name, macro, actorId, actionData.data)
         })
 
         result.actions = statActions
@@ -252,50 +252,52 @@ export class ActionHandlerLancer extends ActionHandler {
         return result
     }
 
-    _coreBonSubCategory(actor, tokenId) {
-        return this._makeItemSubCat(this.i18n('tokenactionhud.corebonus'), 'core_bonus', actor, tokenId)
+    _coreBonSubCategory(mm, actorId) {
+        let result = this.initializeEmptySubcategory();
+        let corebonus = mm.Pilot.CoreBonuses;
+        result.name = 'Core Bonuses'
+        result.actions = corebonus.map(bonus => {
+          let option = {};
+          option.pilot = mm.Pilot.RegistryID
+          return this._makeAction(bonus.Name, 'coreBonus',  actorId, bonus.RegistryID, option);
+        });
+        return result;
     }
 
-    _corePowerSubCategory(actor, tokenId) {
+    _corePowerSubCategory(frame, actorId) {
         let result = this.initializeEmptySubcategory();
 
-        let frame = actor.data.items.find(item => {
-            return item.type === 'frame'
-        })
-        
-        let core = frame.data.data.core_system;
-        
+        let core = frame.CoreSystem;
 
-        result.name = core.name
 
-        if(core.passive_name) {
-            result.actions.push( this._makeAction(core.passive_name, 'corePassive', tokenId, '') )
+        result.name = core.Name;
+
+        if(core.PassiveName != "Core Passive") {
+            result.actions.push( this._makeAction(core.PassiveName, 'corePassive', actorId, '') )
         }
-        if(core.active_name) {
-            result.actions.push( this._makeAction(core.active_name, 'coreActive', tokenId, '') )
+        if(core.ActiveName) {
+            result.actions.push( this._makeAction(core.ActiveName, 'coreActive', actorId, '') )
         }
 
         return result
     }
 
-    _weaponsCategory(actor, tokenId) {
+    _weaponsCategory(WepMounts, actorId) {
         let result = this.initializeEmptyCategory()
         let macro = 'item'
 
         result.id = 'weapons'
         result.name = this.i18n('tokenactionhud.weapons');
 
-        let itemSubCats = actor.data.items.filter(item => {
-            return item.type === 'mech_weapon'
-        }).map( weapon => {
-            let subcat = this.initializeEmptySubcategory(weapon.id)
-            subcat.name = weapon.name
+        let itemSubCats = WepMounts.map((mount, i) => {
+            let subcat = this.initializeEmptySubcategory('Mount_'+i);
+            subcat.name = mount.MountType;
 
-            let attack = this._makeAction(this.i18n('tokenactionhud.attack'), macro, tokenId, weapon._id)
+            subcat.actions = mount.Slots.filter(slot => slot.Weapon !== null).map(slot => {
+                return this._makeAction(slot.Weapon.Name, macro, actorId, slot.Weapon.RegistryID)
+            });
 
-            subcat.actions = [attack]
-
-            return subcat
+            return subcat;
         })
 
         itemSubCats.forEach(subCat => {
@@ -305,25 +307,35 @@ export class ActionHandlerLancer extends ActionHandler {
         return result
     }
 
-    _systemsCategory(actor, tokenId) {
+    _systemsCategory(loadout, actorId) {
         let result = this.initializeEmptyCategory()
         let macro = 'item'
 
         result.id = 'systems'
         result.name = this.i18n('tokenactionhud.systems');
 
-        let itemSubCats = actor.data.items.filter(item => {
-            return item.type === 'mech_system'
-        }).map( system => {
-            let subcat = this.initializeEmptySubcategory(system.id)
-            subcat.name = system.name
+        let itemSubCats = loadout.flatMap(mount => mount.System).map(system => {
+            let subcat = this.initializeEmptySubcategory(system.RegistryID);
+            subcat.name = system.Name;
 
-            let activation = this._makeAction(this.i18n('tokenactionhud.activate'), macro, tokenId, system._id)
+            let activations = system.Actions.map((action,i) => {
+              let option = {};
+              option.Type = "Action";
+              option.Index = i;
+              return this._makeAction(action.Name, 'activation', actorId, system.RegistryID, option);
+            });
 
-            subcat.actions = [activation]
+            let deployables = system.Deployables.map((deployable, i) => {
+              let option = {};
+              option.Type = "Deployable";
+              option.Index = i;
+              return this._makeAction(deployable.Name, 'activation', actorId, system.RegistryID, option);
+            });
+
+            subcat.actions = activations.concat(deployables);
 
             return subcat
-        })
+        });
 
         itemSubCats.forEach(subCat => {
             this._combineSubcategoryWithCategory(result, subCat.name, subCat)
