@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.22] 2021-08-20
+### Changed
+- kamigakari - system update - thanks ksx0330
+
 ## [1.1.21] 2021-08-06
 ### Changed
 - localisation - new localisation for korean by drdwing
