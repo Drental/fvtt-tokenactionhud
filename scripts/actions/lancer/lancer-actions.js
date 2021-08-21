@@ -213,10 +213,10 @@ export class ActionHandlerLancer extends ActionHandler {
         let systems = this.i18n('tokenactionhud.systems');
         let engineering = this.i18n('tokenactionhud.engineering');
 
-        let haseActionData = [{name: hull, id: 'hull'},
-            {name: agility, id: 'agility'},
-            {name: systems, id: 'systems'},
-            {name: engineering, id: 'engineering'}
+        let haseActionData = [{name: hull, id: 'Hull'},
+            {name: agility, id: 'Agi'},
+            {name: systems, id: 'Sys'},
+            {name: engineering, id: 'Eng'}
         ]
 
         let haseActions = haseActionData.map( actionData => {
@@ -239,8 +239,8 @@ export class ActionHandlerLancer extends ActionHandler {
         let techAttack = this.i18n('tokenactionhud.techattack');
 
         let statActionData = [
-            {name: grit, data: 'pilot.grit'},
-            {name: techAttack, data: 'mech.tech_attack'}
+            {name: grit, data: 'Pilot.Grit'},
+            {name: techAttack, data: 'TechAttack'}
         ]
 
         let statActions = statActionData.map( actionData => {

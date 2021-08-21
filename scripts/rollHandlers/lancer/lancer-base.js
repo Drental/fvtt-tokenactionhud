@@ -51,11 +51,11 @@ export class RollHandlerBaseLancer extends RollHandler {
     }
 
     _rollHaseMacro(actorID, action) {
-        game.lancer.prepareStatMacro(actorID, `data.${action}`);
+        game.lancer.prepareStatMacro(actorID, `mm.${action}`);
     }
 
     _rollStatMacro(actorID, action) {
-        game.lancer.prepareStatMacro(actorID, `data.${action}`);
+        game.lancer.prepareStatMacro(actorID, `mm.${action}`);
     }
 
     _rollWeaponOrFeatureMacro(actorID, itemId, option) {
