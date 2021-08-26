@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.0] 2021-08-26
+### Changed
+- better rolls dnd5e - Removed handler since it's no longer necessary
+
 ## [1.1.22] 2021-08-20
 ### Changed
 - kamigakari - system update - thanks ksx0330
