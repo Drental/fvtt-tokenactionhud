@@ -4,7 +4,6 @@ import { ActionHandler5eGroupByType } from '../actions/dnd5e/dnd5e-actions-by-ty
 import { MagicItemsPreRollHandler } from '../rollHandlers/dnd5e/pre-magicItems.js';
 import { MagicItemActionListExtender } from '../actions/magicItemsExtender.js';
 import { RollHandlerBase5e as Core } from '../rollHandlers/dnd5e/dnd5e-base.js';
-import { RollHandlerBetterRolls5e as BetterRolls5e } from '../rollHandlers/dnd5e/dnd5e-betterrolls5e.js';
 import { RollHandlerMinorQol5e as MinorQol5e } from '../rollHandlers/dnd5e/dnd5e-minorqol.js';
 import { RollHandlerObsidian as Obsidian5e } from '../rollHandlers/dnd5e/dnd5e-obsidian.js';
 import * as settings from '../settings.js';
@@ -39,7 +38,6 @@ export class Dnd5eSystemManager extends SystemManager {
             coreTitle += ` [supports ${SystemManager.getModuleTitle('midi-qol')}]`;
 
         let choices = { core: coreTitle };
-        SystemManager.addHandler(choices, 'betterrolls5e');
         SystemManager.addHandler(choices, 'minor-qol');
         SystemManager.addHandler(choices, 'obsidian');
 
@@ -50,9 +48,6 @@ export class Dnd5eSystemManager extends SystemManager {
     doGetRollHandler(handlerId) {
         let rollHandler;
         switch (handlerId) {
-            case 'betterrolls5e':
-                rollHandler = new BetterRolls5e();
-                break;
             case 'minor-qol':
                 rollHandler = new MinorQol5e();
                 break;
