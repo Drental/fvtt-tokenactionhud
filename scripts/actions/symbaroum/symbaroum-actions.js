@@ -13,7 +13,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         if (!token)
             return result;
 
-        let tokenId = token.data._id;
+        let tokenId = token.data.id;
 
         result.tokenId = tokenId;
 
@@ -22,7 +22,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         if (!actor)
             return result;
 
-        result.actorId = actor._id;
+        result.actorId = actor.id;
 
         let actorType = actor.data.type;
 
@@ -114,8 +114,8 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         /** @private */
         _produceMap(tokenId, itemSet, macroType) {
             return itemSet.filter(i => !!i).map(i => {
-                let encodedValue = [macroType, tokenId, i.data._id].join(this.delimiter);
-                let item = { name: i.name, encodedValue: encodedValue, id: i.data._id };
+                let encodedValue = [macroType, tokenId, i.data.id].join(this.delimiter);
+                let item = { name: i.name, encodedValue: encodedValue, id: i.data.id };
                 return item;
             });
         }
