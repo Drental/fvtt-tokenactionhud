@@ -28,13 +28,17 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
 
         let mysticalPowers = this._getMysticalPowers(actor, tokenId)
+        let traits = this._getTraits(actor, tokenId);
         let weapons = this._getWeapons(actor, tokenId);
-        let armors = this._getArmors(actor, tokenId);;
+        let armors = this._getArmors(actor, tokenId);
         let abilities = this._getAbilities(actor, tokenId);
         let attributes = this._getAttributes(actor, tokenId);
         
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.symbaroum.mysticalPowers'), mysticalPowers);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.armour'), armors);
+        this._combineCategoryWithList(result, this.i18n('tokenactionhud.traits'), traits);
+        if(!game.settings.get('symbaroum', 'combatAutomation')){
+            this._combineCategoryWithList(result, this.i18n('tokenactionhud.armour'), armors);
+        };
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), weapons);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.symbaroum.abilities'), abilities);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
@@ -46,12 +50,22 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     }
 
     _getMysticalPowers(actor, tokenId) {
-        let filteredItems = actor.items.filter(item => item.data?.type === "mysticalPower");
+        let filteredItems = actor.items.filter(item => (item.data?.type === "mysticalPower")&&(item.data.data?.script));
         let result = this.initializeEmptyCategory('actorPowers');
         let powersCategory = this.initializeEmptySubcategory();
         powersCategory.actions = this._produceMap(tokenId, filteredItems, 'mysticalPower');
 
         this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), powersCategory);
+        return result;
+    }
+
+    _getTraits(actor, tokenId) {
+        let filteredItems = actor.items.filter(item => (item.data?.type === "trait")&&(item.data.data?.script));
+        let result = this.initializeEmptyCategory('actorsTraits');
+        let traitsCategory = this.initializeEmptySubcategory();
+        traitsCategory.actions = this._produceMap(tokenId, filteredItems, 'trait');
+
+        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), traitsCategory);
         return result;
     }
 
@@ -77,7 +91,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     }
 
     _getAbilities(actor, tokenId) {
-        let filteredItems = actor.items.filter(item => item.data?.type === "ability");
+        let filteredItems = actor.items.filter(item => (item.data?.type === "ability")&&(item.data.data?.script));
         let result = this.initializeEmptyCategory('actorAbilities');
         let abilitiesCategory = this.initializeEmptySubcategory();
         abilitiesCategory.actions = this._produceMap(tokenId, filteredItems, 'ability');
