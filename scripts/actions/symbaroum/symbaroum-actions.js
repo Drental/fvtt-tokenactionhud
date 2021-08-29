@@ -54,7 +54,6 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         let result = this.initializeEmptyCategory('actorPowers');
         let powersCategory = this.initializeEmptySubcategory();
         powersCategory.actions = this._produceMap(tokenId, filteredItems, 'mysticalPower');
-console.log(powersCategory.actions);
         this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), powersCategory);
         return result;
     }
