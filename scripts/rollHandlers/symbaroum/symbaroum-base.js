@@ -11,7 +11,7 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
         if (payload.length != 3) {
             super.throwInvalidValueErr();
         }
-
+        console.log(`payload: ${payload}`);
         let macroType = payload[0];
         let tokenId = payload[1];
         let itemId = payload[2];

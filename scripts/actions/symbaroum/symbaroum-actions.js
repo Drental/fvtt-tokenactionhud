@@ -13,7 +13,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         if (!token)
             return result;
 
-        let tokenId = token.data.id;
+        let tokenId = token.id;
 
         result.tokenId = tokenId;
 
@@ -54,7 +54,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         let result = this.initializeEmptyCategory('actorPowers');
         let powersCategory = this.initializeEmptySubcategory();
         powersCategory.actions = this._produceMap(tokenId, filteredItems, 'mysticalPower');
-
+console.log(powersCategory.actions);
         this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), powersCategory);
         return result;
     }
@@ -111,12 +111,18 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         return result;
     }
 
-        /** @private */
-        _produceMap(tokenId, itemSet, macroType) {
-            return itemSet.filter(i => !!i).map(i => {
-                let encodedValue = [macroType, tokenId, i.data.id].join(this.delimiter);
-                let item = { name: i.name, encodedValue: encodedValue, id: i.data.id };
-                return item;
-            });
-        }
+    _produceMap(tokenId, itemSet, type) {
+        return itemSet.map((i) => {
+            let encodedValue = [type, tokenId, i.id].join(this.delimiter);
+            let img = this._getImage(i);
+            let result = { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
+            return result;
+        });
+    }
+
+    _getImage(item) {
+        let result = '';
+        if (settings.get('showIcons')) result = item.img ?? '';
+        return !result?.includes('systems/symbaroum/asset/image/trait.png') ? result : '';
+    }
 }
