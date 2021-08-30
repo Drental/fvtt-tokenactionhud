@@ -18,9 +18,6 @@ export class RollHandlerBaseLancer extends RollHandler {
         let actionId = payload[2];
         let option = JSON.parse(payload[3]);
 
-        //let actor = super.getActor(actorId);
-        //console.log(actor);
-
         let hasSheet = ['item']
         if (this.isRenderItem() && hasSheet.includes(macroType))
             return this.doRenderItem(tokenId, actionId);

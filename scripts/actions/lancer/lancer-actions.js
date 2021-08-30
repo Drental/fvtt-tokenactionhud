@@ -12,7 +12,6 @@ export class ActionHandlerLancer extends ActionHandler {
 
         if (!token)
             return result;
-        console.log(token);
 
         let actorId = token.actor.id;
         result.actorId = actorId;
