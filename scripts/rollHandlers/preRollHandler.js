@@ -1,13 +1,17 @@
-import * as settings from '../settings.js';
-import { RollHandler } from './rollHandler.js';
+import * as settings from "../settings.js";
+import { RollHandler } from "./rollHandler.js";
 
-/* 
+/*
  * Used for adding support for actions not part of the core functions.
  * Returns true from prehandleActionEvent() if it can perform an action and stops
- * further actions being performed. 
+ * further actions being performed.
  */
 export class PreRollHandler extends RollHandler {
-    constructor() {super();}
+  constructor() {
+    super();
+  }
 
-    prehandleActionEvent(event, encodedValue) { return false; }
+  prehandleActionEvent(event, encodedValue) {
+    return false;
+  }
 }

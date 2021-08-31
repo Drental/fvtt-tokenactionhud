@@ -1,28 +1,28 @@
-import { RollHandler } from "../rollHandler.js"
+import { RollHandler } from "../rollHandler.js";
 
 export class RollHandlerBaseBitD extends RollHandler {
-    constructor() {
-        super();
+  constructor() {
+    super();
+  }
+
+  /** @override */
+  doHandleActionEvent(event, encodedValue) {
+    let payload = encodedValue.split("|");
+
+    if (payload.length != 3) {
+      super.throwInvalidValueErr();
     }
 
-    /** @override */
-    doHandleActionEvent(event, encodedValue) {
-        let payload = encodedValue.split('|');
-        
-        if (payload.length != 3) {
-            super.throwInvalidValueErr();
-        }
-        
-        let macroType = payload[0];
-        let tokenId = payload[1];
-        let actionId = payload[2];
+    let macroType = payload[0];
+    let tokenId = payload[1];
+    let actionId = payload[2];
 
-        let actor = super.getActor(tokenId);
+    let actor = super.getActor(tokenId);
 
-        actor.rollAttributePopup(actionId)
-    }
+    actor.rollAttributePopup(actionId);
+  }
 
-    rollItemMacro(event, actor, actionId) {
-        actor.item.find(i => i.data.id === actionId).roll(event);
-    }
+  rollItemMacro(event, actor, actionId) {
+    actor.item.find((i) => i.data.id === actionId).roll(event);
+  }
 }

@@ -1,3 +1,1 @@
-export function register(app, updateSettings) {
-}
-    
+export function register(app, updateSettings) {}

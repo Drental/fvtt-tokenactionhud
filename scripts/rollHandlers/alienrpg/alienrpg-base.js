@@ -1,5 +1,5 @@
-import { RollHandler } from '../rollHandler.js';
-import * as settings from '../../settings.js';
+import { RollHandler } from "../rollHandler.js";
+import * as settings from "../../settings.js";
 
 export class RollHandlerBaseAlienrpg extends RollHandler {
   constructor() {
@@ -7,7 +7,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   }
 
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split('|');
+    let payload = encodedValue.split("|");
     if (payload.length != 4) {
       super.throwInvalidValueErr();
     }
@@ -21,94 +21,132 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     if (actor) charType = actor.data.type;
     let item = actionId ? actor.items.get(actionId) : null;
 
-    let renderable = ['item', 'armor'];
-    if (renderable.includes(macroType) && this.isRenderItem()) return this.doRenderItem(tokenId, actionId);
+    let renderable = ["item", "armor"];
+    if (renderable.includes(macroType) && this.isRenderItem())
+      return this.doRenderItem(tokenId, actionId);
 
-    if (tokenId === 'multi') {
-      if (macroType === 'utility' && actionId.includes('toggle')) {
+    if (tokenId === "multi") {
+      if (macroType === "utility" && actionId.includes("toggle")) {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
         canvas.tokens.controlled.forEach((t) => {
           let idToken = t.data._id;
-          this._handleMacros(event, macroType, idToken, actionId, attributename);
+          this._handleMacros(
+            event,
+            macroType,
+            idToken,
+            actionId,
+            attributename
+          );
         });
       }
     } else {
-      let sharedActions = ['utility'];
+      let sharedActions = ["utility"];
 
       if (!sharedActions.includes(macroType)) {
         switch (charType) {
-          case 'character':
-          case 'creature':
-          case 'synthetic':
-            await this._handleUniqueActionsChar(macroType, event, tokenId, actor, actionId);
+          case "character":
+          case "creature":
+          case "synthetic":
+            await this._handleUniqueActionsChar(
+              macroType,
+              event,
+              tokenId,
+              actor,
+              actionId
+            );
             break;
         }
       }
       let rData = [];
       switch (macroType) {
-        case 'attribute':
-          rData = { roll: actor.data.data.attributes[actionId].value, label: actor.data.data.attributes[actionId].label };
-          if (event.type === 'click') {
+        case "attribute":
+          rData = {
+            roll: actor.data.data.attributes[actionId].value,
+            label: actor.data.data.attributes[actionId].label,
+          };
+          if (event.type === "click") {
             actor.rollAbility(actor, rData);
           } else {
             actor.rollAbilityMod(actor, rData);
           }
           break;
-        case 'creatureattribute':
+        case "creatureattribute":
           switch (actionId) {
-            case 'mobility':
-            case 'observation':
-              rData = { roll: actor.data.data.general[actionId].value, label: actor.data.data.general[actionId].label };
+            case "mobility":
+            case "observation":
+              rData = {
+                roll: actor.data.data.general[actionId].value,
+                label: actor.data.data.general[actionId].label,
+              };
               break;
             default:
-              let clabel = attributename[0].toUpperCase() + attributename.substring(1);
-              rData = { roll: actor.data.data.attributes[actionId].value, label: [clabel] };
+              let clabel =
+                attributename[0].toUpperCase() + attributename.substring(1);
+              rData = {
+                roll: actor.data.data.attributes[actionId].value,
+                label: [clabel],
+              };
               break;
           }
-          if (event.type === 'click') {
+          if (event.type === "click") {
             actor.rollAbility(actor, rData);
           } else {
             actor.rollAbilityMod(actor, rData);
           }
           break;
-        case 'skill':
-          rData = { roll: actor.data.data.skills[actionId].mod, label: actor.data.data.skills[actionId].label };
-          if (event.type === 'click') {
+        case "skill":
+          rData = {
+            roll: actor.data.data.skills[actionId].mod,
+            label: actor.data.data.skills[actionId].label,
+          };
+          if (event.type === "click") {
             actor.rollAbility(actor, rData);
           } else {
             actor.rollAbilityMod(actor, rData);
           }
           break;
-        case 'weapon':
-          if (event.type === 'click') {
+        case "weapon":
+          if (event.type === "click") {
             actor.nowRollItem(item);
           } else {
             actor.rollItemMod(item);
           }
           break;
-        case 'item':
+        case "item":
           this._rollItem(actor, tokenId, actionId, macroType);
           break;
-        case 'armor':
-          rData = { roll: actor.data.data.general.armor.value, spbutt: 'armor' };
+        case "armor":
+          rData = {
+            roll: actor.data.data.general.armor.value,
+            spbutt: "armor",
+          };
           actor.rollAbility(actor, rData);
           break;
-        case 'consumables':
-          const lTemp = 'ALIENRPG.' + (attributename[0].toUpperCase() + attributename.substring(1));
-          const label = game.i18n.localize(lTemp) + ' ' + game.i18n.localize('ALIENRPG.Supply');
+        case "consumables":
+          const lTemp =
+            "ALIENRPG." +
+            (attributename[0].toUpperCase() + attributename.substring(1));
+          const label =
+            game.i18n.localize(lTemp) +
+            " " +
+            game.i18n.localize("ALIENRPG.Supply");
           actor.consumablesCheck(actor, actionId, label);
           break;
-        case 'power':
-          const pTemp = 'ALIENRPG.' + (macroType[0].toUpperCase() + macroType.substring(1));
-          const plabel = game.i18n.localize(pTemp) + ' ' + game.i18n.localize('ALIENRPG.Supply');
+        case "power":
+          const pTemp =
+            "ALIENRPG." + (macroType[0].toUpperCase() + macroType.substring(1));
+          const plabel =
+            game.i18n.localize(pTemp) +
+            " " +
+            game.i18n.localize("ALIENRPG.Supply");
           actor.consumablesCheck(actor, macroType, plabel, actionId);
           break;
-        case 'conditions':
+        case "conditions":
           this.performConditionMacro(event, tokenId, actionId);
           break;
 
-        case 'utility':
+        case "utility":
           this.performUtilityMacro(event, tokenId, actionId);
         default:
           break;
@@ -120,33 +158,36 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
     let rData = 0;
     switch (macroType) {
-      case 'stress':
-        await this._adjustAttribute(event, actor, 'stress', 'value', actionId);
+      case "stress":
+        await this._adjustAttribute(event, actor, "stress", "value", actionId);
         break;
-      case 'rollStress':
-        if (actor.data.type === 'character') {
+      case "rollStress":
+        if (actor.data.type === "character") {
           rData = { panicroll: actor.data.data.header.stress };
         } else {
-          rData = { panicroll: { value: 0, label: 'Stress' } };
+          rData = { panicroll: { value: 0, label: "Stress" } };
         }
-        if (event.type === 'click') {
+        if (event.type === "click") {
           actor.rollAbility(actor, rData);
         } else {
           actor.rollAbilityMod(actor, rData);
         }
         break;
-      case 'health':
-        await this._adjustAttribute(event, actor, 'health', 'value', actionId);
+      case "health":
+        await this._adjustAttribute(event, actor, "health", "value", actionId);
         break;
-      case 'creatureAttack':
+      case "creatureAttack":
         let rAttData = { atttype: actor.data.data.rTables };
         actor.creatureAttackRoll(actor, rAttData);
         break;
-      case 'acidSplash':
-        let aSplashData = { roll: actor.data.data.general.acidSplash.value, label: actor.data.data.general.acidSplash.label };
+      case "acidSplash":
+        let aSplashData = {
+          roll: actor.data.data.general.acidSplash.value,
+          label: actor.data.data.general.acidSplash.label,
+        };
         actor.creatureAcidRoll(actor, aSplashData);
         break;
-      case 'rollCrit':
+      case "rollCrit":
         actor.rollCrit(actor.data.type);
         break;
     }
@@ -154,7 +195,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
   async _adjustAttribute(event, actor, property, valueName, actionId) {
     let value = actor.data.data.header[property][valueName];
-    let max = '10';
+    let max = "10";
 
     if (this.rightClick) {
       if (value <= 0) return;
@@ -171,18 +212,18 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
   async togggleConditionState(event, actor, property, valueName, actionId) {
     let value = actor.data.data.general[property][valueName];
-    let max = '1';
+    let max = "1";
 
     if (this.rightClick) {
       if (value <= 0) return;
       value--;
-      if (property === 'panic') {
+      if (property === "panic") {
         actor.checkAndEndPanic(actor);
       }
     } else {
       if (value >= max) return;
       value++;
-      if (property === 'panic') {
+      if (property === "panic") {
         actor.checkAndEndPanic(actor);
       }
     }
@@ -196,18 +237,18 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let token = super.getToken(tokenId);
 
     switch (actionId) {
-      case 'toggleVisibility':
+      case "toggleVisibility":
         token.toggleVisibility();
         break;
-      case 'toggleCombat':
+      case "toggleCombat":
         token.toggleCombat();
-        Hooks.callAll('forceUpdateTokenActionHUD');
+        Hooks.callAll("forceUpdateTokenActionHUD");
         break;
     }
   }
 
   async performMultiToggleUtilityMacro(actionId) {
-    if (actionId === 'toggleVisibility') {
+    if (actionId === "toggleVisibility") {
       const allVisible = canvas.tokens.controlled.every((t) => !t.data.hidden);
       canvas.tokens.controlled.forEach((t) => {
         if (allVisible) t.toggleVisibility();
@@ -215,13 +256,15 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
       });
     }
 
-    if (actionId === 'toggleCombat') {
-      const allInCombat = canvas.tokens.controlled.every((t) => t.data.inCombat);
+    if (actionId === "toggleCombat") {
+      const allInCombat = canvas.tokens.controlled.every(
+        (t) => t.data.inCombat
+      );
       for (let t of canvas.tokens.controlled) {
         if (allInCombat) await t.toggleCombat();
         else if (!t.data.inCombat) await t.toggleCombat();
       }
-      Hooks.callAll('forceUpdateTokenActionHUD');
+      Hooks.callAll("forceUpdateTokenActionHUD");
     }
   }
 
@@ -230,20 +273,20 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let token = super.getToken(tokenId);
 
     switch (actionId) {
-      case 'toggleStarving':
-        this.togggleConditionState(event, actor, 'starving', 'value');
+      case "toggleStarving":
+        this.togggleConditionState(event, actor, "starving", "value");
         break;
-      case 'toggleDehydrated':
-        this.togggleConditionState(event, actor, 'dehydrated', 'value');
+      case "toggleDehydrated":
+        this.togggleConditionState(event, actor, "dehydrated", "value");
         break;
-      case 'toggleExhausted':
-        this.togggleConditionState(event, actor, 'exhausted', 'value');
+      case "toggleExhausted":
+        this.togggleConditionState(event, actor, "exhausted", "value");
         break;
-      case 'toggleFreezing':
-        this.togggleConditionState(event, actor, 'freezing', 'value');
+      case "toggleFreezing":
+        this.togggleConditionState(event, actor, "freezing", "value");
         break;
-      case 'togglePanic':
-        this.togggleConditionState(event, actor, 'panic', 'value');
+      case "togglePanic":
+        this.togggleConditionState(event, actor, "panic", "value");
         break;
     }
   }
@@ -251,11 +294,11 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   /** @private */
   _rollItem(actor, tokenId, actionId, macroType) {
     let item = actor.items.get(actionId);
-    let renderable = ['item'];
+    let renderable = ["item"];
     if (renderable.includes(macroType)) {
       return this.doRenderItem(tokenId, actionId);
     } else {
-      console.warn('armor roll');
+      console.warn("armor roll");
     }
   }
 }

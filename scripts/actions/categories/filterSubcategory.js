@@ -1,47 +1,63 @@
 export class FilterSubcategory {
-    constructor(filterManager, title) {
-        this.filterManager = filterManager;
-        this.title = title;
-    }
+  constructor(filterManager, title) {
+    this.filterManager = filterManager;
+    this.title = title;
+  }
 
-    async updateFlag(categoryId) {
-        let contents = this.getFlagContents();
-        await game.user.setFlag('token-action-hud', `categories.${categoryId}.subcategories.${this.id}`, contents);
-    }
+  async updateFlag(categoryId) {
+    let contents = this.getFlagContents();
+    await game.user.setFlag(
+      "token-action-hud",
+      `categories.${categoryId}.subcategories.${this.id}`,
+      contents
+    );
+  }
 
-    async unsetFlag(categoryId) {
-        if (categoryId)
-            await game.user.setFlag('token-action-hud', `categories.${categoryId}.subcategories`, {[`-=${this.id}`]: null})
-    }
+  async unsetFlag(categoryId) {
+    if (categoryId)
+      await game.user.setFlag(
+        "token-action-hud",
+        `categories.${categoryId}.subcategories`,
+        { [`-=${this.id}`]: null }
+      );
+  }
 
-    createFilter() {
-        this.filterManager.createOrGetFilter(this.id);
-    }
+  createFilter() {
+    this.filterManager.createOrGetFilter(this.id);
+  }
 
-    clearFilter() {
-        this.filterManager.clearFilter(this.id);
-    }
+  clearFilter() {
+    this.filterManager.clearFilter(this.id);
+  }
 
-    async setFilteredElements(elements, isBlocklist) {
-        await this.filterManager.setFilteredElements(this.id, elements, isBlocklist);
-    }
+  async setFilteredElements(elements, isBlocklist) {
+    await this.filterManager.setFilteredElements(
+      this.id,
+      elements,
+      isBlocklist
+    );
+  }
 
-    asTagifyEntry() {
-        return {id: this.id, value: this.title, type: this.type}
-    }
-    
-    async addToCategory(actionHandler, category) {
-        let subcategory = actionHandler.initializeEmptySubcategory(this.id);
-        subcategory.actions = await this._getActions(actionHandler.delimiter);
-        subcategory.canFilter = true;
-        actionHandler._combineSubcategoryWithCategory(category, this.title, subcategory);
-    }
+  asTagifyEntry() {
+    return { id: this.id, value: this.title, type: this.type };
+  }
 
-    getFlagContents() {
-        return {id: this.id, title: this.title, type: this.type};
-    }
+  async addToCategory(actionHandler, category) {
+    let subcategory = actionHandler.initializeEmptySubcategory(this.id);
+    subcategory.actions = await this._getActions(actionHandler.delimiter);
+    subcategory.canFilter = true;
+    actionHandler._combineSubcategoryWithCategory(
+      category,
+      this.title,
+      subcategory
+    );
+  }
 
-    async _getActions() {
-        return [];
-    }
+  getFlagContents() {
+    return { id: this.id, title: this.title, type: this.type };
+  }
+
+  async _getActions() {
+    return [];
+  }
 }

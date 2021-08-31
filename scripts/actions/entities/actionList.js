@@ -1,8 +1,8 @@
 export class ActionList {
-    constructor() {
-        this.hudTitle = '';
-        this.tokenId = '';
-        this.actorId = '';
-        this.categories = [];
-    }
+  constructor() {
+    this.hudTitle = "";
+    this.tokenId = "";
+    this.actorId = "";
+    this.categories = [];
+  }
 }

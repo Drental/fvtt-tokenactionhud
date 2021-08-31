@@ -1,7 +1,9 @@
-import {ActionHandler} from './actionHandler.js';
+import { ActionHandler } from "./actionHandler.js";
 
 export class ActionListExtender extends ActionHandler {
-    constructor() {super();}
+  constructor() {
+    super();
+  }
 
-    extendActionList(actionList, multipleTokens) {}
+  extendActionList(actionList, multipleTokens) {}
 }

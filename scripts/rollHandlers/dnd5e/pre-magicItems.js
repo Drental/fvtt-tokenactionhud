@@ -1,38 +1,37 @@
-
-import { PreRollHandler } from '../preRollHandler.js';
+import { PreRollHandler } from "../preRollHandler.js";
 
 export class MagicItemsPreRollHandler extends PreRollHandler {
-    constructor() {super();}
+  constructor() {
+    super();
+  }
 
-    /** @override */
-    prehandleActionEvent(event, encodedValue) {
-        let payload = encodedValue.split('|');
-        
-        if (payload.length != 3)
-            return false;
-        
-        let macroType = payload[0];
-        let tokenId = payload[1];
-        let actionId = payload[2];
+  /** @override */
+  prehandleActionEvent(event, encodedValue) {
+    let payload = encodedValue.split("|");
 
-        if (macroType != 'magicItem')
-            return false;
+    if (payload.length != 3) return false;
 
-        this._magicItemMacro(event, tokenId, actionId);
-        return true;
-    }
+    let macroType = payload[0];
+    let tokenId = payload[1];
+    let actionId = payload[2];
 
-    _magicItemMacro(event, tokenId, actionId) {
-        let actor = super.getActor(tokenId);
-        let actionParts = actionId.split('>');
+    if (macroType != "magicItem") return false;
 
-        let itemId = actionParts[0];
-        let magicEffectId = actionParts[1];
+    this._magicItemMacro(event, tokenId, actionId);
+    return true;
+  }
 
-        let magicItemActor = MagicItems.actor(actor._id);
+  _magicItemMacro(event, tokenId, actionId) {
+    let actor = super.getActor(tokenId);
+    let actionParts = actionId.split(">");
 
-        magicItemActor.roll(itemId, magicEffectId);
-        
-        Hooks.callAll('forceUpdateTokenActionHUD');
-    }
+    let itemId = actionParts[0];
+    let magicEffectId = actionParts[1];
+
+    let magicItemActor = MagicItems.actor(actor._id);
+
+    magicItemActor.roll(itemId, magicEffectId);
+
+    Hooks.callAll("forceUpdateTokenActionHUD");
+  }
 }

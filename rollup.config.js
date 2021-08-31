@@ -1,4 +1,4 @@
-import { terser } from 'rollup-plugin-terser';
+import { terser } from "rollup-plugin-terser";
 
 export default [
   {
@@ -6,8 +6,8 @@ export default [
     output: {
       format: "umd",
       file: "scripts/bundle.min.js",
-      name: "FVTT-TokenActionHud"
+      name: "FVTT-TokenActionHud",
     },
-    plugins: [terser()]
+    plugins: [terser()],
   },
 ];
