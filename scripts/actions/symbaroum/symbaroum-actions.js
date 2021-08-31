@@ -13,7 +13,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         if (!token)
             return result;
 
-        let tokenId = token.data._id;
+        let tokenId = token.id;
 
         result.tokenId = tokenId;
 
@@ -22,19 +22,23 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         if (!actor)
             return result;
 
-        result.actorId = actor._id;
+        result.actorId = actor.id;
 
         let actorType = actor.data.type;
 
 
         let mysticalPowers = this._getMysticalPowers(actor, tokenId)
+        let traits = this._getTraits(actor, tokenId);
         let weapons = this._getWeapons(actor, tokenId);
-        let armors = this._getArmors(actor, tokenId);;
+        let armors = this._getArmors(actor, tokenId);
         let abilities = this._getAbilities(actor, tokenId);
         let attributes = this._getAttributes(actor, tokenId);
         
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.symbaroum.mysticalPowers'), mysticalPowers);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.armour'), armors);
+        this._combineCategoryWithList(result, this.i18n('tokenactionhud.traits'), traits);
+        if(!game.settings.get('symbaroum', 'combatAutomation')){
+            this._combineCategoryWithList(result, this.i18n('tokenactionhud.armour'), armors);
+        };
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), weapons);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.symbaroum.abilities'), abilities);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
@@ -46,12 +50,21 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     }
 
     _getMysticalPowers(actor, tokenId) {
-        let filteredItems = actor.items.filter(item => item.data?.type === "mysticalPower");
+        let filteredItems = actor.items.filter(item => (item.data?.type === "mysticalPower")&&(item.data.data?.script));
         let result = this.initializeEmptyCategory('actorPowers');
         let powersCategory = this.initializeEmptySubcategory();
         powersCategory.actions = this._produceMap(tokenId, filteredItems, 'mysticalPower');
-
         this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), powersCategory);
+        return result;
+    }
+
+    _getTraits(actor, tokenId) {
+        let filteredItems = actor.items.filter(item => (item.data?.type === "trait")&&(item.data.data?.script));
+        let result = this.initializeEmptyCategory('actorsTraits');
+        let traitsCategory = this.initializeEmptySubcategory();
+        traitsCategory.actions = this._produceMap(tokenId, filteredItems, 'trait');
+
+        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.roll'), traitsCategory);
         return result;
     }
 
@@ -77,7 +90,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     }
 
     _getAbilities(actor, tokenId) {
-        let filteredItems = actor.items.filter(item => item.data?.type === "ability");
+        let filteredItems = actor.items.filter(item => (item.data?.type === "ability")&&(item.data.data?.script));
         let result = this.initializeEmptyCategory('actorAbilities');
         let abilitiesCategory = this.initializeEmptySubcategory();
         abilitiesCategory.actions = this._produceMap(tokenId, filteredItems, 'ability');
@@ -97,12 +110,18 @@ export class ActionHandlerSymbaroum extends ActionHandler {
         return result;
     }
 
-        /** @private */
-        _produceMap(tokenId, itemSet, macroType) {
-            return itemSet.filter(i => !!i).map(i => {
-                let encodedValue = [macroType, tokenId, i.data._id].join(this.delimiter);
-                let item = { name: i.name, encodedValue: encodedValue, id: i.data._id };
-                return item;
-            });
-        }
+    _produceMap(tokenId, itemSet, type) {
+        return itemSet.map((i) => {
+            let encodedValue = [type, tokenId, i.id].join(this.delimiter);
+            let img = this._getImage(i);
+            let result = { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
+            return result;
+        });
+    }
+
+    _getImage(item) {
+        let result = '';
+        if (settings.get('showIcons')) result = item.img ?? '';
+        return !result?.includes('systems/symbaroum/asset/image/trait.png') ? result : '';
+    }
 }

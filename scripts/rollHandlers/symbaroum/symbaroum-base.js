@@ -11,7 +11,6 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
         if (payload.length != 3) {
             super.throwInvalidValueErr();
         }
-
         let macroType = payload[0];
         let tokenId = payload[1];
         let itemId = payload[2];
@@ -29,6 +28,9 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
                 break;
             case 'mysticalPower':
                 this._handleMysticalPowers(macroType, event, actor, itemId);
+                break;
+            case 'trait':
+                this._handleTraits(macroType, event, actor, itemId);
                 break;
             case 'attribute':
                 this._handleAttributes(macroType, event, actor, itemId);
@@ -56,6 +58,12 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
 
     _handleMysticalPowers(macroType, event, actor, actionId) {
         
+        let usedPower = actor.items.filter(item => item.id === actionId);
+        actor.usePower(usedPower[0]);
+    }
+
+    _handleTraits(macroType, event, actor, actionId) {
+
         let usedPower = actor.items.filter(item => item.id === actionId);
         actor.usePower(usedPower[0]);
     }
