@@ -10,10 +10,8 @@
   "minimumCoreVersion": "0.8.0",
   "compatibleCoreVersion": "0.8.9",
   "scripts": [
-    "./lib/tagify/tagify.min.js"
-  ],
-  "esmodules": [
-    "./scripts/init.js"
+    "./lib/tagify/tagify.min.js",
+    "./scripts/bundle.min.js"
   ],
   "styles": [
     "./styles/token-action-hud.css",
