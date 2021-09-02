@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.3] 2021-09-02
+
+### Changed
+
+- added necessary files again
+
 ## [1.3.2] 2021-09-02
 
 ### Bugfix
