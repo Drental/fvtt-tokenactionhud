@@ -59,6 +59,10 @@ export class SystemManagerFactory {
         return new CthackSystemManager(appName);
       case "kamigakari":
         return new KamigakariSystemManager(appName);
+      case "tagmar":
+        return new TagmarSystemManager(appName);
+      case "tagmar_rpg":
+        return new TagmarSystemManager(appName);
     }
   }
 }
