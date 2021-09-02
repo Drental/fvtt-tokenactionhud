@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1] 2021-09-02
+
+### Bugfix
+
+- removed circular dependency
+- keep Classnames in terser
+
 ## [1.3.0] 2021-08-31
 
 ### Changed
