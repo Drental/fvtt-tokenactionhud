@@ -25,7 +25,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     this._addAttacksList(result, actor, tokenId);
     this._addBuffsList(result, actor, tokenId);
@@ -366,11 +366,9 @@ export class ActionHandlerPf1 extends ActionHandler {
       const sbSpells = spells
         .filter((s) => s.data.spellbook === sb)
         .sort((a, b) =>
-          a.name
-            .toUpperCase()
-            .localeCompare(b.name.toUpperCase(), undefined, {
-              sensitivity: "base",
-            })
+          a.name.toUpperCase().localeCompare(b.name.toUpperCase(), undefined, {
+            sensitivity: "base",
+          })
         )
         .sort((a, b) => a.data.level - b.data.level);
 
@@ -729,6 +727,15 @@ export class ActionHandlerPf1 extends ActionHandler {
       subcategory.actions.push(action);
     });
 
+    subcategory.actions = subcategory.actions.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
     this._combineSubcategoryWithCategory(result, categoryName, subcategory);
 
     return result;

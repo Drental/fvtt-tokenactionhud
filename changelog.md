@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.2] 2021-09-02
+
+### Bugfix
+
+- pf1 - sort conditions alphabetically
+
+### Changed
+
+- remove unnecessary files from download
+
 ## [1.3.1] 2021-09-02
 
 ### Bugfix

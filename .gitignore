@@ -7,3 +7,4 @@ foundry.js
 /.github
 /node_modules
 token-action-hud.lock
+scripts/bundle.min.js
