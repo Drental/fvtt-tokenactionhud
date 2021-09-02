@@ -1,10 +1,14 @@
 import { ActionListExtender } from "./actionListExtender.js";
-import { SystemManager } from "../managers/manager.js";
 import * as settings from "../settings.js";
 
 export class ItemMacroActionListExtender extends ActionListExtender {
   constructor() {
     super();
+  }
+
+  static isModuleActive(id) {
+    let module = game.modules.get(id);
+    return module && module.active;
   }
 
   /** @override */
@@ -20,7 +24,7 @@ export class ItemMacroActionListExtender extends ActionListExtender {
     let items = actor.items.filter((item) => item.hasMacro());
 
     let itemIds;
-    if (SystemManager.isModuleActive("midi-qol")) {
+    if (this.isModuleActive("midi-qol")) {
       itemIds = items
         .filter(this.isUnsupportedByMidiQoL)
         .map((item) => item.data._id);
