@@ -165,6 +165,17 @@ export class ActionHandlerD35E extends ActionHandler {
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
+    let validFullAttacks = actor.data.items.filter((i) => i.type === "full-attack");
+    let sortedFullAttacks = this._sortByItemSort(validFullAttacks);
+    let fullAttackActions = sortedFullAttacks.map((w) =>
+      this._buildItem(tokenId, actor, macroType, w)
+    );
+    let attackCat = this.initializeEmptySubcategory();
+    attackCat.actions = fullAttackActions;
+    let attackTitle = this.i18n("tokenactionhud.fullAttack");
+
+    this._combineSubcategoryWithCategory(result, attackTitle, attackCat);
+
     return result;
   }
 
