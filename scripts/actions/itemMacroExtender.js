@@ -24,7 +24,7 @@ export class ItemMacroActionListExtender extends ActionListExtender {
     let items = actor.items.filter((item) => item.hasMacro());
 
     let itemIds;
-    if (this.isModuleActive("midi-qol")) {
+    if (ItemMacroActionListExtender.isModuleActive("midi-qol")) {
       itemIds = items
         .filter(this.isUnsupportedByMidiQoL)
         .map((item) => item.data._id);

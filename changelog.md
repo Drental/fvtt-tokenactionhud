@@ -5,6 +5,7 @@
 ### Bugfix
 
 - pf1 - sort conditions alphabetically
+- dnd5e ItemMacro - clean up Code
 
 ### Changed
 
