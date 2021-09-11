@@ -6,6 +6,11 @@ export class RollHandlerBaseLancer extends RollHandler {
   }
 
   /** @override */
+  getActor(actorId){
+    return canvas.tokens.placeables.find((t) => t.data.actorId === actorId)?.actor;
+  }
+
+  /** @override */
   doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
 
@@ -20,7 +25,7 @@ export class RollHandlerBaseLancer extends RollHandler {
 
     let hasSheet = ["item"];
     if (this.isRenderItem() && hasSheet.includes(macroType))
-      return this.doRenderItem(tokenId, actionId);
+      return this.doRenderItem(actorID, actionId);
 
     switch (macroType) {
       case "hase":
