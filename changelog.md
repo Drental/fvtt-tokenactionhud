@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6] 2021-09-12
+
+### Changed
+
+- Tagmar - fixed the implementation - thank you to marcoswalker
+- LANCER - fixed rightclick for the inventory category - thanks PurringInsanity
+
 ## [1.3.5] 2021-09-02
 
 ### Changed
