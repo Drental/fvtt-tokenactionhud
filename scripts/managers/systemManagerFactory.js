@@ -17,6 +17,7 @@ import { AlienrpgSystemManager } from "./alienrpg.js";
 import { OD6SSystemManager } from "./od6s.js";
 import { CthackSystemManager } from "./cthack.js";
 import { KamigakariSystemManager } from "./kamigakari.js";
+import { TagmarSystemManager } from "./tagmar.js";
 
 export class SystemManagerFactory {
   static create(system, appName) {
