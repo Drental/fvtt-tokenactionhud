@@ -18,6 +18,7 @@ import { OD6SSystemManager } from "./od6s.js";
 import { CthackSystemManager } from "./cthack.js";
 import { KamigakariSystemManager } from "./kamigakari.js";
 import { TagmarSystemManager } from "./tagmar.js";
+import { Ds4SystemManager } from "./ds4.js";
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -64,6 +65,8 @@ export class SystemManagerFactory {
         return new TagmarSystemManager(appName);
       case "tagmar_rpg":
         return new TagmarSystemManager(appName);
+      case "ds4":
+        return new Ds4SystemManager(appName);
     }
   }
 }
