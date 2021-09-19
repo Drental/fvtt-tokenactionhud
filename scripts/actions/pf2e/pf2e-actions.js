@@ -553,295 +553,108 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _getSpellsList(actor, tokenId) {
     let result = this.initializeEmptyCategory("spells");
-
-    let filter = ["spell"];
+    
+    let filter = ["spellcastingEntry"];
     let items = (actor.items ?? []).filter((a) => filter.includes(a.type));
-
-    let signatureSpellsAdded = this._addSignatureSpells(actor, items);
-    let spellsSorted = this._sortSpellsByLevel(signatureSpellsAdded);
-    let spellCategories = this._categoriseSpells(actor, tokenId, spellsSorted);
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.spells"),
-      spellCategories
-    );
-
-    return result;
-  }
-
-  /** @private */
-  _addSignatureSpells(actor, spells) {
-    const actorLevel = actor.data.data.details.level.value;
-    const highestSpellSlot = Math.ceil(actorLevel / 2);
-    let signatureSpellIds = [];
-    actor.items.forEach((item) => {
-      if (item.data.type === "spellcastingEntry") {
-        signatureSpellIds = signatureSpellIds.concat(
-          item.data.data.signatureSpells.value
-        );
-      }
-    });
-
-    let heightenedSignatureSpells = [];
-    spells.forEach((spell) => {
-      if (signatureSpellIds.includes(spell.data._id)) {
-        const spellBaseLevel = spell.data.data.level.value;
-        for (let i = spellBaseLevel + 1; i <= highestSpellSlot; i++) {
-          let heightenedSpell = Object.create(Object.getPrototypeOf(spell));
-          Object.defineProperty(heightenedSpell, "data", {
-            value: duplicate(spell.data),
-            configurable: true,
-            writable: true,
-          });
-          heightenedSpell.data.data.heightenedLevel = { value: i };
-          heightenedSignatureSpells.push(heightenedSpell);
-        }
-      }
-    });
-
-    return spells.concat(heightenedSignatureSpells);
-  }
-
-  /** @private */
-  _sortSpellsByLevel(spells) {
-    let result = Object.values(spells);
-
-    result.sort((a, b) => {
-      if (this._getSpellLevel(a) === this._getSpellLevel(b))
-        return a.name
-          .toUpperCase()
-          .localeCompare(b.name.toUpperCase(), undefined, {
-            sensitivity: "base",
-          });
-      return this._getSpellLevel(a) - this._getSpellLevel(b);
-    });
-
-    return result;
-  }
-
-  _getSpellLevel(spellItem) {
-    if (spellItem.isCantrip) {
-      return 0;
-    }
-    return !!spellItem.data.data.heightenedLevel?.value
-      ? parseInt(spellItem.data.data.heightenedLevel.value)
-      : parseInt(spellItem.data.data.level.value);
-  }
-
-  /** @private */
-  _categoriseSpells(actor, tokenId, spells) {
     const macroType = "spell";
-    let result = this.initializeEmptySubcategory();
 
-    let spellbooks = actor.items.filter(
-      (i) => i.data.type === "spellcastingEntry"
-    );
+    let spellCategories = this.initializeEmptySubcategory();
 
-    // get prepared spellbooks first, get spells from those, then turn to other spells
-    spellbooks.forEach((spellbook) => {
-      if (spellbook.data.data.prepared.value !== "prepared") return;
+    items.forEach((spellcastingEntry) => {
+      
+      const bookName = spellcastingEntry.data.name;
+      let spellcastingEntryCategory = this.initializeEmptySubcategory(bookName);
+      spellcastingEntryCategory.name = bookName;
+      spellCategories.subcategories.push(spellcastingEntryCategory);
 
-      let bookName = spellbook.data.name;
-      Object.entries(spellbook.data.data.slots).forEach((slot) => {
-        if (slot[1].prepared.length === 0 || slot[1].prepared.max <= 0) return;
+      const spellInfo = spellcastingEntry.getSpellData();
+      const vancian = spellInfo.isPrepared && !spellInfo.isFlexible;
+      
+      spellInfo.levels.filter((level) => level.active.length > 0).forEach((level, i) => {
 
-        let levelKey = slot[0];
-        let level = levelKey.substr(4);
-        let levelName = `${this.i18n("tokenactionhud.level")} ${level}`;
-
-        levelName =
-          level == 0 ? this.i18n("tokenactionhud.cantrips") : levelName;
-
-        let items = Object.values(slot[1].prepared).map((spell) => {
-          if (!spell.expended)
-            return spells.find((sp) => sp.data._id === spell.id);
-        });
-        items = items.filter((i) => !!i);
-
-        if (items.length === 0) return;
-
-        let bookCategory;
-        if (!result.subcategories.some((s) => s.name === bookName)) {
-          bookCategory = this.initializeEmptySubcategory();
-          bookCategory.name = bookName;
-          result.subcategories.push(bookCategory);
-        } else {
-          bookCategory = result.subcategories.find((b) => b.name === bookName);
-        }
-
+        let levelName = `${game.i18n.localize(level.label)}`
         let levelSubcategory = this.initializeEmptySubcategory();
-
-        items.forEach((s) => {
-          let encodedValue = [
-            macroType,
-            tokenId,
-            `${spellbook.data._id}>${level}>${s.data._id}`,
-          ].join(this.delimiter);
-          let spell = {
-            name: s.name,
-            encodedValue: encodedValue,
-            id: s.data._id,
-          };
-          spell.img = this._getImage(s);
-          spell.icon = this._getActionIcon(s.data.data?.time?.value);
-          spell.spellLevel = level;
-
-          this._addSpellInfo(s, spell);
-          levelSubcategory.actions.push(spell);
-
-          if (level > 0) {
-            let spellExpend = {
-              name: "-",
-              encodedValue: encodedValue + ">expend",
-              id: s.data.id,
-              cssClass: "stickLeft",
-            };
-            levelSubcategory.actions.push(spellExpend);
-          }
-        });
-
-        if (
-          result.subcategories.find((s) => s.name === bookName)?.subcategories
-            .length === 0
-        ) {
+        
+        if (i==0) {
           levelName = `${bookName} - ${levelName}`;
           if (actor.data.type === "character")
             this._setSpellSlotInfo(
               actor,
               tokenId,
               levelSubcategory,
-              spellbook,
               level,
+              spellInfo,
               true
             );
-
-          levelSubcategory.info2 = this._getSpellDcInfo(spellbook);
-        }
-
-        this._combineSubcategoryWithCategory(
-          bookCategory,
-          levelName,
-          levelSubcategory
-        );
-      });
-    });
-
-    spells.forEach(
-      function (s) {
-        var level = this._getSpellLevel(s);
-        var spellbookId = s.data.data.location?.value;
-
-        let spellbook;
-        if (spellbookId)
-          spellbook = spellbooks.find((s) => s.data._id === spellbookId);
-
-        // return if 'prepared' because it should already have been handled above
-        if (!spellbook || spellbook.data.data.prepared.value === "prepared")
-          return;
-
-        let bookName = spellbook.data.name;
-
-        let category;
-        if (!result.subcategories.some((b) => b.name === bookName)) {
-          category = this.initializeEmptySubcategory(bookName);
-          category.name = bookName;
-          result.subcategories.push(category);
+          levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
         } else {
-          category = result.subcategories.find((b) => b.name === bookName);
-        }
-
-        let levelName =
-          level == 0
-            ? this.i18n("tokenactionhud.cantrips")
-            : `${this.i18n("tokenactionhud.level")} ${level}`;
-        let levelNameWithBook = `${bookName} - ${levelName}`;
-
-        // On first subcategory, include bookName, attack bonus, and spell DC.
-        let levelCategory;
-        if (category.subcategories.length === 0) {
-          levelCategory = this.initializeEmptySubcategory();
-          levelCategory.name = levelNameWithBook;
-          category.subcategories.push(levelCategory);
-
           if (actor.data.type === "character")
             this._setSpellSlotInfo(
               actor,
               tokenId,
-              levelCategory,
-              spellbook,
+              levelSubcategory,
               level,
-              true
-            );
-
-          levelCategory.info2 = this._getSpellDcInfo(spellbook);
-        }
-
-        // If there's only one subcategory, check if it's the same as the current
-        let stillFirstSubcategory =
-          category.subcategories.length === 1 &&
-          category.subcategories.some((s) => s.name === levelNameWithBook);
-
-        if (
-          !(
-            stillFirstSubcategory ||
-            category.subcategories.some((s) => s.name === levelName)
-          )
-        ) {
-          levelCategory = this.initializeEmptySubcategory(levelName);
-          levelCategory.name = levelName;
-          category.subcategories.push(levelCategory);
-
-          if (actor.data.type === "character")
-            this._setSpellSlotInfo(
-              actor,
-              tokenId,
-              levelCategory,
-              spellbook,
-              level,
+              spellInfo,
               false
             );
         }
 
-        let categoryName = stillFirstSubcategory
-          ? levelNameWithBook
-          : levelName;
-        levelCategory = category.subcategories.find(
-          (s) => s.name === categoryName
+        level.active.filter(({expended}) =>(expended ?? false) === false).forEach(({spell, expended}) => {
+          let encodedValue = [
+            macroType,
+            tokenId,
+            `${spellInfo.id}>${level.level}>${spell.data._id}`,
+          ].join(this.delimiter);
+          let spellAction = {
+            name: spell.name,
+            encodedValue: encodedValue,
+            id: spell.data._id,
+          };
+          spellAction.img = this._getImage(spell);
+          spellAction.icon = this._getActionIcon(spell.data.data?.time?.value);
+          spellAction.spellLevel = level.level;
+  
+          this._addSpellInfo(spell, spellAction);
+          levelSubcategory.actions.push(spellAction);
+          if (expended === false) {
+            let spellExpend = {
+              name: "-",
+              encodedValue: encodedValue + ">expend",
+              id: spell.data.id,
+              cssClass: "stickLeft",
+            };
+            levelSubcategory.actions.push(spellExpend);
+          }
+        });
+
+        this._combineSubcategoryWithCategory(
+          spellcastingEntryCategory,
+          levelName,
+          levelSubcategory
         );
+      })
+    });
 
-        let encodedValue = [
-          macroType,
-          tokenId,
-          `${spellbook.data._id}>${level}>${s.data._id}`,
-        ].join(this.delimiter);
-        let spell = {
-          name: s.name,
-          encodedValue: encodedValue,
-          id: s.data._id,
-        };
-        spell.img = this._getImage(s);
-        spell.icon = this._getActionIcon(s.data.data?.time?.value);
-        spell.spellLevel = level;
-        this._addSpellInfo(s, spell);
-        levelCategory.actions.push(spell);
-      }.bind(this)
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.spells"),
+      spellCategories
     );
-
     return result;
   }
 
   /** @private */
-  _getSpellDcInfo(spellbook) {
+  _getSpellDcInfo(spellcastingEntry) {
     let result = "";
 
-    let spelldc = spellbook.data.data.spelldc;
+    let spelldc = spellcastingEntry.data.data.spelldc;
     let attackBonus =
       spelldc.value >= 0
         ? `${this.i18n("tokenactionhud.atk")} +${spelldc.value}`
         : `${this.i18n("tokenactionhud.atk")} -${spelldc.value}`;
     let dcInfo = `${this.i18n("tokenactionhud.dc")}${
-      spellbook.data.data.spelldc.dc
+      spellcastingEntry.data.data.spelldc.dc
     }`;
 
     result = `${attackBonus} ${dcInfo}`;
@@ -854,16 +667,15 @@ export class ActionHandlerPf2e extends ActionHandler {
     actor,
     tokenId,
     category,
-    spellbook,
     level,
+    spellInfo,
     firstSubcategory
   ) {
-    let prepType = spellbook.data.data.prepared.value;
 
-    let slotInfo = !["prepared", "focus"].includes(prepType);
+    if (level.isCantrip === true) return;
 
     let maxSlots, valueSlots, increaseId, decreaseId;
-    if (firstSubcategory && prepType === "focus") {
+    if (firstSubcategory && spellInfo.isFocusPool) {
       let focus = actor.data.data.resources.focus;
       maxSlots = focus.max;
       valueSlots = focus.value;
@@ -871,7 +683,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       if (maxSlots > 0) {
         category.info1 = `${valueSlots}/${maxSlots}`;
 
-        increaseId = `${spellbook.id}>focus>slotIncrease`;
+        increaseId = `${spellInfo.id}>focus>slotIncrease`;
         let increaseEncodedValue = ["spellSlot", tokenId, increaseId].join(
           this.delimiter
         );
@@ -882,7 +694,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           cssClass: "shrink",
         });
 
-        decreaseId = `${spellbook.id}>focus>slotDecrease`;
+        decreaseId = `${spellInfo.id}>focus>slotDecrease`;
         let decreaseEncodedValue = ["spellSlot", tokenId, decreaseId].join(
           this.delimiter
         );
@@ -895,16 +707,16 @@ export class ActionHandlerPf2e extends ActionHandler {
       }
     }
 
-    if (slotInfo && level > 0 && prepType !== "focus") {
-      let slots = spellbook.data.data.slots;
-      let slotLevel = `slot${level}`;
-      maxSlots = slots[slotLevel].max;
-      valueSlots = slots[slotLevel].value;
+    if (level.uses?.max > 0 && !(spellInfo.isPrepared && !spellInfo.isFlexible) && !spellInfo.isFocusPool) {
+      let slots = level.uses;
+      let slotLevel = `slot${level.level}`;
+      maxSlots = slots.max;
+      valueSlots = slots.value;
 
       if (maxSlots > 0) {
         category.info1 = `${valueSlots}/${maxSlots}`;
 
-        increaseId = `${spellbook.id}>${slotLevel}>slotIncrease`;
+        increaseId = `${spellInfo.id}>${slotLevel}>slotIncrease`;
         let increaseEncodedValue = ["spellSlot", tokenId, increaseId].join(
           this.delimiter
         );
@@ -915,7 +727,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           cssClass: "shrink",
         });
 
-        decreaseId = `${spellbook.id}>${slotLevel}>slotDecrease`;
+        decreaseId = `${spellInfo.id}>${slotLevel}>slotDecrease`;
         let decreaseEncodedValue = ["spellSlot", tokenId, decreaseId].join(
           this.delimiter
         );
@@ -932,7 +744,6 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _addSpellInfo(s, spell) {
     this._addComponentsInfo(s, spell);
-    if (!settings.get("printSpellCard")) this._addAttackDamageInfo(s, spell);
   }
 
   _addComponentsInfo(s, spell) {
@@ -945,16 +756,6 @@ export class ActionHandlerPf2e extends ActionHandler {
         .map((c) => c.trim().charAt(0).toUpperCase())
         .join("");
     }
-  }
-
-  _addAttackDamageInfo(s, spell) {
-    let info = [];
-    if (s.data.data.spellType.value === "attack")
-      info.push(this.i18n("tokenactionhud.atk"));
-
-    if (s.data.data.damage.value) info.push(this.i18n("tokenactionhud.dmg"));
-
-    spell.info2 = info.join(", ");
   }
 
   /** @private */

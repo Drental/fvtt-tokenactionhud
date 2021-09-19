@@ -409,36 +409,13 @@ export class RollHandlerBasePf2e extends RollHandler {
       return;
     }
 
-    let printCard = settings.get("printSpellCard");
-    if (this.isRenderItem() && printCard)
+    if (this.isRenderItem())
       return this.doRenderItem(tokenId, spellId);
 
     let spell = actor.items.get(spellId);
 
-    if (printCard) {
-      this._rollHeightenedSpell(actor, spell, level);
-      return;
-    }
-
-    let damageRoll = this.rightClick;
-
-    if (damageRoll) {
-      if (spell.data.data.damage.value) spell.rollSpellDamage(event);
-      else if (this.isRenderItem()) this.doRenderItem(tokenId, spellId);
-      else if (spell.data.data.spellType.value === "attack") {
-        spell.rollSpellAttack(event);
-      } else {
-        this._rollHeightenedSpell(actor, spell, level);
-      }
-    } else {
-      if (spell.data.data.spellType.value === "attack") {
-        spell.rollSpellAttack(event);
-      } else if (spell.data.data.damage.value) {
-        spell.rollSpellDamage(event);
-      } else {
-        this._rollHeightenedSpell(actor, spell, level);
-      }
-    }
+    this._rollHeightenedSpell(actor, spell, level);
+    return;
   }
 
   async _expendSpell(actor, spellbookId, level, spellId) {
