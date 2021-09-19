@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.8] 2021-09-19
+
+### Changed
+
+- pf2e - don't break on unfilled prepareable slots
+
 ## [1.3.7] 2021-09-19
 
 ### Changed
