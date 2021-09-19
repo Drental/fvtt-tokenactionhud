@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.7] 2021-09-19
+
+### Changed
+
+- pf2e - updated how spells are detected
+- pf2e - removed option to roll spell attack or damage directly
+
 ## [1.3.6] 2021-09-12
 
 ### Changed
