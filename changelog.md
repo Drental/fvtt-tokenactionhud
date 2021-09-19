@@ -4,7 +4,7 @@
 
 ### Changed
 
-- pf2e - don't break on unfilled prepareable slots
+- pf2e - don't break on unfilled preparable slots
 
 ## [1.3.7] 2021-09-19
 
