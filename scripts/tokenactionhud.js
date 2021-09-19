@@ -63,7 +63,7 @@ export class TokenActionHUD extends Application {
   getScale() {
     const scale = parseFloat(settings.get("scale"));
 
-    if (scale < 0.8) return 0.8;
+    if (scale < 0.5) return 0.5;
 
     if (scale > 2) return 2;
 
