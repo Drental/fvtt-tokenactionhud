@@ -270,11 +270,9 @@ export class ActionHandlerSw5e extends ActionHandler {
     // Reverse sort spells by level
     const powerSlotInfo = Object.entries(actor.data.data.powers).sort(
       (a, b) => {
-        return b[0]
-          .toUpperCase()
-          .localeCompare(a[0].toUpperCase(), undefined, {
-            sensitivity: "base",
-          });
+        return b[0].toUpperCase().localeCompare(a[0].toUpperCase(), undefined, {
+          sensitivity: "base",
+        });
       }
     );
 

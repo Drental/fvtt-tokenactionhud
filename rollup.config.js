@@ -8,6 +8,6 @@ export default [
       file: "scripts/bundle.min.js",
       name: "FVTT-TokenActionHud",
     },
-    plugins: [terser({keep_classnames: true, keep_fnames: true})],
+    plugins: [terser({ keep_classnames: true, keep_fnames: true })],
   },
 ];

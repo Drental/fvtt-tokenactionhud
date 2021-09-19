@@ -382,11 +382,9 @@ export class ActionHandlerSwade extends ActionHandler {
 
     let wildMod = this._buildDieString(wild);
     if (
-      dieMod
-        .toUpperCase()
-        .localeCompare(wildMod.toUpperCase(), undefined, {
-          sensitivity: "base",
-        }) === 0
+      dieMod.toUpperCase().localeCompare(wildMod.toUpperCase(), undefined, {
+        sensitivity: "base",
+      }) === 0
     )
       return dieMod;
 

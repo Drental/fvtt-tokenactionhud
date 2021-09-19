@@ -409,8 +409,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       return;
     }
 
-    if (this.isRenderItem())
-      return this.doRenderItem(tokenId, spellId);
+    if (this.isRenderItem()) return this.doRenderItem(tokenId, spellId);
 
     let spell = actor.items.get(spellId);
 

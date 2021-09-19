@@ -165,7 +165,9 @@ export class ActionHandlerD35E extends ActionHandler {
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
-    let validFullAttacks = actor.data.items.filter((i) => i.type === "full-attack");
+    let validFullAttacks = actor.data.items.filter(
+      (i) => i.type === "full-attack"
+    );
     let sortedFullAttacks = this._sortByItemSort(validFullAttacks);
     let fullAttackActions = sortedFullAttacks.map((w) =>
       this._buildItem(tokenId, actor, macroType, w)
@@ -330,11 +332,9 @@ export class ActionHandlerD35E extends ActionHandler {
       const sbSpells = spells
         .filter((s) => s.data.data.spellbook === sb)
         .sort((a, b) =>
-          a.name
-            .toUpperCase()
-            .localeCompare(b.name.toUpperCase(), undefined, {
-              sensitivity: "base",
-            })
+          a.name.toUpperCase().localeCompare(b.name.toUpperCase(), undefined, {
+            sensitivity: "base",
+          })
         )
         .sort((a, b) => a.data.data.level - b.data.data.level);
 

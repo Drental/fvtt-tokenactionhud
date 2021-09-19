@@ -6,8 +6,9 @@ export class RollHandlerBaseLancer extends RollHandler {
   }
 
   /** @override */
-  getActor(actorId){
-    return canvas.tokens.placeables.find((t) => t.data.actorId === actorId)?.actor;
+  getActor(actorId) {
+    return canvas.tokens.placeables.find((t) => t.data.actorId === actorId)
+      ?.actor;
   }
 
   /** @override */
