@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.10] 2021-09-19
+
+### Changed
+
+- Token Action HUD - reduce minimum scale
+
 ## [1.3.9] 2021-09-19
 
 ### Changed
