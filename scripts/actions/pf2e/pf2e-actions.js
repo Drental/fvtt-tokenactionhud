@@ -567,7 +567,6 @@ export class ActionHandlerPf2e extends ActionHandler {
       spellCategories.subcategories.push(spellcastingEntryCategory);
 
       const spellInfo = spellcastingEntry.getSpellData();
-      const vancian = spellInfo.isPrepared && !spellInfo.isFlexible;
 
       spellInfo.levels
         .filter((level) => level.active.length > 0)
@@ -575,7 +574,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           let levelName = `${game.i18n.localize(level.label)}`;
           let levelSubcategory = this.initializeEmptySubcategory();
 
-          if (i == 0) {
+          if (i === 0) {
             levelName = `${bookName} - ${levelName}`;
             if (actor.data.type === "character")
               this._setSpellSlotInfo(

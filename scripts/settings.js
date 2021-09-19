@@ -172,9 +172,9 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     config: true,
     type: Number,
     range: {
-      min: 0.8,
+      min: 0.5,
       max: 2,
-      step: 0.1,
+      step: 0.05,
     },
     default: 1,
     onChange: (value) => {
