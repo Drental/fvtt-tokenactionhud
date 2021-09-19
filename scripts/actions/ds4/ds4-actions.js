@@ -9,6 +9,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     } else if (multipleTokens) {
       return this._buildMultipleTokenList();
     }
+    return this.initializeEmptyActionList();
   }
 
   _buildSingleTokenList(token) {
