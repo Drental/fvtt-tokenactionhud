@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.9] 2021-09-19
+
+### Changed
+
+- Token Action HUD - Refactoring of several systems to avoid using deprecated getters.
+- Token Action HUD - increase granularity of scaling and reduce minimum scale
+- ds4 - added Dungeonslayers 4 system - thank you Ghost!
+  * checks
+  * Items (only weapons at the moment)
+  * Spells
+
 ## [1.3.8] 2021-09-19
 
 ### Changed
