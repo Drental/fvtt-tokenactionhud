@@ -25,7 +25,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     this._addAttacksList(result, actor, tokenId);
     this._addBuffsList(result, actor, tokenId);
@@ -375,7 +375,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
           let name = spell.name;
           name = name.charAt(0).toUpperCase() + name.slice(1);
-          let id = spell._id;
+          let id = spell.id;
           let encodedValue = [macroType, tokenId, id].join(this.delimiter);
           var action = {
             name: name,
@@ -751,13 +751,13 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
+    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
     let icon = this._getActionIcon(item.data?.activation?.type);
     let name = this._getItemName(item);
     let result = {
       name: name,
-      id: item._id,
+      id: item.id,
       encodedValue: encodedValue,
       img: img,
       icon: icon,

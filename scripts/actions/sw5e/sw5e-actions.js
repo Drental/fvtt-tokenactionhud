@@ -25,7 +25,7 @@ export class ActionHandlerSw5e extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let items = this._getItemList(actor, tokenId);
     let powers = this._getPowersList(actor, tokenId);
@@ -837,12 +837,12 @@ export class ActionHandlerSw5e extends ActionHandler {
 
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
+    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
     let icon = this._getActionIcon(item.data?.activation?.type);
     let result = {
       name: item.name,
-      id: item._id,
+      id: item.id,
       encodedValue: encodedValue,
       img: img,
       icon: icon,

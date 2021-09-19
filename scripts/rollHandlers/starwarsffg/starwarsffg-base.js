@@ -77,7 +77,7 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
     CONFIG.FFG.DestinyGM = game.user.id;
 
     ChatMessage.create({
-      user: game.user._id,
+      user: game.user.id,
       content: messageText,
     });
   }

@@ -19,7 +19,7 @@ export class ActionHandlerOD6S extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     //let inventoryCategory = this._buildInventoryCategory(actor, tokenId);
     let combatCategory = this._buildCombatActionsCategory(actor, tokenId);

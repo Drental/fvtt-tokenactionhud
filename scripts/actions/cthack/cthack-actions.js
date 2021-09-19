@@ -23,7 +23,7 @@ export class ActionHandlerCthack extends ActionHandler {
     let actorType = actor.data.type;
     if (actorType != "character") return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let saves = this._getSaves(actor, tokenId);
     let attributes = this._getAttributes(actor, tokenId);
@@ -155,11 +155,11 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
+    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
     let result = {
       name: item.name,
-      id: item._id,
+      id: item.id,
       encodedValue: encodedValue,
       img: img,
     };

@@ -27,7 +27,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let actorType = actor.data.type;
 

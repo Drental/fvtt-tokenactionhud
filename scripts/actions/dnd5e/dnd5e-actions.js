@@ -960,7 +960,7 @@ export class ActionHandler5e extends ActionHandler {
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
     const itemData = this._getEntityData(item);
-    const itemId = item.id ?? item._id;
+    const itemId = item.id;
     let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
     let img = this._getImage(item);
     let icon = this._getActionIcon(item.data?.data?.activation?.type);

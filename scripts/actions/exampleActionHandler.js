@@ -19,7 +19,7 @@ export class ExampleActionHandler extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let inventoryCategory = this._buildInventoryCategory(actor, tokenId);
 

@@ -24,7 +24,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let attributes = this._getAttributes(actor, tokenId);
     let weapons = this._getItemsList(actor, tokenId);
@@ -95,7 +95,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
         .map((item) => {
           return {
             name: item.name,
-            encodedValue: [item.type, tokenId, item._id].join(this.delimiter),
+            encodedValue: [item.type, tokenId, item.id].join(this.delimiter),
           };
         }),
       macroType
@@ -186,13 +186,13 @@ export class ActionHandlerDemonlord extends ActionHandler {
         let levelSubcategory = this.initializeEmptySubcategory();
         talents.forEach((talentEntry) => {
           if (talentEntry.data.data.groupname == group) {
-            let encodedValue = [macroType, tokenId, talentEntry._id].join(
+            let encodedValue = [macroType, tokenId, talentEntry.id].join(
               this.delimiter
             );
             let addTalent = {
               name: talentEntry.name,
               encodedValue: encodedValue,
-              id: talentEntry._id,
+              id: talentEntry.id,
             };
             addTalent.img = this._getImage(talentEntry);
             addTalent.info2 = this._getUsesData(talentEntry);
@@ -262,13 +262,13 @@ export class ActionHandlerDemonlord extends ActionHandler {
         let levelSubcategory = this.initializeEmptySubcategory();
         spells.forEach((spellEntry) => {
           if (spellEntry.data.data.tradition == tradition) {
-            let encodedValue = [macroType, tokenId, spellEntry._id].join(
+            let encodedValue = [macroType, tokenId, spellEntry.id].join(
               this.delimiter
             );
             let addSpell = {
               name: spellEntry.name,
               encodedValue: encodedValue,
-              id: spellEntry._id,
+              id: spellEntry.id,
             };
             addSpell.img = this._getImage(spellEntry);
             addSpell.info2 = this._getCastingsData(spellEntry);
@@ -357,7 +357,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   /** @override */
   _setFilterSuggestions(id, items) {
     let suggestions = items?.map((s) => {
-      return { id: s._id, value: s.name };
+      return { id: s.id, value: s.name };
     });
     if (suggestions?.length > 0)
       this.filterManager.setSuggestions(id, suggestions);
@@ -383,7 +383,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
       let result = {
         name: i.name,
         encodedValue: i.encodedValue,
-        id: i._id,
+        id: i.id,
         icon,
       };
 

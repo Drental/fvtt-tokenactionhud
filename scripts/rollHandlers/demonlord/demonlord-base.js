@@ -39,14 +39,14 @@ export class RollHandlerBaseDemonlord extends RollHandler {
         actor.rollChallenge(attribute, actionId);
         break;
       case "weapon":
-        actor.rollWeaponAttack(item._id, null);
+        actor.rollWeaponAttack(item.id, null);
         break;
       case "talent":
       case "specialaction":
-        actor.rollTalent(item._id, null);
+        actor.rollTalent(item.id, null);
         break;
       case "spell":
-        actor.rollSpell(item._id, null);
+        actor.rollSpell(item.id, null);
         break;
       case "utility":
         this.performUtilityMacro(event, tokenId, actionId);

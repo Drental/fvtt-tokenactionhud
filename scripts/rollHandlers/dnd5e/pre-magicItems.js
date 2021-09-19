@@ -28,7 +28,7 @@ export class MagicItemsPreRollHandler extends PreRollHandler {
     let itemId = actionParts[0];
     let magicEffectId = actionParts[1];
 
-    let magicItemActor = MagicItems.actor(actor._id);
+    let magicItemActor = MagicItems.actor(actor.id);
 
     magicItemActor.roll(itemId, magicEffectId);
 

@@ -40,7 +40,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let actorType = actor.data.type;
     if (!legitimateActors.includes(actorType)) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
     if (actorType === "character" || actorType === "synthetic") {
       attributes = this._getAttributes(actor, tokenId);
       skills = this._getSkills(actor, tokenId);
@@ -772,7 +772,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   /** @override */
   _setFilterSuggestions(id, items) {
     let suggestions = items?.map((s) => {
-      return { id: s._id, value: s.name };
+      return { id: s.data._id, value: s.name };
     });
     if (suggestions?.length > 0)
       this.filterManager.setSuggestions(id, suggestions);

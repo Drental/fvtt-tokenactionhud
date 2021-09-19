@@ -20,7 +20,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
     let actor = token.actor;
     if (!actor) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
 
     let weapons = this._getItemsList(actor, tokenId, "weapon");
     this._combineCategoryWithList(
@@ -118,8 +118,8 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
   /** @private */
   _produceItemMap(tokenId, itemSet, type) {
     return itemSet.map((i) => {
-      let encodedValue = [type, tokenId, i._id].join(this.delimiter);
-      return { name: i.name, encodedValue: encodedValue, id: i._id };
+      let encodedValue = [type, tokenId, i.id].join(this.delimiter);
+      return { name: i.name, encodedValue: encodedValue, id: i.id };
     });
   }
 
