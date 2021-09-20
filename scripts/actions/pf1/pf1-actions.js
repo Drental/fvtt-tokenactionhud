@@ -407,7 +407,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
           let name = spell.name;
           name = name.charAt(0).toUpperCase() + name.slice(1);
-          let id = spell.id;
+          let id = spell._id;
           let encodedValue = [macroType, tokenId, id].join(this.delimiter);
           var action = {
             name: name,
@@ -910,13 +910,13 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
+    let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
     let img = this._getImage(item);
     let icon = this._getActionIcon(item.data?.activation?.type);
     let name = this._getItemName(item);
     let result = {
       name: name,
-      id: item.id,
+      id: item._id,
       encodedValue: encodedValue,
       img: img,
       icon: icon,
