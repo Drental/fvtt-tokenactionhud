@@ -4,6 +4,13 @@
 
 ### Changed
 
+- ds4 - don't throw errors when no token is selected
+- pf1 - don't fix what ain't broke
+
+## [1.3.10] 2021-09-19
+
+### Changed
+
 - Token Action HUD - reduce minimum scale
 
 ## [1.3.9] 2021-09-19
