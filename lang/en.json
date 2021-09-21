@@ -340,5 +340,9 @@
   "tokenactionhud.kamigakari.conceptDestruction": "Concept Destruction",
   "tokenactionhud.kamigakari.items": "items",
   "tokenactionhud.kamigakari.sacraments": "Sacraments",
-  "tokenactionhud.kamigakari.consumables": "Consumables"
+  "tokenactionhud.kamigakari.consumables": "Consumables",
+
+  "tokenactionhud.co.combat": "Combat",
+  "tokenactionhud.co.attacks": "Attacks",
+  "tokenactionhud.co.protections": "Protections"
 }

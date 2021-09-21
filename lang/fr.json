@@ -341,4 +341,8 @@
   "tokenactionhud.kamigakari.items": "items",
   "tokenactionhud.kamigakari.sacraments": "Sacraments",
   "tokenactionhud.kamigakari.consumables": "Consumables",
+
+  "tokenactionhud.co.combat": "Combat",
+  "tokenactionhud.co.attacks": "Attaques",
+  "tokenactionhud.co.protections": "Protections"
 }
