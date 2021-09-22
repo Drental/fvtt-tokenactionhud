@@ -7,7 +7,7 @@ export class RollHandlerBaseKg extends RollHandler {
   }
 
   doHandleActionEvent(event, encodedValue) {
-    console.log(encodedValue);
+    let ctrlClick = event.ctrlKey;
 
     let payload = encodedValue.split("|");
     if (payload.length != 3) super.throwInvalidValueErr();
@@ -22,7 +22,7 @@ export class RollHandlerBaseKg extends RollHandler {
     if (charType === "character") {
       switch (macroType) {
         case "stat":
-          actor._rollDice(actionId);
+          actor._rollDice(actionId, ctrlClick);
           break;
 
         case "burn":
