@@ -1,51 +1,56 @@
-import * as settings from '../../settings.js';
+import * as settings from "../../settings.js";
 
 export class MacroHelper {
-    constructor() {}
+  constructor() {}
 
-    static exists(key, macros) {
-        if (!!macros) {
-            return macros.some(m => m.data._id === key);
-        }
-        
-        const macroEntries = 'some' in game.macros.entries ? game.macros.entries : game.macros;
-
-        return !!macroEntries.some(m => m.data._id === key);
+  static exists(key, macros) {
+    if (!!macros) {
+      return macros.some((m) => m.data._id === key);
     }
 
-    static getEntriesForActions(delimiter) {
-        let macroType = 'macro';
-        let entries = MacroHelper.getMacros();
-        return entries.map(m => {
-            let encodedValue = [macroType, macroType, m.data._id].join(delimiter);
-            let img = MacroHelper.getImage(m);
-            return { name: m.data.name, encodedValue: encodedValue, id: m.data._id, img: img }
-        });
-    }
+    const macroEntries =
+      "some" in game.macros.entries ? game.macros.entries : game.macros;
 
-    static getMacrosForFilter() {
-        return MacroHelper.getMacros().map(m => {
-            return {id: m.data._id, value: m.data.name}
-        });
-    }
+    return !!macroEntries.some((m) => m.data._id === key);
+  }
 
-    static getMacros() {
-        const macros = 'filter' in game.macros.entries ? game.macros.entries : game.macros;
+  static getEntriesForActions(delimiter) {
+    let macroType = "macro";
+    let entries = MacroHelper.getMacros();
+    return entries.map((m) => {
+      let encodedValue = [macroType, macroType, m.data._id].join(delimiter);
+      let img = MacroHelper.getImage(m);
+      return {
+        name: m.data.name,
+        encodedValue: encodedValue,
+        id: m.data._id,
+        img: img,
+      };
+    });
+  }
 
-        return macros.filter(m => {
-            let permissions = m.data.permission;
-            if (permissions[game.userId])
-                return permissions[game.userId] > 0;
-            
-            return permissions.default > 0;
-        });
-    }
+  static getMacrosForFilter() {
+    return MacroHelper.getMacros().map((m) => {
+      return { id: m.data._id, value: m.data.name };
+    });
+  }
 
-    static getImage(macro) {
-        let result = '';
-        if (settings.get('showIcons'))
-            result = macro.data.img;
+  static getMacros() {
+    const macros =
+      "filter" in game.macros.entries ? game.macros.entries : game.macros;
 
-        return !result?.includes('icons/svg/mystery-man.svg') ? result : '';
-    }
+    return macros.filter((m) => {
+      let permissions = m.data.permission;
+      if (permissions[game.userId]) return permissions[game.userId] > 0;
+
+      return permissions.default > 0;
+    });
+  }
+
+  static getImage(macro) {
+    let result = "";
+    if (settings.get("showIcons")) result = macro.data.img;
+
+    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
+  }
 }

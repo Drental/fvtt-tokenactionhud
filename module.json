@@ -1,90 +1,93 @@
 {
-    "name": "token-action-hud",
-    "title": "Token Action HUD",
-    "author": "^ and stick#0520, Drental#7146",
-    "description": "Creates a HUD showing a selected token's common actions.",
-    "minimumCoreVersion": "0.8.0",
-    "compatibleCoreVersion": "0.8.8",
-    "scripts": [
-        "./lib/tagify/tagify.min.js"
-    ],
-    "esmodules": [
-        "./scripts/init.js"
-    ],
-    "styles": [
-        "./styles/token-action-hud.css",
-        "/styles/lib/tagify/tagify.css"
-    ],
-    "system": [
-        "dnd5e",
-        "dungeonworld",
-        "pf2e",
-        "wfrp4e",
-        "sfrpg",
-        "sw5e",
-        "demonlord",
-        "pf1",
-        "lancer",
-        "D35E",
-        "swade",
-        "starwarsffg",
-        "tormenta20",
-        "blades-in-the-dark",
-        "symbaroum",
-        "od6s",
-        "alienrpg",
-        "cthack",
-        "kamigakari"
-    ],
-    "languages": [
-        {
-            "lang": "en",
-            "name": "English",
-            "path": "lang/en.json"
-        },
-        {
-            "lang": "ko",
-            "name": "Korean",
-            "path": "lang/ko.json"
-        },
-        {
-            "lang": "pt-BR",
-            "name": "Português (Brasil)",
-            "path": "lang/br.json"
-        },
-        {
-            "lang": "es",
-            "name": "Spanish",
-            "path": "lang/es.json"
-        },
-        {
-            "lang": "fr",
-            "name": "French",
-            "path": "lang/fr.json"
-        },
-        {
-            "lang": "pl",
-            "name": "Polish",
-            "path": "lang/pl.json"
-        },
-        {
-            "lang": "ja",
-            "name": "日本語",
-            "path": "lang/ja.json"
-        },
-        {
-            "lang": "cn",
-            "name": "中文",
-            "path": "lang/cn.json"
-        },
-        {
-            "lang": "de",
-            "name": "Deutsch",
-            "path": "lang/de.json"
-        }
-    ],
-    "url": "https://github.com/Drental/fvtt-tokenactionhud",
-    "manifest": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json",
-    "version": "1.1.21",
-    "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.zip"
+  "name": "token-action-hud",
+  "title": "Token Action HUD",
+  "description": "Creates a HUD showing a selected token's common actions.",
+  "author": "^ and stick#0520, Drental#7146",
+  "authors": [],
+  "url": "https://github.com/Drental/fvtt-tokenactionhud",
+  "flags": {},
+  "version": "1.3.11",
+  "minimumCoreVersion": "0.8.0",
+  "compatibleCoreVersion": "0.8.9",
+  "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
+  "styles": ["./styles/token-action-hud.css", "/styles/lib/tagify/tagify.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "ko",
+      "name": "Korean",
+      "path": "lang/ko.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/br.json"
+    },
+    {
+      "lang": "es",
+      "name": "Spanish",
+      "path": "lang/es.json"
+    },
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
+    },
+    {
+      "lang": "pl",
+      "name": "Polish",
+      "path": "lang/pl.json"
+    },
+    {
+      "lang": "ja",
+      "name": "日本語",
+      "path": "lang/ja.json"
+    },
+    {
+      "lang": "cn",
+      "name": "中文",
+      "path": "lang/cn.json"
+    },
+    {
+      "lang": "de",
+      "name": "Deutsch",
+      "path": "lang/de.json"
+    }
+  ],
+  "packs": [],
+  "system": [
+    "dnd5e",
+    "dungeonworld",
+    "pf2e",
+    "wfrp4e",
+    "sfrpg",
+    "sw5e",
+    "demonlord",
+    "pf1",
+    "lancer",
+    "D35E",
+    "swade",
+    "starwarsffg",
+    "tormenta20",
+    "blades-in-the-dark",
+    "symbaroum",
+    "od6s",
+    "alienrpg",
+    "cthack",
+    "kamigakari",
+    "tagmar",
+    "tagmar_rpg",
+    "ds4"
+  ],
+  "dependencies": [],
+  "socket": false,
+  "manifest": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json",
+  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/1.3.11/module.zip",
+  "protected": false,
+  "coreTranslation": false,
+  "library": false
 }

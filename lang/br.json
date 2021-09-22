@@ -20,7 +20,7 @@
   "tokenactionhud.blessing": "Abençoar",
   "tokenactionhud.blocklist": "Lista Bloqueada",
   "tokenactionhud.blocklistLabel": "Lista Bloqueada (somente esconder) ou Lista Permitida (somente exibir)",
-  
+
   "tokenactionhud.book": "Livro",
   "tokenactionhud.books": "Livros",
   "tokenactionhud.buffs": "Buffs",
@@ -247,10 +247,10 @@
 
   "tokenactionhud.symbaroum.abilities": "Abilities",
   "tokenactionhud.symbaroum.mysticalPowers": "Mystical Powers",
-  
+
   "tokenactionhud.settings.wfrp.meleeSkillPrefix": "Melee",
   "tokenactionhud.settings.wfrp.rangedSkillPrefix": "Ranged",
-  
+
   "tokenactionhud.settings.alienrpg.consumables": "Consumables",
   "tokenactionhud.settings.alienrpg.conditions": "Conditions",
   "tokenactionhud.settings.alienrpg.skill": "Skill",

@@ -1,303 +1,471 @@
-import {ActionHandler} from '../actionHandler.js';
-import * as settings from '../../settings.js';
+import { ActionHandler } from "../actionHandler.js";
+import * as settings from "../../settings.js";
 
 export class ActionHandlerWfrp extends ActionHandler {
-    constructor(filterManager, categoryManager) {
-        super(filterManager, categoryManager);
-        this.filterManager.createOrGetFilter('skills');
-    }    
+  constructor(filterManager, categoryManager) {
+    super(filterManager, categoryManager);
+    this.filterManager.createOrGetFilter("skills");
+  }
 
-    /** @override */
-    async doBuildActionList(token, multipleTokens) {
-        let result = this.initializeEmptyActionList();
+  /** @override */
+  async doBuildActionList(token, multipleTokens) {
+    let result = this.initializeEmptyActionList();
 
-        if (!token)
-            return result;
+    if (!token) return result;
 
-        let tokenId = token.id;
+    let tokenId = token.id;
 
-        result.tokenId = tokenId;
+    result.tokenId = tokenId;
 
-        let actor = token.actor;
+    let actor = token.actor;
 
-        if (!actor)
-            return result;
+    if (!actor) return result;
 
-        result.actorId = actor.id;
+    result.actorId = actor.id;
 
-        let weapons = this._getItemsList(actor, tokenId, 'weapon');
-        let characteristics = this._getCharacteristics(actor, tokenId);
-        let skills = this._getSkills(actor, tokenId);
-        
-        let magic = this._getSpells(actor, tokenId);
-        let prayers = this._getPrayers(actor, tokenId);
-        let talents = this._getTalents(actor, tokenId);
-        let traits = this._getTraits(actor, tokenId);
-        
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), weapons);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.characteristics'), characteristics);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.skills'), skills);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.magic'), magic);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.religion'), prayers);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.traits'), traits);
+    let weapons = this._getItemsList(actor, tokenId, "weapon");
+    let characteristics = this._getCharacteristics(actor, tokenId);
+    let skills = this._getSkills(actor, tokenId);
 
-        this._setFilterSuggestions(actor);
-        
-        if (settings.get('showHudTitle'))
-            result.hudTitle = token.data?.name;
-            
-        return result;
+    let magic = this._getSpells(actor, tokenId);
+    let prayers = this._getPrayers(actor, tokenId);
+    let talents = this._getTalents(actor, tokenId);
+    let traits = this._getTraits(actor, tokenId);
+
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.weapons"),
+      weapons
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.characteristics"),
+      characteristics
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.skills"),
+      skills
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.magic"),
+      magic
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.religion"),
+      prayers
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.talents"),
+      talents
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.traits"),
+      traits
+    );
+
+    this._setFilterSuggestions(actor);
+
+    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+
+    return result;
+  }
+
+  _getItemsList(actor, tokenId, type) {
+    let types = type + "s";
+    let result = this.initializeEmptyCategory("items");
+
+    let basicSubcategory = this._getBasicActions(actor, tokenId);
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.basic"),
+      basicSubcategory
+    );
+
+    let subcategory = this.initializeEmptySubcategory();
+    let items = actor.getItemTypes(type);
+    let filtered =
+      actor.data.type === "character"
+        ? items.filter((i) => i.data.data.equipped)
+        : items;
+    subcategory.actions = this._produceMap(tokenId, filtered, type);
+
+    this._combineSubcategoryWithCategory(result, types, subcategory);
+
+    return result;
+  }
+
+  _getBasicActions(actor, tokenId) {
+    let basicActions = this.initializeEmptySubcategory();
+
+    let unarmed = ["unarmed", tokenId, "unarmed"].join(this.delimiter);
+    const unarmedAction = {
+      id: "unarmed",
+      name: this.i18n("tokenactionhud.unarmed"),
+      encodedValue: unarmed,
+    };
+    basicActions.actions.push(unarmedAction);
+
+    let stompValue = ["stomp", tokenId, "stomp"].join(this.delimiter);
+    const stompAction = {
+      id: "stomp",
+      name: this.i18n("tokenactionhud.stomp"),
+      encodedValue: stompValue,
+    };
+    basicActions.actions.push(stompAction);
+
+    let improvisedValue = ["improvise", tokenId, "improvise"].join(
+      this.delimiter
+    );
+    const improvisedAction = {
+      id: "improvise",
+      name: this.i18n("tokenactionhud.improvisedWeapon"),
+      encodedValue: improvisedValue,
+    };
+    basicActions.actions.push(improvisedAction);
+
+    let dodgeValue = ["dodge", tokenId, "dodge"].join(this.delimiter);
+    const dodgeAction = {
+      id: "dodge",
+      name: this.i18n("tokenactionhud.dodge"),
+      encodedValue: dodgeValue,
+    };
+    basicActions.actions.push(dodgeAction);
+
+    return basicActions;
+  }
+
+  _getCharacteristics(actor, tokenId) {
+    let result = this.initializeEmptyCategory("characteristics");
+    let macroType = "characteristic";
+
+    let characteristics = Object.entries(actor.characteristics);
+    let characteristicsCategory = this.initializeEmptySubcategory();
+    characteristicsCategory.actions = characteristics.map((c) => {
+      let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
+      return {
+        name: this.i18n(c[1].abrev),
+        encodedValue: encodedValue,
+        id: c[0],
+      };
+    });
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.characteristics"),
+      characteristicsCategory
+    );
+
+    return result;
+  }
+
+  _getSkills(actor, tokenId) {
+    let categoryId = "skills";
+    let macroType = "skill";
+
+    let result = this.initializeEmptyCategory(categoryId);
+    let skills = actor.getItemTypes("skill").filter((i) => i.id);
+
+    result.choices = skills.length;
+
+    let transMelee = game.i18n.localize("tokenactionhud.wfrp.meleeSkillPrefix");
+    let transRanged = game.i18n.localize(
+      "tokenactionhud.wfrp.rangedSkillPrefix"
+    );
+
+    let meleeSkills = skills.filter((s) => s.data.name.startsWith(transMelee));
+    let meleeId = `${categoryId}_melee`;
+    this._setFilterSuggestions(meleeId, meleeSkills);
+    let meleeCat = this.initializeEmptySubcategory(meleeId);
+    meleeCat.canFilter = meleeSkills.length > 0 ? true : false;
+    let filteredMeleeSkills = this._filterElements(meleeId, meleeSkills);
+    meleeCat.actions = this._produceMap(
+      tokenId,
+      filteredMeleeSkills,
+      macroType
+    );
+
+    let rangedSkills = skills.filter((s) =>
+      s.data.name.startsWith(transRanged)
+    );
+    let rangedId = `${categoryId}_ranged`;
+    this._setFilterSuggestions(rangedId, rangedSkills);
+    let rangedCat = this.initializeEmptySubcategory(rangedId);
+    rangedCat.canFilter = rangedSkills.length > 0 ? true : false;
+    let filteredRangedSkills = this._filterElements(rangedId, rangedSkills);
+    rangedCat.actions = this._produceMap(
+      tokenId,
+      filteredRangedSkills,
+      macroType
+    );
+
+    let basicSkills = skills.filter(
+      (s) =>
+        !(
+          s.data.name.startsWith(transMelee) ||
+          s.data.name.startsWith(transRanged)
+        ) && s.data.data.grouped.value !== "isSpec"
+    );
+    let basicId = `${categoryId}_basic`;
+    this._setFilterSuggestions(basicId, basicSkills);
+    let basicSkillsCat = this.initializeEmptySubcategory(basicId);
+    let filteredBasicSkills = this._filterElements(basicId, basicSkills);
+    basicSkillsCat.canFilter = basicSkills.length > 0 ? true : false;
+    basicSkillsCat.actions = this._produceMap(
+      tokenId,
+      filteredBasicSkills,
+      macroType
+    );
+
+    let advancedSkills = skills.filter(
+      (s) =>
+        !(
+          s.data.name.startsWith(transMelee) ||
+          s.data.name.startsWith(transRanged)
+        ) && s.data.data.grouped.value === "isSpec"
+    );
+    let advancedId = `${categoryId}_advanced`;
+    this._setFilterSuggestions(advancedId, advancedSkills);
+    let advancedSkillsCat = this.initializeEmptySubcategory(advancedId);
+    advancedSkillsCat.canFilter = advancedSkills.length > 0 ? true : false;
+    let filteredAdvancedSkills = this._filterElements(
+      advancedId,
+      advancedSkills
+    );
+    advancedSkillsCat.actions = this._produceMap(
+      tokenId,
+      filteredAdvancedSkills,
+      macroType
+    );
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.melee"),
+      meleeCat
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.ranged"),
+      rangedCat
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.basic"),
+      basicSkillsCat
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.advanced"),
+      advancedSkillsCat
+    );
+
+    return result;
+  }
+
+  /** @override */
+  _setFilterSuggestions(id, items) {
+    let suggestions = items?.map((s) => {
+      return { id: s.id, value: s.name };
+    });
+    if (suggestions?.length > 0)
+      this.filterManager.setSuggestions(id, suggestions);
+  }
+
+  _filterElements(categoryId, skills) {
+    let filteredNames = this.filterManager.getFilteredNames(categoryId);
+    let result = skills.filter((s) => !!s);
+    if (filteredNames.length > 0) {
+      if (this.filterManager.isBlocklist(categoryId)) {
+        result = skills.filter((s) => !filteredNames.includes(s.name));
+      } else {
+        result = skills.filter((s) => filteredNames.includes(s.name));
+      }
     }
 
-    _getItemsList(actor, tokenId, type) {
-        let types = type+'s';
-        let result = this.initializeEmptyCategory('items');
+    return result;
+  }
 
-        let basicSubcategory = this._getBasicActions(actor, tokenId);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.basic'), basicSubcategory)
+  _getSpells(actor, tokenId) {
+    let macroType = "spell";
+    let result = this.initializeEmptyCategory("spells");
 
-        let subcategory = this.initializeEmptySubcategory();
-        let items = actor.getItemTypes(type);
-        let filtered = actor.data.type === 'character' ? items.filter(i => i.data.data.equipped) : items;
-        subcategory.actions = this._produceMap(tokenId, filtered, type);
+    let spells = actor.getItemTypes("spell");
 
-        this._combineSubcategoryWithCategory(result, types, subcategory);
+    let petties = spells.filter((i) => i.data.data.lore.value === "petty");
+    let pettyCategory = this.initializeEmptySubcategory();
+    pettyCategory.actions = this._produceMap(tokenId, petties, macroType);
 
-        return result;
-    }
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.petty"),
+      pettyCategory
+    );
 
-    _getBasicActions(actor, tokenId) {
-        let basicActions = this.initializeEmptySubcategory();
+    let lores = spells.filter((i) => i.data.data.lore.value !== "petty");
+    let loresCategorised = lores.reduce((output, spell) => {
+      let loreType = spell.data.data.lore.value;
+      if (!output.hasOwnProperty(loreType)) {
+        output[loreType] = [];
+      }
 
-        let unarmed = ['unarmed', tokenId, 'unarmed'].join(this.delimiter);
-        const unarmedAction = { id: 'unarmed', name: this.i18n('tokenactionhud.unarmed'), encodedValue: unarmed };
-        basicActions.actions.push(unarmedAction);
+      output[loreType].push(spell);
 
-        let stompValue = ['stomp', tokenId, 'stomp'].join(this.delimiter);
-        const stompAction = { id: 'stomp', name: this.i18n('tokenactionhud.stomp'), encodedValue: stompValue};
-        basicActions.actions.push(stompAction);
-        
-        let improvisedValue = ['improvise', tokenId, 'improvise'].join(this.delimiter);
-        const improvisedAction = {id: 'improvise', name: this.i18n('tokenactionhud.improvisedWeapon'), encodedValue: improvisedValue};
-        basicActions.actions.push(improvisedAction);
+      return output;
+    }, {});
 
-        let dodgeValue = ['dodge', tokenId, 'dodge'].join(this.delimiter);
-        const dodgeAction = { id: 'dodge', name: this.i18n('tokenactionhud.dodge'), encodedValue: dodgeValue };
-        basicActions.actions.push(dodgeAction);
+    Object.entries(loresCategorised).forEach((loreCategory) => {
+      let subcategory = this.initializeEmptySubcategory();
+      subcategory.actions = this._produceMap(
+        tokenId,
+        loreCategory[1],
+        macroType
+      );
+      this._combineSubcategoryWithCategory(
+        result,
+        loreCategory[0],
+        subcategory
+      );
+    });
 
-        return basicActions;
-    }
+    return result;
+  }
 
-    _getCharacteristics(actor, tokenId) {
-        let result = this.initializeEmptyCategory('characteristics');
-        let macroType = 'characteristic';
+  _getPrayers(actor, tokenId) {
+    let macroType = "prayer";
+    let result = this.initializeEmptyCategory("prayers");
 
-        let characteristics = Object.entries(actor.characteristics);
-        let characteristicsCategory = this.initializeEmptySubcategory();
-        characteristicsCategory.actions = characteristics.map(c => {
-            let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
-            return {name: this.i18n(c[1].abrev), encodedValue: encodedValue, id:c[0]}
-        })
+    let prayers = actor.getItemTypes("prayer");
 
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.characteristics'), characteristicsCategory);
+    let blessings = prayers.filter((i) => i.type.value === "blessing");
+    let blessingCategory = this.initializeEmptySubcategory();
+    blessingCategory.actions = this._produceMap(tokenId, blessings, macroType);
 
-        return result;
-    }
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.blessing"),
+      blessingCategory
+    );
 
-    _getSkills(actor, tokenId) {
-        let categoryId = 'skills';
-        let macroType = 'skill';
-        
-        let result = this.initializeEmptyCategory(categoryId);
-        let skills = actor.getItemTypes('skill').filter(i => i.id);
+    let miracles = prayers.filter((i) => i.type.value !== "blessing");
+    let miraclesCategorised = miracles.reduce((output, prayer) => {
+      let miracleType = prayer.data.data.type.value;
+      if (!output.hasOwnProperty(miracleType)) {
+        output[miracleType] = [];
+      }
 
-        result.choices = skills.length;
+      output[miracleType].push(prayer);
 
-        let transMelee = game.i18n.localize('tokenactionhud.wfrp.meleeSkillPrefix');
-        let transRanged = game.i18n.localize('tokenactionhud.wfrp.rangedSkillPrefix');
+      return output;
+    }, {});
 
-        let meleeSkills = skills.filter(s => s.data.name.startsWith(transMelee));
-        let meleeId = `${categoryId}_melee`;
-        this._setFilterSuggestions(meleeId, meleeSkills);
-        let meleeCat = this.initializeEmptySubcategory(meleeId);
-        meleeCat.canFilter = meleeSkills.length > 0 ? true : false;
-        let filteredMeleeSkills = this._filterElements(meleeId, meleeSkills);
-        meleeCat.actions = this._produceMap(tokenId, filteredMeleeSkills, macroType);
+    Object.entries(miraclesCategorised).forEach((miracleCategory) => {
+      let subcategory = this.initializeEmptySubcategory();
+      subcategory.actions = this._produceMap(
+        tokenId,
+        miracleCategory[1],
+        macroType
+      );
+      this._combineSubcategoryWithCategory(
+        result,
+        miracleCategory[0],
+        subcategory
+      );
+    });
 
-        let rangedSkills = skills.filter(s => s.data.name.startsWith(transRanged));
-        let rangedId = `${categoryId}_ranged`;
-        this._setFilterSuggestions(rangedId, rangedSkills);
-        let rangedCat = this.initializeEmptySubcategory(rangedId);
-        rangedCat.canFilter = rangedSkills.length > 0 ? true : false;
-        let filteredRangedSkills = this._filterElements(rangedId, rangedSkills);        
-        rangedCat.actions = this._produceMap(tokenId, filteredRangedSkills, macroType);
+    return result;
+  }
 
-        let basicSkills = skills.filter(s => !(s.data.name.startsWith(transMelee) || s.data.name.startsWith(transRanged))  && s.data.data.grouped.value !== 'isSpec');
-        let basicId = `${categoryId}_basic`;
-        this._setFilterSuggestions(basicId, basicSkills);
-        let basicSkillsCat = this.initializeEmptySubcategory(basicId);
-        let filteredBasicSkills = this._filterElements(basicId, basicSkills);
-        basicSkillsCat.canFilter = basicSkills.length > 0 ? true : false;
-        basicSkillsCat.actions = this._produceMap(tokenId, filteredBasicSkills, macroType);
+  _getTalents(actor, tokenId) {
+    let macroType = "talent";
+    let result = this.initializeEmptyCategory("talents");
 
-        let advancedSkills = skills.filter(s => !(s.data.name.startsWith(transMelee) || s.data.name.startsWith(transRanged)) && s.data.data.grouped.value === 'isSpec');
-        let advancedId = `${categoryId}_advanced`;
-        this._setFilterSuggestions(advancedId, advancedSkills);
-        let advancedSkillsCat = this.initializeEmptySubcategory(advancedId);
-        advancedSkillsCat.canFilter = advancedSkills.length > 0 ? true : false;
-        let filteredAdvancedSkills = this._filterElements(advancedId, advancedSkills);
-        advancedSkillsCat.actions = this._produceMap(tokenId, filteredAdvancedSkills, macroType);
-        
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.melee'), meleeCat);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.ranged'), rangedCat);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.basic'), basicSkillsCat);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.advanced'), advancedSkillsCat);
+    let talents = actor.getItemTypes("talent");
 
-        return result;
-    }
+    let rollableTalents = talents.filter((t) => t.rollable?.value);
+    let rollableCategory = this.initializeEmptySubcategory();
+    rollableCategory.actions = this._produceMap(
+      tokenId,
+      rollableTalents,
+      macroType
+    );
 
-    /** @override */
-    _setFilterSuggestions(id, items) {
-        let suggestions = items?.map(s => { return { id: s.id, value: s.name } })
-        if (suggestions?.length > 0)
-            this.filterManager.setSuggestions(id, suggestions);
-    }
+    let unrollableTalents = talents.filter((t) => !t.rollable?.value);
+    let unrollableCategory = this.initializeEmptySubcategory();
+    unrollableCategory.actions = this._produceMap(
+      tokenId,
+      unrollableTalents,
+      macroType
+    );
 
-    _filterElements(categoryId, skills) {
-        let filteredNames = this.filterManager.getFilteredNames(categoryId);
-        let result = skills.filter(s => !!s);
-        if (filteredNames.length > 0) {
-            if (this.filterManager.isBlocklist(categoryId)) {
-                result = skills.filter(s => !filteredNames.includes(s.name));
-            }
-            else {
-                result = skills.filter(s => filteredNames.includes(s.name));
-            }
-        }
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.rollable"),
+      rollableCategory
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.unrollable"),
+      unrollableCategory
+    );
 
-        return result;
-    }
+    return result;
+  }
 
-    _getSpells(actor, tokenId) {
-        let macroType = 'spell';
-        let result = this.initializeEmptyCategory('spells');
+  _getTraits(actor, tokenId) {
+    let macroType = "trait";
+    let result = this.initializeEmptyCategory("traits");
 
-        let spells = actor.getItemTypes('spell');
-        
-        let petties = spells.filter(i => i.data.data.lore.value === 'petty');
-        let pettyCategory = this.initializeEmptySubcategory();
-        pettyCategory.actions = this._produceMap(tokenId, petties, macroType);
+    let traits = actor.getItemTypes("trait").filter((i) => i.included);
 
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.petty'), pettyCategory);
+    let rollableTraits = traits.filter((t) => t.rollable?.value);
+    let rollableCategory = this.initializeEmptySubcategory();
+    rollableCategory.actions = this._produceMap(
+      tokenId,
+      rollableTraits,
+      macroType
+    );
 
-        let lores = spells.filter(i => i.data.data.lore.value !== 'petty');
-        let loresCategorised = lores.reduce((output, spell) => {
-            let loreType = spell.data.data.lore.value;
-            if (!output.hasOwnProperty(loreType)) {
-                output[loreType] = [];
-            }
+    let unrollableTraits = traits.filter((t) => !t.rollable?.value);
+    let unrollableCategory = this.initializeEmptySubcategory();
+    unrollableCategory.actions = this._produceMap(
+      tokenId,
+      unrollableTraits,
+      macroType
+    );
 
-            output[loreType].push(spell);
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.rollable"),
+      rollableCategory
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.unrollable"),
+      unrollableCategory
+    );
 
-            return output;
-        }, {});
+    return result;
+  }
 
-        Object.entries(loresCategorised).forEach(loreCategory => {
-            let subcategory = this.initializeEmptySubcategory();
-            subcategory.actions = this._produceMap(tokenId, loreCategory[1], macroType);
-            this._combineSubcategoryWithCategory(result, loreCategory[0], subcategory);
-        })
+  _produceMap(tokenId, itemSet, type) {
+    return itemSet.map((i) => {
+      let encodedValue = [type, tokenId, i.id].join(this.delimiter);
+      let img = this._getImage(i);
+      return { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
+    });
+  }
 
-        return result;
-    }
+  _getImage(item) {
+    let result = "";
+    if (settings.get("showIcons")) result = item.img ?? "";
 
-    _getPrayers(actor, tokenId) {
-        let macroType = 'prayer';
-        let result = this.initializeEmptyCategory('prayers');
-
-        let prayers = actor.getItemTypes('prayer');
-        
-        let blessings = prayers.filter(i => i.type.value === 'blessing');
-        let blessingCategory = this.initializeEmptySubcategory();
-        blessingCategory.actions = this._produceMap(tokenId, blessings, macroType);
-
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.blessing'), blessingCategory);
-
-        let miracles = prayers.filter(i => i.type.value !== 'blessing');
-        let miraclesCategorised = miracles.reduce((output, prayer) => {
-            let miracleType = prayer.data.data.type.value;
-            if (!output.hasOwnProperty(miracleType)) {
-                output[miracleType] = [];
-            }
-
-            output[miracleType].push(prayer);
-
-            return output;
-        }, {});
-
-        Object.entries(miraclesCategorised).forEach(miracleCategory => {
-            let subcategory = this.initializeEmptySubcategory();
-            subcategory.actions = this._produceMap(tokenId, miracleCategory[1], macroType);
-            this._combineSubcategoryWithCategory(result, miracleCategory[0], subcategory);
-        })
-
-        return result;
-    }
-    
-    _getTalents(actor, tokenId) {
-        let macroType = 'talent';
-        let result = this.initializeEmptyCategory('talents');
-
-        let talents = actor.getItemTypes('talent');
-
-        let rollableTalents = talents.filter(t => t.rollable?.value);
-        let rollableCategory = this.initializeEmptySubcategory();
-        rollableCategory.actions = this._produceMap(tokenId, rollableTalents, macroType);
-        
-        let unrollableTalents = talents.filter(t => !t.rollable?.value);
-        let unrollableCategory = this.initializeEmptySubcategory();
-        unrollableCategory.actions = this._produceMap(tokenId, unrollableTalents, macroType);
-        
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.rollable'), rollableCategory);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.unrollable'), unrollableCategory);
-        
-        return result;
-    }
-
-    _getTraits(actor, tokenId) {
-        let macroType = 'trait';
-        let result = this.initializeEmptyCategory('traits');
-        
-        let traits = actor.getItemTypes('trait').filter(i => i.included);
-    
-        let rollableTraits = traits.filter(t => t.rollable?.value);
-        let rollableCategory = this.initializeEmptySubcategory();
-        rollableCategory.actions = this._produceMap(tokenId, rollableTraits, macroType);
-
-        let unrollableTraits = traits.filter(t => !t.rollable?.value);
-        let unrollableCategory = this.initializeEmptySubcategory();
-        unrollableCategory.actions = this._produceMap(tokenId, unrollableTraits, macroType);
-
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.rollable'), rollableCategory);
-        this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.unrollable'), unrollableCategory);
-    
-        return result;
-    }
-
-    _produceMap(tokenId, itemSet, type) {
-        return itemSet.map(i => {
-            let encodedValue = [type, tokenId, i.id].join(this.delimiter);
-            let img = this._getImage(i);
-            return { name: i.name, encodedValue: encodedValue, id: i.id, img:img };
-        });
-    }
-
-    _getImage(item) {
-        let result = '';
-        if (settings.get('showIcons'))
-            result = item.img ?? '';
-
-        return result?.includes('icons/svg/mystery-man.svg') || result?.includes('systems/wfrp4e/icons/blank.png') ? '' : result;
-    }
+    return result?.includes("icons/svg/mystery-man.svg") ||
+      result?.includes("systems/wfrp4e/icons/blank.png")
+      ? ""
+      : result;
+  }
 }
