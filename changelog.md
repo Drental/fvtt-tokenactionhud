@@ -6,6 +6,7 @@
 
 - pf2 - allow bards to adjust focus points again
 - pf2 - add two handed toggle to player actor HUDs
+- kamigakari - update to respect control key on rolls - thanks ksx0330
 
 ## [1.3.11] 2021-09-20
 
