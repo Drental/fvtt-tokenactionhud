@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.12] 2021-09-24
+
+### Changed
+
+- pf2 - allow bards to adjust focus points again
+- pf2 - add two handed toggle to player actor HUDs
+
 ## [1.3.11] 2021-09-20
 
 ### Changed
