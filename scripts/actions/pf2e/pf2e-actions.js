@@ -576,26 +576,24 @@ export class ActionHandlerPf2e extends ActionHandler {
 
           if (i === 0) {
             levelName = `${bookName} - ${levelName}`;
-            if (actor.data.type === "character")
-              this._setSpellSlotInfo(
-                actor,
-                tokenId,
-                levelSubcategory,
-                level,
-                spellInfo,
-                true
-              );
+            this._setSpellSlotInfo(
+              actor,
+              tokenId,
+              levelSubcategory,
+              level,
+              spellInfo,
+              true
+            );
             levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
           } else {
-            if (actor.data.type === "character")
-              this._setSpellSlotInfo(
-                actor,
-                tokenId,
-                levelSubcategory,
-                level,
-                spellInfo,
-                false
-              );
+            this._setSpellSlotInfo(
+              actor,
+              tokenId,
+              levelSubcategory,
+              level,
+              spellInfo,
+              false
+            );
           }
 
           level.active
@@ -619,7 +617,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
               this._addSpellInfo(spell, spellAction);
               levelSubcategory.actions.push(spellAction);
-              if (expended === false) {
+              if (expended === false && spellcastingEntry.isPrepared && !spellcastingEntry.isFlexible) {
                 let spellExpend = {
                   name: "-",
                   encodedValue: encodedValue + ">expend",
@@ -673,14 +671,13 @@ export class ActionHandlerPf2e extends ActionHandler {
     spellInfo,
     firstSubcategory
   ) {
-    if (level.isCantrip === true) return;
-
+    
     let maxSlots, valueSlots, increaseId, decreaseId;
     if (firstSubcategory && spellInfo.isFocusPool) {
       let focus = actor.data.data.resources.focus;
       maxSlots = focus.max;
       valueSlots = focus.value;
-
+      
       if (maxSlots > 0) {
         category.info1 = `${valueSlots}/${maxSlots}`;
 
@@ -707,7 +704,9 @@ export class ActionHandlerPf2e extends ActionHandler {
         });
       }
     }
-
+    
+    if (level.isCantrip === true) return;
+    
     if (
       level.uses?.max > 0 &&
       !(spellInfo.isPrepared && !spellInfo.isFlexible) &&
