@@ -34,6 +34,9 @@ export class RollHandlerBaseCo extends RollHandler {
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
         else this._handleItem(macroType, event, actor, itemId);
         break;
+      case "capacity":
+        this.doRenderItem(tokenId, itemId);
+        break;
     }
   }
 
@@ -47,19 +50,33 @@ export class RollHandlerBaseCo extends RollHandler {
 
   _handleWeapon(macroType, event, actor, actionId) {
     let item = actor.items.get(actionId);
-    actor.rollWeapon(item);
+    // Only Dommage
+    if (this.isShift(event)) {
+      actor.rollWeapon(item, {dmgOnly: true})
+    }
+    else actor.rollWeapon(item);
   }
 
   _handleSpell(macroType, event, actor, actionId) {
     let item = actor.items.get(actionId);
-    // TODO
+
+    // Consumable spell
+    if (item.data.data.properties.consumable) actor.consumeItem(item);
+    else {
+      // Only Dommage
+      if (this.isShift(event)) {
+        actor.rollWeapon(item, {dmgOnly: true})
+      }
+      else actor.rollWeapon(item);
+    }
+
   }
 
   _handleItem(macroType, event, actor, actionId) {
     let item = actor.items.get(actionId);  
 
     // Equipable item
-    if (item.data.data.properties.equipable) actor.toggleEquipItem(item, false);
+    if (item.data.data.properties.equipable) actor.toggleEquipItem(item, this.isShift(event));
 
     // Consumable item
     if (item.data.data.properties.consumable) actor.consumeItem(item);

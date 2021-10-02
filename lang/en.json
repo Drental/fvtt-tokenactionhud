@@ -344,5 +344,6 @@
 
   "tokenactionhud.co.combat": "Combat",
   "tokenactionhud.co.attacks": "Attacks",
-  "tokenactionhud.co.protections": "Protections"
+  "tokenactionhud.co.protections": "Protections",
+  "tokenactionhud.co.capacities": "Capacities"
 }

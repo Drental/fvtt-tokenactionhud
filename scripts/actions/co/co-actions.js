@@ -28,10 +28,12 @@ export class ActionHandlerCo extends ActionHandler {
     let characteristics = this._getCharacteristics(actor, tokenId);
     let combat = this._getCombat(actor,tokenId);
     let items = this._getItemsList(actor, tokenId);
+    let capacities = this._getCapacities(actor, tokenId);
 
     this._combineCategoryWithList(result, this.i18n("tokenactionhud.characteristics"), characteristics);
     this._combineCategoryWithList(result, this.i18n("tokenactionhud.co.combat"), combat);
     this._combineCategoryWithList(result, this.i18n("tokenactionhud.inventory"), items);
+    this._combineCategoryWithList(result, this.i18n("tokenactionhud.co.capacities"), capacities);
     
     if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
 
@@ -92,7 +94,7 @@ export class ActionHandlerCo extends ActionHandler {
     // Spells
     let spellsCategory = this.initializeEmptySubcategory();
 
-    let spells = actor.items.filter(item => item.data.type === "item" && item.data.data.subtype === "spell" && item.data.data.properties.weapon);
+    let spells = actor.items.filter(item => item.data.type === "item" && item.data.data.subtype === "spell" && (item.data.data.properties.weapon || item.data.data.properties.activable));
     
     spellsCategory.actions = spells.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "spell", w)
@@ -128,7 +130,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.co.protections"), protectionsCat);
 
     // Consumables
-    let consumables = actor.items.filter((item) => item.data?.type === "item" && item.data.data.properties.consumable);
+    let consumables = actor.items.filter((item) => item.data?.type === "item" && item.data.data.subtype !== "spell" && item.data.data.properties.consumable && item.data.data.qty > 0);
 
     let consumablesActions = consumables.map((p) =>
       this._buildEquipmentItem(tokenId, actor, "item", p)
@@ -138,8 +140,19 @@ export class ActionHandlerCo extends ActionHandler {
     
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.consumables"), consumablesCat);
 
+    // Spells
+    let spells = actor.items.filter((item) => item.data?.type === "item" && item.data.data.subtype === "spell");
+
+    let spellsActions = spells.map((s) =>
+      this._buildEquipmentItem(tokenId, actor, "item", s)
+    );
+    let spellsCat = this.initializeEmptySubcategory();
+    spellsCat.actions = spellsActions;
+    
+    this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.spells"), spellsCat);
+
     // Other equipment
-    let others = actor.items.filter((item) => item.data?.type === "item" && (item.data.data.subtype !== "armor" && item.data.data.subtype !== "shield" && item.data.data.subtype !== "melee" && item.data.data.subtype !== "ranged" && !item.data.data.properties.consumable));
+    let others = actor.items.filter((item) => item.data?.type === "item" && (item.data.data.subtype !== "armor" && item.data.data.subtype !== "shield" && item.data.data.subtype !== "melee" && item.data.data.subtype !== "ranged" && item.data.data.subtype !== "spell" && !item.data.data.properties.consumable));
     let othersActions = others.map((i) =>
       this._buildEquipmentItem(tokenId, actor, "item", i)
     );
@@ -148,6 +161,22 @@ export class ActionHandlerCo extends ActionHandler {
     
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.equipment"), othersCat);
 
+    return result;
+  }
+
+  /** @private */
+  _getCapacities(actor, tokenId) {
+    let result = this.initializeEmptyCategory("capacities");
+
+    // Capacities
+    let capacities = actor.items.filter(item => item.data?.type === "capacity");
+    let capacitiesActions = capacities.map((w) =>
+      this._buildItem(tokenId, actor, "capacity", w)
+    );
+    let capacitiesCat = this.initializeEmptySubcategory();
+    capacitiesCat.actions = capacitiesActions;
+
+    this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.co.capacities"), capacitiesCat);
     return result;
   }
 
@@ -213,4 +242,9 @@ export class ActionHandlerCo extends ActionHandler {
     return result;
   }
 
+  /** @private */
+  _buildCapacityItem(tokenId, actor, macroType, item) {
+    let action = this._buildItem(tokenId, actor, macroType, item);
+    return action;
+  }
 }
