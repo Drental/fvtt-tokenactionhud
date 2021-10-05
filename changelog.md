@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.13] 2021-10-05
+
+### Changed
+
+- localisation - update french localisation thanks Qaw
+- LANCER - performance and code clarity thanks purringInsanity
+
 ## [1.3.12] 2021-09-24
 
 ### Changed
