@@ -41,11 +41,19 @@ export class RollHandlerBaseCo extends RollHandler {
   }
 
   _handleStats(macroType, event, actor, actionId) {
-    actor.rollStat(actionId);
+    // Roll without dialog
+    if (this.isRightClick(event)) {
+      actor.rollStat(actionId, {dialog : false});
+    }
+    else actor.rollStat(actionId);
   }
 
   _handleSkills(macroType, event, actor, actionId) {
-    actor.rollStat(actionId);
+    // Roll without dialog
+    if (this.isRightClick(event)) {
+      actor.rollStat(actionId, {dialog : false});
+    }
+    else actor.rollStat(actionId);
   }
 
   _handleWeapon(macroType, event, actor, actionId) {
