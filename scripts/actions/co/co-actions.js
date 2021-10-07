@@ -21,7 +21,7 @@ export class ActionHandlerCo extends ActionHandler {
     if (!actor) return result;
 
     let actorType = actor.data.type;
-    if (actorType != "character") return result;
+    if (actorType != "character" && actorType != "npc") return result;
 
     result.actorId = actor.id;
 
@@ -51,7 +51,7 @@ export class ActionHandlerCo extends ActionHandler {
 
     statsCategory.actions = stats.map((c) => {
       const statId = c[0];
-      const name = game.cof.config.stats[statId];
+      const name = game.system.id === "cof" ? game.cof.config.stats[statId] : game.coc.config.stats[statId];
       const macroType = "stat";
       let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: c[0] };
@@ -65,7 +65,7 @@ export class ActionHandlerCo extends ActionHandler {
 
     attacksCategory.actions = attacks.map((c) => {
       const attackId = c[0];
-      const name = game.cof.config.skills[attackId];
+      const name = game.system.id === "cof" ? game.cof.config.skills[attackId] : game.coc.config.skills[attackId];
       const macroType = "skill";
       let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: c[0] };
