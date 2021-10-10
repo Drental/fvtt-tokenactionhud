@@ -308,5 +308,8 @@
   "tokenactionhud.kamigakari.conceptDestruction": "개념 파괴",
   "tokenactionhud.kamigakari.items": "아이템",
   "tokenactionhud.kamigakari.sacraments": "상비",
-  "tokenactionhud.kamigakari.consumables": "소비"
+  "tokenactionhud.kamigakari.consumables": "소비",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "샘플 값 표시",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "이 설정이 활성화되면 개별 샘플의 샘플 값이 표시됩니다."
 }
