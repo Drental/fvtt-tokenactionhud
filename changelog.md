@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.15] 2021-10-17
+
+### Changed
+
+- localisation - fixed en and fr localisation files - thanks Qaw
+
 ## [1.3.14] 2021-10-17
 
 ### Changed
