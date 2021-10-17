@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.14] 2021-10-17
+
+### Changed
+
+- DS4 - add options to show target numbers thanks ghost91
+- COF/COC - new systems added to the module - thanks Qaw
+
 ## [1.3.13] 2021-10-05
 
 ### Changed
