@@ -304,5 +304,8 @@
   "tokenactionhud.settings.wfrp.rangedSkillPrefix": "Ranged",
 
   "tokenactionhud.symbaroum.abilities": "Abilities",
-  "tokenactionhud.symbaroum.mysticalPowers": "Mystical Powers"
+  "tokenactionhud.symbaroum.mysticalPowers": "Mystical Powers",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Mostrar valores de muestra",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "Si este ajuste está activado, se muestran los valores de las muestras individuales."
 }

@@ -296,5 +296,8 @@
   "tokenactionhud.settings.alienrpg.attributeobservation": "Wahrnehmung",
   "tokenactionhud.settings.alienrpg.creatureAttack": "Angriffswurf",
   "tokenactionhud.settings.alienrpg.health": "Gesundh",
-  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit"
+  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Zeige Probenwerte",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "Ist diese Einstellung aktiviert, werden die Probenwerte der einzelnen Proben angezeigt."
 }

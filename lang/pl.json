@@ -305,5 +305,8 @@
   "tokenactionhud.settings.alienrpg.attributeobservation": "Observation",
   "tokenactionhud.settings.alienrpg.creatureAttack": "Creature Attack",
   "tokenactionhud.settings.alienrpg.health": "Health",
-  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit"
+  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Pokaż przykładowe wartości",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "Jeśli to ustawienie jest aktywne, wyświetlane są wartości próbek dla poszczególnych próbek."
 }

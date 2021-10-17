@@ -36,21 +36,22 @@ export class ActionHandlerDs4 extends ActionHandler {
     const tokenId = token.id;
     const actor = token.actor;
     return [
-      this._buildChecksCategory(tokenId),
+      this._buildChecksCategory(tokenId, actor),
       this._buildInventoryCategory(tokenId, actor),
       this._buildSpellsCategory(tokenId, actor),
     ].filter((category) => !!category);
   }
 
-  _buildChecksCategory(tokenId) {
+  _buildChecksCategory(tokenId, actor) {
     const checksCategory = this.initializeEmptyCategory("checks");
     const checksCategoryName = this.i18n("DS4.Checks");
     checksCategory.name = checksCategoryName;
 
     const checksSubcategory = this.initializeEmptySubcategory();
+    const displayCheckTargetNumbers = settings.get("displayCheckTargetNumbers");
     checksSubcategory.actions = Object.entries(CONFIG.DS4.i18n.checks).map(([id, name]) => ({
       id,
-      name,
+      name: displayCheckTargetNumbers ? `${name} (${actor.data.data.checks[id]})` : name,
       encodedValue: ["check", tokenId, id].join(this.delimiter),
       img: CONFIG.DS4.icons.checks[id],
     }));

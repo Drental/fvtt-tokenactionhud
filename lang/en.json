@@ -340,5 +340,8 @@
   "tokenactionhud.kamigakari.conceptDestruction": "Concept Destruction",
   "tokenactionhud.kamigakari.items": "items",
   "tokenactionhud.kamigakari.sacraments": "Sacraments",
-  "tokenactionhud.kamigakari.consumables": "Consumables"
+  "tokenactionhud.kamigakari.consumables": "Consumables",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Show Check Target Numbers",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "If enabled, Check Target Numbers are displayed for each check."
 }

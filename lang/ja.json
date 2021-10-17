@@ -293,5 +293,8 @@
   "tokenactionhud.settings.alienrpg.attributeobservation": "Observation",
   "tokenactionhud.settings.alienrpg.creatureAttack": "Creature Attack",
   "tokenactionhud.settings.alienrpg.health": "Health",
-  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit"
+  "tokenactionhud.settings.alienrpg.rollCrit": "Roll Crit",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "サンプル値の表示",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "この設定が有効な場合、個々のサンプルのサンプル値が表示されます。"
 }
