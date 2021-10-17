@@ -81,7 +81,9 @@
     "kamigakari",
     "tagmar",
     "tagmar_rpg",
-    "ds4"
+    "ds4",
+    "coc",
+    "cof"
   ],
   "dependencies": [],
   "socket": false,

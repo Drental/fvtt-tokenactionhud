@@ -342,6 +342,13 @@
   "tokenactionhud.kamigakari.sacraments": "Sacraments",
   "tokenactionhud.kamigakari.consumables": "Consumables",
 
+
+  "tokenactionhud.co.combat": "Combat",
+  "tokenactionhud.co.attacks": "Attacks",
+  "tokenactionhud.co.protections": "Protections",
+  "tokenactionhud.co.capacities": "Capacities"
+
   "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Show Check Target Numbers",
   "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "If enabled, Check Target Numbers are displayed for each check."
+
 }

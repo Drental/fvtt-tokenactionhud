@@ -342,6 +342,11 @@
   "tokenactionhud.kamigakari.sacraments": "Sacraments",
   "tokenactionhud.kamigakari.consumables": "Consumables",
 
+  "tokenactionhud.co.combat": "Combat",
+  "tokenactionhud.co.attacks": "Attaques",
+  "tokenactionhud.co.protections": "Protections",
+  "tokenactionhud.co.capacities": "Capacités"
+
   "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "Afficher des exemples de valeurs",
   "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "Si ce paramètre est activé, les valeurs des échantillons individuels sont affichées."
 }
