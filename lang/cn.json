@@ -292,5 +292,8 @@
   "tokenactionhud.settings.alienrpg.attributeobservation": "观察",
   "tokenactionhud.settings.alienrpg.creatureAttack": "攻击骰",
   "tokenactionhud.settings.alienrpg.health": "生命",
-  "tokenactionhud.settings.alienrpg.rollCrit": "重击"
+  "tokenactionhud.settings.alienrpg.rollCrit": "重击",
+
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.name": "显示样本值",
+  "tokenactionhud.settings.ds4.displayCheckTargetNumbers.hint": "如果这个设置被激活，则显示各个样品的样本值。"
 }
