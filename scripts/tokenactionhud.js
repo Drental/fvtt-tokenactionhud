@@ -556,6 +556,6 @@ export class TokenActionHUD extends Application {
   _userHasPermission(token = "") {
     let actor = token.actor;
     let user = game.user;
-    return game.user.isGM || actor?.hasPerm(user, "OWNER");
+    return game.user.isGM || actor?.testUserPermission(user, "OWNER");
   }
 }
