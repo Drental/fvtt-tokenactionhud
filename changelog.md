@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.16] 2021-10-18
+
+### Changed
+
+- pf2e - make two handed toggle less confusing (hopefully)
+- pf2e - cantrips can no longer be eypended
+- deprecation - removed deprecated hasPerm usage
+- localisation - structured localisation files for my sanity
+
 ## [1.3.15] 2021-10-17
 
 ### Changed
