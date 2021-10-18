@@ -168,13 +168,15 @@ export class PcActionHandlerPf2e {
       subcategory.actions.push(action);
     });
     // lazy hack to add the two handed toggle
-    let action = {
-      id: "damage-roll.two-handed",
-      encodedValue: [macroType, tokenId, "damage-roll.two-handed"].join(this.baseHandler.delimiter),
-      name: "Two Handed dx",
-      cssClass: actor.getRollOptions(["damage-roll"]).includes("two-handed") ? "active" : ""
+    if (actor.data.data.actions.find(i => i.traits.find(i => ["two-hand-d6","two-hand-d8","two-hand-d10","two-hand-d12"].includes(i.name)))) {
+      let action = {
+        id: "damage-roll.two-handed",
+        encodedValue: [macroType, tokenId, "damage-roll.two-handed"].join(this.baseHandler.delimiter),
+        name: game.i18n.localize("tokenactionhud.pf2e.useTwoHandedLabel"),
+        cssClass: actor.getRollOptions(["damage-roll"]).includes("two-handed") ? "active" : ""
+      }
+      subcategory.actions.push(action);
     }
-    subcategory.actions.push(action);
 
     this.baseHandler._combineSubcategoryWithCategory(
       category,

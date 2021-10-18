@@ -113,6 +113,9 @@
     "pf1": {
       "disabled": "Disabled"
     },
+    "pf2e": {
+      "useTwoHandedLabel": "Use weapon two-handed"
+    },
     "pilot": "Pilot",
     "points": "Points",
     "powers": "Powers",
