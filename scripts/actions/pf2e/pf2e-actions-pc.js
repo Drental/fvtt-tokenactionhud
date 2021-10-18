@@ -168,7 +168,8 @@ export class PcActionHandlerPf2e {
       subcategory.actions.push(action);
     });
     // lazy hack to add the two handed toggle
-    if (actor.data.data.actions.find(i => i.traits.find(i => ["two-hand-d6","two-hand-d8","two-hand-d10","two-hand-d12"].includes(i.name)))) {
+    const twoHandedTraits = ["two-hand-d6","two-hand-d8","two-hand-d10","two-hand-d12"];
+    if (actor.data.data.actions.flatMap(a => a.traits).some(t => twoHandedTraits.includes(t.name))) {
       let action = {
         id: "damage-roll.two-handed",
         encodedValue: [macroType, tokenId, "damage-roll.two-handed"].join(this.baseHandler.delimiter),
