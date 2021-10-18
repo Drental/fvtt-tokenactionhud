@@ -617,7 +617,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
               this._addSpellInfo(spell, spellAction);
               levelSubcategory.actions.push(spellAction);
-              if (expended === false && spellcastingEntry.isPrepared && !spellcastingEntry.isFlexible) {
+              if (expended === false && spellcastingEntry.isPrepared && !spellcastingEntry.isFlexible && !spell.isCantrip) {
                 let spellExpend = {
                   name: "-",
                   encodedValue: encodedValue + ">expend",
