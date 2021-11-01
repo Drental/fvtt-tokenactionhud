@@ -456,6 +456,13 @@ export class ActionHandlerWfrp extends ActionHandler {
       let encodedValue = [type, tokenId, i.id].join(this.delimiter);
       let img = this._getImage(i);
       return { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
+    })
+    .sort((a, b) => {
+      return a.name
+        .toUpperCase()
+        .localeCompare(b.name.toUpperCase(), undefined, {
+          sensitivity: "base",
+        });
     });
   }
 
