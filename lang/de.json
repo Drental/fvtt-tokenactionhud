@@ -389,6 +389,12 @@
         "creatureAttack": "Angriffswurf",
         "health": "Gesundh",
         "rollCrit": "Roll Crit"
+      },
+      "ds4": {
+        "displayCheckTargetNumbers": {
+          "name": "Show Check Target Numbers",
+          "hint": "If enabled, Check Target Numbers are displayed for each check."
+        }
       }
     },
     "symbaroum": {

@@ -357,6 +357,12 @@
         "creatureAttack": "攻击骰",
         "health": "生命",
         "rollCrit": "重击"
+      },
+      "ds4": {
+        "displayCheckTargetNumbers": {
+          "name": "Show Check Target Numbers",
+          "hint": "If enabled, Check Target Numbers are displayed for each check."
+        }
       }
     },
     "attribute": {
