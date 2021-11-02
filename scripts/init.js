@@ -9,11 +9,58 @@ let systemManager;
 Hooks.on("init", () => {
   registerHandlerbars();
 
-  let system = game.data.system.id;
+  game.modules.get('token-action-hud').api = {
+    /* put all the relevant classes that systems and modules might need to access here */
+  }
 
-  systemManager = SystemManagerFactory.create(system, appName);
+  const systemManagers = {
+    "dnd5e": "dnd5e",
+    "dungeonworld": "dungeonworld",
+    "pf2e": "pf2e",
+    "wfrp4e": "wfrp4e",
+    "sfrpg": "sfrpg",
+    "sw5e": "sw5e",
+    "demonlord": "demonlord",
+    "pf1": "pf1",
+    "lancer": "lancer",
+    "D35E": "D35E",
+    "swade": "swade",
+    "starwarsffg": "starwarsffg",
+    "tormenta20": "tormenta20",
+    "blades-in-the-dark": "blades-in-the-dark",
+    "symbaroum": "symbaroum",
+    "od6s": "od6s",
+    "alienrpg": "alienrpg",
+    "cthack": "cthack",
+    "kamigakari": "kamigakari",
+    "tagmar": "tagmar",
+    "tagmar_rpg": "tagmar_rpg",
+    "ds4": "ds4",
+    "coc": "coc",
+    "cof": "cof",
+    /* put all the SystemManagers that are included directly in TAH here */
+  }
+  Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
+  
+  const system = game.data.system.id;
+  const supportedSystem = systemManagers[system];
+  if(!supportedSystem) {
+    console.error("Token Action HUD: System not supported")
+    /* handle the error case somehow. If this happens, it means the current system is not supported */
+  }
+  systemManager = SystemManagerFactory.create(supportedSystem, appName);
   systemManager.registerSettings();
 });
+
+
+// Hooks.on("init", () => {
+//   registerHandlerbars();
+
+//   let system = game.data.system.id;
+
+//   systemManager = SystemManagerFactory.create(system, appName);
+//   systemManager.registerSettings();
+// });
 
 Hooks.on("canvasReady", async () => {
   let user = game.user;
