@@ -1,6 +1,6 @@
 import { SystemManager } from './manager.js';
 import { ActionHandlerForbiddenlands as ActionHandler } from '../actions/forbiddenlands/forbiddenlands-actions.js'
-import { RollHandlerBaseForbiddenlands as Core } from '../rollHandlers/forbiddenLands/forbiddenlands-base.js';
+import { RollHandlerBaseForbiddenlands as Core } from '../rollHandlers/forbiddenlands/forbiddenlands-base.js';
 import * as settings from '../settings/forbiddenlands-settings.js'
 
 export class ForbiddenLandsSystemManager extends SystemManager {
