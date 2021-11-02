@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.18] 2021-11-03
+
+### Changed
+
+- forbidden-lands - added system to TAH (WIP)
+
 ## [1.3.17] 2021-11-02
 
 ### Changed
