@@ -20,6 +20,7 @@ import { KamigakariSystemManager } from "./kamigakari.js";
 import { TagmarSystemManager } from "./tagmar.js";
 import { Ds4SystemManager } from "./ds4.js";
 import { CoSystemManager } from "./co.js";
+import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -72,6 +73,8 @@ export class SystemManagerFactory {
         return new CoSystemManager(appName);
       case "coc":
         return new CoSystemManager(appName);
+      case 'forbidden-lands':
+        return new ForbiddenLandsSystemManager(appName);
     }
   }
 }

@@ -38,6 +38,7 @@ Hooks.on("init", () => {
     "ds4": "ds4",
     "coc": "coc",
     "cof": "cof",
+    "forbidden-lands": "forbidden-lands",
     /* put all the SystemManagers that are included directly in TAH here */
   }
   Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager

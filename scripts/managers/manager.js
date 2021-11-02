@@ -15,6 +15,13 @@ export class SystemManager {
   }
 
   /** ACTION HANDLERS */
+    /** OVERRIDDEN BY SYSTEM */
+
+    doGetActionHandler() {}
+    doGetRollHandler(handlerId) {}
+    getAvailableRollHandlers() {}
+    doRegisterSettings(appName, updateFunc) {}
+
 
   async getActionHandler(user) {
     this.filterManager = new FilterManager(user);
