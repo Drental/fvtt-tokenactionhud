@@ -617,7 +617,12 @@ export class ActionHandlerPf2e extends ActionHandler {
 
               this._addSpellInfo(spell, spellAction);
               levelSubcategory.actions.push(spellAction);
-              if (expended === false && spellcastingEntry.isPrepared && !spellcastingEntry.isFlexible && !spell.isCantrip) {
+              if (
+                expended === false &&
+                spellcastingEntry.isPrepared &&
+                !spellcastingEntry.isFlexible &&
+                !spell.isCantrip
+              ) {
                 let spellExpend = {
                   name: "-",
                   encodedValue: encodedValue + ">expend",
@@ -671,13 +676,12 @@ export class ActionHandlerPf2e extends ActionHandler {
     spellInfo,
     firstSubcategory
   ) {
-    
     let maxSlots, valueSlots, increaseId, decreaseId;
     if (firstSubcategory && spellInfo.isFocusPool) {
       let focus = actor.data.data.resources.focus;
       maxSlots = focus.max;
       valueSlots = focus.value;
-      
+
       if (maxSlots > 0) {
         category.info1 = `${valueSlots}/${maxSlots}`;
 
@@ -704,9 +708,9 @@ export class ActionHandlerPf2e extends ActionHandler {
         });
       }
     }
-    
+
     if (level.isCantrip === true) return;
-    
+
     if (
       level.uses?.max > 0 &&
       !(spellInfo.isPrepared && !spellInfo.isFlexible) &&
@@ -827,11 +831,13 @@ export class ActionHandlerPf2e extends ActionHandler {
   createSkillMap(tokenId, macroType, skillEntry, abbreviated) {
     let key = skillEntry[0];
     let data = skillEntry[1];
-
-    let name =
-      abbreviated || !data.name
-        ? key.charAt(0).toUpperCase() + key.slice(1)
-        : data.name?.charAt(0).toUpperCase() + data.name?.slice(1);
+    console.log(key);
+    let name = CONFIG.PF2E.skills[key];
+    if (!name) name = data.name;
+    console.log(abbreviated);
+    name = abbreviated
+      ? key.charAt(0).toUpperCase() + key.slice(1)
+      : game.i18n.localize(name);
 
     let value = data.value;
     let info = "";
