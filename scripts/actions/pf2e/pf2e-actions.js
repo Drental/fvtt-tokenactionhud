@@ -117,9 +117,9 @@ export class ActionHandlerPf2e extends ActionHandler {
       subcategory.actions.push(action);
     });
 
-    const skillsName = this.i18n("tokenactionhud.saves");
-    this._combineSubcategoryWithCategory(category, skillsName, subcategory);
-    this._combineCategoryWithList(list, skillsName, category);
+    const savesName = this.i18n("tokenactionhud.saves");
+    this._combineSubcategoryWithCategory(category, savesName, subcategory);
+    this._combineCategoryWithList(list, savesName, category);
   }
 
   _addMultiAttributes(list, tokenId, actors) {
