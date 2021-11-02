@@ -4,7 +4,7 @@
 
 ### Changed
 
-- forbidden-lands - added system to TAH (WIP)
+- forbidden-lands - added system to TAH (WIP) - thanks Sozin and aMediocreDad!
 
 ## [1.3.17] 2021-11-02
 
