@@ -831,10 +831,9 @@ export class ActionHandlerPf2e extends ActionHandler {
   createSkillMap(tokenId, macroType, skillEntry, abbreviated) {
     let key = skillEntry[0];
     let data = skillEntry[1];
-    console.log(key);
     let name = CONFIG.PF2E.skills[key];
     if (!name) name = data.name;
-    console.log(abbreviated);
+    if (!name) name = data.name;
     name = abbreviated
       ? key.charAt(0).toUpperCase() + key.slice(1)
       : game.i18n.localize(name);

@@ -59,7 +59,6 @@ export class ActionHandlerCthack extends ActionHandler {
 
     attributesCategory.actions = saves.map((c) => {
       const saveId = c[0];
-      console.log("saveId:" +saveId);
       const name = game.cthack.config.saves[saveId];
       const macroType = "save";
       let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
