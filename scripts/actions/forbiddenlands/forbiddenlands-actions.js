@@ -26,7 +26,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
     result.tokenId = tokenId;
 
     let actor = token.actor;
@@ -37,7 +37,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let actorType = actor.data.type;
     if (!legitimateActors.includes(actorType)) return result;
 
-    result.actorId = actor._id;
+    result.actorId = actor.id;
     if (actorType === 'character') {
       attributes = this._getAttributes(actor, tokenId);
       skills = this._getSkills(actor, tokenId);
@@ -159,7 +159,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     result.forEach((i) =>
       this._addItemInfo(
-        itemList.find((item) => item.data._id === i.id),
+        itemList.find((item) => item.id === i.id),
         i
       )
     );
@@ -302,7 +302,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
   /** @override */
   _setFilterSuggestions(id, items) {
     let suggestions = items?.map((s) => {
-      return { id: s._id, value: s.name };
+      return { id: s.id, value: s.name };
     });
     if (suggestions?.length > 0) this.filterManager.setSuggestions(id, suggestions);
   }

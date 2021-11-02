@@ -29,7 +29,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
         canvas.tokens.controlled.forEach((t) => {
-          let idToken = t.data._id;
+          let idToken = t.id;
           this._handleMacros(event, macroType, idToken, actionId, attributename);
         });
       }
@@ -49,42 +49,28 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         case 'attribute':
           rData = { roll: actor.data.data.attribute[actionId].value, label: actor.data.data.attribute[actionId].label };
           if (event.type === 'click') {
-            actor.rollAbility(actor, rData);
-          } else {
-            actor.rollAbilityMod(actor, rData);
+            actor.sheet.rollAttribute(game.i18n.localize(rData.label).toLowerCase());
           }
           break;
         case 'skill':
           rData = { roll: actor.data.data.skill[actionId].mod, label: actor.data.data.skill[actionId].label };
           if (event.type === 'click') {
-            actor.rollAbility(actor, rData);
-          } else {
-            actor.rollAbilityMod(actor, rData);
+            actor.sheet.rollSkill(game.i18n.localize(rData.label).toLowerCase());
           }
           break;
         case 'weapon':
           if (event.type === 'click') {
-            actor.nowRollItem(item);
-          } else {
-            actor.rollItemMod(item);
+            actor.sheet.rollGear(actionId);
           }
           break;
         case 'item':
-          this._rollItem(actor, tokenId, actionId, macroType);
+          actor.items.get(actionId).sendToChat()
           break;
         case 'armor':
-          rData = { roll: actor.data.data.general.armor.value, spbutt: 'armor' };
-          actor.rollAbility(actor, rData);
-          break;
-        case 'consumables':
-          const lTemp = 'ALIENRPG.' + (attributename[0].toUpperCase() + attributename.substring(1));
-          const label = game.i18n.localize(lTemp) + ' ' + game.i18n.localize('ALIENRPG.Supply');
-          actor.consumablesCheck(actor, actionId, label);
+          actor.sheet.rollSpecificArmor(actionId);
           break;
         case 'power':
-          const pTemp = 'ALIENRPG.' + (macroType[0].toUpperCase() + macroType.substring(1));
-          const plabel = game.i18n.localize(pTemp) + ' ' + game.i18n.localize('ALIENRPG.Supply');
-          actor.consumablesCheck(actor, macroType, plabel, actionId);
+          actor.sheet.rollSpell(actionId);
           break;
         case 'conditions':
           this.performConditionMacro(event, tokenId, actionId);
