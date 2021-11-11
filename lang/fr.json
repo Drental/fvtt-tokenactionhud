@@ -432,12 +432,6 @@
       "abilities": "Talents",
       "mysticalPowers": "Pouvoirs"
     },
-    "cthack": {
-      "character": "Personnage",
-      "saves": "Sauvegardes",
-      "weapons": "Armes",
-      "items": "Equipement"
-    },
     "kamigakari": {
       "mainStats": "Main Stats",
       "subStats": "Sub Stats",

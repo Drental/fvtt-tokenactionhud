@@ -31,17 +31,17 @@ export class ActionHandlerCthack extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.cthack.saves"),
+      this.i18n("tokenactionhud.saves"),
       saves
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.cthack.attributes"),
+      this.i18n("tokenactionhud.attributes"),
       attributes
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.cthack.items"),
+      this.i18n("tokenactionhud.equipment"),
       items
     );
 
@@ -66,7 +66,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.cthack.saves"),
+      this.i18n("tokenactionhud.saves"),
       attributesCategory
     );
     return result;
@@ -100,7 +100,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.cthack.attributes"),
+      this.i18n("tokenactionhud.attributes"),
       attributesCategory
     );
     return result;
