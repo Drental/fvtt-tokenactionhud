@@ -468,12 +468,6 @@
       "abilities": "Abilities",
       "mysticalPowers": "Mystical Powers"
     },
-    "cthack": {
-      "character": "Character",
-      "saves": "Saves",
-      "weapons": "Weapons",
-      "items": "Equipment"
-    },
     "kamigakari": {
       "mainStats": "Main Stats",
       "subStats": "Sub Stats",
