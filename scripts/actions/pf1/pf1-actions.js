@@ -347,27 +347,25 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _categoriseSpells(actor, tokenId, spells) {
     const macroType = "spell";
-    let result = this.initializeEmptySubcategory("spells");
-    let concentrationSubcategory = this.initializeEmptySubcategory("concentration");
-    concentrationSubcategory.name = this.i18n("tokenactionhud.concentration");
-
-    let casterLevelCheckSubcategory = this.initializeEmptySubcategory("casterlevel");
-    concentrationSubcategory.name = this.i18n("tokenactionhud.casterlevel");
-
+    const result = this.initializeEmptySubcategory("spells");
+    const concentrationSubcategory = this.initializeEmptySubcategory("concentration", "tokenactionhud.concentration");
+    const casterLevelCheckSubcategory = this.initializeEmptySubcategory("casterlevel", "tokenactionhud.casterlevel");
     const spellbookIds = [...new Set(spells.map((i) => i.data.spellbook))].sort();
 
     spellbookIds.forEach((sbId) => {
       const spellbook = actor.data.data.attributes.spells.spellbooks[sbId];
       const isSpontaneous = spellbook.spontaneous;
-      
+
       const toUpperFirstChar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+      // this follows the same logic as the spellbook display tab in PF1 - so this pairs the rolls/spells directly to the character sheet
       let spellbookName = spellbook.altName || toUpperFirstChar(spellbook.class) || toUpperFirstChar(sbId);
 
       concentrationSubcategory.actions.push(
         this._createConcentrationAction(tokenId, sbId, spellbookName)
       );
       casterLevelCheckSubcategory.actions.push(
-        this._createCasterlevelCheckAction(tokenId, sbId, spellbookName);
+        this._createCasterlevelCheckAction(tokenId, sbId, spellbookName)
       );
 
       const sbSpells = spells
@@ -397,7 +395,7 @@ export class ActionHandlerPf1 extends ActionHandler {
             : this.i18n("tokenactionhud.cantrips");
         var spellInfo =
           actor.data.data.attributes?.spells?.spellbooks[sbId]["spells"][
-            "spell" + level[0]
+          "spell" + level[0]
           ];
         if (spellInfo && spellInfo.max > 0) {
           var categoryInfo = `${spellInfo.value}/${spellInfo.max}`;
@@ -491,20 +489,18 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   _createCasterlevelCheckAction(tokenId, spellbookId, spellbookName) {
     let casterLevelMacro = "casterLevel";
-    let name = spellbookName;
     let encodedValue = [casterLevelMacro, tokenId, spellbookId.toLowerCase()].join(
       this.delimiter
     );
-    return { name: name, encodedValue: encodedValue, id: casterLevelMacro };
+    return { name: spellbookName, encodedValue, id: casterLevelMacro };
   }
 
   _createConcentrationAction(tokenId, spellbookId, spellbookName) {
     let concentrationMacro = "concentration";
-    let name = spellbookName;
     let encodedValue = [concentrationMacro, tokenId, spellbookId.toLowerCase()].join(
       this.delimiter
     );
-    return { name: name, encodedValue: encodedValue, id: concentrationMacro };
+    return { name: spellbookName, encodedValue, id: concentrationMacro };
   }
 
   /** FEATS **/
