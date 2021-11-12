@@ -31,7 +31,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     this._addBuffsList(result, actor, tokenId);
     this._addConditionsList(result, actor, tokenId);
     this._addItemsList(result, actor, tokenId);
-    this._addSpellsList(result, actor, tokenId);
+    this._addSpellBooksList(result, actor, tokenId);
     this._addFeatsList(result, actor, tokenId);
     this._addSkillsList(result, actor, tokenId);
     this._addSavesList(result, actor, tokenId);
@@ -101,10 +101,11 @@ export class ActionHandlerPf1 extends ActionHandler {
     this._combineCategoryWithList(result, itemsTitle, items);
   }
 
-  _addSpellsList(result, actor, tokenId) {
+  _addSpellBooksList(result, actor, tokenId) {
     let spells = this._getSpellsList(actor, tokenId);
-    let spellsTitle = this.i18n("tokenactionhud.spells");
-    this._combineCategoryWithList(result, spellsTitle, spells);
+    spells.forEach(s => {
+      this._combineCategoryWithList(result, s.label, s.category);
+    });
   }
 
   _addFeatsList(result, actor, tokenId) {
@@ -346,13 +347,15 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _categoriseSpells(actor, tokenId, spells) {
+    let spellResults = [];
     const macroType = "spell";
-    const result = this.initializeEmptySubcategory("spells");
-    const concentrationSubcategory = this.initializeEmptySubcategory("concentration", "tokenactionhud.concentration");
-    const casterLevelCheckSubcategory = this.initializeEmptySubcategory("casterlevel", "tokenactionhud.casterlevel");
+
     const spellbookIds = [...new Set(spells.map((i) => i.data.spellbook))].sort();
 
     spellbookIds.forEach((sbId) => {
+      const currentSpellbookCategory = this.initializeEmptySubcategory(`spells-${sbId}`);
+      const checksCategory = this.initializeEmptySubcategory("concentration", "tokenactionhud.checks");
+
       const spellbook = actor.data.data.attributes.spells.spellbooks[sbId];
       const isSpontaneous = spellbook.spontaneous;
 
@@ -361,11 +364,11 @@ export class ActionHandlerPf1 extends ActionHandler {
       // this follows the same logic as the spellbook display tab in PF1 - so this pairs the rolls/spells directly to the character sheet
       let spellbookName = spellbook.altName || toUpperFirstChar(spellbook.class) || toUpperFirstChar(sbId);
 
-      concentrationSubcategory.actions.push(
-        this._createConcentrationAction(tokenId, sbId, spellbookName)
+      checksCategory.actions.push(
+        this._createConcentrationAction(tokenId, sbId, this.i18n("tokenactionhud.concentration"))
       );
-      casterLevelCheckSubcategory.actions.push(
-        this._createCasterlevelCheckAction(tokenId, sbId, spellbookName)
+      checksCategory.actions.push(
+        this._createCasterlevelCheckAction(tokenId, sbId, this.i18n("tokenactionhud.casterlevel"))
       );
 
       const sbSpells = spells
@@ -385,7 +388,6 @@ export class ActionHandlerPf1 extends ActionHandler {
         return arr;
       }, {});
 
-      var firstLevelOfBook = true;
       Object.entries(spellsByLevel).forEach((level) => {
         var category = this.initializeEmptySubcategory();
 
@@ -402,11 +404,6 @@ export class ActionHandlerPf1 extends ActionHandler {
           category.info1 = categoryInfo;
         }
 
-        if (firstLevelOfBook) {
-          categoryName = `${spellbookName} - ${categoryName}`;
-          firstLevelOfBook = false;
-        }
-
         level[1].forEach((spell) => {
           if (!this._isSpellCastable(actor, spell)) return;
 
@@ -415,9 +412,9 @@ export class ActionHandlerPf1 extends ActionHandler {
           let id = spell._id;
           let encodedValue = [macroType, tokenId, id].join(this.delimiter);
           var action = {
-            name: name,
-            id: id,
-            encodedValue: encodedValue,
+            name,
+            id,
+            encodedValue,
             info2: "",
           };
           action.img = this._getImage(spell);
@@ -426,16 +423,17 @@ export class ActionHandlerPf1 extends ActionHandler {
           category.actions.push(action);
         });
 
-        this._combineSubcategoryWithCategory(result, categoryName, category);
+        this._combineSubcategoryWithCategory(currentSpellbookCategory, categoryName, category);
       });
+
+      if (checksCategory.actions?.length > 0) {
+        currentSpellbookCategory.subcategories.unshift(checksCategory);
+      }
+
+      spellResults.push({ label: spellbookName, category: currentSpellbookCategory });
     });
 
-    if (concentrationSubcategory.actions?.length > 0)
-      result.subcategories.unshift(concentrationSubcategory);
-    if (casterLevelCheckSubcategory.actions?.length > 0)
-      result.subcategories.unshift(casterLevelCheckSubcategory);
-
-    return result;
+    return spellResults;
   }
 
   /** @private */
