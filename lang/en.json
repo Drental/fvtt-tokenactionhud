@@ -31,6 +31,7 @@
     "buffs": "Buffs",
     "cancel": "Cancel",
     "cantrips": "Cantrips",
+    "casterlevel": "Caster Level",
     "categoryTagExplanation": "Add and remove additional customisable categories.",
     "categoryTagTitle": "Add/remove categories",
     "characteristics": "Characteristics",
@@ -467,12 +468,6 @@
     "symbaroum": {
       "abilities": "Abilities",
       "mysticalPowers": "Mystical Powers"
-    },
-    "cthack": {
-      "character": "Character",
-      "saves": "Saves",
-      "weapons": "Weapons",
-      "items": "Equipment"
     },
     "kamigakari": {
       "mainStats": "Main Stats",

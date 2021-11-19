@@ -15,7 +15,7 @@ export class ActionHandlerLancer extends ActionHandler {
     let actorId = token.actor.id;
     result.actorId = actorId;
     let actor = token.actor;
-    let mm = actor.data.data.derived.mm;
+    let mm = await actor.data.data.derived.mm;
 
     if (!actor) return result;
 

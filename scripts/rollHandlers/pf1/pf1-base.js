@@ -33,6 +33,9 @@ export class RollHandlerBasePf1 extends RollHandler {
       case "ability":
         this.rollAbilityMacro(event, tokenId, actionId);
         break;
+      case "casterLevel":
+        this.rollcasterLevelMacro(event, tokenId, actionId);
+        break;
       case "concentration":
         this.rollConcentrationMacro(event, tokenId, actionId);
         break;
@@ -99,6 +102,11 @@ export class RollHandlerBasePf1 extends RollHandler {
   rollBAB(event, tokenId, checkId) {
     const actor = super.getActor(tokenId);
     actor.rollBAB({ event: event });
+  }
+
+  rollcasterLevelMacro(event, tokenId, checkId) {
+    const actor = super.getActor(tokenId);
+    actor.rollCL(checkId);
   }
 
   rollConcentrationMacro(event, tokenId, checkId) {

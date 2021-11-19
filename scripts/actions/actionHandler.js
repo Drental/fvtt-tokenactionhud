@@ -38,7 +38,7 @@ export class ActionHandler {
   }
 
   /** @public */
-  doBuildActionList(token) {}
+  doBuildActionList(token) { }
 
   /** @protected */
   _addGenericCategories(token, actionList, multipleTokens) {
@@ -87,9 +87,12 @@ export class ActionHandler {
     return category;
   }
 
-  initializeEmptySubcategory(id = "") {
+  initializeEmptySubcategory(id = "", i18nKey = null) {
     let subcategory = new ActionSubcategory();
     subcategory.id = id;
+    if (i18nKey) {
+      subcategory.name = this.i18n(i18nKey);
+    }
     return subcategory;
   }
 
