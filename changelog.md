@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.21] 2021-11-19
+
+### Changed
+
+- cthack - use generic translations where possible - thanks QaW
+- lancer - add missing await - thanks Purring Insanity
+- pf1 - rework spellbook category - thanks dmrickey
+
 ## [1.3.18] 2021-11-03
 
 ### Changed
