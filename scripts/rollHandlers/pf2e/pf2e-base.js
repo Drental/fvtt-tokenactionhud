@@ -140,7 +140,7 @@ export class RollHandlerBasePf2e extends RollHandler {
         await this._adjustSpellSlot(event, actor, actionId);
         break;
       case "heroPoint":
-        await this._adjustAttribute(
+        await this._adjustResources(
           event,
           actor,
           "heroPoints",
@@ -525,9 +525,9 @@ export class RollHandlerBasePf2e extends RollHandler {
     pack.getDocument(id).then((e) => e.execute());
   }
 
-  async _adjustAttribute(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.attributes[property][valueName];
-    let max = actor.data.data.attributes[property]["max"];
+  async _adjustResources(event, actor, property, valueName, actionId) {
+    let value = actor.data.data.resources[property][valueName];
+    let max = actor.data.data.resources[property]["max"];
 
     if (this.rightClick) {
       if (value <= 0) return;
@@ -540,7 +540,7 @@ export class RollHandlerBasePf2e extends RollHandler {
     let update = [
       {
         _id: actor.id,
-        data: { attributes: { [property]: { [valueName]: value } } },
+        data: { resources: { [property]: { [valueName]: value } } },
       },
     ];
 

@@ -863,7 +863,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       let attributes = this.initializeEmptySubcategory();
       let attributeActions = [];
 
-      let heroPoints = actor.data.data.attributes?.heroPoints;
+      let heroPoints = actor.data.data.resources?.heroPoints;
       if (heroPoints)
         attributeActions.push(
           this._getAttributeAction(
