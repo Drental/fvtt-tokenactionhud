@@ -870,7 +870,7 @@ export class ActionHandlerPf2e extends ActionHandler {
             tokenId,
             "heroPoint",
             this.i18n("tokenactionhud.heroPoints"),
-            heroPoints.rank,
+            heroPoints.value,
             heroPoints.max
           )
         );

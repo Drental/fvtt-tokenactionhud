@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.23] 2021-11-21
+
+### Changed
+
+- pf2e - adjust heroPoint path
+
 ## [1.3.22] 2021-11-20
 
 ### Changed

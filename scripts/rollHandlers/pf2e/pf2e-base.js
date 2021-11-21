@@ -144,7 +144,7 @@ export class RollHandlerBasePf2e extends RollHandler {
           event,
           actor,
           "heroPoints",
-          "rank",
+          "value",
           actionId
         );
         break;
