@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.24] 2021-11-22
+
+### Changed
+
+- pf2e - add recovery Checks
+
 ## [1.3.23] 2021-11-21
 
 ### Changed
