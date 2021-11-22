@@ -61,7 +61,7 @@ export class CompendiumHelper {
     if (!pack) return [];
 
     let packEntries =
-      pack.index.length > 0 ? pack.index : await pack.getIndex();
+      pack.index.size > 0 ? pack.index : await pack.getIndex();
 
     if (pack.metadata.entity === "Playlist") {
       let entries = await CompendiumHelper._getPlaylistEntries(pack);
