@@ -153,6 +153,9 @@ export class RollHandlerBasePf2e extends RollHandler {
       case "dying":
         await this._adjustCondition(event, actor, macroType);
         break;
+      case "recoveryCheck":
+        actor.rollRecovery({ event });
+        break;
       case "familiarAttack":
         this._rollFamiliarAttack(event, actor);
         break;

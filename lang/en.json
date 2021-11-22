@@ -115,7 +115,8 @@
       "disabled": "Disabled"
     },
     "pf2e": {
-      "useTwoHandedLabel": "Use weapon two-handed"
+      "useTwoHandedLabel": "Use weapon two-handed",
+      "recoveryCheck": "Recovery Check"
     },
     "pilot": "Pilot",
     "points": "Points",
