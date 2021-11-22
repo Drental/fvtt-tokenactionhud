@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.25] 2021-11-22
+
+### Changed
+
+- TAH - fix Compendium Helper check for existing index - thanks In3luki
+
 ## [1.3.24] 2021-11-22
 
 ### Changed
