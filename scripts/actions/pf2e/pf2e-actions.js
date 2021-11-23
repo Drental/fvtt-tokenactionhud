@@ -892,16 +892,16 @@ export class ActionHandlerPf2e extends ActionHandler {
         );
       }
       
-      if (actor.data.data.attributes.hp.value <= 0) {
-        let deathSaveValue = [macroType, token.id, "recoveryCheck"].join(
+      if (dyingPoints?.value >= 1) {
+        let recoveryCheckValue = ["recoveryCheck", tokenId, "recoveryCheck"].join(
           this.delimiter
         );
-        let deathSaveAction = {
+        let recoveryCheckAction = {
           id: "recoveryCheck",
-          encodedValue: deathSaveValue,
+          encodedValue: recoveryCheckValue,
           name: this.i18n("tokenactionhud.pf2e.recoveryCheck"),
         };
-        utility.actions.push(deathSaveAction);
+        attributeActions.push(recoveryCheckAction);
       }
 
       let woundedPoints = actor.data.data.attributes?.wounded;

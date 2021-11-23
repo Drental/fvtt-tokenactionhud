@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.26] 2021-11-22
+
+### Changed
+
+- pf2e - fix PC HUD
+
 ## [1.3.25] 2021-11-22
 
 ### Changed
