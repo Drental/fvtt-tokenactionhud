@@ -4,7 +4,7 @@
 
 ### Changed
 
-- pf2e - add support for combination and thrown weapons
+- pf2e - add support for combination weapons
 
 ## [1.3.26] 2021-11-22
 
