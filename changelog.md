@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.27] 2021-11-27
+
+### Changed
+
+- pf2e - add support for combination and thrown weapons
+
 ## [1.3.26] 2021-11-22
 
 ### Changed
