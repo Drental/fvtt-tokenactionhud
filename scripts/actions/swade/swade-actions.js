@@ -30,6 +30,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addPowers(result, tokenId, actor);
     this._addInventory(result, tokenId, actor);
     this._addEdgesAndHinderances(result, tokenId, actor);
+    this._addSpecialAbilities(result, tokenId, actor);
     this._addUtilities(result, tokenId, actor);
 
     if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
@@ -242,6 +243,20 @@ export class ActionHandlerSwade extends ActionHandler {
     this._combineCategoryWithList(
       list,
       this.i18n("tokenactionhud.edgesAndHindrances"),
+      cat
+    );
+  }
+
+  _addSpecialAbilities(list, tokenId, actor) {
+    const cat = this.initializeEmptyCategory("abilities");
+
+    const specialAbilities = actor.data.items.filter((i) => i.type === "ability");
+    const abilityName = this.i18n("tokenactionhud.swade.abilities");
+    this._addItemSubcategory(tokenId, abilityName, specialAbilities, "abilities", cat);
+
+    this._combineCategoryWithList(
+      list,
+      this.i18n("tokenactionhud.swade.specialAbilities"),
       cat
     );
   }

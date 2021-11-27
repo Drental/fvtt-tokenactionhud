@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.28] 2021-11-27
+
+### Changed
+
+- swade - show special abilities in Edges/hindrances Tab
+- pf2e - remove ammo information from combination weapons' melee strike
+
 ## [1.3.27] 2021-11-27
 
 ### Changed

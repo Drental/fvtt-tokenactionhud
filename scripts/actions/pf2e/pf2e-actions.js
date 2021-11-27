@@ -418,7 +418,8 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _ammoInfo(tokenId, actor, strike) {
-    if (!strike.selectedAmmoId) return;
+    if (!strike.selectedAmmoId || !strike.ammunition) return;
+    console.log(strike);
 
     const item = actor.items.get(strike.selectedAmmoId);
 

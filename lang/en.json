@@ -157,6 +157,10 @@
     "strikes": "Strikes",
     "subcategoryTagExplanation": "Add and remove subcategories: enter free-text for macro subcategories or select linked compendiums.",
     "subcategoryTagTitle": "Add/remove subcategories",
+    "swade": {
+      "abilities": "Abilities",
+      "specialAbilities": "Special Abilities"
+    },
     "systems": "Systems",
     "tags": "Tags",
     "talents": "Talents",
