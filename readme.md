@@ -63,13 +63,22 @@ Offers a variety of settings including support for third-party roll handlers (Pl
 - Symbaroum
 - Cthulhu Hack
 - Chroniques Oubliées
+- Lancer
+- D35E
+- swade
+- od6s
+- alienrpg
+- kamigakari
+- tagmar
+- ds4
+- forbidden-lands
 - Any other system? I believe the HUD is modular enough that anyone who understands what the players of their system want and how actions in their system are handled could quickly build it into the HUD. Please contact me if you'd like to add support for your favourite system.
 
 [Developing for your system or module](adding_systems.md)
 
 # Support
 
-For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (^ and stick#0520) or open an issue here directly.
+For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (Drental#7146) or open an issue here directly.
 
 - Feel free to submit pull requests with a justification of your change, or ask me before starting.
 - The HUD's layout could do with some love. If you think you can improve things and know how your way around CSS, please get in touch!
