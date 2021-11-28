@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.29] 2021-11-28
+
+### Changed
+
+- pf2e - restore HUD NPC Strikes
+
 ## [1.3.28] 2021-11-27
 
 ### Changed
