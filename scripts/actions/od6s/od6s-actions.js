@@ -11,8 +11,6 @@ export class ActionHandlerOD6S extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.id;
-
     result.tokenId = token.id;
 
     let actor = token.actor;
@@ -23,13 +21,13 @@ export class ActionHandlerOD6S extends ActionHandler {
     result.actorId = actor.id;
 
     //let inventoryCategory = this._buildInventoryCategory(actor, tokenId);
-    let combatCategory = this._buildCombatActionsCategory(actor, tokenId);
+    let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
     let attributeCategory = this._buildAttributesCategory(
       actor,
-      tokenId,
+      result.tokenId,
       "attributes"
     );
-    let skillCategory = this._buildSkillsCategory(actor, tokenId, "skills");
+    let skillCategory = this._buildSkillsCategory(actor, result.tokenId, "skills");
 
     //this._combineCategoryWithList(result, this.i18n('tokenactionhud.inventory'), inventoryCategory); // combines the inventory category with the list with the title given by the second argument.
     this._combineCategoryWithList(
