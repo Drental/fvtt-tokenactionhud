@@ -11,13 +11,14 @@ export class ActionHandlerOD6S extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
-    result.tokenId = tokenId;
+    result.tokenId = token.id;
 
     let actor = token.actor;
 
     if (!actor) return result;
+    if (actor.type === 'starship' || actor.type === 'vehicle') return result;
 
     result.actorId = actor.id;
 
@@ -112,12 +113,12 @@ export class ActionHandlerOD6S extends ActionHandler {
             const encodedValue = [
               "parry",
               tokenId,
-              meleeWeapons[weapon].data._id,
+              meleeWeapons[weapon].id,
             ].join(this.delimiter);
             combatActions.push({
               name: name,
               encodedValue: encodedValue,
-              id: meleeWeapons[weapon].data._id,
+              id: meleeWeapons[weapon].id,
             });
           }
         }
@@ -180,10 +181,10 @@ export class ActionHandlerOD6S extends ActionHandler {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.data._id].join(
+        let encodedValue = [macroType, tokenId, i.id].join(
           this.delimiter
         );
-        return { name: i.name, encodedValue: encodedValue, id: i.data._id };
+        return { name: i.name, encodedValue: encodedValue, id: i.id };
       });
   }
 }
