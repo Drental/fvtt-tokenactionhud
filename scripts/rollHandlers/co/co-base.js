@@ -35,7 +35,8 @@ export class RollHandlerBaseCo extends RollHandler {
         else this._handleItem(macroType, event, actor, itemId);
         break;
       case "capacity":
-        this.doRenderItem(tokenId, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
+        else this._handleCapacity(macroType, event, actor, itemId);
         break;
     }
   }
@@ -88,6 +89,13 @@ export class RollHandlerBaseCo extends RollHandler {
 
     // Consumable item
     if (item.data.data.properties.consumable) actor.consumeItem(item);
+    
+  }
+
+  _handleCapacity(macroType, event, actor, actionId) {
+    let item = actor.items.get(actionId);  
+
+    actor.activateCapacity(item);
     
   }
 
