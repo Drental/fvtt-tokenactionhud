@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.0] 2021-12-14
+
+### Changed
+
+- Token Action HUD - first steps to V9 compatibility
+
 ## [1.3.29] 2021-11-28
 
 ### Changed
