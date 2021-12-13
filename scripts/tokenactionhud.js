@@ -404,7 +404,7 @@ export class TokenActionHUD extends Application {
 
   resetPosition() {
     settings.Logger.info(
-      `Resetting HUD position to x: 80px, y: 150px, and saving in user flags. \nIf HUD is still not visible, something else may be wrong.\nFeel free to contact ^ and stick#0520 on Discord`
+      `Resetting HUD position to x: 80px, y: 150px, and saving in user flags. \nIf HUD is still not visible, something else may be wrong.\nFeel free to contact Drental#7416 on Discord`
     );
     game.user.update({
       flags: { "token-action-hud": { hudPos: { top: 80, left: 150 } } },

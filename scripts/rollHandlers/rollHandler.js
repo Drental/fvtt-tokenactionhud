@@ -83,15 +83,15 @@ export class RollHandler {
   }
 
   isAlt(event) {
-    return event?.altKey;
+    return game.keyboard.downKeys.has("ALT");
   }
 
   isCtrl(event) {
-    return keyboard?.isCtrl(event);
+    return game.keyboard.downKeys.has("CONTROL");
   }
 
   isShift(event) {
-    return event?.shiftKey;
+    return game.keyboard.downKeys.has("SHIFT");
   }
 
   /** @private */
