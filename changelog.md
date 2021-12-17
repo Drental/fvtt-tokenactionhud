@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.2] 2021-12-17
+
+### Changed
+
+- Token Action HUD - adress breaking change in Keyboard API
+
 ## [2.0.1] 2021-12-14
 
 ### Changed
