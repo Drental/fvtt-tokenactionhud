@@ -96,7 +96,7 @@ export class RollHandlerBase5e extends RollHandler {
   }
 
   needsRecharge(item) {
-    const itemData = this._getEntityData(item);
+    const itemData = this._getDocumentData(item);
     return (
       itemData.recharge && !itemData.recharge.charged && itemData.recharge.value
     );
@@ -189,7 +189,7 @@ export class RollHandlerBase5e extends RollHandler {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
   }
 
-  _getEntityData(entity) {
+  _getDocumentData(entity) {
     return entity.data.data ?? entity.data;
   }
 }

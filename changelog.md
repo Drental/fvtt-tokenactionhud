@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.3] 2021-12-22
+
+### Changed
+
+- Token Action HUD - restored macro section functionality
+
 ## [2.0.2] 2021-12-17
 
 ### Changed

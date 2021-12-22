@@ -48,13 +48,13 @@ export class CompendiumMacroPreHandler extends PreRollHandler {
   handleCompendium(macroType, event, compendiumKey, entityId) {
     let pack = game.packs.get(compendiumKey);
 
-    pack.getEntity(entityId).then((e) => e.sheet.render(true));
+    pack.getDocument(entityId).then((e) => e.sheet.render(true));
   }
 
   handleMacroCompendium(macroType, event, compendiumKey, entityId) {
     let pack = game.packs.get(compendiumKey);
 
-    pack.getEntity(entityId).then((e) => e.execute());
+    pack.getDocument(entityId).then((e) => e.execute());
   }
 
   async handlePlaylistCompendium(macroType, event, compendiumKey, actionId) {
@@ -64,7 +64,7 @@ export class CompendiumMacroPreHandler extends PreRollHandler {
     let playlistId = actionPayload[0];
     let soundId = actionPayload[1];
 
-    let playlist = await pack.getEntity(playlistId);
+    let playlist = await pack.getDocument(playlistId);
     let sound = playlist.sounds.find((s) => s._id === soundId);
 
     AudioHelper.play({ src: sound.path }, {});
