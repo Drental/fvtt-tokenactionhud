@@ -10,7 +10,7 @@ export class CompendiumHelper {
     return packs
       .filter((p) => {
         let packTypes = ["JournalEntry", "Macro", "RollTable", "Playlist"];
-        return packTypes.includes(p.metadata.entity);
+        return packTypes.includes(p.documentName);
       })
       .filter((p) => game.user.isGM || !p.private)
       .map((p) => {
@@ -36,7 +36,7 @@ export class CompendiumHelper {
   static getCompendiumMacroType(key) {
     let pack = game?.packs?.get(key);
     if (!pack) return "";
-    let compendiumEntities = pack.metadata.entity;
+    let compendiumEntities = pack.documentName;
 
     switch (compendiumEntities) {
       case "Macro":
@@ -63,7 +63,7 @@ export class CompendiumHelper {
     let packEntries =
       pack.index.size > 0 ? pack.index : await pack.getIndex();
 
-    if (pack.metadata.entity === "Playlist") {
+    if (pack.documentName === "Playlist") {
       let entries = await CompendiumHelper._getPlaylistEntries(pack);
       return entries;
     }
