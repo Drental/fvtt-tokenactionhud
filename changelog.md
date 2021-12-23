@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.5] 2021-12-22
+
+### Changed
+
+- Token Action HUD - fix deprecation messages about pack.metadata.entity
+
 ## [2.0.4] 2021-12-22
 
 ### Changed
