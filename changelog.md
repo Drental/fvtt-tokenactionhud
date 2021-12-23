@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.4] 2021-12-22
+
+### Changed
+
+- SWADE - only throw one Benny
+
 ## [2.0.3] 2021-12-22
 
 ### Changed

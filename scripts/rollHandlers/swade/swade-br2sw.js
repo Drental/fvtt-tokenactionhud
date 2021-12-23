@@ -112,7 +112,6 @@ export class RollHandlerBR2SWSwade extends RollHandler {
   _adjustBennies(event, actor, actionId) {
     if (actionId === "spend") {
       actor.spendBenny();
-      this._showDiceBenny();
     }
 
     if (actionId === "get") actor.getBenny();
@@ -125,57 +124,14 @@ export class RollHandlerBR2SWSwade extends RollHandler {
 
     const benniesValue = user.getFlag("swade", "bennies");
     if (actionId === "spend") {
-      if (benniesValue == 0) return;
-
-      if (game.settings.get("swade", "notifyBennies")) {
-        await this._createGmSpendMessage(user);
-        this._showDiceBenny();
-      }
-
-      await user.setFlag("swade", "bennies", benniesValue - 1);
+      game.user.spendBenny()
     }
 
     if (actionId === "get") {
-      await user.setFlag("swade", "bennies", benniesValue + 1);
-      if (game.settings.get("swade", "notifyBennies")) {
-        await this._createGmGetMessage(user);
-      }
-      ui["players"].render(true);
+      game.user.getBenny()
     }
 
     Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
-  async _createGmSpendMessage(user) {
-    let message = await renderTemplate(CONFIG.SWADE.bennies.templates.spend, {
-      target: user,
-      speaker: user,
-    });
-
-    let chatData = {
-      content: message,
-    };
-    ChatMessage.create(chatData);
-  }
-
-  async _createGmGetMessage(user) {
-    let message = await renderTemplate(CONFIG.SWADE.bennies.templates.gmadd, {
-      target: user,
-      speaker: user,
-    });
-
-    let chatData = {
-      content: message,
-    };
-
-    ChatMessage.create(chatData);
-  }
-
-  _showDiceBenny() {
-    if (game.dice3d) {
-      const benny = new Roll("1dB").roll();
-      game.dice3d.showForRoll(benny, game.user, true, null, false);
-    }
   }
 
   /** @private */
