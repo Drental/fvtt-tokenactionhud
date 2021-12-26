@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.6] 2021-12-26
+
+### Changed
+
+- pf2e - fix save rolls
+
 ## [2.0.5] 2021-12-24
 
 ### Changed

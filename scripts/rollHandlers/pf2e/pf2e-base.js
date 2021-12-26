@@ -7,6 +7,14 @@ export class RollHandlerBasePf2e extends RollHandler {
   constructor() {
     super();
   }
+  
+  eventToRollParams(event) {
+    const skipDefault = !game.user.settings.showRollDialogs;
+    return {
+        secret: !!(event.ctrlKey || event.metaKey),
+        skipDialog: event.shiftKey ? !skipDefault : skipDefault,
+    };
+  }
 
   async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
@@ -23,12 +31,6 @@ export class RollHandlerBasePf2e extends RollHandler {
     if (renderable.includes(macroType) && this.isRenderItem())
       return this.doRenderItem(tokenId, actionId);
 
-    let currentRollMode;
-    if (this._isBlindRollClick(event)) {
-      currentRollMode = game.settings.get("core", "rollMode");
-      await this._updateRollMode(this.BLIND_ROLL_MODE);
-    }
-
     try {
       const knownCharacters = ["character", "familiar", "npc"];
       if (tokenId === "multi") {
@@ -44,12 +46,6 @@ export class RollHandlerBasePf2e extends RollHandler {
       }
     } catch (e) {
       throw e;
-    } finally {
-      if (this._isBlindRollClick(event)) {
-        if (currentRollMode) {
-          await this._updateRollMode(currentRollMode);
-        }
-      }
     }
   }
 
@@ -117,14 +113,6 @@ export class RollHandlerBasePf2e extends RollHandler {
         this._rollStrikeChar(event, tokenId, actor, actionId);
         break;
     }
-  }
-
-  /** @private */
-  _isBlindRollClick(event) {
-    return (
-      this.isCtrl(event) &&
-      !(this.isRightClick(event) || this.isAlt(event) || this.isShift(event))
-    );
   }
 
   /** @private */
@@ -220,12 +208,12 @@ export class RollHandlerBasePf2e extends RollHandler {
 
   /** @private */
   _rollSaveChar(event, actor, actionId) {
-    let save = actor.data.data.saves[actionId];
+    let save = actor.saves[actionId];
     if (!save) {
       actor.rollSave(event, actionId);
     } else {
-      const options = actor.getRollOptions(["all", "saving-throw", save]);
-      save.roll({ event, options });
+      const rollParams = this.eventToRollParams(event);
+      save.check.roll(rollParams);
     }
   }
 
