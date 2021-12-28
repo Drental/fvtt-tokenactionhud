@@ -2,7 +2,7 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 import { Logger } from "../../logger.js";
 
-export class ActionHandler5e extends ActionHandler {
+export class ActionHandlerSW5e extends ActionHandler {
   constructor(filterManager, categoryManager) {
     super(filterManager, categoryManager);
   }
@@ -290,7 +290,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _categorisePowers(actor, tokenId, powers) {
-    const powers = this.initializeEmptySubcategory();
+    const natPowers = this.initializeEmptySubcategory();
     const book = this.initializeEmptySubcategory();
     const macroType = "power";
 
@@ -341,11 +341,11 @@ export class ActionHandler5e extends ActionHandler {
         const prepType = game.sw5e.config.powerPreparationModes[prep];
 
         var level = powerData.level;
-        let power = prep === "pact" || prep === "atwill" || prep === "innate";
+        let natPower = prep === "pact" || prep === "atwill" || prep === "innate";
 
         var max, slots, levelName, levelKey, levelInfo;
 
-        if (power) {
+        if (natPower) {
           levelKey = prep;
         } else {
           levelKey = "power" + level;
@@ -367,8 +367,8 @@ export class ActionHandler5e extends ActionHandler {
 
         // Initialise subcategory if non-existant.
         let subcategory;
-        if (power) {
-          subcategory = powers.subcategories.find(
+        if (natPower) {
+          subcategory = natPowers.subcategories.find(
             (cat) => cat.name === prepType
           );
         } else {
@@ -386,9 +386,9 @@ export class ActionHandler5e extends ActionHandler {
 
         subcategory.actions.push(power);
 
-        if (power && powers.subcategories.indexOf(subcategory) < 0)
-          this._combineSubcategoryWithCategory(powers, prepType, subcategory);
-        else if (!power && book.subcategories.indexOf(subcategory) < 0)
+        if (natPower && natPowers.subcategories.indexOf(subcategory) < 0)
+          this._combineSubcategoryWithCategory(natPowers, prepType, subcategory);
+        else if (!natPower && book.subcategories.indexOf(subcategory) < 0)
           this._combineSubcategoryWithCategory(book, levelName, subcategory);
 
         return dispose;
@@ -399,10 +399,10 @@ export class ActionHandler5e extends ActionHandler {
     let result = this.initializeEmptyCategory("powers");
     result.name = this.i18n("tokenactionhud.powers");
 
-    let powersTitle = this.i18n("tokenactionhud.powers");
+    let natPowersTitle = this.i18n("tokenactionhud.natPowers");
     let booksTitle = this.i18n("tokenactionhud.books");
 
-    this._combineSubcategoryWithCategory(result, powersTitle, powers);
+    this._combineSubcategoryWithCategory(result, natPowersTitle, natPowers);
     this._combineSubcategoryWithCategory(result, booksTitle, book);
 
     return result;
@@ -417,15 +417,15 @@ export class ActionHandler5e extends ActionHandler {
     power.info2 = "";
     power.info3 = "";
     if (c?.vocal)
-      power.info1 += this.i18n("SW5E.ComponentVerbal").charAt(0).toUpperCase();
+      spell.info1 += this.i18n("SW5E.ComponentVerbal").charAt(0).toUpperCase();
 
     if (c?.somatic)
-      power.info1 += this.i18n("SW5E.ComponentSomatic")
+      spell.info1 += this.i18n("SW5E.ComponentSomatic")
         .charAt(0)
         .toUpperCase();
 
     if (c?.material)
-      power.info1 += this.i18n("SW5E.ComponentMaterial")
+      spell.info1 += this.i18n("SW5E.ComponentMaterial")
         .charAt(0)
         .toUpperCase();
 
@@ -519,7 +519,7 @@ export class ActionHandler5e extends ActionHandler {
       .map((e) => {
         try {
           let skillId = e[0];
-          const skillset = actor.data.type !== starships ? game.sw5e.config.skills : game.sw5e.config.starshipSkills;
+          const skillset = (actor.data.type !== "starship") ? game.sw5e.config.skills : game.sw5e.config.starshipSkills;
           let name = abbr ? skillId : skillset[skillId];
           name = name.charAt(0).toUpperCase() + name.slice(1);
           let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
