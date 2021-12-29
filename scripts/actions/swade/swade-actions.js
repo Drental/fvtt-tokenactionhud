@@ -478,9 +478,9 @@ export class ActionHandlerSwade extends ActionHandler {
   /** @private */
   _getPowerPoints(item) {
     const pp = item.data.data.pp;
-    if (pp.toLowerCase() === "special") return "*";
+    if (pp.toString().toLowerCase() === "special") return "*";
 
-    const points = parseInt(pp);
+    const points = parseInt(pp.toString());
 
     if (points === NaN) return "";
 

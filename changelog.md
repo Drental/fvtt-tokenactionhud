@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.7] 2021-12-26
+
+### Changed
+
+- pf2e - fix npc saving throws
+- swade - preemplively adjust for a possible future change to power data structure
+
 ## [2.0.6] 2021-12-26
 
 ### Changed
