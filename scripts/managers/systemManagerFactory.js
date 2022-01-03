@@ -21,6 +21,7 @@ import { TagmarSystemManager } from "./tagmar.js";
 import { Ds4SystemManager } from "./ds4.js";
 import { CoSystemManager } from "./co.js";
 import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
+import { DnD4eSystemManager } from './dnd4e.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -75,6 +76,8 @@ export class SystemManagerFactory {
         return new CoSystemManager(appName);
       case 'forbidden-lands':
         return new ForbiddenLandsSystemManager(appName);
+      case 'dnd4e':
+        return new DnD4eSystemManager(appName);
     }
   }
 }
