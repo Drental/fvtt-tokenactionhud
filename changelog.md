@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.9] 2021-01-02
+
+### Changed
+
+- Token Action HUD - italian localisation - thanks smoothingplane
+- DnD4e - added a new system! - thank you draconas!!
+
 ## [2.0.8] 2021-01-02
 
 ### Changed
