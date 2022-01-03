@@ -261,6 +261,16 @@
         "rest": "Rest",
         "specialattacks": "Special Attacks"
       },
+      "dnd4e": {
+        "hideUsedPowers": {
+          "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
+          "name": "Hide used powers"
+        },
+        "forcePowerColours": {
+          "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
+          "name": "Colour Powers By Use Type"
+        }
+      },
       "dnd5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
