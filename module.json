@@ -91,7 +91,8 @@
     "ds4",
     "coc",
     "cof",
-    "forbidden-lands"
+    "forbidden-lands",
+	"dnd4e"
   ],
   "dependencies": [],
   "socket": false,
