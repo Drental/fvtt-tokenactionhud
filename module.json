@@ -13,7 +13,7 @@
   ],
   "url": "https://github.com/Drental/fvtt-tokenactionhud",
   "flags": {},
-  "version": "2.0.6",
+  "version": "2.0.9",
   "minimumCoreVersion": "9.236",
   "compatibleCoreVersion": "9",
   "scripts": ["./lib/tagify/tagify.min.js"],
@@ -61,6 +61,11 @@
       "path": "lang/cn.json"
     },
     {
+      "lang": "it",
+      "name": "italiano",
+      "path": "lang/it.json"
+    },
+    {
       "lang": "de",
       "name": "Deutsch",
       "path": "lang/de.json"
@@ -92,12 +97,13 @@
     "ds4",
     "coc",
     "cof",
-    "forbidden-lands"
+    "forbidden-lands",
+	"dnd4e"
   ],
   "dependencies": [],
   "socket": false,
   "manifest": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json",
-  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/2.0.6/module.zip",
+  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/2.0.9/module.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false

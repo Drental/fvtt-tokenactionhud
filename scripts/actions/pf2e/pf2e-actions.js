@@ -819,7 +819,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   _getSaveList(actor, tokenId) {
     let result = this.initializeEmptyCategory("saves");
 
-    let actorSaves = actor.data.data.saves;
+    let actorSaves = actor.saves;
     let saveMap = Object.keys(actorSaves).map((k) => {
       return { id: k, name: game.i18n.localize(CONFIG.PF2E.saves[k]) };
     });

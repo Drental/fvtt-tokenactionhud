@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.0.9] 2021-01-02
+
+### Changed
+
+- Token Action HUD - italian localisation - thanks smoothingplane
+- DnD4e - added a new system! - thank you draconas!!
+
+## [2.0.8] 2021-01-02
+
+### Changed
+
+- pf2e - actually fix npc saving throws
+
+## [2.0.7] 2021-12-29
+
+### Changed
+
+- pf2e - fix npc saving throws
+- swade - preemplively adjust for a possible future change to power data structure
+
 ## [2.0.6] 2021-12-26
 
 ### Changed
