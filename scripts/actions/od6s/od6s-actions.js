@@ -22,7 +22,7 @@ export class ActionHandlerOD6S extends ActionHandler {
 
         let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
 
-        let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId, "vehicle")
+        let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId);
 
         let attributeCategory = this._buildAttributesCategory(
             actor,
@@ -80,11 +80,11 @@ export class ActionHandlerOD6S extends ActionHandler {
         );
 
         let weapons = items
-            .filter((i) => i.data.type === "weapon" && i.data.data.equipped)
+            .filter((i) => i.data.type === "weapon" && i.data.data.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name));
         let meleeWeapons = items
             .filter(
-                (i) => i.data.type === "weapon" && i.data.data.subtype === "Melee" && i.data.data.equipped)
+                (i) => i.data.type === "weapon" && i.data.data.subtype === "Melee" && i.data.data.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name))
             .valueOf();
         let weaponActions = this._produceMap(tokenId, weapons, macroType);
@@ -140,16 +140,53 @@ export class ActionHandlerOD6S extends ActionHandler {
             actionsSubcategory
         );
 
-
+        return result;
     }
 
     _buildVehicleCategory(actor, tokenId, categoryName) {
-        let result = this.initializeEmptyCategory("combatactions");
+        let macroType = "action";
+        let result = this.initializeEmptyCategory("vehicleactions");
 
         if (actor.getFlag('od6s', 'crew')) {
+            if (isNewerVersion(game.system.data.version, "0.1.14")) {
+                let resistances = [];
+                let name;
+                
+                if(actor.data.data.vehicle.type === "vehicle") {
+                    name = game.i18n.localize(game.od6s.config.vehicleToughnessName);
+                } else {
+                    name = game.i18n.localize(game.od6s.config.starshipToughnessName);
+                }
+                let encodedValue = [macroType, tokenId, "vehicletoughness"].join(this.delimiter);
+                resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
+
+
+                if (actor.data.data.vehicle.shields.value > 0) {
+                    for (let arc in actor.data.data.vehicle.shields.arcs) {
+                        let name = game.i18n.localize(actor.data.data.vehicle.shields.arcs[arc].label) +
+                            " " + game.i18n.localize('OD6S.SHIELDS');
+                        let encodedValue = [
+                            macroType,
+                            tokenId,
+                            "vehicleshields"+arc
+                        ].join(this.delimiter);
+                        resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
+                    }
+                }
+
+                let vehicleResistanceSubcategory = this.initializeEmptySubcategory();
+                vehicleResistanceSubcategory.actions = resistances;
+                this._combineSubcategoryWithCategory(
+                    result,
+                    game.i18n.localize("OD6S.RESISTANCE"),
+                    vehicleResistanceSubcategory
+                );
+            }
+
+
             let vehicleWeaponsSubcategory = this.initializeEmptySubcategory();
             vehicleWeaponsSubcategory.actions = this._produceMap(tokenId,
-                actor.data.data.vehicle.vehicle_weapons,
+                actor.data.data.vehicle.vehicle_weapons.filter(i=>i.data.equipped.value),
                 macroType);
             this._combineSubcategoryWithCategory(
                 result,
