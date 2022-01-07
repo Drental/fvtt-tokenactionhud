@@ -10,7 +10,6 @@ export class CthackSystemManager extends SystemManager {
 
   /** @override */
   doGetActionHandler(filterManager, categoryManager) {
-    console.log("startup");
     let actionHandler = new ActionHandler(filterManager, categoryManager);
     return actionHandler;
   }
@@ -18,7 +17,6 @@ export class CthackSystemManager extends SystemManager {
   /** @override */
   getAvailableRollHandlers() {
     let choices = { core: "Core Cthack" };
-
     return choices;
   }
 
