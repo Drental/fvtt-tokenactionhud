@@ -171,7 +171,7 @@ export class ActionHandlerCo extends ActionHandler {
     // Capacities
     let capacities = actor.items.filter(item => item.data?.type === "capacity");
     let capacitiesActions = capacities.map((w) =>
-      this._buildItem(tokenId, actor, "capacity", w)
+      this._buildEquipmentItem(tokenId, actor, "capacity", w)
     );
     let capacitiesCat = this.initializeEmptySubcategory();
     capacitiesCat.actions = capacitiesActions;
@@ -214,8 +214,30 @@ export class ActionHandlerCo extends ActionHandler {
 
   /** @private */
   _getIcon(item) {
-    return item.data.data.worn ? '<i class="fas fa-shield-alt"></i>' : "";
-  }
+    // Item worn
+    if (item.type === "item" && item.data.data.worn) {
+      return '<i class="fas fa-shield-alt"></i>';
+    }
+    // Capacity activable
+    if (item.type === "capacity" && item.data.data.activable) {
+      // Buff
+      if (item.data.data.buff) {
+        if (item.data.data.properties.buff.activated) {
+          return '<i class="fas fa-times"></i>';
+        }
+        else return '<i class="fas fa-check"></i>';
+      }
+      // Limited Usage
+      if (item.data.data.limitedUsage) {
+        return item.data.data.properties.limitedUsage.use > 0 ? '<i class="fas fa-check"></i>' : "";
+      }
+      // Others
+      else {
+        return '<i class="fas fa-check"></i>';
+      }      
+    }    
+    return "";
+  }   
 
   /** @private */
   _addItemInfo(actor, item, action) {
@@ -226,19 +248,30 @@ export class ActionHandlerCo extends ActionHandler {
   _getQuantityData(item) {
     let result = "";
     
-    const consumable = item.data.data.properties.consumable;
-    const quantity = item.data.data.qty;
+    // Item consumable
+    if (item.type === "item") {
+      const consumable = item.data.data.properties.consumable;
+      const quantity = item.data.data.qty;
 
-    if (consumable) {
-      if (quantity > 0) {
-        result = quantity;
+      if (consumable) {
+        if (quantity > 0) {
+          result = quantity;
+        }
+      }
+      else {
+        if (quantity > 1) {
+          result = quantity;
+        }
       }
     }
-    else {
-      if (quantity > 1) {
-        result = quantity;
+
+    // Capacity with limited use
+    if (item.type === "capacity" && item.data.data.activable) {
+      if (item.data.data.limitedUsage) {
+        result += item.data.data.properties.limitedUsage.use + '/' + item.data.data.properties.limitedUsage.maxUse;
       }
     }
+    
     return result;
   }
 

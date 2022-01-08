@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.10] 2021-01-07
+
+### Changed
+
+- cof - Handle capacities actions - thanks Qaw
+- cthack - remove random console.log - thanks Qaw
+
 ## [2.0.9] 2021-01-02
 
 ### Changed
