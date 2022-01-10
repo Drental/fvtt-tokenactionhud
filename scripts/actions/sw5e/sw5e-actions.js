@@ -640,6 +640,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let macroType = "utility";
 
     let rests = this.initializeEmptySubcategory();
+    let repairs = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
 
     this._addIntiativeSubcategory(macroType, result, token.id);
@@ -688,10 +689,55 @@ export class ActionHandlerSW5e extends ActionHandler {
       utility.actions.push(inspirationAction);
     }
 
+    if (actor.data.type === "starship") {
+      let rechargeRepairValue = [macroType, token.id, "rechargeRepair"].join(
+        this.delimiter
+      );
+      repairs.actions.push({
+        id: "rechargeRepair",
+        encodedValue: rechargeRepairValue,
+        name: this.i18n("tokenactionhud.rechargeRepair"),
+      });
+      let refittingRepairValue = [macroType, token.id, "refittingRepair"].join(
+        this.delimiter
+      );
+      repairs.actions.push({
+        id: "refittingRepair",
+        encodedValue: refittingRepairValue,
+        name: this.i18n("tokenactionhud.refittingRepair"),
+      });
+      let regenRepairValue = [macroType, token.id, "regenRepair"].join(
+        this.delimiter
+      );
+      repairs.actions.push({
+        id: "regenRepair",
+        encodedValue: regenRepairValue,
+        name: this.i18n("tokenactionhud.regenRepair"),
+      });
+
+      if (actor.data.data.attributes.hp.value <= 0) {
+        let destructionSaveValue = [macroType, token.id, "destructionSave"].join(
+          this.delimiter
+        );
+        let destructionSaveAction = {
+          id: "destructionSave",
+          encodedValue: destructionSaveValue,
+          name: this.i18n("tokenactionhud.destructionSave"),
+        };
+        utility.actions.push(destructionSaveAction);
+      }
+
+    }
+
     this._combineSubcategoryWithCategory(
       result,
       this.i18n("tokenactionhud.rests"),
       rests
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.repairs"),
+      repairs
     );
     this._combineSubcategoryWithCategory(
       result,
@@ -923,6 +969,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     this._addMultiIntiativeSubcategory(macroType, tokenId, category);
 
     let rests = this.initializeEmptySubcategory();
+    let repairs = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
 
     if (actors.every((a) => a.data.type === "character")) {
@@ -957,10 +1004,38 @@ export class ActionHandlerSW5e extends ActionHandler {
       utility.actions.push(inspirationAction);
     }
 
+    if (actors.every((a) => a.data.type === "starship")) {
+      let rechargeRepairValue = [macroType, tokenId, "rechargeRepair"].join(
+        this.delimiter
+      );
+      repairs.actions.push({
+        id: "rechargeRepair",
+        encodedValue: rechargeRepairValue,
+        name: this.i18n("tokenactionhud.rechargeRepair"),
+      });
+      let refittingRepairValue = [macroType, tokenId, "refittingRepair"].join(this.delimiter);
+      repairs.actions.push({
+        id: "refittingRepair",
+        encodedValue: refittingRepairValue,
+        name: this.i18n("tokenactionhud.refittingRepair"),
+      });
+      let regenRepairValue = [macroType, tokenId, "regenRepair"].join(this.delimiter);
+      repairs.actions.push({
+        id: "regenRepair",
+        encodedValue: regenRepairValue,
+        name: this.i18n("tokenactionhud.regenRepair"),
+      });
+    }
+
     this._combineSubcategoryWithCategory(
       category,
       this.i18n("tokenactionhud.rests"),
       rests
+    );
+    this._combineSubcategoryWithCategory(
+      category,
+      this.i18n("tokenactionhud.repairs"),
+      repairs
     );
     this._combineSubcategoryWithCategory(
       category,

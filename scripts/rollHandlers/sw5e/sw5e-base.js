@@ -127,6 +127,18 @@ export class RollHandlerBaseSW5e extends RollHandler {
       case "deathSave":
         actor.rollDeathSave({ event });
         break;
+      case "rechargeRepair":
+        actor.rechargeRepair();
+        break;
+      case "refittingRepair":
+        actor.refittingRepair();
+        break;
+      case "regenRepair":
+        actor.regenRepair();
+        break;
+      case "destructionSave":
+        actor.rollDestructionSave({ event });
+        break;
       case "initiative":
         await this.performInitiativeMacro(tokenId);
         break;
