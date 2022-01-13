@@ -54,6 +54,7 @@
     "dc": "DC",
     "deathSave": "Death Save",
     "defenses": "Defenses",
+    "destructionSave": "Destruction Save",
     "dmg": "Dmg",
     "dodge": "Dodge",
     "doomed": "Doomed",
@@ -107,6 +108,7 @@
     "moves": "Moves",
     "msa": "Melee Spell Attacks",
     "mwa": "Melee Weapon Attacks",
+    "natPowers": "Natural Powers",
     "noammo": "No ammo",
     "other": "Other",
     "passive": "Passive",
@@ -128,12 +130,17 @@
     "rank": "Rank",
     "reactions": "Reactions",
     "recharge": "Recharge",
+    "rechargeRepair": "Recharge",
+    "refittingRepair": "Refitting",
+    "regenRepair": "Regen",
     "religion": "Religion",
+    "repair": "Repair",
     "resistance": "Resistance",
     "rest": "Rest",
     "restNight": "Rest for the Night",
     "takeBreather": "Take a Breather",
     "rests": "Rests",
+    "repairs": "Repairs",
     "roll": "Roll",
     "rollable": "Rollable",
     "rollInitiative": "Roll initiative",
@@ -382,9 +389,33 @@
           "hint": "If enabled, passive feats are not shown.",
           "name": "Ignore passive feats"
         },
+        "itemMacroReplace": {
+          "hint": "Select which of the items will be shown in the inventory.",
+          "name": "Item-Macro: item macro, original item, or both"
+        },
+        "showAllNonpreparablePowers": {
+          "hint": "If disabled, powers such as cantrips, innate, pact, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
+          "name": "Show all non-preparable powers"
+        },
+        "showAllNpcItems": {
+          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
+          "name": "Show all NPC items"
+        },
+        "showConditionsCategory": {
+          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
+          "name": "Show Conditions Category"
+        },
         "showEmptyItems": {
           "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
           "name": "Show empty items (includes items and powers)"
+        },
+        "showPowerInfo": {
+          "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
+          "name": "Display power information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
         }
       },
       "swade": {
