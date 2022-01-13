@@ -114,6 +114,10 @@
     "pf1": {
       "disabled": "Désactivé"
     },
+    "pf2e": {
+      "useTwoHandedLabel": "Utiliser une arme à deux mains",
+      "recoveryCheck": "Test de récupération"
+    },
     "pilot": "Pilote",
     "points": "Points",
     "powers": "Pouvoirs",
@@ -153,6 +157,10 @@
     "strikes": "Frappes",
     "subcategoryTagExplanation": "Ajoutez et supprimez des sous-catégories : saisissez du texte libre pour les sous-catégories ou sélectionnez des compendiums liés..",
     "subcategoryTagTitle": "Ajouter/supprimer des sous-catégories",
+    "swade": {
+      "abilities": "Capacités",
+      "specialAbilities": "Capacités Spéciales"
+    },
     "systems": "Systèmes",
     "tags": "Tags",
     "talents": "Talents",
@@ -427,6 +435,39 @@
           "name": "Afficher des exemples de valeurs",
           "hint": "Si ce paramètre est activé, les valeurs des échantillons individuels sont affichées."
         }
+      },
+      "forbiddenlands": {
+        "consumables": "Consommables",
+        "attributestrength": "Force",
+        "attributewits": "Esprit",
+        "attributeagility": "Agilité",
+        "attributeempathy": "Empathie",
+        "conditions": "Conditions",
+        "skillmelee": "Mêlée",
+        "skillendurance": "Endurance",
+        "skillmight": "Vigueur",
+        "skillcrafting": "Artisanat",
+        "skillstealth": "Furtivité",
+        "skillmove": "Souplesse",
+        "skillsleight-of-hand": "Dextérité",
+        "skillmarksmanship": "Tir",
+        "skillscouting": "Perception",
+        "skilllore": "Érudition",
+        "skillsurvival": "Survie",
+        "skillinsight": "Intuition",
+        "skillmanipulation": "Manipulation",
+        "skillhealing": "Soins",
+        "skillperformance": "Représentation",
+        "skillanimal-handling": "Dressage",
+        "monsterAttack": "Attaque de monstre",
+        "consumablesfood": "Nourriture",
+        "consumableswater": "Eau",
+        "consumablesarrows": "Flèches",
+        "consumablestorches": "Torches",
+        "hungry": "Affamé",
+        "thirsty": "Assoiffé",
+        "sleepy": "Épuisé",
+        "cold": "Glacé"
       }
     },
     "symbaroum": {
