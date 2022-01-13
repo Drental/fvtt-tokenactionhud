@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.12] 2021-01-13
+
+### Changed
+
+- sw5e - major update and overhaul - thanks supervj
+- localisation - updated french localisation - thanks Qaw
+
 ## [2.0.11] 2021-01-10
 
 ### Changed
