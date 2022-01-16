@@ -75,7 +75,15 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   rollItemMacro(event, tokenId, itemId) {
     let actor = super.getActor(tokenId);
     let item = super.getItem(actor, itemId);
-    return item.roll()
+
+    if (this.needsRecharge(actor, item)) {
+      const event = Object.assign({}, this.emptyEvent)
+      event.currentTarget = { closest : (str) => {return {dataset : { itemId : itemId}}} };
+      actor.sheet._onItemRecharge(event)
+      return;
+    }
+
+    return actor.usePower(item)
   }
 
   rollPowerMacro(event, tokenId, itemId) {
