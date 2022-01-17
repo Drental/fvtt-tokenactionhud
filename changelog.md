@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.13] 2021-01-18
+
+### Changed
+
+- dnd4e - some minor bugfixes - thanks draconas
+
 ## [2.0.12] 2021-01-13
 
 ### Changed
