@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.0.13] 2021-01-18
+
+### Changed
+
+- dnd4e - some minor bugfixes - thanks draconas
+
+## [2.0.12] 2021-01-13
+
+### Changed
+
+- sw5e - major update and overhaul - thanks supervj
+- localisation - updated french localisation - thanks Qaw
+
+## [2.0.11] 2021-01-10
+
+### Changed
+
+- pf2e - actually fix npc saving throws part 2
+
 ## [2.0.10] 2021-01-07
 
 ### Changed

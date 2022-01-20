@@ -152,8 +152,14 @@ export class ActionHandlerDnD4e extends ActionHandler {
         let result = this.initializeEmptyCategory("Powers");
         result.name = this.i18n("DND4EBETA.Powers");
 
+        // powerGroupType is not initalised by default
+        let groupType = this._getDocumentData(actor).powerGroupTypes
+        if (!groupType) {
+            actor.data.data.powerGroupTypes = "usage"
+            groupType = "usage"
+        }
         const goupings = actor.sheet._generatePowerGroups()
-        const groupType = this._getDocumentData(actor).powerGroupTypes
+
         let groupField = "useType"
 
         switch (groupType) {
@@ -182,6 +188,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
                 actor.sheet._checkPowerAvailable(power.data)
                 const data = this._getDocumentData(power)
                 return data.useType === "recharge" || !data.notAvailable
+            })
+        }
+        else {
+            // need to poke this to force the available boolean correctly for recharge powers
+            powers.forEach((power) => {
+                actor.sheet._checkPowerAvailable(power.data)
             })
         }
 
