@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.14] 2021-01-21
+
+### Changed
+
+- sw5e - fixed action HUD for newer charaacters - thanks supervj
+
 ## [2.0.13] 2021-01-18
 
 ### Changed
