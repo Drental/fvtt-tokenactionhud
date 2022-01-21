@@ -304,16 +304,13 @@ export class ActionHandlerSW5e extends ActionHandler {
     );
 
     // Go through powers and if higher available slots exist, mark power slots available at lower levels.
-    var pactInfo = powerSlotInfo.find((s) => s[0] === "pact");
-
     var slotsAvailable = false;
     powerSlotInfo.forEach((s) => {
       if (s[0].startsWith("power")) {
         if (!slotsAvailable && s[1].max > 0 && s[1].value > 0)
           slotsAvailable = true;
 
-        if (!slotsAvailable && s[0] === "power" + pactInfo[1]?.level) {
-          if (pactInfo[1].max > 0 && pactInfo[1].value > 0)
+        if (!slotsAvailable && s[0] === "power") {
             slotsAvailable = true;
         }
 
@@ -325,15 +322,6 @@ export class ActionHandlerSW5e extends ActionHandler {
       }
     });
 
-    let pactIndex = powerSlotInfo.findIndex((p) => p[0] === "pact");
-    if (!powerSlotInfo[pactIndex][1].slotsAvailable) {
-      var pactPowerEquivalent = powerSlotInfo.findIndex(
-        (s) => s[0] === "power" + pactInfo[1].level
-      );
-      powerSlotInfo[pactIndex][1].slotsAvailable =
-        powerSlotInfo[pactPowerEquivalent][1].slotsAvailable;
-    }
-
     let dispose = powers.reduce(
       function (dispose, s) {
         const powerData = this._getDocumentData(s);
@@ -341,7 +329,7 @@ export class ActionHandlerSW5e extends ActionHandler {
         const prepType = game.sw5e.config.powerPreparationModes[prep];
 
         var level = powerData.level;
-        let natPower = prep === "pact" || prep === "atwill" || prep === "innate";
+        let natPower = prep === "atwill" || prep === "innate";
 
         var max, slots, levelName, levelKey, levelInfo;
 
@@ -351,7 +339,7 @@ export class ActionHandlerSW5e extends ActionHandler {
           levelKey = "power" + level;
           levelName = level
             ? `${this.i18n("tokenactionhud.level")} ${level}`
-            : this.i18n("tokenactionhud.cantrips");
+            : this.i18n("tokenactionhud.at-will");
         }
 
         levelInfo = powerSlotInfo.find((lvl) => lvl[0] === levelKey)?.[1];
