@@ -264,7 +264,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   /** @private */
   _rollSaveNpc(event, actor, actionId) {
     const rollParams = this.eventToRollParams(event);
-    actor.saves[actionId].check.roll({ rollParams });
+    actor.saves[actionId].check.roll(rollParams);
   }
 
   async _updateRollMode(rollMode) {
