@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.15] 2021-01-22
+
+### Changed
+
+- pf2e - actually fix npc saving throws part 3
+
 ## [2.0.14] 2021-01-21
 
 ### Changed
