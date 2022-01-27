@@ -68,13 +68,13 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       game.brsw
         .create_item_card_from_id(tokenId, actor.id, actionId)
         .then((message) => {
-          game.brsw.roll_item(message, "", false);
+          game.brsw.roll_item(message, $(message.data.content), false);
         });
     } else if (behavior === "trait_damage") {
       game.brsw
         .create_item_card_from_id(tokenId, actor.id, actionId)
         .then((message) => {
-          game.brsw.roll_item(message, "", false, true);
+          game.brsw.roll_item(message, $(message.data.content), false, true);
         });
     } else if (behavior === "system") {
       game.swade.rollItemMacro(actor.items.get(actionId).name);
@@ -151,7 +151,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       game.brsw
         .create_attribute_card_from_id(tokenId, actor.id, actionId)
         .then((message) => {
-          game.brsw.roll_attribute(message, "", false);
+          game.brsw.roll_attribute(message, $(message.data.content), false);
         });
     } else if (behavior === "system") {
       actor.rollAttribute(actionId);
@@ -177,7 +177,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       game.brsw
         .create_skill_card_from_id(tokenId, actor.id, actionId)
         .then((message) => {
-          game.brsw.roll_skill(message, "", false);
+          game.brsw.roll_skill(message, $(message.data.content), false);
         });
     } else if (behavior === "system") {
       game.swade.rollItemMacro(actor.items.get(actionId).name);
