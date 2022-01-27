@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.16] 2021-01-27
+
+### Changed
+
+- SWADE - Better handling of better rolls2 for SWADE rolls - thanks javierriveracastro
+
 ## [2.0.15] 2021-01-22
 
 ### Changed
