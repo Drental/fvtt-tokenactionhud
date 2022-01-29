@@ -294,18 +294,6 @@ export class RollHandlerBasePf2e extends RollHandler {
       strike = strike[strikeUsage];
     }
 
-    
-    const ammo = (() => {
-      const fromMeleeWeapon = strike.weapon?.type === "weapon" && strike.weapon?.isMelee;
-      if (!strike.selectedAmmoId || fromMeleeWeapon) return null;
-      const ammo = actor.items.get(strike.selectedAmmoId ?? "");
-      return ammo.type === "consumable" ? ammo : null;
-    })();
-    if (ammo && ammo.quantity < 1) {
-      ui.notifications.error(game.i18n.localize("PF2E.ErrorMessage.NotEnoughAmmo"));
-      return;
-    }
-
     let options;
     switch (strikeType) {
       case "damage":
@@ -321,9 +309,6 @@ export class RollHandlerBasePf2e extends RollHandler {
         strike.variants[strikeType]?.roll({
           event,
           options,
-          callback: () => {
-            ammo?.consume();
-          },
         });
         break;
     }

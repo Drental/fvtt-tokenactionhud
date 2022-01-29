@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.17] 2021-01-27
+
+### Changed
+
+- pf2e - stop consuming ammunition twice
+
 ## [2.0.16] 2021-01-27
 
 ### Changed
