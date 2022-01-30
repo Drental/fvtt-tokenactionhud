@@ -1,5 +1,48 @@
 # Changelog
 
+## [2.0.17] 2021-01-27
+
+### Changed
+
+- pf2e - stop consuming ammunition twice
+
+## [2.0.16] 2021-01-27
+
+### Changed
+
+- SWADE - Better handling of better rolls2 for SWADE rolls - thanks javierriveracastro
+
+## [2.0.15] 2021-01-22
+
+### Changed
+
+- pf2e - actually fix npc saving throws part 3
+
+## [2.0.14] 2021-01-21
+
+### Changed
+
+- sw5e - fixed action HUD for newer charaacters - thanks supervj
+
+## [2.0.13] 2021-01-18
+
+### Changed
+
+- dnd4e - some minor bugfixes - thanks draconas
+
+## [2.0.12] 2021-01-13
+
+### Changed
+
+- sw5e - major update and overhaul - thanks supervj
+- localisation - updated french localisation - thanks Qaw
+
+## [2.0.11] 2021-01-10
+
+### Changed
+
+- pf2e - actually fix npc saving throws part 2
+
 ## [2.0.10] 2021-01-07
 
 ### Changed

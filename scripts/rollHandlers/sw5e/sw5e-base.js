@@ -1,7 +1,7 @@
 import { RollHandler } from "../rollHandler.js";
 import * as settings from "../../settings.js";
 
-export class RollHandlerBaseSw5e extends RollHandler {
+export class RollHandlerBaseSW5e extends RollHandler {
   constructor() {
     super();
   }
@@ -19,12 +19,12 @@ export class RollHandlerBaseSw5e extends RollHandler {
     let actionId = payload[2];
 
     if (tokenId === "multi") {
-      canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.data._id;
-        this._handleMacros(event, macroType, idToken, actionId);
-      });
+      for (let t of canvas.tokens.controlled) {
+        let idToken = t.id;
+        await this._handleMacros(event, macroType, idToken, actionId);
+      }
     } else {
-      this._handleMacros(event, macroType, tokenId, actionId);
+      await this._handleMacros(event, macroType, tokenId, actionId);
     }
   }
 
@@ -45,10 +45,6 @@ export class RollHandlerBaseSw5e extends RollHandler {
       case "item":
       case "power":
       case "feat":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
-        break;
-      case "classFeatures":
         if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
         else this.rollItemMacro(event, tokenId, actionId);
         break;
@@ -100,10 +96,9 @@ export class RollHandlerBaseSw5e extends RollHandler {
   }
 
   needsRecharge(item) {
+    const itemData = this._getDocumentData(item);
     return (
-      item.data.data.recharge &&
-      !item.data.data.recharge.charged &&
-      item.data.data.recharge.value
+      itemData.recharge && !itemData.recharge.charged && itemData.recharge.value
     );
   }
 
@@ -132,6 +127,18 @@ export class RollHandlerBaseSw5e extends RollHandler {
       case "deathSave":
         actor.rollDeathSave({ event });
         break;
+      case "rechargeRepair":
+        actor.rechargeRepair();
+        break;
+      case "refittingRepair":
+        actor.refittingRepair();
+        break;
+      case "regenRepair":
+        actor.regenRepair();
+        break;
+      case "destructionSave":
+        actor.rollDestructionSave({ event });
+        break;
       case "initiative":
         await this.performInitiativeMacro(tokenId);
         break;
@@ -143,6 +150,24 @@ export class RollHandlerBaseSw5e extends RollHandler {
 
     await actor.rollInitiative({ createCombatants: true });
 
+    Hooks.callAll("forceUpdateTokenActionHUD");
+  }
+
+  async toggleEffect(event, tokenId, effectId) {
+    const actor = super.getActor(tokenId);
+    const effects =
+      "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
+    const effect = effects.find((e) => e.id === effectId);
+
+    if (!effect) return;
+
+    const statusId = effect.data.flags.core?.statusId;
+    if (statusId) {
+      await this.toggleCondition(event, tokenId, statusId);
+      return;
+    }
+
+    await effect.update({ disabled: !effect.data.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
@@ -172,23 +197,11 @@ export class RollHandlerBaseSw5e extends RollHandler {
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId);
-    const effect = actor.effects.entries.find((e) => e.id === effectId);
-
-    if (!effect) return;
-
-    const statusId = effect.data.flags.core?.statusId;
-    if (statusId) {
-      await this.toggleCondition(event, tokenId, statusId);
-      return;
-    }
-
-    await effect.update({ disabled: !effect.data.disabled });
-    Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
   findCondition(id) {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
+  }
+
+  _getDocumentData(entity) {
+    return entity.data.data ?? entity.data;
   }
 }
