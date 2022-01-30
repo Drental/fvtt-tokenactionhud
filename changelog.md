@@ -1,63 +1,69 @@
 # Changelog
 
-## [2.0.17] 2021-01-27
+## [2.0.18] 2022-01-30
+
+### Changed
+
+- Od6s - Move vehicle actions to a separate category and adds resistance/shield rolls - thanks madseumas
+
+## [2.0.17] 2022-01-29
 
 ### Changed
 
 - pf2e - stop consuming ammunition twice
 
-## [2.0.16] 2021-01-27
+## [2.0.16] 2022-01-27
 
 ### Changed
 
 - SWADE - Better handling of better rolls2 for SWADE rolls - thanks javierriveracastro
 
-## [2.0.15] 2021-01-22
+## [2.0.15] 2022-01-22
 
 ### Changed
 
 - pf2e - actually fix npc saving throws part 3
 
-## [2.0.14] 2021-01-21
+## [2.0.14] 2022-01-21
 
 ### Changed
 
 - sw5e - fixed action HUD for newer charaacters - thanks supervj
 
-## [2.0.13] 2021-01-18
+## [2.0.13] 2022-01-18
 
 ### Changed
 
 - dnd4e - some minor bugfixes - thanks draconas
 
-## [2.0.12] 2021-01-13
+## [2.0.12] 2022-01-13
 
 ### Changed
 
 - sw5e - major update and overhaul - thanks supervj
 - localisation - updated french localisation - thanks Qaw
 
-## [2.0.11] 2021-01-10
+## [2.0.11] 2022-01-10
 
 ### Changed
 
 - pf2e - actually fix npc saving throws part 2
 
-## [2.0.10] 2021-01-07
+## [2.0.10] 2022-01-07
 
 ### Changed
 
 - cof - Handle capacities actions - thanks Qaw
 - cthack - remove random console.log - thanks Qaw
 
-## [2.0.9] 2021-01-02
+## [2.0.9] 2022-01-02
 
 ### Changed
 
 - Token Action HUD - italian localisation - thanks smoothingplane
 - DnD4e - added a new system! - thank you draconas!!
 
-## [2.0.8] 2021-01-02
+## [2.0.8] 2022-01-02
 
 ### Changed
 
