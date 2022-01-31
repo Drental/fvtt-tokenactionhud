@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.18] 2022-01-31
+
+### Changed
+
+- ds4 - Fix for actions for multiple tokens - thanks Ghost
+
 ## [2.0.18] 2022-01-30
 
 ### Changed
