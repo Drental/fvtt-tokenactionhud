@@ -48,7 +48,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     checksCategory.name = checksCategoryName;
 
     const checksSubcategory = this.initializeEmptySubcategory();
-    const displayCheckTargetNumbers = settings.get("displayCheckTargetNumbers");
+    const displayCheckTargetNumbers = !!actor && settings.get("displayCheckTargetNumbers");
     checksSubcategory.actions = Object.entries(CONFIG.DS4.i18n.checks).map(([id, name]) => ({
       id,
       name: displayCheckTargetNumbers ? `${name} (${actor.data.data.checks[id]})` : name,
