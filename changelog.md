@@ -1,6 +1,13 @@
 # Changelog
 
-## [2.0.18] 2022-01-31
+## [2.1.0] 2022-02-03
+
+### Changed
+
+- TAH - better handling of focus - thanks tposney
+- TAH - use a div on the name of an action - thanks Dorako
+
+## [2.0.19] 2022-01-31
 
 ### Changed
 
