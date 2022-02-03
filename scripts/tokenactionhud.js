@@ -97,7 +97,6 @@ export class TokenActionHUD extends Application {
       let target = e.target;
 
       if (target.tagName !== "BUTTON") target = e.currentTarget.children[0];
-      e.blur();
       let value = target.value;
       try {
         this.rollHandler.handleActionEvent(e, value);
