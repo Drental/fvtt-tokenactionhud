@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.1] 2022-02-03
+
+### Changed
+
+- TAH - delete a superfluous </div>
+
 ## [2.1.0] 2022-02-03
 
 ### Changed
