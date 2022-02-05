@@ -6,11 +6,6 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     super();
   }
 
-  emptyEvent = {
-    preventDefault : function() {
-    }
-  }
-
   /** @override */
   async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
@@ -42,6 +37,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
         this.rollSkillMacro(event, tokenId, actionId);
         break;
       case "feature":
+      case "inventory":
         if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
         else this.rollItemMacro(event, tokenId, actionId);
         break;
@@ -64,26 +60,18 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
   rollAbilityMacro(event, tokenId, checkId) {
     const actor = super.getActor(tokenId);
-    actor.rollAbility(checkId, { event: event });
+    return game.dnd4eBeta.tokenBarHooks.rollAbility(actor, checkId, event);
   }
 
   rollSkillMacro(event, tokenId, checkId) {
     const actor = super.getActor(tokenId);
-    actor.rollSkill(checkId, { event: event });
+    return game.dnd4eBeta.tokenBarHooks.rollSkill(actor, checkId, event);
   }
 
   rollItemMacro(event, tokenId, itemId) {
     let actor = super.getActor(tokenId);
     let item = super.getItem(actor, itemId);
-
-    if (this.needsRecharge(actor, item)) {
-      const event = Object.assign({}, this.emptyEvent)
-      event.currentTarget = { closest : (str) => {return {dataset : { itemId : itemId}}} };
-      actor.sheet._onItemRecharge(event)
-      return;
-    }
-
-    return actor.usePower(item)
+    return game.dnd4eBeta.tokenBarHooks.rollItem(actor, item, event);
   }
 
   rollPowerMacro(event, tokenId, itemId) {
@@ -91,19 +79,18 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     let item = super.getItem(actor, itemId);
 
     if (this.needsRecharge(actor, item)) {
-      const event = Object.assign({}, this.emptyEvent)
       event.currentTarget = { closest : (str) => {return {dataset : { itemId : itemId}}} };
-      actor.sheet._onItemRecharge(event)
+      game.dnd4eBeta.tokenBarHooks.rechargePower(actor, item, event)
       return;
     }
 
-    return actor.usePower(item)
+    return game.dnd4eBeta.tokenBarHooks.rollPower(actor, item, event)
   }
 
   needsRecharge(actor, item) {
     const itemData = this._getDocumentData(item);
     return (
-        itemData.useType === "recharge" && itemData.notAvailable
+        itemData.useType === "recharge" && !game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, item)
     );
   }
 
@@ -121,13 +108,13 @@ export class RollHandlerBaseDnD4e extends RollHandler {
         token.toggleVisibility();
         break;
       case "saveDialog":
-        actor.sheet._onSavingThrow(this.emptyEvent)
+        game.dnd4eBeta.tokenBarHooks.saveDialog(actor, event)
         break;
       case "save":
-        game.dnd4eBeta.quickSave(actor)
+        game.dnd4eBeta.tokenBarHooks.quickSave(actor, event)
         break;
       case "healDialog":
-        actor.sheet._onHealMenuDialog(this.emptyEvent)
+        game.dnd4eBeta.tokenBarHooks.healDialog(actor, event)
         break;
       case "initiative":
         await this.performInitiativeMacro(tokenId);

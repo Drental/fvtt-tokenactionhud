@@ -55,6 +55,7 @@ Offers a variety of settings including support for third-party roll handlers (Pl
 - Chroniques Oubliées
 - Lancer
 - D35E
+- dnd4e
 - swade
 - od6s
 - alienrpg

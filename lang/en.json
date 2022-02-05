@@ -277,6 +277,18 @@
         "forcePowerColours": {
           "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
           "name": "Colour Powers By Use Type"
+        },
+        "hideUnequippedInventory": {
+          "hint": "If enabled, only inventory items that are set as equipped will be shown",
+          "name": "Hide Unequipped Inventory"
+        },
+        "hideQuantityZero": {
+          "hint": "If enabled, inventory with a quantity 0 will be hidden (useful for consumables)",
+          "name": "Hide inventory with quantity of 0"
+        },
+        "equipmentCategoryList": {
+          "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
+          "name": "Visible Inventory Categories"
         }
       },
       "dnd5e": {

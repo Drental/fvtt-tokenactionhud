@@ -44,9 +44,9 @@ export class ActionHandlerDnD4e extends ActionHandler {
         return [
             this._buildAbilitiesCategory(token),
             this._buildSkillsCategory(token),
-            // this._buildEffectsCategory(token),
             this._buildPowersCategory(token),
             this._buildFeaturesCategory(token),
+            this._buildItemssCategory(token),
             this._buildConditionsCategory(token),
             this._buildUtilityCategory(token),
         ];
@@ -103,7 +103,8 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory("Features");
         result.name = this.i18n("DND4EBETA.Features");
-        const features = {
+
+       const features = {
             raceFeats: { label: "DND4EBETA.FeatRace", items: [], dataset: {type: "raceFeats"} },
             classFeats: { label: "DND4EBETA.FeatClass", items: [], dataset: {type: "classFeats"} },
             pathFeats: { label: "DND4EBETA.FeatPath", items: [], dataset: {type: "pathFeats"} },
@@ -142,6 +143,104 @@ export class ActionHandlerDnD4e extends ActionHandler {
         return result;
     }
 
+
+    /** Inventory **/
+    _buildItemssCategory(token) {
+        const actor = token.actor;
+        const tokenId = token.id;
+
+        let result = this.initializeEmptyCategory("Inventory");
+        result.name = this.i18n("DND4EBETA.Inventory");
+
+        const filterObject = {}
+        settings.get("equipmentCategoryList").split(',').forEach((str) => {
+            if (str.trim()) {
+                filterObject[str.trim()] = true
+            }
+        });
+
+        const items = {
+            weapon: { label: "DND4EBETA.ItemTypeWeaponPl", items: []},
+            equipment: { label: "DND4EBETA.ItemTypeEquipmentPl", items: []},
+            consumable: { label: "DND4EBETA.ItemTypeConsumablePl", items: [], subcategories: {}, subcategoryField: "consumableType"},
+            tool: { label: "DND4EBETA.ItemTypeToolPl", items: []},
+            backpack: { label: "DND4EBETA.ItemTypeContainerPl", items: []},
+            loot: { label: "DND4EBETA.ItemTypeLootPl", items: []},
+        };
+
+        Object.entries(game.dnd4eBeta.config.consumableTypes).forEach((e) => {
+            const subCat = { label: e[1], items : [] }
+            items.consumable.subcategories[e[0]] = subCat
+        });
+
+        actor.data.items.forEach((item) => {
+            if (Object.keys(items).includes(item.data.type)) {
+                const menuItem = items[item.data.type]
+                if (menuItem.subcategories && menuItem.subcategoryField) {
+                    if (item.data.data[menuItem.subcategoryField]) {
+                        const subCat = item.data.data[menuItem.subcategoryField]
+                        if (menuItem.subcategories[subCat]) {
+                            menuItem.subcategories[subCat].items.push(item)
+                            return;
+                        }
+                    }
+                }
+                menuItem.items.push(item)
+            }
+        })
+
+        const filterOff = Object.keys(filterObject).length === 0
+        Object.entries(items).map((e) => {
+            if (filterOff || filterObject[e[0]]) {
+                const subCat = this._buildItemSubCategory(actor, e[1].items, tokenId, e[1].subcategories, filterObject)
+                this._combineSubcategoryWithCategory(result, this.i18n(e[1].label), subCat);
+            }
+        });
+
+        return result;
+    }
+
+
+    _buildItemSubCategory(actor, items, tokenId, subcategories, filterObject) {
+        const macroType = "inventory"
+        const result = this.initializeEmptySubcategory();
+        items.forEach((item) => {
+            const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
+            const action = {
+                name: item.data.name,
+                id: item.id,
+                encodedValue: encodedValue,
+                img: this._getImage(item)
+            };
+            if (settings.get("hideUnequippedInventory")) {
+                if (!item.data.data.equipped) {
+                    return;
+                }
+            }
+            if (settings.get("hideQuantityZero")) {
+                if (item.data.data.quantity < 1) {
+                    return;
+                }
+            }
+
+            result.actions.push(action)
+        })
+
+        if (subcategories) {
+            const filterOff = Object.keys(filterObject).length === 0
+
+            Object.entries(subcategories).map((e) => {
+                if (filterOff || filterObject[e[0]]) {
+                    const subCat = this._buildItemSubCategory(actor, e[1].items, tokenId, e[1].subcategories, filterObject)
+                    this._combineSubcategoryWithCategory(result, this.i18n(e[1].label), subCat);
+                }
+            });
+        }
+
+        return result;
+    }
+
+
     /** @private */
     _buildPowersCategory(token) {
         const actor = token.actor;
@@ -158,7 +257,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             actor.data.data.powerGroupTypes = "usage"
             groupType = "usage"
         }
-        const goupings = actor.sheet._generatePowerGroups()
+        const goupings = game.dnd4eBeta.tokenBarHooks.generatePowerGroups(actor)
 
         let groupField = "useType"
 
@@ -185,15 +284,14 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
         if(settings.get("hideUsedPowers")) {
             powers = powers.filter((power) => {
-                actor.sheet._checkPowerAvailable(power.data)
                 const data = this._getDocumentData(power)
-                return data.useType === "recharge" || !data.notAvailable
+                return data.useType === "recharge" || game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, power)
             })
         }
         else {
             // need to poke this to force the available boolean correctly for recharge powers
             powers.forEach((power) => {
-                actor.sheet._checkPowerAvailable(power.data)
+                game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, power)
             })
         }
 
