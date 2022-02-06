@@ -4,7 +4,7 @@
 
 ### Changed
 
-- ED4e - Added support for Earthdawn4e system
+- ED4e - Added support for Earthdawn4e system - thanks qrizzl!
 
 ## [2.1.2] 2022-02-03
 
