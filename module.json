@@ -97,7 +97,8 @@
     "coc",
     "cof",
     "forbidden-lands",
-	"dnd4e"
+	"dnd4e",
+    "earthdawn4e"
   ],
   "dependencies": [],
   "socket": false,

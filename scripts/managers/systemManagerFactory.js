@@ -78,6 +78,8 @@ export class SystemManagerFactory {
         return new ForbiddenLandsSystemManager(appName);
       case 'dnd4e':
         return new DnD4eSystemManager(appName);
+      case 'earthdawn4e':
+        //return new ED4eSystemManager(appName);
     }
   }
 }
