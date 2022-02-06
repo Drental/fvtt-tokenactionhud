@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.0] 2022-02-06
+
+### Changed
+
+- ED4e - Added support for Earthdawn4e system
+
 ## [2.1.2] 2022-02-03
 
 ### Changed
