@@ -257,7 +257,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             actor.data.data.powerGroupTypes = "usage"
             groupType = "usage"
         }
-        const goupings = game.dnd4eBeta.tokenBarHooks.generatePowerGroups(actor)
+        const groupings = game.dnd4eBeta.tokenBarHooks.generatePowerGroups(actor)
 
         let groupField = "useType"
 
@@ -269,18 +269,33 @@ export class ActionHandlerDnD4e extends ActionHandler {
             default: break;
         }
 
-        Object.entries(goupings).map((e) => {
-            const subCat = this._buildPowerSubCategory(actor, allPowers, e[1].dataset.type, tokenId, groupField)
+        // original I had a neat solution doing filtering when building the subcategory, but this did not get things that did not fall into categories and instead got "other"
+        if (!groupings.other) {
+            groupings.other = { label: "DND4EBETA.Other", items: [], dataset: {type: "other"} }
+        }
+
+        allPowers.forEach(power => {
+            const key = this._getDocumentData(power)[groupField]
+            if (groupings[key]) {
+                groupings[key].items.push(power)
+            }
+            else {
+                groupings.other.items.push(power)
+            }
+        })
+
+        Object.entries(groupings).map((e) => {
+            const subCat = this._buildPowerSubCategory(actor, e[1].items, tokenId)
             this._combineSubcategoryWithCategory(result, this.i18n(e[1].label), subCat);
         });
 
         return result;
     }
 
-    _buildPowerSubCategory(actor, powerList, powerType, tokenId, groupField) {
+    _buildPowerSubCategory(actor, powerList, tokenId) {
         const macroType = "power"
         const result = this.initializeEmptySubcategory();
-        let powers = powerList.filter((power) => this._getDocumentData(power)[groupField] === powerType)
+        let powers = powerList
 
         if(settings.get("hideUsedPowers")) {
             powers = powers.filter((power) => {
