@@ -17,7 +17,18 @@ export class ActionHandlerDnD4e extends ActionHandler {
         return this.initializeEmptyActionList();
     }
 
+    buildUpgradeAnnouncement() {
+        const list = this.initializeEmptyActionList();
+        const cats = this.initializeEmptyCategory("blank");
+        cats.name = "You must upgrade 4E System to at least 0.2.62"
+        list.categories.push(cats)
+        return list
+    }
+
     async _buildSingleTokenList(token) {
+        if(!game.dnd4eBeta.tokenBarHooks) {
+            return this.buildUpgradeAnnouncement();
+        }
         const list = this.initializeEmptyActionList();
         list.tokenId = token?.id;
         list.actorId = token?.actor?.id;
@@ -66,6 +77,9 @@ export class ActionHandlerDnD4e extends ActionHandler {
     }
 
     _buildMultipleTokenList() {
+        if(!game.dnd4eBeta.tokenBarHooks) {
+            return this.buildUpgradeAnnouncement();
+        }
         const list = this.initializeEmptyActionList();
         list.tokenId = "multi";
         list.actorId = "multi";
