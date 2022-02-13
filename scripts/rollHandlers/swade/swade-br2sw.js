@@ -85,27 +85,13 @@ export class RollHandlerBR2SWSwade extends RollHandler {
 
   /** @private */
   async _toggleStatus(event, actor, actionId, tokenId) {
-    const update = { data: { status: {} } };
-
-    const status = "is" + actionId.charAt(0).toUpperCase() + actionId.slice(1);
-    const existingOnSheet = actor.data.data.status[status];
-    update.data.status[status] = !actor.data.data.status[status];
-
-    await actor.update(update);
-    // SWADE system will eventually set the active effect on the token, this future-proofs it so duplicate effects don't occur
-    setTimeout(() => {
-      const existingOnToken = actor.effects.find(
-        (e) => e.getFlag("core", "statusId") === actionId
-      );
-
-      if (!existingOnToken == !existingOnSheet) {
-        const effect = CONFIG.SWADE.statusEffects.find(
-          (e) => e.id === actionId
-        );
-        effect["flags.core.statusId"] = actionId;
-        canvas.tokens.get(tokenId).toggleEffect(effect);
-      }
-    }, 10);
+    const existsOnActor = actor.effects.find(
+      e => e.getFlag("core", "statusId") == actionId);
+    const effect = CONFIG.SWADE.statusEffects.find(
+      (e) => e.id === actionId
+    );
+    effect["flags.core.statusId"] = actionId;
+    await canvas.tokens.get(tokenId).toggleEffect(effect, {active: !existsOnActor});
   }
 
   /** @private */

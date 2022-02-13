@@ -28,7 +28,7 @@ export class RollHandlerBaseSwade extends RollHandler {
         this._rollItem(event, actor, actionId);
         break;
       case "status":
-        await this._toggleStatus(event, actor, actionId);
+        await this._toggleStatus(event, actor, actionId, tokenId);
         break;
       case "benny":
         this._adjustBennies(event, actor, actionId);
@@ -57,13 +57,14 @@ export class RollHandlerBaseSwade extends RollHandler {
   }
 
   /** @private */
-  async _toggleStatus(event, actor, actionId) {
-    const update = { data: { status: {} } };
-
-    const status = "is" + actionId.charAt(0).toUpperCase() + actionId.slice(1);
-    update.data.status[status] = !actor.data.data.status[status];
-
-    await actor.update(update);
+  async _toggleStatus(event, actor, actionId, tokenId) {
+    const existsOnActor = actor.effects.find(
+      e => e.getFlag("core", "statusId") == actionId);
+    const effect = CONFIG.SWADE.statusEffects.find(
+      (e) => e.id === actionId
+    );
+    effect["flags.core.statusId"] = actionId;
+    await canvas.tokens.get(tokenId).toggleEffect(effect, {active: !existsOnActor});
   }
 
   /** @private */
