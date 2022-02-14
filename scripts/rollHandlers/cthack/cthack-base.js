@@ -53,7 +53,29 @@ export class RollHandlerBaseCthack extends RollHandler {
 
   _handleWeapon(macroType, event, actor, actionId) {
     let item = actor.items.get(actionId);
-    actor.rollMaterial(item);
+
+    // Material Roll
+    if (this.isRightClick(event)) {
+      actor.rollMaterial(item);
+    }
+    // Attack roll
+    else {
+      let mod = 0;
+      if ( game.user.targets.size > 0) {
+          const target = [...game.user.targets][0];
+          if (target.actor.type=="opponent") {
+              mod = target.actor.data.data.malus;
+          }
+      }
+      if (mod < 0) {
+          item.data.data.range === "" ? actor.rollSave("str", {modifier: mod}) : actor.rollSave("dex", {modifier: mod}); 
+      }
+      else {
+          item.data.data.range === "" ? actor.rollSave("str") : actor.rollSave("dex"); 
+      }
+    }
+
+
   }
 
   _handleItem(macroType, event, actor, actionId) {
