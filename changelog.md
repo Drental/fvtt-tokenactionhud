@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.1] 2022-02-14
+
+### Changed
+
+- TAH - blur the event target after handling the event - thanks tposney!
+- SWADE - Update for status Effects in v1.0 - thanks bloy!
+- pf2e - fix spell modifier reminder - thanks SoldierDash!
+- DnD4e - Update integration - thanks Draconas!
+
 ## [2.2.0] 2022-02-06
 
 ### Changed

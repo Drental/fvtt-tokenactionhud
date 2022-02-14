@@ -100,6 +100,7 @@ export class TokenActionHUD extends Application {
       let value = target.value;
       try {
         this.rollHandler.handleActionEvent(e, value);
+        target.blur();
       } catch (error) {
         settings.Logger.error(e);
       }
