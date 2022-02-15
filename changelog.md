@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.2] 2022-02-15
+
+### Changed
+
+- pf2e - Add Scene to speaker info to resolve tokens - thanks Dorako!
+
 ## [2.2.1] 2022-02-14
 
 ### Changed
