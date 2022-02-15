@@ -447,6 +447,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       speaker: {
         actor: actor.id,
         token: actor.getActiveTokens()[0]?.id,
+        scene: actor.getActiveTokens()[0]?.scene.id
       },
       flags: {
         core: {
