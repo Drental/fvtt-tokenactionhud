@@ -203,21 +203,21 @@ export class ActionHandlerPf2e extends ActionHandler {
     let items = (actor.items ?? [])
       .filter(
         (a) =>
-          a.data.data.equipped?.value && !a.data.data.containerId?.value?.length
+          ["held","worn"].includes(a.data.data.equipped?.carryType) && !a.data.data.containerId?.value?.length
       )
       .filter((i) => filter.includes(i.data.type))
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
     if (actor.data.type === "character")
-      weaponList = weaponList.filter((i) => i.data.data.equipped.value);
+      weaponList = weaponList.filter((i) => ["held","worn"].includes(i.data.data.equipped?.carryType));
     let weaponActions = this._buildItemActions(tokenId, macroType, weaponList);
     let weapons = this.initializeEmptySubcategory();
     weapons.actions = weaponActions;
 
     let armourList = items.filter((i) => i.type === "armor");
     if (actor.data.type === "character")
-      armourList = armourList.filter((i) => i.data.data.equipped.value);
+      armourList = armourList.filter((i) => ["held","worn"].includes(i.data.data.equipped?.carryType));
     let armourActions = this._buildItemActions(tokenId, macroType, armourList);
     let armour = this.initializeEmptySubcategory();
     armour.actions = armourActions;

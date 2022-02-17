@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.3] 2022-02-17
+
+### Changed
+
+- pf2e - restore inventory after 3.4
+
 ## [2.2.2] 2022-02-15
 
 ### Changed
