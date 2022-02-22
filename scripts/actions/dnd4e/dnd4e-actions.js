@@ -558,7 +558,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         const category = this.initializeEmptyCategory("conditions");
         const macroType = "condition";
 
-        const availableConditions = game.dnd4eBeta.config.statusEffect.filter(
+        const availableConditions = CONFIG.statusEffects.filter(
             (condition) => condition.id !== ""
         );
         const actors = canvas.tokens.controlled
@@ -602,7 +602,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     _addConditionsSubcategory(actor, tokenId, category) {
         const macroType = "condition";
 
-        const availableConditions = game.dnd4eBeta.config.statusEffect.filter(
+        const availableConditions = CONFIG.statusEffects.filter(
             (condition) => condition.id !== ""
         );
 
