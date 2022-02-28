@@ -28,13 +28,16 @@ export class RollHandlerBaseCthack extends RollHandler {
         this._handleDamages(macroType, event, actor, itemId);
         break;
       case "weapon":
-        this._handleWeapon(macroType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
+        else this._handleWeapon(macroType, event, actor, itemId);
         break;
       case "item":
-        this._handleItem(macroType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
+        else this._handleItem(macroType, event, actor, itemId);
         break;
       case "ability":
-        this._handleAbility(macroType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
+        else this._handleAbility(macroType, event, actor, itemId);
         break;
     }
   }
@@ -55,7 +58,7 @@ export class RollHandlerBaseCthack extends RollHandler {
     let item = actor.items.get(actionId);
 
     // Material Roll
-    if (this.isRightClick(event)) {
+    if (this.isShift(event)) {
       actor.rollMaterial(item);
     }
     // Attack roll
@@ -84,7 +87,9 @@ export class RollHandlerBaseCthack extends RollHandler {
   }
 
   _handleAbility(macroType, event, actor, actionId) {
-    let usedPower = actor.items.filter((item) => item.data?._id === actionId);
-    actor.usePower(usedPower[0]);
+    let ability = actor.items.get(actionId);
+
+    if (ability.data.data.uses.value > 0) actor.useAbility(ability);
+    else actor.resetAbility(ability);
   }
 }
