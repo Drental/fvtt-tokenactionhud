@@ -547,16 +547,8 @@
       "consumables": "Consumables"
     },
     "gurps": {
-      "primary": "Primary",
       "blindroll": "Blind Roll",
-      "attribute": {
-        "ST": "[ST] Strength",
-        "IQ": "[IQ] Intelligence",
-        "DX": "[DX] Dexterity",
-        "HT": "[HT] Health",
-        "PER": "[Per] Perception",
-        "WILL": "[Will] Willpower"
-      }
+      "addacc": "Add Acc"
     }
   }
 }

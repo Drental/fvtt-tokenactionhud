@@ -6,7 +6,6 @@ export class RollHandlerBaseGURPS extends RollHandler {
       super();
   }
 
-
   async doHandleActionEvent(event, encodedValue) {
       let payload = encodedValue.split('|');
 
@@ -31,12 +30,6 @@ export class RollHandlerBaseGURPS extends RollHandler {
 
   async _handleMacros(event, macroType, actor, actionId) {
       switch (macroType) {
-          case 'attribute':
-               this.rollAttributeMacro(event, actor, actionId);
-              break;
-          case 'blindroll':
-              this.rollAttributeMacro(event, actor, actionId, true);
-              break;
           case 'otf':
               this.executeOTF(event, actor, actionId)
               break
@@ -46,13 +39,6 @@ export class RollHandlerBaseGURPS extends RollHandler {
   async executeOTF(event, actor, otf) {
     let saved = GURPS.LastActor
     GURPS.SetLastActor(actor)
-    GURPS.executeOTF(otf).then(e => GURPS.SetLastActor(saved))
-  }
-
-  async rollAttributeMacro(event, actor, attr, blind = false) {
-    let saved = GURPS.LastActor
-    if (blind) attr = '!' + attr
-    let otf = '!/r [' + attr + ']'
     GURPS.executeOTF(otf).then(e => GURPS.SetLastActor(saved))
   }
 }
