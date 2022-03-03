@@ -98,7 +98,8 @@
     "cof",
     "forbidden-lands",
     "dnd4e",
-    "earthdawn4e"
+    "earthdawn4e",
+    "gurps"
   ],
   "dependencies": [],
   "socket": false,

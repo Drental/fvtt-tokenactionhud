@@ -23,6 +23,7 @@ import { CoSystemManager } from "./co.js";
 import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
 import { DnD4eSystemManager } from './dnd4e.js'
 import { ED4eSystemManager } from './ed4e.js'
+import { GURPSSystemManager } from './gurps.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -81,6 +82,8 @@ export class SystemManagerFactory {
         return new DnD4eSystemManager(appName);
       case 'earthdawn4e':
         return new ED4eSystemManager(appName);
+      case 'gurps':
+        return new GURPSSystemManager(appName);
     }
   }
 }
