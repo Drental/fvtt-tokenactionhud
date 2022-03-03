@@ -219,8 +219,6 @@ export class ActionHandlerED4e extends ActionHandler {
                 let matrixSubCategory = this.initializeEmptySubcategory();
                 let matrixId = e.id;
 
-                console.log(`${e.name}\n${e.data.data.currentspell}`)
-
                 matrixSubCategory.actions = [
                     {
                         name: this.i18n("earthdawn.a.attune"),
@@ -307,13 +305,25 @@ export class ActionHandlerED4e extends ActionHandler {
 
         // get list of items
 
-        let validItems = actor.data.items.filter(i => ['weapon', 'equipment'].indexOf(i.type) > -1);
+        let validItems = actor.data.items.filter(i => ['weapon', 'armor', 'shield', 'equipment'].indexOf(i.type) > -1);
 
-        let weapons = validItems.filter(i => (i.type === 'weapon') && this._getEntityData(i).worn);
+        let weapons = validItems.filter(i => (i.type === 'weapon'));
         let weaponActions = weapons.map(w => this._buildItem(tokenId, actor, macroType, w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let weaponsCat = this.initializeEmptySubcategory();
         weaponsCat.actions = weaponActions;
+
+        let armors = validItems.filter(i => (i.type === 'armor'));
+        let armorActions = armors.map(w => this._buildItem(tokenId, actor, macroType, w))
+            .sort((a,b) => a.name.localeCompare(b.name));
+        let armorsCat = this.initializeEmptySubcategory();
+        armorsCat.actions = armorActions;
+
+        let shields = validItems.filter(i => (i.type === 'shield'));
+        let shieldActions = shields.map(w => this._buildItem(tokenId, actor, macroType, w))
+            .sort((a,b) => a.name.localeCompare(b.name));
+        let shieldCat = this.initializeEmptySubcategory();
+        shieldCat.actions = shieldActions;
 
         let equipment = validItems.filter(i => i.type === 'equipment');
         let equipmentActions = equipment.map(e => this._buildItem(tokenId, actor, macroType, e))
@@ -324,12 +334,16 @@ export class ActionHandlerED4e extends ActionHandler {
         // make categories
 
         let weaponsTitle = this.i18n("earthdawn.w.weapons");
+        let armorsTitle = this.i18n("earthdawn.a.armors");
+        let shieldsTitle = this.i18n("earthdawn.s.shields");
         let equipmentTitle = this.i18n("earthdawn.e.equipment")
 
         let result = this.initializeEmptyCategory('inventory');
         result.name = this.i18n("earthdawn.i.inventory");
 
         this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
+        this._combineSubcategoryWithCategory(result, armorsTitle, armorsCat);
+        this._combineSubcategoryWithCategory(result, shieldsTitle, shieldCat);
         this._combineSubcategoryWithCategory(result, equipmentTitle, equipmentCat);
 
         return result;
@@ -340,21 +354,29 @@ export class ActionHandlerED4e extends ActionHandler {
         const itemId = item.id ?? item._id;
         let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
         let img = this._getImage(item);
-        return { name: item.name, id: itemId, encodedValue: encodedValue, img: img};
+        let action = { name: item.name, id: itemId, encodedValue: encodedValue, img: img};
+        if (['weapon', 'armor', 'shield'].indexOf(item.type) >= 0) {
+            action['cssClass'] = item.data.data.worn === true ? 'active' : '';
+        }
+        return action;
     }
 
     _buildCombatCategory(token, itemCat=[], matricesCat=[], favoriteCat=[], statusCat=[]) {
         if (!settings.get("showCombat")) return;
+
+        let actor = token.actor;
 
         // top category
         let result = this.initializeEmptyCategory("combat");
         result.name = this.i18n("earthdawn.c.combat")
 
         // weapons
-        if (itemCat.length > 0) {
-            let weaponSub = itemCat.subcategories[0];
-            this._combineSubcategoryWithCategory(result, weaponSub.name, weaponSub);
-        }
+        let weapons = actor.data.items.filter(i => ['weapon', 'equipment'].indexOf(i.type) > -1).filter(i => (i.type === 'weapon') && this._getEntityData(i).worn);
+        let weaponActions = weapons.map(w => this._buildItem(token.id, actor, "weaponAttack", w))
+            .sort((a,b) => a.name.localeCompare(b.name));
+        let weaponsCat = this.initializeEmptySubcategory();
+        weaponsCat.actions = weaponActions;
+        this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.w.weapons"), weaponsCat);
 
         // matrices
         if (matricesCat.length > 0) {

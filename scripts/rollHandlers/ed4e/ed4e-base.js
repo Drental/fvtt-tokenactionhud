@@ -35,14 +35,14 @@ export class RollHandlerBaseED4e extends RollHandler {
         let actor = super.getActor(tokenId);
         switch (macroType) {
             case 'skill':
-                // fall through
+            // fall through
             case 'talent':
                 this.rollTalentMacro(event, tokenId, actionId);
                 break;
             case 'attack':
-                // fall through
+            // fall through
             case 'power':
-                // fall through
+            // fall through
             case 'maneuver':
                 this.handleCreatureActionMacro(event, tokenId, actionId);
                 break;
@@ -76,6 +76,9 @@ export class RollHandlerBaseED4e extends RollHandler {
             case 'matrixClear':
                 actor.clearMatrix(actor.items.get(actionId));
                 break;
+            case 'weaponAttack':
+                actor.rollPrep({weaponID: actionId, rolltype: 'attack'});
+                break;
         }
     }
 
@@ -92,10 +95,10 @@ export class RollHandlerBaseED4e extends RollHandler {
     rollInventoryMacro(event, tokenId, actionId) {
         const actor = super.getActor(tokenId);
         const item = actor.items.get(actionId);
-        if (item.type === 'weapon') {
-            actor.rollPrep({weaponID: actionId, rolltype: 'attack'});
-        } else if (item.type === 'equipment') {
-            ui.notifications.info("This is not clickable, sorry")
+        if (item.type === 'equipment') {
+            item.sheet.render(true);
+        } else if (['weapon', 'armor', 'shield'].indexOf(item.type) >= 0) {
+            this.toggleItemWornProperty(event, tokenId, actionId);
         } else {
             //problem
             Logger.error(item.type, " is not a valid actionId for rolling an inventory item")
@@ -123,6 +126,19 @@ export class RollHandlerBaseED4e extends RollHandler {
                 }
             })
         }
+    }
+
+    toggleItemWornProperty(event, tokenId, actionId) {
+        const actor = super.getActor(tokenId);
+        const item = actor.items.get(actionId);
+        const currentValue = item.data.data['worn'];
+        const valueType = typeof currentValue;
+        let newValue = valueType === "string" ? this._toggleBooleanString(currentValue) : !currentValue;
+        item.update({
+            data: {
+                worn: newValue
+            }
+        })
     }
 
     _toggleBooleanString(val) {
