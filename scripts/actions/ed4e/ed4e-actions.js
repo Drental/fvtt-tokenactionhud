@@ -200,7 +200,10 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
     _buildMatrixCategory(token) {
-        if (!settings.get("showMatrices")) return;
+        if (
+            (!settings.get("showMatrices"))
+            || !(token.actor.items.find(e => e.type==='spellmatrix'))
+        ) return;
 
         const actor = token.actor;
         if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
