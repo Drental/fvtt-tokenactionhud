@@ -47,8 +47,7 @@ export class ActionHandlerED4e extends ActionHandler {
         let attacksCategory = this._buildAttacksCategory(token);
         let powersCat = this._buildCreaturePowersCategory(token);
         let maneuversCat = this._buildCreatureManeuversCategory(token);
-        let statCat = this._buildStatusCategory(token);
-        let combatCat = this._buildCombatCategory(token, itemsCat, [], favoriteCat, statCat);
+        let combatCat = this._buildCombatCategory(token);
         return [
             generalCat,
             favoriteCat,
@@ -60,11 +59,8 @@ export class ActionHandlerED4e extends ActionHandler {
             maneuversCat,
             itemsCat,
             // this._buildEffectsCategory(token),
-            statCat,
             combatCat
             // this._buildUtilityCategory(token),
-            //this._buildPowersCategory(token),
-
         ]
     }
 
@@ -119,11 +115,35 @@ export class ActionHandlerED4e extends ActionHandler {
             )
         }
 
+
+        const mapPropToActionID = {
+            "earthdawn.u.useKarma": "usekarma"
+        }
+
+        const systemProperties = [
+            "earthdawn.u.useKarma"
+        ]
+        let systemActions = systemProperties.map( e => {
+                return {
+                    name: this.i18n(e), // localize in system
+                    id: null,
+                    encodedValue: ["toggle", token.id, mapPropToActionID[e]].join(this.delimiter),
+                    cssClass: actor.data.data["usekarma"] === "true" ? 'active' : ''
+                }
+            }
+        ).filter(s => !!s) // filter out nulls
+            .sort((a,b) => a.name.localeCompare(b.name));
+        let systemCat = this.initializeEmptySubcategory();
+        systemCat.actions = systemActions;
+
         let result = this.initializeEmptyCategory('general');
         result.name = this.i18n("tokenactionhud.general");
 
         this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.a.attributes"), attributeCat);
         this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.o.other"), otherCat);
+        if (!isCreature) {
+            this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.systems"), systemCat);
+        }
 
         return result;
     }
@@ -361,7 +381,7 @@ export class ActionHandlerED4e extends ActionHandler {
         return action;
     }
 
-    _buildCombatCategory(token, itemCat=[], matricesCat=[], favoriteCat=[], statusCat=[]) {
+    _buildCombatCategory(token) {
         if (!settings.get("showCombat")) return;
 
         let actor = token.actor;
@@ -379,10 +399,34 @@ export class ActionHandlerED4e extends ActionHandler {
         this._combineSubcategoryWithCategory(result, `${this.i18n("earthdawn.w.weapons")} ${this.i18n("earthdawn.a.attack")}`, weaponsCat);
 
         // tactics
-        if (statusCat.length > 0) {
-            let tacticsSub = statusCat.subcategories[0];
-            this._combineSubcategoryWithCategory(result, tacticsSub.name, tacticsSub)
+        const tacticsProperties = [
+            "earthdawn.c.combatOptionsAggressive",
+            "earthdawn.c.combatOptionsDefensive",
+            "earthdawn.c.combatModifierHarried",
+            "earthdawn.c.combatModifierKnockedDown"
+        ]
+
+        const mapPropToActionID = {
+            "earthdawn.c.combatOptionsAggressive": "tactics.aggressive",
+            "earthdawn.c.combatOptionsDefensive": "tactics.defensive",
+            "earthdawn.c.combatModifierHarried": "tactics.harried",
+            "earthdawn.c.combatModifierKnockedDown": "tactics.knockeddown",
         }
+
+        let tacticsActions = tacticsProperties.map( e => {
+                return {
+                    name: this.i18n(e), // localize in system
+                    id: null,
+                    encodedValue: ['toggle', token.id, mapPropToActionID[e]].join(this.delimiter),
+                    cssClass: actor.data.data.tactics[mapPropToActionID[e].split(".")[1]] === true ? 'active' : ''
+                }
+            }
+        ).filter(s => !!s) // filter out nulls
+            .sort((a,b) => a.name.localeCompare(b.name));
+        let tacticsCat = this.initializeEmptySubcategory();
+        tacticsCat.actions = tacticsActions;
+
+        this._combineSubcategoryWithCategory(result, `${this.i18n("earthdawn.o.option")} & ${this.i18n("earthdawn.m.modifier")}`, tacticsCat);
 
         // actions
         let actionsCat = this.initializeEmptySubcategory();
@@ -404,77 +448,6 @@ export class ActionHandlerED4e extends ActionHandler {
             },
         ];
         this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.a.actions"), actionsCat);
-
-        return result;
-    }
-
-    _buildStatusCategory(token) {
-        if (!settings.get("showStatusToggle")) return;
-
-        const actor = token.actor;
-        //if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
-        const isCreature = ['creature'].indexOf(actor.data.type) === 0;
-
-        const macroType = "toggle";
-
-        const tacticsProperties = [
-            "earthdawn.c.combatOptionsAggressive",
-            "earthdawn.c.combatOptionsDefensive",
-            "earthdawn.c.combatModifierHarried",
-            "earthdawn.c.combatModifierKnockedDown"
-        ]
-
-        const systemProperties = [
-            "earthdawn.u.useKarma"
-        ]
-
-        const mapPropToActionID = {
-            "earthdawn.c.combatOptionsAggressive": "tactics.aggressive",
-            "earthdawn.c.combatOptionsDefensive": "tactics.defensive",
-            "earthdawn.c.combatModifierHarried": "tactics.harried",
-            "earthdawn.c.combatModifierKnockedDown": "tactics.knockeddown",
-            "earthdawn.u.useKarma": "usekarma"
-        }
-
-        let tacticsActions = tacticsProperties.map( e => {
-                return {
-                    name: this.i18n(e), // localize in system
-                    id: null,
-                    encodedValue: [macroType, token.id, mapPropToActionID[e]].join(this.delimiter),
-                    cssClass: actor.data.data.tactics[mapPropToActionID[e].split(".")[1]] === true ? 'active' : ''
-                }
-            }
-        ).filter(s => !!s) // filter out nulls
-            .sort((a,b) => a.name.localeCompare(b.name));
-        let tacticsCat = this.initializeEmptySubcategory();
-        tacticsCat.actions = tacticsActions;
-
-
-        let systemActions = systemProperties.map( e => {
-                return {
-                    name: this.i18n(e), // localize in system
-                    id: null,
-                    encodedValue: [macroType, token.id, mapPropToActionID[e]].join(this.delimiter),
-                    cssClass: actor.data.data["usekarma"] === "true" ? 'active' : ''
-                }
-            }
-        ).filter(s => !!s) // filter out nulls
-            .sort((a,b) => a.name.localeCompare(b.name));
-        let systemCat = this.initializeEmptySubcategory();
-        systemCat.actions = systemActions;
-
-        // make categories
-
-        let tacticsTitle = "Tactics"; // localize in system
-        let systemTitle = "System"; // localize in system
-
-        let result = this.initializeEmptyCategory('status');
-        result.name = 'Status & Toggles'; // localize in system
-
-        this._combineSubcategoryWithCategory(result, tacticsTitle, tacticsCat);
-        if (!isCreature) {
-            this._combineSubcategoryWithCategory(result, systemTitle, systemCat);
-        }
 
         return result;
     }
