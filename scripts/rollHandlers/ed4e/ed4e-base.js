@@ -43,7 +43,25 @@ export class RollHandlerBaseED4e extends RollHandler {
                 break;
             case 'toggle':
                 this.toggleDataProperty(event, tokenId, actionId);
+                break;
+            case 'attribute':
+                this.rollAttributeMacro(event, tokenId, actionId);
+                break;
+            case 'recovery':
+                super.getActor(tokenId).recoveryTest();
+                break;
+            case 'newday':
+                super.getActor(tokenId).newDay();
+                break;
+            case 'halfmagic':
+                super.getActor(tokenId).halfMagic();
+                break;
         }
+    }
+
+    rollAttributeMacro(event, tokenId, actionId) {
+        const actor = super.getActor(tokenId);
+        actor.rollPrep({ attribute: `${actionId.split('.').slice(-1)}Step`, name: actionId });
     }
 
     rollTalentMacro(event, tokenId, actionId) {

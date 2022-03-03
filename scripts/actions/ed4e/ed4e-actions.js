@@ -38,6 +38,7 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
     _buildCategories(token) {
+        let generalCat = this._buildGeneralCategory(token);
         let favoriteCat = this._buildFavoritesCategory(token);
         let talentCat = this._buildTalentsCategory(token);
         let matrixCat = this._buildMatrixCategory(token);
@@ -46,6 +47,7 @@ export class ActionHandlerED4e extends ActionHandler {
         let statCat = this._buildStatusCategory(token);
         let combatCat = this._buildCombatCategory(token, itemsCat, [], favoriteCat, statCat);
         return [
+            generalCat,
             favoriteCat,
             talentCat,
             matrixCat,
@@ -59,6 +61,61 @@ export class ActionHandlerED4e extends ActionHandler {
             //this._buildPowersCategory(token),
 
         ]
+    }
+
+    _buildGeneralCategory(token) {
+        if (!settings.get("showGeneral")) return;
+
+        const actor = token.actor;
+        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+
+        const attributeProperties = [
+            "earthdawn.d.dexterity",
+            "earthdawn.s.strength",
+            "earthdawn.t.toughness",
+            "earthdawn.p.perception",
+            "earthdawn.w.willpower",
+            "earthdawn.c.charisma",
+        ]
+
+        let attributeActions = attributeProperties.map( e => {
+                return {
+                    name: this.i18n(e), // localize in system
+                    id: null,
+                    encodedValue: ["attribute", token.id, e].join(this.delimiter),
+                }
+            }
+        ).filter(s => !!s); // filter out nulls
+
+        let attributeCat = this.initializeEmptySubcategory();
+        attributeCat.actions = attributeActions;
+
+        let otherCat = this.initializeEmptySubcategory();
+        otherCat.actions = [
+            {
+                name: this.i18n("earthdawn.r.recovery"),
+                id: null,
+                encodedValue: ["recovery", token.id, "recovery"].join(this.delimiter),
+            },
+            {
+                name: this.i18n("earthdawn.n.newDay"),
+                id: null,
+                encodedValue: ["newday", token.id, "newday"].join(this.delimiter),
+            },
+            {
+                name: this.i18n("earthdawn.h.halfMagic"),
+                id: null,
+                encodedValue: ["halfmagic", token.id, "halfmagic"].join(this.delimiter),
+            }
+        ];
+
+        let result = this.initializeEmptyCategory('general');
+        result.name = this.i18n("tokenactionhud.general");
+
+        this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.a.attributes"), attributeCat);
+        this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.o.other"), otherCat);
+
+        return result;
     }
 
     _buildFavoritesCategory(token) {
