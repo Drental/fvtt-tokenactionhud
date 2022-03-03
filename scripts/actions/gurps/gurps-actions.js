@@ -22,14 +22,42 @@ export class ActionHandlerGURPS extends ActionHandler {
   
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.gurps.attributes"),
+        this.i18n("tokenactionhud.attributes"),
         attributes
       );
+      
+      this._combineCategoryWithList(
+        result,
+        this.i18n("tokenactionhud.defenses"),
+        this._defenses(actor, tokenId)
+      );
+      
   
       if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
   
       return result;
     }
+    
+  _defenses(actor, tokenId) {
+    let result = this.initializeEmptyCategory("defenses");
+
+    let cat = this._addDefense(tokenId, 'Dodge', 'DODGE')
+    this._addDefense(tokenId, 'Retreating Dodge', 'DODGE +3 retreating', cat)
+    this._combineSubcategoryWithCategory(result, '', cat);
+
+    return result;
+  }
+  
+  _addDefense(tokenId, label, otf, attributeCategory) {
+    if (!attributeCategory) attributeCategory = this.initializeEmptySubcategory();
+    
+    attributeCategory.actions.push({
+      name: label,
+      encodedValue: ["otf", tokenId, otf].join(this.delimiter),
+    }); 
+    return attributeCategory
+  }
+
     
   _attributes(actor, tokenId) {
     let result = this.initializeEmptyCategory("attributes");
@@ -38,25 +66,17 @@ export class ActionHandlerGURPS extends ActionHandler {
       let attributeCategory = this.initializeEmptySubcategory();
       
       let name = this.i18n(`tokenactionhud.gurps.attribute.${attribute}`);
-      let encodedValue = ["attributes", tokenId, attribute].join(this.delimiter);
 
       attributeCategory.actions.push({
         name: name,
-        encodedValue: ["attributes", tokenId, attribute].join(this.delimiter),
+        encodedValue: ["otf", tokenId, attribute].join(this.delimiter),
       });
       attributeCategory.actions.push({
         name: this.i18n('tokenactionhud.gurps.blindroll') + ' ' + name,
-        encodedValue: ["blindroll", tokenId, attribute].join(this.delimiter),
+        encodedValue: ["otf", tokenId, '!' + attribute].join(this.delimiter),
       });
      
-      let attributeTitle = this.i18n(
-        actor.data.data.attributes[attribute].label
-      );
-      this._combineSubcategoryWithCategory(
-        result,
-        this.i18n('tokenactionhud.gurps.primary'),
-        attributeCategory
-      );
+     this._combineSubcategoryWithCategory(result, '', attributeCategory);
     }
     return result;
   }

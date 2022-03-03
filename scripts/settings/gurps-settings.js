@@ -1,6 +1,5 @@
 export function register(appName, updateFunc) {
-
-/**
+  
     game.settings.register(appName, 'showFavorites', {
         name: "Show Favorites",
         hint: "Display category for items marked as favorites",
@@ -8,8 +7,8 @@ export function register(appName, updateFunc) {
         config: true,
         type: Boolean,
         default: true,
-        onChange: value => {updateFunc(value);}
+        onChange: value => {console.log(value);}
     });
-*/
+
 
 }

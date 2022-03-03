@@ -1,6 +1,6 @@
 import { SystemManager } from './manager.js';
 import {ActionHandlerGURPS} from "../actions/gurps/gurps-actions.js";
-import { RollHandlerBaseED4e as Core } from "../rollHandlers/gurps/gurps-base.js";
+import { RollHandlerBaseGURPS as Core } from "../rollHandlers/gurps/gurps-base.js";
 import * as systemSettings from '../settings/gurps-settings.js';
 
 export class GURPSSystemManager extends SystemManager {

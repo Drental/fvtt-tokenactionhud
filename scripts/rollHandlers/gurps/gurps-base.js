@@ -2,47 +2,57 @@ import { RollHandler } from '../rollHandler.js';
 import {Logger} from "../../logger.js";
 
 export class RollHandlerBaseGURPS extends RollHandler {
-    constructor() {
-        super();
-    }
+  constructor() {
+      super();
+  }
 
 
-    async doHandleActionEvent(event, encodedValue) {
-        let payload = encodedValue.split('|');
+  async doHandleActionEvent(event, encodedValue) {
+      let payload = encodedValue.split('|');
 
-        if (payload.length !== 3) {
-            super.throwInvalidValueErr();
-        }
+      if (payload.length !== 3) {
+          super.throwInvalidValueErr();
+      }
 
-        let macroType = payload[0];
-        let tokenId = payload[1];
-        let actionId = payload[2];
+      let macroType = payload[0];
+      let tokenId = payload[1];
+      let actionId = payload[2];
+      let actor = super.getActor(tokenId);
 
-        if (tokenId === 'multi') {
-            for (let t of canvas.tokens.controlled) {
-                let idToken = t.id;
-                await this._handleMacros(event, macroType, idToken, actionId);
-            }
-        } else {
-            await this._handleMacros(event, macroType, tokenId, actionId);
-        }
-    }
+      if (tokenId === 'multi') {
+          for (let t of canvas.tokens.controlled) {
+              actor = super.getActor(t.id);
+              await this._handleMacros(event, macroType, actor, actionId);
+          }
+      } else {
+          await this._handleMacros(event, macroType, actor, actionId);
+      }
+  }
 
-    async _handleMacros(event, macroType, tokenId, actionId) {
-        switch (macroType) {
-            case 'attribute':
-                 this.rollAttributeMacro(event, tokenId, actionId);
-                break;
-            case 'blindroll':
-                this.rollAttributeMacro(event, tokenId, actionId);
-                break;
-        }
-    }
+  async _handleMacros(event, macroType, actor, actionId) {
+      switch (macroType) {
+          case 'attribute':
+               this.rollAttributeMacro(event, actor, actionId);
+              break;
+          case 'blindroll':
+              this.rollAttributeMacro(event, actor, actionId, true);
+              break;
+          case 'otf':
+              this.executeOTF(event, actor, actionId)
+              break
+      }
+  }
 
-    rollAttributeMacro(event, tokenId, actionId) {
-     
-      console.log(GURPS.objToString(event))
-      console.log(tokenId)
-      console.log(actionId) 
-    }
+  async executeOTF(event, actor, otf) {
+    let saved = GURPS.LastActor
+    GURPS.SetLastActor(actor)
+    GURPS.executeOTF(otf).then(e => GURPS.SetLastActor(saved))
+  }
+
+  async rollAttributeMacro(event, actor, attr, blind = false) {
+    let saved = GURPS.LastActor
+    if (blind) attr = '!' + attr
+    let otf = '!/r [' + attr + ']'
+    GURPS.executeOTF(otf).then(e => GURPS.SetLastActor(saved))
+  }
 }
