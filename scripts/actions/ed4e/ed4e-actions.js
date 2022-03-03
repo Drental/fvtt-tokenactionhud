@@ -53,7 +53,6 @@ export class ActionHandlerED4e extends ActionHandler {
             matrixCat,
             skillCat,
             itemsCat,
-            // this._buildAttributesCategory(token),
             // this._buildEffectsCategory(token),
             statCat,
             combatCat
@@ -200,25 +199,49 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('matrix');
         result.name = this.i18n("earthdawn.m.matrixes");
-        let macroType = 'matrix';
 
-        let spellActions = matrices.map(e => {
+        matrices.forEach(e => {
             try {
+                let matrixSubCategory = this.initializeEmptySubcategory();
                 let matrixId = e.id;
-                let name = e.data.data.currentspell;
-                let encodedValue = [macroType, token.id, matrixId].join(this.delimiter);
-                return {name: name, id: matrixId, encodedValue: encodedValue};
+
+                console.log(`${e.name}\n${e.data.data.currentspell}`)
+
+                matrixSubCategory.actions = [
+                    {
+                        name: this.i18n("earthdawn.a.attune"),
+                        id: matrixId,
+                        encodedValue: ['matrixAttune', token.id, matrixId].join(this.delimiter),
+                    },
+                    {
+                        name: this.i18n("earthdawn.m.matrixWeaveRed"),
+                        id: matrixId,
+                        encodedValue: ['matrixWeave', token.id, matrixId].join(this.delimiter),
+                    },
+                    {
+                        name: this.i18n("earthdawn.m.matrixCastRed"),
+                        id: matrixId,
+                        encodedValue: ['matrixCast', token.id, matrixId].join(this.delimiter),
+                    },
+                    {
+                        name: this.i18n("earthdawn.m.matrixClearRed"),
+                        id: matrixId,
+                        encodedValue: ['matrixClear', token.id, matrixId].join(this.delimiter),
+                    },
+                ]
+
+                let name_subcat = e.data.data.currentspell ? `${e.data.data.currentspell} (${e.data.data.totalthreads}/${e.data.data.threadsrequired})` : e.name;
+
+                this._combineSubcategoryWithCategory(
+                    result,
+                    name_subcat,
+                    matrixSubCategory
+                );
             } catch (error) {
                 Logger.error(e);
-                return;
+                throw error;
             }
-        }).filter(s => !!s) // filter out nulls
-            .sort((a,b) => a.name.localeCompare(b.name));
-        let spellsCategory = this.initializeEmptySubcategory();
-        spellsCategory.actions = spellActions;
-
-        let spellsTitle = this.i18n("earthdawn.s.spells");
-        this._combineSubcategoryWithCategory(result, spellsTitle, spellsCategory);
+        });
 
         return result;
     }
@@ -299,7 +322,7 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
     _buildItem(tokenId, actor, macroType, item) {
-        const itemData = this._getEntityData(item);
+        //const itemData = this._getEntityData(item);
         const itemId = item.id ?? item._id;
         let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
         let img = this._getImage(item);

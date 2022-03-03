@@ -32,6 +32,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     async _handleMacros(event, macroType, tokenId, actionId) {
+        let actor = super.getActor(tokenId);
         switch (macroType) {
             case 'skill':
                 // fall through
@@ -48,13 +49,25 @@ export class RollHandlerBaseED4e extends RollHandler {
                 this.rollAttributeMacro(event, tokenId, actionId);
                 break;
             case 'recovery':
-                super.getActor(tokenId).recoveryTest();
+                actor.recoveryTest();
                 break;
             case 'newday':
-                super.getActor(tokenId).newDay();
+                actor.newDay();
                 break;
             case 'halfmagic':
-                super.getActor(tokenId).halfMagic();
+                actor.halfMagic();
+                break;
+            case 'matrixAttune':
+                actor.attuneMatrix(actor.items.get(actionId));
+                break;
+            case 'matrixWeave':
+                actor.weaveThread(actor.items.get(actionId));
+                break;
+            case 'matrixCast':
+                actor.castSpell(actor.items.get(actionId));
+                break;
+            case 'matrixClear':
+                actor.clearMatrix(actor.items.get(actionId));
                 break;
         }
     }
