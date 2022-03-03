@@ -39,6 +39,13 @@ export class RollHandlerBaseED4e extends RollHandler {
             case 'talent':
                 this.rollTalentMacro(event, tokenId, actionId);
                 break;
+            case 'attack':
+                // fall through
+            case 'power':
+                // fall through
+            case 'maneuver':
+                this.handleCreatureActionMacro(event, tokenId, actionId);
+                break;
             case 'inventory':
                 this.rollInventoryMacro(event, tokenId, actionId);
                 break;
@@ -122,5 +129,30 @@ export class RollHandlerBaseED4e extends RollHandler {
         if (val.toLowerCase().includes("true")) return "false";
         if (val.toLowerCase().includes("false")) return "true";
         return "false";
+    }
+
+    handleCreatureActionMacro(event, tokenId, actionId) {
+        const actor = super.getActor(tokenId);
+        const item = actor.items.get(actionId);
+
+        if (item.data.data.attackstep !== 0) {
+            const modifier = 0;
+            const strain = item.data.data.strain ? item.data.data.strain : 0;
+            const karma = 0;
+
+            let type = (item.data.data.powerType === "Attack") ? "attack" : (item.data.data.attackstep > 0) ? "test" : "";
+            const parameters = {
+                itemID: actionId,
+                steps: item.data.data.attackstep,
+                talent: item.name,
+                strain: strain,
+                type: type,
+                karma: karma,
+                modifier: modifier,
+            };
+            actor.NPCtest(parameters);
+        } else {
+            actor.items.get(actionId).sheet.render(true);
+        }
     }
 }
