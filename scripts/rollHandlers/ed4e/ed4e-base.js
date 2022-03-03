@@ -79,6 +79,15 @@ export class RollHandlerBaseED4e extends RollHandler {
             case 'weaponAttack':
                 actor.rollPrep({weaponID: actionId, rolltype: 'attack'});
                 break;
+            case 'takedamage':
+                this.takeDamage(actor);
+                break;
+            case 'knockdowntest':
+                actor.knockdownTest({});
+                break;
+            case 'jumpup':
+                actor.jumpUpTest();
+                break;
         }
     }
 
@@ -170,5 +179,45 @@ export class RollHandlerBaseED4e extends RollHandler {
         } else {
             actor.items.get(actionId).sheet.render(true);
         }
+    }
+
+    async takeDamage(actor) {
+        let inputs = await new Promise((resolve) => {
+            new Dialog({
+                title: this.i18n('earthdawn.t.takeDamage'),
+                content: `
+          <div style="float: left">
+              <label>${this.i18n('earthdawn.d.damage')}: </label>
+              <input id="damage_box" value=0 autofocus/>
+          </div>
+          <div>
+              <label>${this.i18n('earthdawn.t.type')}: </label>
+              <select id="type_box">
+                <option value="physical">Physical</option>
+                <option value="mystic">Mystic</option>
+              </select>
+          </div>
+          <div>
+            <label>${this.i18n('earthdawn.i.ignoreArmor')}?</label>
+            <input type="checkbox" id="ignore_box"/>
+          </div>`,
+                buttons: {
+                    ok: {
+                        label: this.i18n('earthdawn.o.ok'),
+                        callback: (html) => {
+                            resolve({
+                                damage: html.find('#damage_box').val(),
+                                type: html.find('#type_box').val(),
+                                ignore: html.find('#ignore_box:checked'),
+                            });
+                        },
+                    },
+                },
+                default: 'ok',
+            }).render(true);
+        });
+
+        inputs.ignorearmor = inputs.ignore.length > 0;
+        await actor.takeDamage(inputs);
     }
 }

@@ -376,19 +376,7 @@ export class ActionHandlerED4e extends ActionHandler {
             .sort((a,b) => a.name.localeCompare(b.name));
         let weaponsCat = this.initializeEmptySubcategory();
         weaponsCat.actions = weaponActions;
-        this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.w.weapons"), weaponsCat);
-
-        // matrices
-        if (matricesCat.length > 0) {
-            let matrixSub = matricesCat.subcategories[0];
-            this._combineSubcategoryWithCategory(result, matrixSub.name, matrixSub)
-        }
-
-        // favorites
-        if (favoriteCat.length > 0) {
-            let favoriteSub = favoriteCat.subcategories[0];
-            this._combineSubcategoryWithCategory(result, favoriteSub.name, favoriteSub)
-        }
+        this._combineSubcategoryWithCategory(result, `${this.i18n("earthdawn.w.weapons")} ${this.i18n("earthdawn.a.attack")}`, weaponsCat);
 
         // tactics
         if (statusCat.length > 0) {
@@ -397,8 +385,25 @@ export class ActionHandlerED4e extends ActionHandler {
         }
 
         // actions
-
-
+        let actionsCat = this.initializeEmptySubcategory();
+        actionsCat.actions = [
+            {
+                name: this.i18n("earthdawn.t.takeDamage"),
+                id: null,
+                encodedValue: ["takedamage", token.id, "takedamage"].join(this.delimiter),
+            },
+            {
+                name: this.i18n("earthdawn.c.combatOptionsKnockdownTest"),
+                id: null,
+                encodedValue: ["knockdowntest", token.id, "knockdowntest"].join(this.delimiter),
+            },
+            {
+                name: this.i18n("earthdawn.c.combatOptionsJumpUp"),
+                id: null,
+                encodedValue: ["jumpup", token.id, "jumpup"].join(this.delimiter),
+            },
+        ];
+        this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.a.actions"), actionsCat);
 
         return result;
     }
