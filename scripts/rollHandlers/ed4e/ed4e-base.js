@@ -2,6 +2,9 @@ import { RollHandler } from '../rollHandler.js';
 import {Logger} from "../../logger.js";
 
 export class RollHandlerBaseED4e extends RollHandler {
+
+
+
     constructor() {
         super();
     }

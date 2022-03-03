@@ -294,22 +294,30 @@ export class ActionHandlerED4e extends ActionHandler {
         const macroType = "toggle";
 
         const tacticsProperties = [
-            "tactics.aggressive",
-            "tactics.defensive",
-            "tactics.harried",
-            "tactics.knockeddown"
+            "earthdawn.c.combatOptionsAggressive",
+            "earthdawn.c.combatOptionsDefensive",
+            "earthdawn.c.combatModifierHarried",
+            "earthdawn.c.combatModifierKnockedDown"
         ]
 
         const systemProperties = [
-            "usekarma"
+            "earthdawn.u.useKarma"
         ]
+
+        const mapPropToActionID = {
+            "earthdawn.c.combatOptionsAggressive": "tactics.aggressive",
+            "earthdawn.c.combatOptionsDefensive": "tactics.defensive",
+            "earthdawn.c.combatModifierHarried": "tactics.harried",
+            "earthdawn.c.combatModifierKnockedDown": "tactics.knockeddown",
+            "earthdawn.u.useKarma": "usekarma"
+        }
 
         let tacticsActions = tacticsProperties.map( e => {
                 return {
-                    name: e, // localize in system
+                    name: this.i18n(e), // localize in system
                     id: null,
-                    encodedValue: [macroType, token.id, e ].join(this.delimiter),
-                    cssClass: actor.data.data.tactics[e.split(".")[1]] === true ? 'active' : ''
+                    encodedValue: [macroType, token.id, mapPropToActionID[e]].join(this.delimiter),
+                    cssClass: actor.data.data.tactics[mapPropToActionID[e].split(".")[1]] === true ? 'active' : ''
                 }
             }
         ).filter(s => !!s) // filter out nulls
@@ -320,10 +328,10 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let systemActions = systemProperties.map( e => {
                 return {
-                    name: e, // localize in system
+                    name: this.i18n(e), // localize in system
                     id: null,
-                    encodedValue: [macroType, token.id, e ].join(this.delimiter),
-                    cssClass: actor.data.data[e].toLowerCase() === "true" ? 'active' : ''
+                    encodedValue: [macroType, token.id, mapPropToActionID[e]].join(this.delimiter),
+                    cssClass: actor.data.data["usekarma"] === "true" ? 'active' : ''
                 }
             }
         ).filter(s => !!s) // filter out nulls
