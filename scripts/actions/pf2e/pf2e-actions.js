@@ -662,8 +662,9 @@ export class ActionHandlerPf2e extends ActionHandler {
   _getSpellDcInfo(spellcastingEntry) {
     let result = "";
 
-    let spelldc = spellcastingEntry.statistic.dc().value;
-    let spellatk = spellcastingEntry.statistic.check.value;
+    const statistic = spellcastingEntry.statistic;
+    let spelldc = typeof statistic.dc === "function" ? statistic.dc().value : statistic.dc.value;
+    let spellatk = statistic.check.value;
     let attackBonus =
       spellatk >= 0
         ? `${this.i18n("tokenactionhud.atk")} +${spellatk}`
