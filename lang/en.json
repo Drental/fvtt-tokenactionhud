@@ -546,6 +546,10 @@
       "items": "items",
       "sacraments": "Sacraments",
       "consumables": "Consumables"
+    },
+    "gurps": {
+      "blindroll": "Blind Roll",
+      "addacc": "Add Acc"
     }
   }
 }

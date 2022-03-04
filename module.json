@@ -18,7 +18,7 @@
   "compatibleCoreVersion": "9",
   "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
   "styles": ["./styles/token-action-hud.css", "/styles/lib/tagify/tagify.css"],
-  "languages": [
+    "languages": [
     {
       "lang": "en",
       "name": "English",
@@ -98,7 +98,8 @@
     "cof",
     "forbidden-lands",
     "dnd4e",
-    "earthdawn4e"
+    "earthdawn4e",
+    "gurps"
   ],
   "dependencies": [],
   "socket": false,
