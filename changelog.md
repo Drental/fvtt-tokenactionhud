@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.4] 2022-03-04
+
+- TAH - spanish translation update - thanks EnteriCansinos
+- dnd4e - Updated conditions - thanks draconas
+- cthack - new features - thanks Qaw
+- pf2e - unbreak dcs - thanks supe
+- ED4e - Update - thanks qrizzl
+- GURPS - Added new system - thanks Nose66
+
+### Changed
+
+- pf2e - restore inventory after 3.4
+
 ## [2.2.3] 2022-02-17
 
 ### Changed
