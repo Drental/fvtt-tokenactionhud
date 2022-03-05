@@ -28,6 +28,7 @@ export class ActionHandlerCthack extends ActionHandler {
     let saves = this._getSaves(actor, tokenId);
     let attributes = this._getAttributes(actor, tokenId);
     let items = this._getItemList(actor, tokenId);
+    let abilities = this._getAbilities(actor, tokenId);
 
     this._combineCategoryWithList(
       result,
@@ -43,6 +44,11 @@ export class ActionHandlerCthack extends ActionHandler {
       result,
       this.i18n("tokenactionhud.equipment"),
       items
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.features"),
+      abilities
     );
 
     if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
@@ -134,6 +140,24 @@ export class ActionHandlerCthack extends ActionHandler {
   }
 
   /** @private */
+  _getAbilities(actor, tokenId) {
+    let abilities = actor.items.filter((item) => item.data?.type === "ability");
+    let abilitiesActions = abilities.map((w) =>
+      this._buildEquipmentItem(tokenId, actor, "ability", w)
+    );
+    let abilitiesCat = this.initializeEmptySubcategory();
+    abilitiesCat.actions = abilitiesActions;
+
+    let abilitiesTitle = this.i18n("tokenactionhud.features");
+
+    let result = this.initializeEmptyCategory("inventory");
+
+    this._combineSubcategoryWithCategory(result, abilitiesTitle, abilitiesCat);
+
+    return result;
+  }
+
+  /** @private */
   _produceMap(tokenId, itemSet, macroType) {
     return itemSet
       .filter((i) => !!i)
@@ -149,7 +173,6 @@ export class ActionHandlerCthack extends ActionHandler {
   /** @private */
   _buildEquipmentItem(tokenId, actor, macroType, item) {
     let action = this._buildItem(tokenId, actor, macroType, item);
-
     return action;
   }
 
@@ -157,11 +180,14 @@ export class ActionHandlerCthack extends ActionHandler {
   _buildItem(tokenId, actor, macroType, item) {
     let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
+    let icon = this._getIcon(item);
+
     let result = {
       name: item.name,
       id: item.id,
       encodedValue: encodedValue,
       img: img,
+      icon: icon
     };
 
     return result;
@@ -173,4 +199,17 @@ export class ActionHandlerCthack extends ActionHandler {
 
     return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
   }
+
+ /** @private */
+  _getIcon(item) {
+    // Capacity activable
+    if (item.type === "ability" && item.data.data?.uses?.per !== "Permanent") {
+      if (item.data.data.uses.value > 0) {
+        return '<i class="fas fa-check"></i>';
+      }
+      else return '<i class="fas fa-times"></i>';      
+    }    
+    return "";
+  } 
+
 }

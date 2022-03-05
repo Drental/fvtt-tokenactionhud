@@ -1,5 +1,15 @@
 export function register(appName, updateFunc) {
 
+    game.settings.register(appName, 'showGeneral', {
+        name: "Show General",
+        hint: "Display category for general rolls like Attributes, Half-Magic or Recovery",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true,
+        onChange: value => {updateFunc(value);}
+    });
+
     game.settings.register(appName, 'showFavorites', {
         name: "Show Favorites",
         hint: "Display category for items marked as favorites",

@@ -1,6 +1,5 @@
 {
   "tokenactionhud": {
-    "abilities": "Características",
     "accept": "Aceptar",
     "actions": "Acciones",
     "activate": "Activar",
@@ -17,10 +16,10 @@
       "strength": "Fuerza",
       "will": "Voluntad"
     },
-    "attributes": "Atributos",
+	"attributes": "Atributos",
     "bab": "BAB",
     "basic": "Básico",
-    "bennies": "Bennies",
+    "bennies": "Benis",
     "blessing": "Bendición",
     "blocklist": "Bloqueados",
     "blocklistLabel": "bloqueados: ocultar / permitidos: mostrar",
@@ -58,14 +57,14 @@
     "doomed": "Doomed",
     "downtime": "Downtime",
     "dying": "Dying",
-    "edges": "Edges",
-    "edgesAndHindrances": "Edges/Hindrances",
+    "edges": "Ventajas",
+    "edgesAndHindrances": "Ventajas/Desventajas",
     "effects": "Efectos",
     "engineering": "Engineering",
     "equipment": "Equipo",
     "experimental": "Experimental",
     "exploration": "Exploración",
-    "fatigue": "Cansancio",
+    "fatigue": "Fatiga",
     "feats": "Dotes",
     "features": "Rasgos",
     "filterPlaceholder": "Opciones (separadas con punto y coma)",
@@ -73,14 +72,15 @@
     "filterTitle": "Filtro",
     "free": "Free",
     "gear": "Gear",
-    "get": "Get",
+    "get": "Recibir",
     "gm": "GM",
+	"gm bennies": "Benis del Marshall",
     "grit": "Grit",
     "handlerNotFound": "no encontrado, revirtiendo a las tiradas básicas.",
     "hase": "HASE",
     "healing": "Curación",
     "heroPoints": "Puntos de Héroe",
-    "hindrances": "Hindrances",
+    "hindrances": "Desventajas",
     "hull": "Hull",
     "improvisedWeapon": "Armas improvisadas",
     "inconsumables": "Inconsumables",
@@ -98,7 +98,7 @@
     "magicItems": "Objetos mágicos",
     "mech": "Mech",
     "melee": "Cuerpo a cuerpo",
-    "misc": "Misc",
+    "misc": "Equipo",
     "monsterMoves": "Movimientos de monstruo",
     "moves": "Movimientos",
     "msa": "Ataques de conjuros cuerpo a cuerpo",
@@ -108,7 +108,7 @@
     "passive": "Pasivos",
     "petty": "Petty",
     "pilot": "Pilot",
-    "points": "Puntos",
+    "points": "Puntos de Poder",
     "powers": "Poderes",
     "profession": "Profesión",
     "push": "Derecha",
@@ -137,11 +137,11 @@
     "specialQualities": "Special Qualities",
     "spellbook": "Libro de conjuros",
     "spells": "Conjuros",
-    "spend": "Gastados",
+    "spend": "Usar",
     "starting": "Iniciales",
     "stat": "Stat",
     "stats": "Stats",
-    "status": "Status",
+    "status": "Estados",
     "strikes": "Strikes",
     "subcategoryTagExplanation": "Añadir y eliminar subcategorías: introduce un nombre para las macro subcategorías o selecciona los compendios vinculados.",
     "subcategoryTagTitle": "Añadir/eliminar subcategorías",
@@ -164,11 +164,11 @@
     "stomp": "Stomp!",
     "unrollable": "Unrollable",
     "unshift": "Izquierda",
-    "utility": "Utilidad",
+    "utility": "Token",
     "weapons": "Armas",
     "wounded": "Herido",
     "wounds": "Heridas",
-    "woundsAndFatigue": "Heridas/Cansancio",
+    "woundsAndFatigue": "Heridas/Fatiga",
     "settings": {
       "activeCssAsText": {
         "name": "Marcar condiciones activas con texto",
@@ -354,7 +354,7 @@
         "power": "Energía",
         "attributespeed": "Velocidad",
         "attributearmorvfire": "Armadura V Fuego",
-        "attributearmorrating": "Armadura",
+        "attributearmorrating": "Protección",
         "attributeacidSplash": "Salpicadura ácida",
         "attributemobility": "Movimiento",
         "attributeobservation": "Observación",
@@ -401,15 +401,15 @@
         "rangedSkillPrefix": "Ranged"
       },
       "ds4": {
-        "displayCheckTargetNumbers": {
+        "displayCheckTarRecibirNumbers": {
           "name": "Mostrar valores de muestra",
           "hint": "Si este ajuste está activado, se muestran los valores de las muestras individuales."
         }
       }
     },
     "symbaroum": {
-      "abilities": "Abilities",
-      "mysticalPowers": "Mystical Powers"
+      
+      "mysticalPowers": "Poderes Místicos"
     }
   }
 }
