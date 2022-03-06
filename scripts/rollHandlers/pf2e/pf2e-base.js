@@ -549,6 +549,9 @@ export class RollHandlerBasePf2e extends RollHandler {
     const rollName = input[0];
     const optionName = input[1];
 
-    await actor.toggleRollOption(rollName, optionName);
+    // workaround until fixed
+    // await actor.toggleRollOption(rollName, optionName);
+    const flag = `rollOptions.${rollName}.${optionName}`;
+    return actor.setFlag("pf2e", flag, !actor.rollOptions[rollName]?.[optionName]);
   }
 }
