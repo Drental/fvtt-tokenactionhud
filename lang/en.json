@@ -549,7 +549,11 @@
     },
     "gurps": {
       "blindroll": "Blind Roll",
-      "addacc": "Add Acc"
+      "addacc": "Add Acc",
+      "retreatdodge": "Retreating Dodge",
+      "retreatparry": "Retreating Parry",
+      "retreatparryfence": "Retreating Parry (Fencing)",
+      "retreatblock": "Retreating Block"
     }
   }
 }
