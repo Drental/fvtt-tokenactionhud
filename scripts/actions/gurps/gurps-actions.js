@@ -101,7 +101,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         if (e.name.includes(q)) q = "'"
         attributeCategory.actions.push({
           name: e.name + ' (' + e.level + ')',
-          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter),
+          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter)
         }); 
         this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
         
@@ -143,9 +143,9 @@ export class ActionHandlerGURPS extends ActionHandler {
   _addNoteOTFs(attributeCategory, tokenId, notes) {
       GURPS.gurpslink(notes, false, true).forEach(a => {
       attributeCategory.actions.push({
-        name: a.text.match(/<span.*>(.*)<\/span>/)[1],
+        name: a.text, // a.text.match(/<span.*>(.*)<\/span>/)[1],
         encodedValue: ["otf", tokenId, a.action.orig].join(this.delimiter),
-        cssClass: 'standalonggurpslink'
+        //cssClass: 'standalonggurpslink'
       }); 
     })
   }
