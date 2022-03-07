@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.5] 2022-03-06
+
+- pf2e - work around toggles getting stuck bug
+- GURPS - updated GURPS support - thanks Nose66
+
 ## [2.2.4] 2022-03-04
 
 - TAH - spanish translation update - thanks EnteriCansinos
