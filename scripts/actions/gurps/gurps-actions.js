@@ -202,20 +202,20 @@ export class ActionHandlerGURPS extends ActionHandler {
     let result = this.initializeEmptyCategory("defenses");
 
     let cat = this._addDefense(tokenId, this.i18n('GURPS.dodge') + ' (' + actor.data.data.currentdodge + ')', 'DODGE')
-    this._addDefense(tokenId, this.i18n('tokenactionhud.gurps.retreatdodge', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat')), cat)
+    this._addDefense(tokenId, this.i18n('tokenactionhud.gurps.retreatdodge') + ' (' + (actor.data.data.currentdodge + 3) + ')', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat'), cat)
     this._combineSubcategoryWithCategory(result, '', cat);
     
     if (!!actor.data.data.equippedparry) {
       cat = this._addDefense(tokenId, this.i18n('GURPS.parry') + ' (' + actor.data.data.equippedparry + ')', 'PARRY')
       if (!!actor.data.data.equippedparryisfencing)
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparryfence"), 'PARRY +3 fencing retreat', cat)
+        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparryfence") + ' (' + (actor.data.data.equippedparry + 3) + ')', 'PARRY +3 fencing retreat', cat)
       else
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparry"), 'PARRY +1 retreating', cat)
+        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparry") + ' (' + (actor.data.data.equippedparry + 1) + ')', 'PARRY +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
     if (!!actor.data.data.equippedblock) {
       cat = this._addDefense(tokenId, this.i18n('GURPS.block') + ' (' + actor.data.data.equippedblock + ')', 'BLOCK')
-      this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatblock"), 'BLOCK +1 retreating', cat)
+      this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatblock") + ' (' + (actor.data.data.equippedblock + 1) + ')', 'BLOCK +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
     return result;
