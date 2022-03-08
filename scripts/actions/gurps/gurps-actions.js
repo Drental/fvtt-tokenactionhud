@@ -59,6 +59,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         );
       
       this._advantages(result, actor, tokenId)
+      this._addQuickNotes(result, actor, tokenId)
       
       if (settings.get('showManeuvers') && !!game.combats.combats.find(c => (c.isActive && !!c.getCombatantByToken(tokenId))))
         this._combineCategoryWithList(
@@ -77,9 +78,7 @@ export class ActionHandlerGURPS extends ActionHandler {
     let cat = this.initializeEmptyCategory("ads");
     GURPS.recurselist(actor.data.data.ads, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
-      this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
-
-      if (attributeCategory.actions.length > 0) {
+      if (this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)) {
         any = true
         this._combineSubcategoryWithCategory(cat, e.name, attributeCategory);
       }
@@ -92,6 +91,15 @@ export class ActionHandlerGURPS extends ActionHandler {
         );
   }
   
+  _addQuickNotes(result, actor, tokenId) {
+    let any = false
+    let cat = this.initializeEmptyCategory("qn");
+    let attributeCategory = this.initializeEmptySubcategory();
+    if (this._addNoteOTFs(attributeCategory, tokenId, actor.data.data.additionalresources.qnotes))
+      this._combineSubcategoryWithCategory(cat, '', attributeCategory);
+      this._combineCategoryWithList(result, this.i18n("GURPS.quicknotes"), cat);
+   }
+ 
   _skillsspells(actor, tokenId, key, otfprefix) {
     let result = this.initializeEmptyCategory(key);
     GURPS.recurselist(actor.data.data[key], (e, k, d) => {
@@ -143,15 +151,19 @@ export class ActionHandlerGURPS extends ActionHandler {
   }
   
   _addNoteOTFs(attributeCategory, tokenId, notes) {
+    let any = false
+    if (!!notes)
       GURPS.gurpslink(notes, false, true).forEach(a => {
-      attributeCategory.actions.push({
-        name: a.text, // a.text.match(/<span.*>(.*)<\/span>/)[1],
-        encodedValue: ["otf", tokenId, a.action.orig].join(this.delimiter),
-        //cssClass: 'standalonggurpslink'
-      }); 
-    })
+        any = true
+        attributeCategory.actions.push({
+          name: a.text, // a.text.match(/<span.*>(.*)<\/span>/)[1],
+          encodedValue: ["otf", tokenId, a.action.orig].join(this.delimiter),
+          //cssClass: 'standalonggurpslink'
+        }); 
+      })
+    return any
   }
- 
+  
   _melee(actor, tokenId) {
     let result = this.initializeEmptyCategory("melee");
     GURPS.recurselist(actor.data.data.melee, (e, k, d) => {
