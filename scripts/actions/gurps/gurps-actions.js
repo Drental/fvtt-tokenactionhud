@@ -135,7 +135,9 @@ export class ActionHandlerGURPS extends ActionHandler {
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
 
-      this._combineSubcategoryWithCategory(result, e.name, attributeCategory);
+      let n = e.name
+      if (!!e.mode) n += ' (' + e.mode + ')'
+      this._combineSubcategoryWithCategory(result, n, attributeCategory);
     })
     return result
   }
@@ -176,8 +178,9 @@ export class ActionHandlerGURPS extends ActionHandler {
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
-      
-      this._combineSubcategoryWithCategory(result, e.name, attributeCategory);
+      let n = e.name
+      if (!!e.mode) n += ' (' + e.mode + ')'
+      this._combineSubcategoryWithCategory(result, n, attributeCategory);
     })
     return result
   }
