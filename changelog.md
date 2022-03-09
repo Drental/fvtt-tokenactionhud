@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.6] 2022-03-09
+
+- TAH - Add a new UI option with permission from Dorako - THANK YOU DORAKO!
+- GURPS - updated GURPS support - thanks Nose66
+
 ## [2.2.5] 2022-03-06
 
 - pf2e - work around toggles getting stuck bug
