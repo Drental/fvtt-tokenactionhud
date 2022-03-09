@@ -58,13 +58,6 @@
     --color-shadow-highlight: var(--paizo-red);
     --color-shadow-primary: var(--paizo-blue);
 
-    --img-parchment: url(/systems/pf2e/assets/sheet/parchment.webp);
-    --img-red: url(/systems/pf2e/assets/sheet/nav-item.webp);
-    --pf2e-nav-inactive: url(/systems/pf2e/assets/sheet/nav-item-inactive.webp);
-    --pf2e-sheets-bg: url(/systems/pf2e/assets/sheet/background.webp);
-    --sheet-light: url(/systems/pf2e/assets/sheet/background.webp);
-    --sheet-dark: url(/modules/pf2e-dorako-ui/img/background-dark.webp);
-
     --dorako-text-shadow: 0px 0px 3px black;
     --dorako-box-shadow: 0px 0px 3px black;
     --dorako-radius: 3px;

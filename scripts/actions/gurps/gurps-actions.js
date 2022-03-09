@@ -130,27 +130,27 @@ export class ActionHandlerGURPS extends ActionHandler {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
       if (e.name.includes(q)) q = "'"
+      let usage = !!e.mode ? ' (' + e.mode + ')' : ''
+      let name = e.name + usage
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
-        encodedValue: ["otf", tokenId, 'R:' + q + e.name + q].join(this.delimiter),
+        encodedValue: ["otf", tokenId, 'R:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.acc))) {
         let acc = (e.acc >= 0 ? '+':'') + e.acc
         attributeCategory.actions.push({
           name: this.i18n("tokenactionhud.gurps.addacc") + ' (' + acc +')',
-          encodedValue: ["otf", tokenId, acc + ' ' + e.name + ' ' + this.i18n('GURPS.acc')].join(this.delimiter),
+          encodedValue: ["otf", tokenId, acc + ' ' + name + ' ' + this.i18n('GURPS.acc')].join(this.delimiter),
         }); 
       }
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + e.name + q].join(this.delimiter),
+        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
-      this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
+      this._addNoteOTFs(attributeCategory, tokenId, name + ' ' + e.notes)
 
-      let n = e.name
-      if (!!e.mode) n += ' (' + e.mode + ')'
-      this._combineSubcategoryWithCategory(result, n, attributeCategory);
+      this._combineSubcategoryWithCategory(result, name, attributeCategory);
     })
     return result
   }
@@ -175,29 +175,29 @@ export class ActionHandlerGURPS extends ActionHandler {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
       if (e.name.includes(q)) q = "'"
+      let usage = !!e.mode ? ' (' + e.mode + ')' : ''
+      let name = e.name + usage
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
-        encodedValue: ["otf", tokenId, 'M:' + q + e.name + q].join(this.delimiter),
+        encodedValue: ["otf", tokenId, 'M:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.parry)))
         attributeCategory.actions.push({
           name: this.i18n("GURPS.parry") + ' (' + e.parry + ')',
-          encodedValue: ["otf", tokenId, 'P:' + q + e.name + q].join(this.delimiter),
+          encodedValue: ["otf", tokenId, 'P:' + q + name + q].join(this.delimiter),
         }); 
       if (!isNaN(parseInt(e.block)))
         attributeCategory.actions.push({
           name: this.i18n("GURPS.block") + ' (' + e.block + ')',
-          encodedValue: ["otf", tokenId, 'B:' + q + e.name + q].join(this.delimiter),
+          encodedValue: ["otf", tokenId, 'B:' + q + name + q].join(this.delimiter),
         }); 
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + e.name + q].join(this.delimiter),
+        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
-      let n = e.name
-      if (!!e.mode) n += ' (' + e.mode + ')'
-      this._combineSubcategoryWithCategory(result, n, attributeCategory);
+      this._combineSubcategoryWithCategory(result, name, attributeCategory);
     })
     return result
   }
@@ -206,7 +206,6 @@ export class ActionHandlerGURPS extends ActionHandler {
     let result = this.initializeEmptyCategory("maneuvers");
     let attributeCategory = this.initializeEmptySubcategory();
     Object.values(GURPS.Maneuvers.getAll()).forEach(m => {
-//    Object.values(GURPS.Maneuvers.getAll()).map(e => this.i18n(e.data.label)).forEach(e => {
       let t = this.i18n(m.data.label)
       attributeCategory.actions.push({
         name: t,
@@ -271,6 +270,28 @@ export class ActionHandlerGURPS extends ActionHandler {
      
      this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.attributes${attribute}NAME`), attributeCategory);
     }
+    let any = false
+    let attributeCategory = this.initializeEmptySubcategory();
+    for (let rkey in actor.data.data.reactions) {
+      let mod = actor.data.data.reactions[rkey]
+      any = true
+      let prefix = mod.modifier >= 0 ? '+' : ''
+      let s = !!mod.situation ? ' ' + mod.situation : ''
+      let n = prefix + mod.modifier + s
+      this._addNoteOTFs(attributeCategory, tokenId, '[' + n + ']')
+    }
+    if (any) this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.reaction`), attributeCategory);
+    any = false
+    attributeCategory = this.initializeEmptySubcategory();
+    for (let rkey in actor.data.data.conditionalmods) {
+      let mod = actor.data.data.conditionalmods[rkey]
+      any = true
+      let prefix = mod.modifier >= 0 ? '+' : ''
+      let s = !!mod.situation ? ' ' + mod.situation : ''
+      let n = prefix + mod.modifier + s
+      this._addNoteOTFs(attributeCategory, tokenId, '[' + n + ']')
+    }
+    if (any) this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.conditionalMods`), attributeCategory);
     return result;
   }
 
