@@ -54,6 +54,8 @@ Hooks.on("init", () => {
   }
   systemManager = SystemManagerFactory.create(supportedSystem, appName);
   systemManager.registerSettings();
+  if (game.settings.get(systemManager.appName, "dorakoUI"))
+    injectCSS("dorako-action-hud");
 });
 
 
@@ -174,3 +176,17 @@ Hooks.on("canvasReady", async () => {
 
   game.tokenActionHUD.update();
 });
+
+
+function injectCSS(filename) {
+  const head = document.getElementsByTagName("head")[0];
+  const mainCss = document.createElement("link");
+  mainCss.setAttribute("rel", "stylesheet");
+  mainCss.setAttribute("type", "text/css");
+  mainCss.setAttribute(
+    "href",
+    "modules/token-action-hud/styles/" + filename + ".css"
+  );
+  mainCss.setAttribute("media", "all");
+  head.insertBefore(mainCss, head.lastChild);
+}

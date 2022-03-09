@@ -24,6 +24,18 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
+  game.settings.register(appName, "dorakoUI", {
+    name: game.i18n.localize("tokenactionhud.settings.dorakoUI.name"),
+    hint: game.i18n.localize("tokenactionhud.settings.dorakoUI.hint"),
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
   game.settings.register(appName, "enabledForUser", {
     name: game.i18n.localize("tokenactionhud.settings.enabledForUser.name"),
     hint: game.i18n.localize("tokenactionhud.settings.enabledForUser.hint"),
