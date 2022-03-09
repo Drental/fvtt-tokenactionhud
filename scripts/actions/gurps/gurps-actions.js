@@ -205,10 +205,13 @@ export class ActionHandlerGURPS extends ActionHandler {
   _maneuvers(actor, tokenId) {
     let result = this.initializeEmptyCategory("maneuvers");
     let attributeCategory = this.initializeEmptySubcategory();
-    Object.values(GURPS.Maneuvers.getAll()).map(e => this.i18n(e.data.label)).forEach(e => {
+    Object.values(GURPS.Maneuvers.getAll()).forEach(m => {
+//    Object.values(GURPS.Maneuvers.getAll()).map(e => this.i18n(e.data.label)).forEach(e => {
+      let t = this.i18n(m.data.label)
       attributeCategory.actions.push({
-        name: e,
-        encodedValue: ["otf", tokenId, '/man ' + e].join(this.delimiter),
+        name: t,
+        encodedValue: ["otf", tokenId, '/man ' + t].join(this.delimiter),
+        img: m.icon
       }); 
     })   
     this._combineSubcategoryWithCategory(result, '', attributeCategory);
