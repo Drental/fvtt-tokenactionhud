@@ -16,12 +16,7 @@
   "version": "2.2.5",
   "minimumCoreVersion": "9.236",
   "compatibleCoreVersion": "9",
-     "scripts": [
-        "./lib/tagify/tagify.min.js"
-    ],
-    "esmodules": [
-        "./scripts/init.js"
-    ],
+  "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
   "styles": ["./styles/token-action-hud.css", "/styles/lib/tagify/tagify.css"],
     "languages": [
     {
