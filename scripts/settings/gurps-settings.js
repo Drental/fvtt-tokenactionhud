@@ -19,7 +19,7 @@ export function register(appName, updateFunc) {
         type: Number,
         default: 20,
         onChange: value => {
-          if (value < 10) {
+          if (isNaN(value) || value < 10) {
             value = 10
             game.settings.set(appName, 'maxListSize', value)
          }
