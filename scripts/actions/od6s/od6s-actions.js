@@ -16,62 +16,46 @@ export class ActionHandlerOD6S extends ActionHandler {
         let actor = token.actor;
 
         if (!actor) return result;
-        if (actor.type === 'container') return result;
+        if (actor.type === 'starship' || actor.type === 'vehicle') return result;
 
         result.actorId = actor.id;
 
-        if (actor.type !== 'vehicle' && actor.type !== 'starship') {
-            let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
+        let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
 
-            let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId);
+        let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId);
 
-            let attributeCategory = this._buildAttributesCategory(
-                actor,
-                result.tokenId,
-                "attributes"
-            );
+        let attributeCategory = this._buildAttributesCategory(
+            actor,
+            result.tokenId,
+            "attributes"
+        );
 
-            let skillCategory = this._buildSkillsCategory(actor, result.tokenId, "skills");
+        let skillCategory = this._buildSkillsCategory(actor, result.tokenId, "skills");
 
-            this._combineCategoryWithList(
-                result,
-                game.i18n.localize("OD6S.COMBAT"),
-                combatCategory
-            );
+        this._combineCategoryWithList(
+            result,
+            game.i18n.localize("OD6S.COMBAT"),
+            combatCategory
+        );
 
-            this._combineCategoryWithList(
-                result,
-                game.i18n.localize("OD6S.VEHICLE"),
-                vehicleCategory
-            )
+        this._combineCategoryWithList(
+            result,
+            game.i18n.localize("OD6S.VEHICLE"),
+            vehicleCategory
+        )
 
-            this._combineCategoryWithList(
-                result,
-                game.i18n.localize("OD6S.ATTRIBUTES"),
-                attributeCategory
-            );
-            this._combineCategoryWithList(
-                result,
-                game.i18n.localize("OD6S.SKILLS"),
-                skillCategory
-            );
-        }
-
-        if (actor.type === 'vehicle' || actor.type === 'starship') {
-            console.log(actor);
-            if (actor.data.data.crewmembers.length > 0) {
-                for (let i in actor.data.data.crewmembers) {
-                    let actor = game.od6s.getActorFromUuid(i);
-                    console.log(actor);
-                }
-            }
-        }
+        this._combineCategoryWithList(
+            result,
+            game.i18n.localize("OD6S.ATTRIBUTES"),
+            attributeCategory
+        );
+        this._combineCategoryWithList(
+            result,
+            game.i18n.localize("OD6S.SKILLS"),
+            skillCategory
+        );
 
         return result;
-    }
-
-    _buildCrewCategory(actor, tokenId) {
-        // Get all crew members
     }
 
     _buildCombatActionsCategory(actor, tokenId) {
