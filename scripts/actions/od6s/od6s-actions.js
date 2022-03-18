@@ -50,6 +50,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                 game.i18n.localize("OD6S.ATTRIBUTES"),
                 attributeCategory
             );
+
             this._combineCategoryWithList(
                 result,
                 game.i18n.localize("OD6S.SKILLS"),
@@ -58,11 +59,13 @@ export class ActionHandlerOD6S extends ActionHandler {
         }
 
         if (actor.type === 'vehicle' || actor.type === 'starship') {
-            console.log(actor);
-            if (actor.data.data.crewmembers.length > 0) {
-                for (let i in actor.data.data.crewmembers) {
-                    let actor = game.od6s.getActorFromUuid(i);
-                    console.log(actor);
+            if(game.user.isGM) {
+                if (actor.data.data.crewmembers.length > 0) {
+                    for (let i of actor.data.data.crewmembers) {
+                        let crewMember = await game.od6s.getActorFromUuid(i.uuid);
+                        let category = this._buildVehicleCategory(crewMember, result.tokenId);
+                        this._combineCategoryWithList(result, crewMember.name, category);
+                    }
                 }
             }
         }
