@@ -31,24 +31,16 @@ export class ActionHandlerGURPS extends ActionHandler {
       );
       
       if (Object.keys(actor.data.data.melee).length > 0)
-        this._combineCategoryWithList(
-          result,
-          this.i18n("tokenactionhud.melee"),
-          this._melee(actor, tokenId)
-        );
+        this._addList(result, this.i18n("tokenactionhud.melee"), actor, tokenId, 'melee', 'M')
      
       if (Object.keys(actor.data.data.ranged).length > 0)
-        this._combineCategoryWithList(
-          result,
-          this.i18n("tokenactionhud.ranged"),
-          this._ranged(actor, tokenId)
-        );
+        this._addList(result, this.i18n("tokenactionhud.ranged"), actor, tokenId, 'ranged', 'R')
      
       if (Object.keys(actor.data.data.skills).length > 0)
-        this._skillsspells(result, this.i18n("tokenactionhud.skills"), actor, tokenId, 'skills', 'Sk')
+        this._addList(result, this.i18n("tokenactionhud.skills"), actor, tokenId, 'skills', 'Sk')
         
       if (Object.keys(actor.data.data.spells).length > 0)
-        this._skillsspells(result, this.i18n("tokenactionhud.spells"), actor, tokenId, 'spells', 'Sp')
+        this._addList(result, this.i18n("tokenactionhud.spells"), actor, tokenId, 'spells', 'Sp')
       
       this._advantages(result, actor, tokenId)
       this._addQuickNotes(result, actor, tokenId)
@@ -65,7 +57,7 @@ export class ActionHandlerGURPS extends ActionHandler {
       return result;
     }
     
-  _skillsspells(mainList, label, actor, tokenId, key, otfprefix) {
+  _addList(mainList, label, actor, tokenId, key, otfprefix) {
     let limit = settings.get('maxListSize')
     let cnt = 0
     let columns = 0
