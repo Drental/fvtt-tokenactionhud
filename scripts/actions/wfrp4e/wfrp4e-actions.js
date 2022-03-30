@@ -208,7 +208,7 @@ export class ActionHandlerWfrp extends ActionHandler {
         !(
           s.data.name.startsWith(transMelee) ||
           s.data.name.startsWith(transRanged)
-        ) && s.data.data.grouped.value !== "isSpec"
+        ) && s.data.data.advanced.value !== "adv"
     );
     let basicId = `${categoryId}_basic`;
     this._setFilterSuggestions(basicId, basicSkills);
@@ -226,7 +226,7 @@ export class ActionHandlerWfrp extends ActionHandler {
         !(
           s.data.name.startsWith(transMelee) ||
           s.data.name.startsWith(transRanged)
-        ) && s.data.data.grouped.value === "isSpec"
+        ) && s.data.data.advanced.value === "adv"
     );
     let advancedId = `${categoryId}_advanced`;
     this._setFilterSuggestions(advancedId, advancedSkills);
