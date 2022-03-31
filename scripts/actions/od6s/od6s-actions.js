@@ -16,44 +16,61 @@ export class ActionHandlerOD6S extends ActionHandler {
         let actor = token.actor;
 
         if (!actor) return result;
-        if (actor.type === 'starship' || actor.type === 'vehicle') return result;
+        if (actor.type === 'container') return result;
 
         result.actorId = actor.id;
 
-        let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
+        if (actor.type !== 'vehicle' && actor.type !== 'starship') {
+            let combatCategory = this._buildCombatActionsCategory(actor, result.tokenId);
 
-        let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId);
+            let vehicleCategory = this._buildVehicleCategory(actor, result.tokenId);
 
-        let attributeCategory = this._buildAttributesCategory(
-            actor,
-            result.tokenId,
-            "attributes"
-        );
+            let attributeCategory = this._buildAttributesCategory(
+                actor,
+                result.tokenId,
+                "attributes"
+            );
 
-        let skillCategory = this._buildSkillsCategory(actor, result.tokenId, "skills");
+            let skillCategory = this._buildSkillsCategory(actor, result.tokenId, "skills");
 
-        this._combineCategoryWithList(
-            result,
-            game.i18n.localize("OD6S.COMBAT"),
-            combatCategory
-        );
+            this._combineCategoryWithList(
+                result,
+                game.i18n.localize("OD6S.COMBAT"),
+                combatCategory
+            );
 
-        this._combineCategoryWithList(
-            result,
-            game.i18n.localize("OD6S.VEHICLE"),
-            vehicleCategory
-        )
+            this._combineCategoryWithList(
+                result,
+                game.i18n.localize("OD6S.VEHICLE"),
+                vehicleCategory
+            )
 
-        this._combineCategoryWithList(
-            result,
-            game.i18n.localize("OD6S.ATTRIBUTES"),
-            attributeCategory
-        );
-        this._combineCategoryWithList(
-            result,
-            game.i18n.localize("OD6S.SKILLS"),
-            skillCategory
-        );
+            this._combineCategoryWithList(
+                result,
+                game.i18n.localize("OD6S.ATTRIBUTES"),
+                attributeCategory
+            );
+
+            this._combineCategoryWithList(
+                result,
+                game.i18n.localize("OD6S.SKILLS"),
+                skillCategory
+            );
+        }
+
+        if (isNewerVersion(game.system.data.version, "0.2.4")) {
+            if (actor.type === 'vehicle' || actor.type === 'starship') {
+                if (actor.data.data.crewmembers.length > 0) {
+                    for (let i of actor.data.data.crewmembers) {
+                        let crewMember = await game.od6s.getActorFromUuid(i.uuid);
+                        if(crewMember.testUserPermission(game.user, "OWNER")) {
+                            let category = this._buildVehicleCategory(crewMember, crewMember.uuid, 'crew');
+                            this._combineCategoryWithList(result, crewMember.name, category);
+                        }
+                    }
+                }
+            }
+        }
 
         return result;
     }
@@ -144,22 +161,27 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     _buildVehicleCategory(actor, tokenId, categoryName) {
-        let macroType = "action";
+        let macroType;
+        if (categoryName === 'crew') {
+            macroType = "crew";
+        } else {
+            macroType = "action";
+        }
+
         let result = this.initializeEmptyCategory("vehicleactions");
 
         if (actor.getFlag('od6s', 'crew')) {
             if (isNewerVersion(game.system.data.version, "0.1.14")) {
                 let resistances = [];
                 let name;
-                
-                if(actor.data.data.vehicle.type === "vehicle") {
+
+                if (actor.data.data.vehicle.type === "vehicle") {
                     name = game.i18n.localize(game.od6s.config.vehicleToughnessName);
                 } else {
                     name = game.i18n.localize(game.od6s.config.starshipToughnessName);
                 }
                 let encodedValue = [macroType, tokenId, "vehicletoughness"].join(this.delimiter);
                 resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
-
 
                 if (actor.data.data.vehicle.shields.value > 0) {
                     for (let arc in actor.data.data.vehicle.shields.arcs) {
@@ -168,7 +190,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                         let encodedValue = [
                             macroType,
                             tokenId,
-                            "vehicleshields"+arc
+                            "vehicleshields" + arc
                         ].join(this.delimiter);
                         resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
                     }
@@ -186,7 +208,7 @@ export class ActionHandlerOD6S extends ActionHandler {
 
             let vehicleWeaponsSubcategory = this.initializeEmptySubcategory();
             vehicleWeaponsSubcategory.actions = this._produceMap(tokenId,
-                actor.data.data.vehicle.vehicle_weapons.filter(i=>i.data.equipped.value),
+                actor.data.data.vehicle.vehicle_weapons.filter(i => i.data.equipped.value),
                 macroType);
             this._combineSubcategoryWithCategory(
                 result,

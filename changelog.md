@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.7] 2022-03-30
+
+- GURPS - updated GURPS support - thanks Nose66
+- WFRP - Split basic and advaanced skills correctly - thanks Txus5012
+- dnd4e - Added Action Point, 2nd Wind and Deathsave - thanks drakonas
+- Opend6 - extend vehicle actions - thanks extend vehicle actions
+
 ## [2.2.6] 2022-03-09
 
 - TAH - Add a new UI option with permission from Dorako - THANK YOU DORAKO!

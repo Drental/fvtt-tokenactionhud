@@ -486,6 +486,34 @@ export class ActionHandlerDnD4e extends ActionHandler {
             name: this.i18n("Show Save Dialog"),
         });
 
+        if (game.dnd4eBeta.tokenBarHooks.version >= 2) {
+            // so long as there is an action point available - as I houserule that you can use more than 1 an encounter
+            const shouldShowActionPoint = !settings.get("hideUsedPowers") || this._getDocumentData(actor).actionpoints?.value > 0
+            if (shouldShowActionPoint) {
+                utility.actions.push({
+                    id: "actionPoint",
+                    encodedValue: [macroType, token.id, "actionPoint"].join(this.delimiter),
+                    name: this.i18n("DND4EBETA.ActionPointUse"),
+                });
+            }
+
+            // either should not be hiding used powers, or should not have used 2nd wind
+            const shouldShowSecondWind = !settings.get("hideUsedPowers") || !this._getDocumentData(actor).details?.secondwind
+            if (shouldShowSecondWind) {
+                utility.actions.push({
+                    id: "secondWind",
+                    encodedValue: [macroType, token.id, "secondWind"].join(this.delimiter),
+                    name: this.i18n("DND4EBETA.SecondWind"),
+                });
+            }
+
+            utility.actions.push({
+                id: "deathSave",
+                encodedValue: [macroType, token.id, "deathSave"].join(this.delimiter),
+                name: this.i18n("DND4EBETA.DeathSavingThrow"),
+            });
+        }
+
         this._combineSubcategoryWithCategory(
             result,
             this.i18n("tokenactionhud.utility"),

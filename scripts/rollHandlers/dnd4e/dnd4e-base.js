@@ -119,6 +119,15 @@ export class RollHandlerBaseDnD4e extends RollHandler {
       case "initiative":
         await this.performInitiativeMacro(tokenId);
         break;
+      case "actionPoint":
+        game.dnd4eBeta.tokenBarHooks.actionPoint(actor, event)
+        break;
+      case "secondWind":
+        game.dnd4eBeta.tokenBarHooks.secondWind(actor, event)
+        break;
+      case "deathSave":
+        game.dnd4eBeta.tokenBarHooks.deathSave(actor, event)
+        break;
     }
   }
 
