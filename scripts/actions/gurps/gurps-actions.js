@@ -31,10 +31,10 @@ export class ActionHandlerGURPS extends ActionHandler {
       );
       
       if (Object.keys(actor.data.data.melee).length > 0)
-        this._addToList(result, this.i18n("tokenactionhud.melee"), actor, tokenId, 'melee', 'M')
+        this._melee(result, this.i18n("tokenactionhud.melee"), actor, tokenId)
      
       if (Object.keys(actor.data.data.ranged).length > 0)
-        this._addToList(result, this.i18n("tokenactionhud.ranged"), actor, tokenId, 'ranged', 'R')
+        this._ranged(result, this.i18n("tokenactionhud.ranged"), actor, tokenId)
      
       if (Object.keys(actor.data.data.skills).length > 0)
         this._addToList(result, this.i18n("tokenactionhud.skills"), actor, tokenId, 'skills', 'Sk')
@@ -57,38 +57,6 @@ export class ActionHandlerGURPS extends ActionHandler {
       return result;
     }
     
-  _addToList(mainList, label, actor, tokenId, key, otfprefix) {
-    let limit = settings.get('maxListSize')
-    let cnt = 0
-    let columns = 0
-    let result = this.initializeEmptyCategory(key);
-    GURPS.recurselist(actor.data.data[key], (e, k, d) => {
-      if (e.level > 0) {
-        cnt++
-        let attributeCategory = this.initializeEmptySubcategory();
-        let q = '"'
-        if (e.name.includes(q)) q = "'"
-        attributeCategory.actions.push({
-          name: e.name + ' (' + e.level + ')',
-          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter)
-        }); 
-        this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
-        
-        this._combineSubcategoryWithCategory(result, '', attributeCategory);
-        if (cnt >= limit) {
-          cnt = 0
-          columns++
-          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
-          result = this.initializeEmptyCategory(key + columns);
-        }
-      }
-    })
-    if (cnt > 0) {
-      columns++
-      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
-    }
-  }
-
   _advantages(result, actor, tokenId) {
     let any = false
     let cat = this.initializeEmptyCategory("ads");
@@ -116,8 +84,12 @@ export class ActionHandlerGURPS extends ActionHandler {
       this._combineCategoryWithList(result, this.i18n("GURPS.quicknotes"), cat);
    }
  
-  _ranged(actor, tokenId) {
-    let result = this.initializeEmptyCategory("ranged");
+  _ranged(mainList, label, actor, tokenId) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let key = "ranged"
+    let result = this.initializeEmptyCategory(key);
     GURPS.recurselist(actor.data.data.ranged, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
@@ -143,10 +115,51 @@ export class ActionHandlerGURPS extends ActionHandler {
       this._addNoteOTFs(attributeCategory, tokenId, name + ' ' + e.notes)
 
       this._combineSubcategoryWithCategory(result, name, attributeCategory);
+      
+      if (++cnt >= limit) {
+        cnt = 0
+        columns++
+        this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+        result = this.initializeEmptyCategory(key + columns);
+      }
     })
-    return result
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
   }
   
+  _addToList(mainList, label, actor, tokenId, key, otfprefix) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let result = this.initializeEmptyCategory(key);
+    GURPS.recurselist(actor.data.data[key], (e, k, d) => {
+      if (e.level > 0) {
+        let attributeCategory = this.initializeEmptySubcategory();
+        let q = '"'
+        if (e.name.includes(q)) q = "'"
+        attributeCategory.actions.push({
+          name: e.name + ' (' + e.level + ')',
+          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter)
+        }); 
+        this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
+        
+        this._combineSubcategoryWithCategory(result, '', attributeCategory);
+        if (++cnt >= limit) {
+          cnt = 0
+          columns++
+          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+          result = this.initializeEmptyCategory(key + columns);
+        }
+      }
+    })
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
+  }
+
   _addNoteOTFs(attributeCategory, tokenId, notes) {
     let any = false
     if (!!notes)
@@ -161,8 +174,12 @@ export class ActionHandlerGURPS extends ActionHandler {
     return any
   }
   
-  _melee(actor, tokenId) {
-    let result = this.initializeEmptyCategory("melee");
+  _melee(mainList, label, actor, tokenId) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let key = "melee"
+    let result = this.initializeEmptyCategory(key);
     GURPS.recurselist(actor.data.data.melee, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
@@ -190,8 +207,17 @@ export class ActionHandlerGURPS extends ActionHandler {
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
       this._combineSubcategoryWithCategory(result, name, attributeCategory);
+        if (++cnt >= limit) {
+          cnt = 0
+          columns++
+          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+          result = this.initializeEmptyCategory(key + columns);
+        }
     })
-    return result
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
   }
   
   _maneuvers(actor, tokenId) {
