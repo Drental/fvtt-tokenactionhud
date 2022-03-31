@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.8] 2022-03-31
+
+- GURPS - Fixed large melee and ranged lists - thanks Nose66
+
 ## [2.2.7] 2022-03-30
 
 - GURPS - updated GURPS support - thanks Nose66
