@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.10] 2022-04-02
+
+- pf2e - fix NPCs
+
 ## [2.2.9] 2022-04-02
 
 - TAH - Fixed Hotbar height styling

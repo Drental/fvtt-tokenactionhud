@@ -409,25 +409,27 @@ export class ActionHandlerPf2e extends ActionHandler {
       }
     }
 
-    const auxActionsMap = s.auxiliaryActions.map(
-      function (a) {
-        return {
-          id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
-          name: a.label,
-        };
-      }.bind(s)
-    );
-    if (!s.ready){
-      auxActionsMap[0].img = s.imageUrl;
+    if (s.auxiliaryActions) {
+      const auxActionsMap = s.auxiliaryActions.map(
+        function (a) {
+          return {
+            id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+            name: a.label,
+          };
+        }.bind(s)
+      );
+      if (!s.ready){
+        auxActionsMap[0].img = s.imageUrl;
+      }
+      const auxActionsList = this._produceActionMap(
+        tokenId,
+        auxActionsMap,
+        "auxAction"
+      );
+      auxActionsList.forEach((a) => {
+        subcategory.actions.push(a);
+      });
     }
-    const auxActionsList = this._produceActionMap(
-      tokenId,
-      auxActionsMap,
-      "auxAction"
-    );
-    auxActionsList.forEach((a) => {
-      subcategory.actions.push(a);
-    });
 
     this._combineSubcategoryWithCategory(category, s.name, subcategory);
     if (s.meleeUsage) {
