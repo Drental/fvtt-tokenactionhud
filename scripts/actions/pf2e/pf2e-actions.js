@@ -332,9 +332,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
     let strikes = actor.data.data.actions?.filter((a) => a.type === macroType);
-    if (actor.data.type === "character" && !!strikes) {
-      strikes = strikes.filter((s) => s.ready);
-    }
+
 
     if (!strikes) return;
 
@@ -352,63 +350,84 @@ export class ActionHandlerPf2e extends ActionHandler {
     let glyph = s.glyph;
     if (glyph)
       subcategory.icon = `<span style='font-family: "Pathfinder2eActions"'>${glyph}</span>`;
+    if (s.ready) {
+      let map = Math.abs(parseInt(s.variants[1].label.split(" ")[1]));
+      let attackMod = s.totalModifier;
 
-    let map = Math.abs(parseInt(s.variants[1].label.split(" ")[1]));
-    let attackMod = s.totalModifier;
+      let currentMap = 0;
+      let currentBonus = attackMod;
+      let calculatePenalty = calculateAttackPenalty;
 
-    let currentMap = 0;
-    let currentBonus = attackMod;
-    let calculatePenalty = calculateAttackPenalty;
+      let variantsMap = s.variants.map(
+        function (v) {
+          let name;
+          if (currentBonus === attackMod || calculatePenalty) {
+            name = currentBonus >= 0 ? `+${currentBonus}` : `${currentBonus}`;
+          } else {
+            name = currentMap >= 0 ? `+${currentMap}` : `${currentMap}`;
+          }
+          currentMap -= map;
+          currentBonus -= map;
+          return {
+            id: encodeURIComponent(`${this.name}>${this.variants.indexOf(v)}>` + usage),
+            name: name,
+          };
+        }.bind(s)
+      );
 
-    let variantsMap = s.variants.map(
-      function (v) {
-        let name;
-        if (currentBonus === attackMod || calculatePenalty) {
-          name = currentBonus >= 0 ? `+${currentBonus}` : `${currentBonus}`;
-        } else {
-          name = currentMap >= 0 ? `+${currentMap}` : `${currentMap}`;
-        }
-        currentMap -= map;
-        currentBonus -= map;
+      variantsMap[0].img = s.imageUrl;
+      subcategory.actions = this._produceActionMap(
+        tokenId,
+        variantsMap,
+        macroType
+      );
+
+      let damageEncodedValue = [
+        macroType,
+        tokenId,
+        encodeURIComponent(s.name + ">damage>" + usage),
+      ].join(this.delimiter);
+      let critEncodedValue = [
+        macroType,
+        tokenId,
+        encodeURIComponent(s.name + ">critical>" + usage),
+      ].join(this.delimiter);
+      subcategory.actions.push({
+        name: this.i18n("tokenactionhud.damage"),
+        encodedValue: damageEncodedValue,
+        id: encodeURIComponent(s.name + ">damage>" + usage),
+      });
+      subcategory.actions.push({
+        name: this.i18n("tokenactionhud.critical"),
+        encodedValue: critEncodedValue,
+        id: encodeURIComponent(s.name + ">critical>" + usage),
+      });
+
+      let ammoAction = this._ammoInfo(tokenId, actor, s);
+      if (!!ammoAction) {
+        subcategory.actions.push(ammoAction);
+      }
+    }
+
+    const auxActionsMap = s.auxiliaryActions.map(
+      function (a) {
         return {
-          id: encodeURIComponent(`${this.name}>${this.variants.indexOf(v)}>` + usage),
-          name: name,
+          id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+          name: a.label,
         };
       }.bind(s)
     );
-
-    variantsMap[0].img = s.imageUrl;
-    subcategory.actions = this._produceActionMap(
-      tokenId,
-      variantsMap,
-      macroType
-    );
-
-    let damageEncodedValue = [
-      macroType,
-      tokenId,
-      encodeURIComponent(s.name + ">damage>" + usage),
-    ].join(this.delimiter);
-    let critEncodedValue = [
-      macroType,
-      tokenId,
-      encodeURIComponent(s.name + ">critical>" + usage),
-    ].join(this.delimiter);
-    subcategory.actions.push({
-      name: this.i18n("tokenactionhud.damage"),
-      encodedValue: damageEncodedValue,
-      id: encodeURIComponent(s.name + ">damage>" + usage),
-    });
-    subcategory.actions.push({
-      name: this.i18n("tokenactionhud.critical"),
-      encodedValue: critEncodedValue,
-      id: encodeURIComponent(s.name + ">critical>" + usage),
-    });
-
-    let ammoAction = this._ammoInfo(tokenId, actor, s);
-    if (!!ammoAction) {
-      subcategory.actions.push(ammoAction);
+    if (!s.ready){
+      auxActionsMap[0].img = s.imageUrl;
     }
+    const auxActionsList = this._produceActionMap(
+      tokenId,
+      auxActionsMap,
+      "auxAction"
+    );
+    auxActionsList.forEach((a) => {
+      subcategory.actions.push(a);
+    });
 
     this._combineSubcategoryWithCategory(category, s.name, subcategory);
     if (s.meleeUsage) {

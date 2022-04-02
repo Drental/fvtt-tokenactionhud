@@ -147,6 +147,9 @@ export class RollHandlerBasePf2e extends RollHandler {
       case "familiarAttack":
         this._rollFamiliarAttack(event, actor);
         break;
+      case "auxAction":
+        this._performAuxAction(event, tokenId, actor, actionId);
+        break;
     }
   }
 
@@ -312,6 +315,32 @@ export class RollHandlerBasePf2e extends RollHandler {
         });
         break;
     }
+  }
+
+  /** @private */
+  _performAuxAction(event, tokenId, actor, actionId) {
+    let actionParts = decodeURIComponent(actionId).split(">");
+
+    let strikeName = actionParts[0];
+    let strikeType = actionParts[1];
+    let strikeUsage = actionParts[2];
+
+    let strike = actor.data.data.actions
+      .filter((a) => a.type === "strike")
+      .find((s) => s.name === strikeName);
+
+    if (this.isRenderItem()) {
+      let item = actor.data.data.actions
+        .filter((a) => a.type === "strike")
+        .find((s) => s.name === strikeName).origin;
+      if (item) return this.doRenderItem(tokenId, item.data.id);
+    }
+
+    if (strikeUsage !== "") {
+      strike = strike[strikeUsage];
+    }
+
+    strike.auxiliaryActions[strikeType]?.execute();
   }
 
   /** @private */
