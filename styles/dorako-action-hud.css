@@ -5,7 +5,6 @@
 
 :root {
     --border-width: 1px;
-    --hotbar-height: 62px;
     --header-color: #fff;
     --header-bg: var(--primary);
     --body-padding: 0.0em 0.0em 0em 0em;
