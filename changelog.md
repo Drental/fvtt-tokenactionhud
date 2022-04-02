@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.9] 2022-04-02
+
+- TAH - Fixed Hotbar height styling
+- pf2e - added the weapon draw/sheath/etc. actions.
+
 ## [2.2.8] 2022-03-31
 
 - GURPS - Fixed large melee and ranged lists - thanks Nose66
