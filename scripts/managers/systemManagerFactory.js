@@ -24,6 +24,7 @@ import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
 import { DnD4eSystemManager } from './dnd4e.js'
 import { ED4eSystemManager } from './ed4e.js'
 import { GURPSSystemManager } from './gurps.js'
+import { Space1889SystemManager } from './space1889.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -84,6 +85,8 @@ export class SystemManagerFactory {
         return new ED4eSystemManager(appName);
       case 'gurps':
         return new GURPSSystemManager(appName);
+      case 'space1889':
+        return new Space1889SystemManager(appName);
     }
   }
 }

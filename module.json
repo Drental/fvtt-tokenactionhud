@@ -99,7 +99,8 @@
     "forbidden-lands",
     "dnd4e",
     "earthdawn4e",
-    "gurps"
+    "gurps",
+    "space1889"
   ],
   "dependencies": [],
   "socket": false,
