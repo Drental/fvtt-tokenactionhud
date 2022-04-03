@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.13] 2022-04-03
+
+- space1889 - added new system - thanks Scepfari
+
 ## [2.2.12] 2022-04-03
 
 - dnd5e - add option to show items without activations (this also allows to use items withoout Activations as Magic Items)
