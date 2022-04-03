@@ -79,9 +79,7 @@ export class NpcActionHandlerPf2e {
     if (!settings.get("separateTogglesCategory"))
       this._addTogglesCategories(actor, tokenId, result);
 
-    const info = this.baseHandler.i18n("tokenactionhud.experimental");
-
-    this.baseHandler._addStrikesCategories(actor, tokenId, result, info);
+    this.baseHandler._addStrikesCategories(actor, tokenId, result);
 
     return result;
   }
@@ -89,16 +87,15 @@ export class NpcActionHandlerPf2e {
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
     const macroType = "toggle";
-    const toggleActions = actor.data.data.toggles?.actions;
+    const toggles = actor.data.data.toggles;
 
-    if (!toggleActions) return;
+    if (!toggles.length) return;
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
     subcategory.actionsClass = "excludeFromWidthCalculation";
 
-    toggleActions.forEach((t) => {
-      let toggleKey = this._getToggleKey(t.inputName);
-      if (!toggleKey) return;
+    toggles.forEach((t) => {
+      let toggleKey = [t.domain, t.option].join(".");
 
       let id = toggleKey;
       let encodedValue = [macroType, tokenId, toggleKey].join(
@@ -124,14 +121,6 @@ export class NpcActionHandlerPf2e {
       this.baseHandler.i18n("tokenactionhud.toggles"),
       subcategory
     );
-  }
-
-  /** @private */
-  _getToggleKey(inputName) {
-    const rollOptionPrefix = "flags.pf2e.rollOptions.";
-    if (!inputName.includes(rollOptionPrefix)) return "";
-
-    return inputName.substring(rollOptionPrefix.length);
   }
 
   /** @private */

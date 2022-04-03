@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.11] 2022-04-03
+
+- pf2e - fix toggles
+
 ## [2.2.10] 2022-04-02
 
 - pf2e - fix NPCs
