@@ -329,6 +329,10 @@
           "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
           "name": "Show empty items (includes items and spells)"
         },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
         "showSpellInfo": {
           "hint": "If enabled, spell component information, concentration, and ritual status will be noted next to the spell name.",
           "name": "Display spell information"

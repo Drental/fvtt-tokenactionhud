@@ -232,17 +232,23 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _getActiveEquipment(equipment) {
-    const activationTypes = Object.keys(
-      game.dnd5e.config.abilityActivationTypes
-    ).filter((at) => at !== "none");
+    let activeEquipment = []
+    if (!settings.get("showItemsWithoutAction")) {
+      const activationTypes = Object.keys(
+        game.dnd5e.config.abilityActivationTypes
+      ).filter((at) => at !== "none");
 
-    let activeEquipment = equipment.filter((e) => {
-      const equipmentData = this._getDocumentData(e);
-      let activation = equipmentData.activation;
-      if (!activation) return false;
+      activeEquipment = equipment.filter((e) => {
+        const equipmentData = this._getDocumentData(e);
+        let activation = equipmentData.activation;
+        if (!activation) return false;
 
-      return activationTypes.includes(equipmentData.activation.type);
-    });
+        return activationTypes.includes(equipmentData.activation.type);
+      });
+    }
+    else {
+      activeEquipment = equipment;
+    }
 
     return activeEquipment;
   }
