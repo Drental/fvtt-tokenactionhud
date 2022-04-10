@@ -418,7 +418,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           };
         }.bind(s)
       );
-      if (!s.ready){
+      if (!s.ready && auxActionsMap[0]){
         auxActionsMap[0].img = s.imageUrl;
       }
       const auxActionsList = this._produceActionMap(
@@ -685,7 +685,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     const statistic = spellcastingEntry.statistic;
     let spelldc = typeof statistic.dc === "function" ? statistic.dc().value : statistic.dc.value;
-    let spellatk = statistic.check.value;
+    let spellatk = statistic.check.mod;
     let attackBonus =
       spellatk >= 0
         ? `${this.i18n("tokenactionhud.atk")} +${spellatk}`
