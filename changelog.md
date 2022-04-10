@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.14] 2022-04-10
+
+- pf2e - fix unequipped unarmed weapons and spell attack mod display
+
 ## [2.2.13] 2022-04-03
 
 - space1889 - added new system - thanks Scepfari
