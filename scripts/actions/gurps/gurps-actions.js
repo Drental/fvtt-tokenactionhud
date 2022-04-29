@@ -109,7 +109,7 @@ export class ActionHandlerGURPS extends ActionHandler {
       }
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
+        encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, name + ' ' + e.notes)
@@ -202,7 +202,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         }); 
       attributeCategory.actions.push({
         name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
+        encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
