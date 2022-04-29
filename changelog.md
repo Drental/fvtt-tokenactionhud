@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.15] 2022-04-29
+
+- pf2e - improve code for toggles - thank you shark that walks like a man
+- gurps - V4 Support (Right mouse click on damage) - thanks Nose66 
+
 ## [2.2.14] 2022-04-10
 
 - pf2e - fix unequipped unarmed weapons and spell attack mod display
