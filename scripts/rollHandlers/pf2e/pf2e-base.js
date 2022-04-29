@@ -7,7 +7,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   constructor() {
     super();
   }
-  
+
   eventToRollParams(event) {
     const skipDefault = !game.user.settings.showRollDialogs;
     return {
@@ -570,17 +570,9 @@ export class RollHandlerBasePf2e extends RollHandler {
 
   async _performToggleMacro(event, tokenId, actionId) {
     const actor = super.getActor(tokenId);
+    const toggle = JSON.parse(actionId);
+    if (!(toggle.domain && toggle.option)) return;
 
-    const input = actionId.split(".");
-
-    if (input?.length !== 2) return;
-
-    const rollName = input[0];
-    const optionName = input[1];
-
-    // workaround until fixed
-    // await actor.toggleRollOption(rollName, optionName);
-    const flag = `rollOptions.${rollName}.${optionName}`;
-    return actor.setFlag("pf2e", flag, !actor.rollOptions[rollName]?.[optionName]);
+    await actor.toggleRollOption(toggle.domain, toggle.option, toggle.itemId);
   }
 }

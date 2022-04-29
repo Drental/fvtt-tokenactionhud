@@ -95,25 +95,13 @@ export class NpcActionHandlerPf2e {
     subcategory.actionsClass = "excludeFromWidthCalculation";
 
     toggles.forEach((t) => {
-      let toggleKey = [t.domain, t.option].join(".");
+      const id = [t.domain, t.option].join(".");
+      const { delimiter } = this.baseHandler;
+      const encodedValue = [macroType, tokenId, JSON.stringify(t)].join(delimiter);
+      const name = game.i18n.localize(t.label);
+      const cssClass = t.checked ? "active" : "";
 
-      let id = toggleKey;
-      let encodedValue = [macroType, tokenId, toggleKey].join(
-        this.baseHandler.delimiter
-      );
-      let name = t.label.startsWith("PF2E.")
-        ? this.baseHandler.i18n(t.label)
-        : t.label;
-      let cssClass = t.checked ? "active" : "";
-
-      let action = {
-        id: id,
-        encodedValue: encodedValue,
-        name: name,
-        cssClass: cssClass,
-      };
-
-      subcategory.actions.push(action);
+      subcategory.actions.push({ id, encodedValue, name, cssClass });
     });
 
     this.baseHandler._combineSubcategoryWithCategory(
