@@ -100,7 +100,8 @@
     "dnd4e",
     "earthdawn4e",
     "gurps",
-    "space1889"
+    "space1889",
+    "CoC7"
   ],
   "dependencies": [],
   "socket": false,
