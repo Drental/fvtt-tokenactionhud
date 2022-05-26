@@ -53,7 +53,7 @@ export class RollHandlerBaseDw extends RollHandler {
   _handleDamage(macroType, event, actor, actionId) {
     let damage = actor.data.data.attributes.damage;
     let damageDie = `${damage.value}`;
-    let damageMod = damage.misc.length > 0 ? damage.misc.length : 0;
+    let damageMod = damage.misc.value > 0 ? damage.misc.value : 0;
 
     let flavour = damage.piercing;
 
