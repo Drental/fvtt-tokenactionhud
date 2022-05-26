@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.16] 2022-05-26
+
+- dungeonworld - fix calculation of damage modifier - thank you sanguaire
+- localisation - updated japanese - thanks Yasnen
+- CoC7 - added system support - thanks snap01
+
 ## [2.2.15] 2022-04-29
 
 - pf2e - improve code for toggles - thank you shark that walks like a man
