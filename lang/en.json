@@ -562,6 +562,12 @@
       "retreatparry": "Retreating Parry",
       "retreatparryfence": "Retreating Parry (Fencing)",
       "retreatblock": "Retreating Block"
+    },
+    "co": {
+      "combat": "Combat",
+      "attacks": "Attacks",
+      "protections": "Protections",
+      "capacities": "Capacities"
     }
   }
 }
