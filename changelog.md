@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.17] 2022-06-04
+
+- Lancer - Quick fix for tech attacks. - thank you purringInsanity
+- localisation - updated french and english keys - thank you QaW
+
 ## [2.2.16] 2022-05-26
 
 - dungeonworld - fix calculation of damage modifier - thank you sanguaire
