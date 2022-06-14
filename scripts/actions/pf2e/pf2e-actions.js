@@ -2,6 +2,7 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 import { PcActionHandlerPf2e } from "./pf2e-actions-pc.js";
 import { NpcActionHandlerPf2e } from "./pf2e-actions-npc.js";
+import { SKILL_ABBREVIATIONS } from "./values.js";
 
 export class ActionHandlerPf2e extends ActionHandler {
   constructor(filterManager, categoryManager) {
@@ -327,7 +328,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     return result;
   }
-  
+
   /** @private */
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
@@ -462,6 +463,46 @@ export class ActionHandlerPf2e extends ActionHandler {
     action.info1 = item.data.data.quantity?.value;
 
     return action;
+  }
+
+  _getSkillsList(actor, tokenId) {
+    let result = this.initializeEmptyCategory("skills");
+
+    let abbreviated = settings.get("abbreviateSkills");
+
+    let actorSkills = Object.entries(actor.skills).filter(
+      (s) => !!s[1].label && s[1].label.length > 1
+    );
+
+    let skillMap = actorSkills
+      .filter((s) => !s[1].lore)
+      .map((s) =>
+        this.createSkillMap(tokenId, "skill", s, abbreviated)
+      );
+    let skills = this.initializeEmptySubcategory();
+    skills.actions = skillMap;
+
+    let loreMap = actorSkills
+      .filter((s) => s[1].lore)
+      .sort(this._foundrySort)
+      .map((s) =>
+        this.createSkillMap(tokenId, "skill", s, abbreviated)
+      );
+    let lore = this.initializeEmptySubcategory();
+    lore.actions = loreMap;
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.skills"),
+      skills
+    );
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.lore"),
+      lore
+    );
+
+    return result;
   }
 
   /** @private */
@@ -836,14 +877,11 @@ export class ActionHandlerPf2e extends ActionHandler {
     return result;
   }
 
-  /** @private */
   _getSaveList(actor, tokenId) {
     let result = this.initializeEmptyCategory("saves");
 
-    let actorSaves = actor.saves;
-    let saveMap = Object.keys(actorSaves).map((k) => {
-      return { id: k, name: game.i18n.localize(CONFIG.PF2E.saves[k]) };
-    });
+    let actorSaves = Object.values(actor.saves);
+    let saveMap = actorSaves.map((save) => ({ id: save.slug, name: save.label }));
 
     let saves = this.initializeEmptySubcategory();
     saves.actions = this._produceActionMap(tokenId, saveMap, "save");
@@ -861,14 +899,10 @@ export class ActionHandlerPf2e extends ActionHandler {
   createSkillMap(tokenId, macroType, skillEntry, abbreviated) {
     let key = skillEntry[0];
     let data = skillEntry[1];
-    let name = CONFIG.PF2E.skills[key];
-    if (!name) name = data.name;
-    if (!name) name = data.name;
-    name = abbreviated
-      ? key.charAt(0).toUpperCase() + key.slice(1)
-      : game.i18n.localize(name);
+    const label = game.i18n.localize(data.label);
+    const name = abbreviated ? SKILL_ABBREVIATIONS[data.slug] ?? label : label;
 
-    let value = data.value;
+    let value = data.check.mod;
     let info = "";
     if (value != 0) {
       if (value > 0) info = `+${value}`;
@@ -921,7 +955,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           )
         );
       }
-      
+
       if (dyingPoints?.value >= 1) {
         let recoveryCheckValue = ["recoveryCheck", tokenId, "recoveryCheck"].join(
           this.delimiter

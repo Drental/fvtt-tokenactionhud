@@ -8,14 +8,6 @@ export class RollHandlerBasePf2e extends RollHandler {
     super();
   }
 
-  eventToRollParams(event) {
-    const skipDefault = !game.user.settings.showRollDialogs;
-    return {
-        secret: !!(event.ctrlKey || event.metaKey),
-        skipDialog: event.shiftKey ? !skipDefault : skipDefault,
-    };
-  }
-
   async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
     settings.Logger.debug(encodedValue);
@@ -119,7 +111,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
     switch (macroType) {
       case "save":
-        this._rollSaveChar(event, actor, actionId);
+        this._rollSave(event, actor, actionId);
         break;
       case "attribute":
         this._rollAttributeChar(event, actor, actionId);
@@ -157,7 +149,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   async _handleUniqueActionsNpc(macroType, event, tokenId, actor, actionId) {
     switch (macroType) {
       case "save":
-        this._rollSaveNpc(event, actor, actionId);
+        this._rollSave(event, actor, actionId);
         break;
       case "npcStrike":
         this._rollStrikeNpc(event, tokenId, actor, actionId);
@@ -170,20 +162,8 @@ export class RollHandlerBasePf2e extends RollHandler {
 
   /** @private */
   _rollSkill(event, actor, actionId) {
-    let skill = actor.data.data.skills[actionId];
-
-    if (!skill || !skill.roll) {
-      actor.rollSkill(event, actionId);
-    } else {
-      var abilityBased = `${skill.ability}-based`;
-      const options = actor.getRollOptions([
-        "all",
-        "skill-check",
-        abilityBased,
-        CONFIG.PF2E.skills[actionId] ?? actionId,
-      ]);
-      skill.roll({ event, options });
-    }
+    const skill = actor.skills[actionId];
+    skill.check.roll({ event });
   }
 
   /** @private */
@@ -207,17 +187,6 @@ export class RollHandlerBasePf2e extends RollHandler {
     if (actionId === "initiative")
       await actor.rollInitiative({ createCombatants: true });
     else actor.rollAttribute(event, actionId);
-  }
-
-  /** @private */
-  _rollSaveChar(event, actor, actionId) {
-    let save = actor.saves[actionId];
-    if (!save) {
-      actor.rollSave(event, actionId);
-    } else {
-      const rollParams = this.eventToRollParams(event);
-      save.check.roll(rollParams);
-    }
   }
 
   async _adjustSpellSlot(event, actor, actionId) {
@@ -265,9 +234,8 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   /** @private */
-  _rollSaveNpc(event, actor, actionId) {
-    const rollParams = this.eventToRollParams(event);
-    actor.saves[actionId].check.roll(rollParams);
+  _rollSave(event, actor, actionId) {
+    actor.saves[actionId].check.roll({ event });
   }
 
   async _updateRollMode(rollMode) {
