@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.18] 2022-06-16
+
+- pf2e - refactor skill and save rolling - thank you Supe
+- TAH - update tagify - thank you Supe
+
 ## [2.2.17] 2022-06-04
 
 - Lancer - Quick fix for tech attacks. - thank you purringInsanity
