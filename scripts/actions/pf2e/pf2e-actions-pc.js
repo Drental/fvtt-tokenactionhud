@@ -15,7 +15,7 @@ export class PcActionHandlerPf2e {
       this._forCharacter(result, tokenId, actor);
     }
 
-    let skills = this._getSkillsList(actor, tokenId);
+    let skills = this.baseHandler._getSkillsList(actor, tokenId);
     let saves = this.baseHandler._getSaveList(actor, tokenId);
     let attributes = this._getAttributeList(actor, tokenId);
     let utilities = this.baseHandler._getUtilityList(actor, tokenId);
@@ -194,45 +194,6 @@ export class PcActionHandlerPf2e {
       result,
       this.i18n("tokenactionhud.attack"),
       subcategory
-    );
-
-    return result;
-  }
-
-  /** @private */
-  _getSkillsList(actor, tokenId) {
-    let result = this.baseHandler.initializeEmptyCategory("skills");
-
-    let abbreviated = settings.get("abbreviateSkills");
-
-    let actorSkills = Object.entries(actor.data.data.skills);
-
-    let skillMap = actorSkills
-      .filter((s) => !s[1].lore)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let skills = this.baseHandler.initializeEmptySubcategory();
-    skills.actions = skillMap;
-
-    let loreMap = actorSkills
-      .filter((s) => s[1].lore)
-      .sort(this._foundrySort)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let lore = this.baseHandler.initializeEmptySubcategory();
-    lore.actions = loreMap;
-
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.skills"),
-      skills
-    );
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.lore"),
-      lore
     );
 
     return result;

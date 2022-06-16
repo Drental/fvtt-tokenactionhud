@@ -1,0 +1,18 @@
+export const SKILL_ABBREVIATIONS = {
+  acrobatics: "acr",
+  arcana: "arc",
+  athletics: "ath",
+  crafting: "cra",
+  deception: "dec",
+  diplomacy: "dip",
+  intimidation: "itm",
+  medicine: "med",
+  nature: "nat",
+  occultism: "occ",
+  performance:  "prf",
+  religion: "rel",
+  society: "soc",
+  stealth: "ste",
+  survival:  "sur",
+  thievery: "thi",
+};

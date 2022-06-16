@@ -13,7 +13,7 @@ export class NpcActionHandlerPf2e {
     let items = this.baseHandler._getItemsList(actor, tokenId);
     let spells = this.baseHandler._getSpellsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
-    let skills = this._getSkillsList(actor, tokenId);
+    let skills = this.baseHandler._getSkillsList(actor, tokenId);
     let saves = this.baseHandler._getSaveList(actor, tokenId);
     let attributes = this._getAttributeListNpc(actor, tokenId);
     let effects = this.baseHandler._getEffectsList(actor, tokenId);
@@ -109,47 +109,6 @@ export class NpcActionHandlerPf2e {
       this.baseHandler.i18n("tokenactionhud.toggles"),
       subcategory
     );
-  }
-
-  /** @private */
-  _getSkillsList(actor, tokenId) {
-    let result = this.baseHandler.initializeEmptyCategory("skills");
-
-    let abbreviated = settings.get("abbreviateSkills");
-
-    let actorSkills = Object.entries(actor.data.data.skills).filter(
-      (s) => !!s[1].name && s[1].name.length > 1
-    );
-
-    let skillMap = actorSkills
-      .filter((s) => !s[1].lore)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let skills = this.baseHandler.initializeEmptySubcategory();
-    skills.actions = skillMap;
-
-    let loreMap = actorSkills
-      .filter((s) => s[1].lore)
-      .sort(this._foundrySort)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let lore = this.baseHandler.initializeEmptySubcategory();
-    lore.actions = loreMap;
-
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.skills"),
-      skills
-    );
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.lore"),
-      lore
-    );
-
-    return result;
   }
 
   /** @private */
