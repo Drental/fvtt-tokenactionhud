@@ -4,6 +4,7 @@
 
 - pf2e - refactor skill and save rolling - thank you Supe
 - TAH - update tagify - thank you Supe
+- Localisation - update all localisation in ja.json - Thank you Yasnen!!
 
 ## [2.2.17] 2022-06-04
 
