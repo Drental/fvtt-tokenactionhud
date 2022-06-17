@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.19] 2022-06-17
+
+- TAH - update tagify.css - thank you Shark that walks like a man
+
 ## [2.2.18] 2022-06-16
 
 - pf2e - refactor skill and save rolling - thank you Supe
