@@ -3,90 +3,90 @@
     "abilities": "能力値",
     "accept": "適用",
     "actions": "アクション",
-    "activate": "Activate",
+    "activate": "有効化",
     "active": "アクティブ",
     "advanced": "専門",
-    "allowlist": "Allowlist",
+    "allowlist": "許可リスト",
     "armour": "鎧",
     "atk": "攻撃",
     "attack": "攻撃",
     "attribute": {
-      "agility": "Agility",
-      "intellect": "Intellect",
-      "perception": "Perception",
-      "strength": "Strength",
-      "will": "Will"
+      "agility": "敏捷性",
+      "intellect": "知性",
+      "perception": "知覚",
+      "strength": "筋力",
+      "will": "精神力"
     },
     "attributes": "能力",
-    "at-will": "At-will",
+    "at-will": "無限回",
     "bab": "BAB",
     "basic": "基本",
-    "bennies": "Bennies",
+    "bennies": "支給",
     "blessing": "祝福",
-    "blocklist": "Blocklist",
-    "blocklistLabel": "blocklist: hide / allowlist: show",
-    "bonusActions": "Bonus Actions",
-    "bonuses": "Bonuses",
+    "blocklist": "ブロックリスト",
+    "blocklistLabel": "ブロックリスト: 非表示 / 許可リスト: 表示",
+    "bonusActions": " ボーナス･アクション",
+    "bonuses": "ボーナス",
     "book": "本",
     "books": "本",
-    "buffs": "バフ",
+    "buffs": "付与",
     "cancel": "キャンセル",
     "cantrips": "初級呪文",
-    "casterlevel": "Caster Level",
+    "casterlevel": "術者レベル",
     "categoryTagExplanation": "カスタマイズ可能なカテゴリの追加と削除",
     "categoryTagTitle": "カテゴリーの追加と削除",
-    "characteristics": "特性",
+    "characteristics": "能力値",
     "charts": "チャート",
     "checks": "判定",
     "classFeatures": "クラスの特徴",
     "clearButton": "消去",
     "cmb": "CMB",
-    "commonSkills": "Common skills",
+    "commonSkills": "一般技能",
     "concentration": "集中",
     "conditions": "状態",
     "consumables": "消耗品",
-    "corebonus": "Core Bonus",
-    "crewActions": "Crew Actions",
+    "corebonus": "コア･ボーナス",
+    "crewActions": "乗員アクション",
     "critical": "クリティカル",
     "d35e": {
-      "grapple": "Grapple"
+      "grapple": "組み付き"
     },
     "damage": "ダメージ",
     "dc": "難易度",
     "deathSave": "死亡セーヴ",
     "defenses": "防御",
-    "destructionSave": "Destruction Save",
+    "destructionSave": "破壊セーヴ",
     "dmg": "ダメージ",
     "dodge": "回避",
-    "doomed": "Doomed",
-    "downtime": "Downtime",
-    "dying": "Dying",
-    "edges": "Edges",
-    "edgesAndHindrances": "Edges/Hindrances",
+    "doomed": "破滅",
+    "downtime": "ダウンタイム",
+    "dying": "死亡",
+    "edges": "エッジ",
+    "edgesAndHindrances": "エッジ/障害",
     "effects": "効果",
-    "engineering": "Engineering",
+    "engineering": "エンジニアリング",
     "equipment": "装備品",
-    "experimental": "Experimental",
-    "exploration": "Exploration",
-    "fatigue": "Fatigue",
+    "experimental": "実験",
+    "exploration": "探索",
+    "fatigue": "疲労",
     "feats": "特技",
     "features": "特徴",
     "filterPlaceholder": "選択（セミコロンで区切る)",
     "filterTagExplanation": "ここにエントリを追加して、特定のカテゴリのエントリを表示または非表示にします。",
-    "filterTitle": "Filter",
+    "filterTitle": "フィルタ",
     "free": "無料",
-    "fullAttack": "Full Attack",
-    "gear": "Gear",
-    "get": "Get",
+    "fullAttack": "全力攻撃",
+    "gear": "装備",
+    "get": "入手",
     "gm": "GM",
-    "general": "General",
-    "grit": "Grit",
+    "general": "一般",
+    "grit": "勇気",
     "handlerNotFound": "操作が見つかりません、標準のローラーを使用します。",
     "hase": "HASE",
     "healing": "回復",
     "heroPoints": "ヒーローポイント",
-    "hindrances": "Hindrances",
-    "hull": "Hull",
+    "hindrances": "障害",
+    "hull": "船体",
     "improvisedWeapon": "代用武器",
     "inconsumables": "非消耗品",
     "initiative": "イニシアチブ",
@@ -94,9 +94,9 @@
     "instinct": "直感",
     "inventory": "所持品",
     "lair": "住処",
-    "lairActions": "Lair Actions",
+    "lairActions": "住処アクション",
     "legendary": "伝説",
-    "legendaryActions": "Legendary Actions",
+    "legendaryActions": "伝説的アクション",
     "level": "レベル",
     "levelAbbreviation": "レベル",
     "longRest": "大休憩",
@@ -105,78 +105,78 @@
     "magicItems": "魔法アイテム",
     "mech": "メック",
     "melee": "近接",
-    "misc": "Misc",
+    "misc": "その他",
     "monsterMoves": "モンスター行動",
     "moves": "行動",
     "msa": "近接呪文攻撃",
     "mwa": "近接武器攻撃",
-    "natPowers": "Natural Powers",
-    "noammo": "No ammo",
+    "natPowers": "自然の力",
+    "noammo": "残弾なし",
     "other": "その他",
     "passive": "受動",
-    "petty": "Petty",
+    "petty": "些細",
     "pf1": {
-      "disabled": "Disabled"
+      "disabled": "使用不可"
     },
     "pf2e": {
-      "useTwoHandedLabel": "Use weapon two-handed",
-      "recoveryCheck": "Recovery Check"
+      "useTwoHandedLabel": "両手武器を使用",
+      "recoveryCheck": "回復チェック"
     },
     "pilot": "パイロット",
-    "points": "Points",
+    "points": "ポイント",
     "powers": "パワー",
-    "profession": "Profession",
+    "profession": "専門",
     "push": "右",
     "pushLabelExplanation": "どちら側にカテゴリを表示しますか？",
     "ranged": "遠隔",
     "rank": "ランク",
     "reactions": "リアクション",
     "recharge": "リチャージ",
-    "rechargeRepair": "Recharge",
-    "refittingRepair": "Refitting",
-    "regenRepair": "Regen",
+    "rechargeRepair": "リチャージ",
+    "refittingRepair": "再補充",
+    "regenRepair": "再生",
     "religion": "宗教",
-    "repair": "Repair",
-    "resistance": "Resistance",
+    "repair": "修理",
+    "resistance": "抵抗",
     "rest": "休憩",
-    "restNight": "Rest for the Night",
-    "takeBreather": "Take a Breather",
+    "restNight": "一晩の休憩",
+    "takeBreather": "一息入れる",
     "rests": "休憩",
-    "repairs": "Repairs",
+    "repairs": "修理",
     "roll": "ロール",
     "rollable": "ローラブル",
     "rollInitiative": "イニシアチブロール",
     "rsa": "遠隔呪文攻撃",
     "rwa": "遠隔武器攻撃",
     "saves": "セーヴ",
-    "shields": "Shields",
+    "shields": "シールド",
     "shortRest": "小休憩",
     "skills": "技能",
-    "skilltriggers": "Skill Triggers",
-    "special": "Special",
-    "specialActions": "Special Actions",
+    "skilltriggers": "技能トリガー",
+    "special": "特殊",
+    "specialActions": "特殊アクション",
     "specialQualities": "特徴",
     "spellbook": "呪文書",
     "spells": "呪文",
-    "spend": "Spend",
-    "starting": "Starting",
-    "stat": "Stat",
-    "stats": "Stats",
-    "status": "Status",
+    "spend": "消費",
+    "starting": "開始",
+    "stat": "ステータス",
+    "stats": "ステータス",
+    "status": "ステータス",
     "strikes": "ストライク",
     "subcategoryTagExplanation": "サブカテゴリの追加と削除：マクロサブカテゴリにフリーテキストを入力するか、リンクされた辞典を選択します。",
     "subcategoryTagTitle": "サブカテゴリーの追加と削除",
     "swade": {
-      "abilities": "Abilities",
-      "specialAbilities": "Special Abilities"
+      "abilities": "能力値",
+      "specialAbilities": "特殊能力"
     },
-    "systems": "Systems",
+    "systems": "システム",
     "tags": "タグ",
     "talents": "異能",
-    "techattack": "Tech Attack",
-    "techs": "Techs",
-    "temporary": "Temporary",
-    "title": "Token Action HUD",
+    "techattack": "テック･アタック",
+    "techs": "テック",
+    "temporary": "一時的",
+    "title": "トークン･アクションHUD",
     "toggleCombatState": "戦闘に参加",
     "toggles": "トグル",
     "toggleVisibility": "コマを可視化・不可視化",
@@ -191,17 +191,17 @@
     "unshift": "左",
     "utility": "他",
     "weapons": "武器",
-    "wounded": "Wounded",
-    "wounds": "Wounds",
-    "woundsAndFatigue": "Wounds/Fatigue",
+    "wounded": "負傷",
+    "wounds": "怪我",
+    "woundsAndFatigue": "怪我 / 疲労",
     "settings": {
       "activeCssAsText": {
-        "name": "Mark Active CSS with Text",
-        "hint": "If enabled, buttons that can be active will also be marked with an asterisk to indicate their activity. Inactive buttons will have no asterisk."
+        "name": "有効化されたCSSをテキストでマーク",
+        "hint": "有効にすると、有効化できるボタンには、その能力値を示すアスタリスクも表示されます。非有効化されたボタンには、アスタリスクが付きません。"
       },
       "alwaysShowAdditionalCategories": {
-        "hint": "If enabled, custom categories will be shown even when no token is selected.",
-        "name": "Always show custom categories"
+        "hint": "有効にすると、トークンが選択されていない場合でも、カスタム･カテゴリーが表示されます。",
+        "name": "カスタム･カテゴリーを常に表示"
       },
       "alwaysShowHud": {
         "hint": "ユーザーに割り当てられたキャラクターがあり、かつコマが選択されていない場合、HUDはこのキャラクターを標準として表示します。",
@@ -216,21 +216,21 @@
         "name": "デバッグ状態を有効化"
       },
       "dorakoUI": {
-        "hint": "Enable the more compact and modern look of Dorako UI in any system.",
-        "name": "Enable Dorako UI (TAH Standalone)"
+        "hint": "よりコンパクトでモダンなDorako UIをあらゆるシステムで利用可能にします。",
+        "name": "Dorako UI を有効にする(TAH スタンドアロン)"
       },
       "dropdown": {
-        "hint": "カテゴリをドロップダウンする設定を有効にする、そうでない場合は、（警告！）中途半端なドロップアップの実装を使用する。バグを見つけたら、遠慮なく報告してください。",
-        "name": "Dropdown Categories"
+        "hint": "有効にすると、カテゴリがドロップダウンするように設定できます。そうでない場合、(警告！)中途半端なドロップアップを使用します。バグがあれば、遠慮なく報告してください。",
+        "name": "ドロップダウン･カテゴリー"
       },
       "enabledForUser": {
         "hint": "現在のユーザに自動的にホットバーを使用できる状態で初期化します。プレイヤーは設定を変更することで自分の好みに変更することができます。",
         "name": "現在のユーザはホットバーを使用できる"
       },
       "itemMacroReplace": {
-        "showBoth": "Show both original item and item macro item",
-        "showItemMacro": "Show the item macro item",
-        "showOriginal": "Show the original item"
+        "showBoth": "オリジナル･アイテム、アイテムマクロ･アイテム両方表示",
+        "showItemMacro": "アイテムマクロ･アイテムを表示",
+        "showOriginal": "オリジナルアイテムを表示"
       },
       "onTokenHover": {
         "hint": "マウスを操作可能なコマの上にホバーするだけでホットバーが出現するようになります。コマの場所や大きさによっては適切に表示されない場合がありますのでご注意ください。",
@@ -249,11 +249,11 @@
         "name": "使用システム"
       },
       "scale": {
-        "hint": "HUDのスケールをパーセントで調整（規定値は100）",
-        "name": "HUDスケール"
+        "hint": "HUDのサイズをパーセントで調整します(デフォルトは100)",
+        "name": "HUDサイズ"
       },
       "background": {
-        "hint": "有効なHTMLカラー（例．'red'、'#00000055'、'#FFF'、など)を設定すると、背景として使用する。（値の正当性についてはチェックはしていない）",
+        "hint": "有効なHTMLカラー(例: '赤', '#00000055', '#FFF', etc.) を設定し、それを背景として使用します。",
         "name": "HUD背景色"
       },
       "showHudTitle": {
@@ -265,35 +265,35 @@
         "name": "アクションアイコンを表示"
       },
       "useActionList": {
-        "name": "Group by Action Type",
-        "hint": "Depends on the 'Character Actions 5e' module. If enabled, buttons will be grouped by action type."
+        "name": "アクションタイプ別グループ",
+        "hint": "｢Character Actions 5e｣モジュールに依存します。有効な場合、ボタンはアクションの種類によってグループ化されます。"
       },
       "demonlord": {
-        "attackoptions": "Attack Options",
-        "challenge": "Challenge Roll",
-        "rest": "Rest",
-        "specialattacks": "Special Attacks"
+        "attackoptions": "攻撃オプション",
+        "challenge": "チャレンジ･ロール",
+        "rest": "休憩",
+        "specialattacks": "特殊攻撃"
       },
       "dnd4e": {
         "hideUsedPowers": {
-          "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
-          "name": "Hide used powers"
+          "hint": "有効にすると、使用できないパワーは非表示になります（ただし、再チャージパワーはロールして再チャージする）",
+          "name": "使用済みパワーの非表示"
         },
         "forcePowerColours": {
-          "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
-          "name": "Colour Powers By Use Type"
+          "hint": "パワーボタンに用途に応じた色を付ける（無限回、一日毎、など） - 見た目が悪いので省略可能",
+          "name": "用途別パワー色 "
         },
         "hideUnequippedInventory": {
-          "hint": "If enabled, only inventory items that are set as equipped will be shown",
-          "name": "Hide Unequipped Inventory"
+          "hint": "有効にすると、装備品として設定されている装備品アイテムのみが表示されます。",
+          "name": "非装備の装備品を隠す"
         },
         "hideQuantityZero": {
-          "hint": "If enabled, inventory with a quantity 0 will be hidden (useful for consumables)",
-          "name": "Hide inventory with quantity of 0"
+          "hint": "有効にすると、数量0の装備品は非表示になります（消耗品に便利です）",
+          "name": "数量0の装備品を非表示にする"
         },
         "equipmentCategoryList": {
-          "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
-          "name": "Visible Inventory Categories"
+          "hint": "表示する装備品の種類をカンマで区切った一覧。 デフォルトでは、アクションのないものは非表示になります。 完全な一覧は '武器, 装備, 消耗品, 道具, バックパック, 戦利品, 錬金術, 弾薬, ポーション, 毒, 食べ物, 巻物, 装身具'",
+          "name": "可視化された装備品カテゴリ"
         }
       },
       "dnd5e": {
@@ -330,8 +330,8 @@
           "name": "空のアイテムを表示する（呪文含む）"
         },
         "showItemsWithoutAction": {
-          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
-          "name": "Show Items without Activation costs"
+          "hint": "有効にすると、有効化の情報がないアイテムを所持品リストに追加します。",
+          "name": "有効化コストのないアイテムの表示"
         },
         "showSpellInfo": {
           "hint": "呪文の構成要素、集中、儀式などの追加の情報が名前の隣に表示されます。",
@@ -344,224 +344,230 @@
       },
       "dungeonworld": {
         "showGmCompendiums": {
-          "hint": "If enabled, and if the user is a GM, the HUD bar will include GM moves, treasure rollable-tables, and charts.",
-          "name": "Show GM Compendiums"
+          "hint": "この機能を有効にすると、ユーザーがGMの場合、HUDバーにはGMのアクション、財宝のロールテーブル、チャートが表示されます。",
+          "name": "GM辞典を表示"
         }
       },
       "pf1": {
         "showDisabled": {
-          "hint": "If enabled, disabled features won't be shown.",
-          "name": "Hide disabled features"
+          "hint": "有効にすると、無効な機能は表示されなくなります。",
+          "name": "無効化された機能を非表示"
         }
       },
       "pf2e": {
         "abbreviateSkills": {
-          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "hint": "有効にすると、技能や能力値は略語が使用されます。",
+          "name": "技能名、能力値名の略称"
         },
         "calculateAttackPenalty": {
-          "hint": "If enabled, strikes will show their calculated attack bonus (attack bonus - MAP) instead of the flat MAP.",
-          "name": "Show calculated MAP"
+          "hint": "有効にすると、ストライクは一律のMAPではなく、計算された攻撃ボーナス（攻撃ボーナス-MAP）を表示するようになります。",
+          "name": "計算されたMAPを表示"
         },
         "ignorePassiveActions": {
-          "hint": "If enabled, passive actions are not shown.",
-          "name": "Ignore passive actions"
+          "hint": "有効にすると、受動アクションは表示されません。",
+          "name": "受動アクションを無視"
         },
         "printSpellCard": {
-          "hint": "If disabled, left-clicking a spell will roll attack (shift right-click for bonus dialogue), right-clicking will roll damage (ctrl right-click for bonus dialogue). If neither are applicable, the spell card will be printed to chat anyway.",
-          "name": "Print spell card to chat"
+          "hint": "無効の場合、呪文を左クリックすると攻撃ロール(ボーナスダイアログはシフト右クリック)、右クリックするとダメージロール(ボーナスダイアログはCtrl右クリック)になります。どちらも適用されない場合、その呪文カードはチャットに出力されます。",
+          "name": "チャットに呪文カードを出力"
         },
         "separateTogglesCategory": {
-          "hint": "If enabled, rule toggles will be placed in their own category, otherwise they will fall under strikes.",
-          "name": "Separate Toggles Category"
+          "hint": "有効にすると、ルール切替は独自のカテゴリに配置され、そうでない場合はストライクに分類されます。",
+          "name": "個別の切替カテゴリー"
         },
         "showNpcAbilities": {
-          "hint": "If enabled, NPCs will also have an Abilities category on their HUD.",
-          "name": "Show NPC abilities"
+          "hint": "有効にすると、NPCのHUDにも｢能力値｣カテゴリが表示されるようになります。",
+          "name": "NPCの能力を表示"
         },
         "showOldNpcStrikes": {
-          "hint": "If enabled, the HUD will show the old NPC strike actions as well as the new (experimental) strikes for NPCs.",
-          "name": "Show old NPC Strikes"
+          "hint": "有効にすると、HUDに旧来のNPCのストライクアクションと、NPCの新しいストライク(実験的)が表示されます。",
+          "name": "古いNPCのストライクを表示"
         },
         "showPcAbilities": {
-          "hint": "If enabled, PCs will also have an Abilities category on their HUD.",
-          "name": "Show PC abilities"
+          "hint": "有効にすると、PCのHUDに｢能力値｣カテゴリが表示されます。",
+          "name": "PCの能力を表示"
         }
       },
       "sfrpg": {
         "showMiscFeats": {
-          "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
-          "name": "Display miscellaneous feats"
+          "hint": "有効にすると、アクションタイプが割り当てられていない機能は、雑多なカテゴリにまとめて表示されます。",
+          "name": "雑多なカテゴリの表示"
         },
         "showSpellInfo": {
-          "hint": "If enabled, spell resistance, dismissible, concentration and save information noted next to the spell name.",
-          "name": "Display spell information"
+          "hint": "有効な場合、呪文名の横に記載されている呪文耐性、解除の可否、精神集中、セーヴ情報を表示します。",
+          "name": "呪文情報を表示"
         }
       },
       "sw5e": {
         "abbreviateSkills": {
-          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "hint": "有効にすると、技能や能力値は略語が使用されます。",
+          "name": "技能名、能力値名の略称"
         },
         "hideLongerActions": {
-          "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
-          "name": "Hide actions with an activation longer than 1 round"
+          "hint": "有効にすると、発動時間の長い(分､時間､日)アクションは表示されません。",
+          "name": "1ラウンドより長い発動時間を持ったアクションを非表示"
         },
         "ignorePassiveFeats": {
-          "hint": "If enabled, passive feats are not shown.",
-          "name": "Ignore passive feats"
+          "hint": "有効にすると、受動特技は表示されません。",
+          "name": "受動特技を無視"
         },
         "itemMacroReplace": {
-          "hint": "Select which of the items will be shown in the inventory.",
-          "name": "Item-Macro: item macro, original item, or both"
+          "hint": "所持品に表示する項目を選択します。",
+          "name": "アイテムマクロ：アイテムマクロ、オリジナルアイテム、またはその両方"
         },
         "showAllNonpreparablePowers": {
-          "hint": "If disabled, powers such as cantrips, innate, pact, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
-          "name": "Show all non-preparable powers"
+          "hint": "無効にした場合、初級呪文、先天的、契約、回数無制限などのパワーは、HUDに表示するためにパワーの詳細を「準備」する必要があります。",
+          "name": "すべての準備不可パワーを表示"
         },
         "showAllNpcItems": {
-          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
-          "name": "Show all NPC items"
+          "hint": "有効にすると、NPCの装備品だけでなく、すべてのアイテムが表示されるようになります。",
+          "name": "NPCのアイテムをすべて表示"
         },
         "showConditionsCategory": {
-          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
-          "name": "Show Conditions Category"
+          "hint": "有効にすると、通常のトークンHUDで利用可能なトークン条件とステータス効果を示すカテゴリが表示されます。",
+          "name": "条件カテゴリの表示"
         },
         "showEmptyItems": {
-          "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
-          "name": "Show empty items (includes items and powers)"
+          "hint": "有効にすると、アイテムにチャージがない場合でもHUDに表示されます。",
+          "name": "空のアイテムを表示(アイテムとパワーを含む)"
         },
         "showPowerInfo": {
-          "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
-          "name": "Display power information"
+          "hint": "有効にすると、パワー情報、精神集中、儀式の状態がパワー名の横に記載されます。",
+          "name": "パワー情報を表示"
         },
         "splitAbilities": {
-          "hint": "If enabled, abilities will be separated into checks and saves.",
-          "name": "Show separate ability check and save categories"
+          "hint": "有効にすると、能力判定とセーヴに分離されます。",
+          "name": "能力判定とセーヴを分けて表示"
         }
       },
       "swade": {
         "abbreviateAttributes": {
-          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "hint": "有効にすると、技能や能力値は略語が使用されます。",
+          "name": "技能名、能力値名の略称"
         }
       },
       "wfrp": {
-        "meleeSkillPrefix": "遠隔攻撃",
-        "rangedSkillPrefix": "近接攻撃"
+        "meleeSkillPrefix": "近接攻撃",
+        "rangedSkillPrefix": "遠隔攻撃"
       },
       "alienrpg": {
-        "consumables": "Consumables",
-        "conditions": "Conditions",
-        "skill": "Skill",
-        "stresspoints": "Stress Points",
-        "rollStress": "Roll Stress",
-        "starving": "Starving",
-        "dehydrated": "Dehydrated",
-        "exhausted": "Exhausted",
-        "freezing": "Freezing",
-        "panic": "Panic",
-        "attributestr": "Strength",
-        "attributewit": "Wits",
-        "attributeagl": "Agility",
-        "attributeemp": "Empathy",
-        "skillheavyMach": "Heavy Machinery",
-        "skillcloseCbt": "Close Combat",
-        "skillstamina": "Stamina",
-        "skillrangedCbt": "Ranged Combat",
-        "skillmobility": "Mobility",
-        "skillpiloting": "Piloting",
-        "skillcommand": "Command",
-        "skillmanipulation": "Manipulation",
-        "skillmedicalAid": "Medical Aid",
-        "skillobservation": "Observation",
-        "skillsurvival": "Survival",
-        "skillcomtech": "Comtech",
-        "consumablesair": "Air",
-        "consumablespower": "Power",
-        "consumablesfood": "Food",
-        "consumableswater": "Water",
-        "agenda": "Agenda/Story Cards",
-        "power": "Power",
-        "attributespeed": "Speed",
-        "attributearmorvfire": "Armor V Fire",
-        "attributearmorrating": "Armor",
-        "attributeacidSplash": "Acid Splash",
-        "attributemobility": "Mobility",
-        "attributeobservation": "Observation",
-        "creatureAttack": "Creature Attack",
-        "health": "Health",
-        "rollCrit": "Roll Crit"
+        "consumables": "消耗品",
+        "conditions": "状態",
+        "skill": "技能",
+        "stresspoints": "ストレス･ポイント",
+        "rollStress": "ストレス･ロール",
+        "starving": "飢餓",
+        "dehydrated": "脱水",
+        "exhausted": "消耗",
+        "freezing": "凍結",
+        "panic": "パニック",
+        "attributestr": "筋力",
+        "attributewit": "知恵",
+        "attributeagl": "敏捷性",
+        "attributeemp": "共感",
+        "skillheavyMach": "重機",
+        "skillcloseCbt": "接近戦",
+        "skillstamina": "スタミナ",
+        "skillrangedCbt": "遠距離戦",
+        "skillmobility": "機動力",
+        "skillpiloting": "操縦",
+        "skillcommand": "指揮",
+        "skillmanipulation": "操作",
+        "skillmedicalAid": "医療支援",
+        "skillobservation": "観察",
+        "skillsurvival": "サバイバル",
+        "skillcomtech": "コムテック",
+        "consumablesair": "空気",
+        "consumablespower": "パワー",
+        "consumablesfood": "食料",
+        "consumableswater": "水",
+        "agenda": "アジェンダ/ストーリーカード",
+        "power": "パワー",
+        "attributespeed": "スピード",
+        "attributearmorvfire": "アーマー V 銃撃",
+        "attributearmorrating": "アーマー",
+        "attributeacidSplash": "酸の飛沫",
+        "attributemobility": "機動力",
+        "attributeobservation": "観察",
+        "creatureAttack": "クリーチャー攻撃",
+        "health": "状態",
+        "rollCrit": "クリティカル･ロール"
       },
       "ds4": {
         "displayCheckTargetNumbers": {
-          "name": "サンプル値の表示",
-          "hint": "この設定が有効な場合、個々のサンプルのサンプル値が表示されます。"
+          "name": "チェック･ターゲット番号の表示",
+          "hint": "有効にすると、各チェックに対してチェックターゲット番号が表示されます。"
         }
       },
       "forbiddenlands": {
-        "consumables": "Consumables",
-        "attributestrength": "Strength",
-        "attributewits": "Wits",
-        "attributeagility": "Agility",
-        "attributeempathy": "Empathy",
-        "conditions": "Conditions",
-        "skillmelee": "Melee",
-        "skillendurance": "Endurance",
-        "skillmight": "Might",
-        "skillcrafting": "Crafting",
-        "skillstealth": "Stealth",
-        "skillmove": "Move",
-        "skillsleight-of-hand": "Sleight of Hand",
-        "skillmarksmanship": "Marksmanship",
-        "skillscouting": "Scouting",
-        "skilllore": "Lore",
-        "skillsurvival": "Survival",
-        "skillinsight": "Insight",
-        "skillmanipulation": "Manipulation",
-        "skillhealing": "Healing",
-        "skillperformance": "Performance",
-        "skillanimal-handling": "AnimalHandling",
-        "monsterAttack": "Monster Attack",
-        "consumablesfood": "Food",
-        "consumableswater": "Water",
-        "consumablesarrows": "Arrows",
-        "consumablestorches": "Torches",
-        "hungry": "Hungry",
-        "thirsty": "Thirsty",
-        "sleepy": "Sleepy",
-        "cold": "Cold"
+        "consumables": "消耗品",
+        "attributestrength": "筋力",
+        "attributewits": "知恵",
+        "attributeagility": "敏捷性",
+        "attributeempathy": "共感",
+        "conditions": "状態",
+        "skillmelee": "近接戦",
+        "skillendurance": "耐久性",
+        "skillmight": "腕力",
+        "skillcrafting": "工芸",
+        "skillstealth": "隠密",
+        "skillmove": "移動",
+        "skillsleight-of-hand": "手先の早業",
+        "skillmarksmanship": "射撃技術",
+        "skillscouting": "偵察",
+        "skilllore": "伝承",
+        "skillsurvival": "サバイバル",
+        "skillinsight": "洞察",
+        "skillmanipulation": "操作",
+        "skillhealing": "治癒",
+        "skillperformance": "芸能",
+        "skillanimal-handling": "動物使い",
+        "monsterAttack": "モンスター攻撃",
+        "consumablesfood": "食料",
+        "consumableswater": "水",
+        "consumablesarrows": "矢",
+        "consumablestorches": "たいまつ",
+        "hungry": "空腹",
+        "thirsty": "喉の渇き",
+        "sleepy": "眠い",
+        "cold": "寒い"
       }
     },
     "symbaroum": {
-      "abilities": "Abilities",
-      "mysticalPowers": "Mystical Powers"
+      "abilities": "能力値",
+      "mysticalPowers": "神秘の力"
     },
     "kamigakari": {
-      "mainStats": "Main Stats",
-      "subStats": "Sub Stats",
-      "start": "Start",
-      "prep": "Prep",
-      "attack": "Attack",
-      "defense": "Defense",
-      "end": "End",
-      "constant": "Constant",
-      "free": "Free",
-      "spiritBurn": "Spirit Burn",
-      "transcend": "Transcend",
-      "vitalIgnition": "Vital Ignition",
-      "conceptDestruction": "Concept Destruction",
-      "items": "items",
-      "sacraments": "Sacraments",
-      "consumables": "Consumables"
+      "mainStats": "主能力値",
+      "subStats": "副能力値",
+      "start": "開始",
+      "prep": "準備",
+      "attack": "攻撃",
+      "defense": "防御",
+      "end": "終了",
+      "constant": "一定",
+      "free": "フリー",
+      "spiritBurn": "霊紋燃焼",
+      "transcend": "物理超越",
+      "vitalIgnition": "生命燃焼",
+      "conceptDestruction": "概念破壊",
+      "items": "アイテム",
+      "sacraments": "常備",
+      "consumables": "消耗"
     },
     "gurps": {
-      "blindroll": "Blind Roll",
-      "addacc": "Add Acc",
-      "retreatdodge": "Retreating Dodge",
-      "retreatparry": "Retreating Parry",
-      "retreatparryfence": "Retreating Parry (Fencing)",
-      "retreatblock": "Retreating Block"
+      "blindroll": "非公開ロール",
+      "addacc": "Acc追加",
+      "retreatdodge": "後退回避",
+      "retreatparry": "後退受け流し",
+      "retreatparryfence": "後退受け流し (ﾌｪﾝｼﾝｸﾞ)",
+      "retreatblock": "後退防御"
+    },
+    "co": {
+      "combat": "戦闘",
+      "attacks": "攻撃",
+      "protections": "保護",
+      "capacities": "容量"
     }
   }
 }
