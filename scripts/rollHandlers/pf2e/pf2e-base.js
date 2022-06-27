@@ -374,102 +374,16 @@ export class RollHandlerBasePf2e extends RollHandler {
   async _rollSpell(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
 
-    let spellbookId = actionParts[0];
-    let level = actionParts[1];
-    let spellId = actionParts[2];
-    let expend = actionParts[3] ?? false;
+    let [spellbookId, level, spellId, expend] = actionParts;
+    const spellcasting = actor.items.get(spellbookId);
+    const spell = actor.items.get(spellId);
+    if (!spellcasting || !spell) return;
 
-    if (expend) {
-      await this._expendSpell(actor, spellbookId, level, spellId);
-      return;
-    }
+    await spellcasting.cast(spell, { message: !expend, consume: true, level: Number(level) });
+    Hooks.callAll("forceUpdateTokenActionHUD");
 
     if (this.isRenderItem()) return this.doRenderItem(tokenId, spellId);
-
-    let spell = actor.items.get(spellId);
-
-    this._rollHeightenedSpell(actor, spell, level);
     return;
-  }
-
-  async _expendSpell(actor, spellbookId, level, spellId) {
-    let spellbook = actor.items.get(spellbookId);
-    let spellSlot = Object.entries(
-      spellbook.data.data.slots[`slot${level}`].prepared
-    ).find(
-      (s) => s[1].id === spellId && (s[1].expended === false || !s[1].expended)
-    )[0];
-
-    if (spellSlot === -1) return;
-
-    const key = `data.slots.slot${level}.prepared.${spellSlot}`;
-    const options = {
-      _id: spellbookId,
-    };
-    options[key] = {
-      expended: true,
-    };
-
-    let updates = [options];
-
-    await Item.updateDocuments(updates, { parent: actor });
-    Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
-  async _rollHeightenedSpell(actor, item, spellLevel) {
-    let data = item.getChatData(undefined, { spellLvl: spellLevel });
-    let token = canvas.tokens.placeables.find((p) => p.actor?.id === actor.id);
-    let castLevel = parseInt(spellLevel);
-    if (item.data.data.level.value < castLevel) {
-      data.properties.push(
-        `Heightened: +${castLevel - item.data.data.level.value}`
-      );
-      if (!item.data.hasOwnProperty("contextualData"))
-        item.data.contextualData = {};
-      item.data.contextualData.spellLvl = castLevel;
-      data.spellLvl = castLevel;
-    }
-
-    const template = `systems/pf2e/templates/chat/${item.data.type}-card.html`;
-    const templateData = {
-      actor: actor,
-      tokenId: token ? `${token.scene.id}.${token.id}` : null,
-      item: item,
-      data: data,
-    };
-
-    // Basic chat message data
-    const chatData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor.id,
-        token: actor.getActiveTokens()[0]?.id,
-        scene: actor.getActiveTokens()[0]?.scene.id
-      },
-      flags: {
-        core: {
-          canPopout: true,
-        },
-        pf2e: {
-          origin: { uuid: item.uuid, type: item.type },
-        },
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-    };
-
-    // Toggle default roll mode
-    const rollMode = game.settings.get("core", "rollMode");
-    if (["gmroll", "blindroll"].includes(rollMode))
-      chatData.whisper = ChatMessage.getWhisperRecipients("GM").map(
-        (u) => u.id
-      );
-    if (rollMode === "blindroll") chatData.blind = true;
-
-    // Render the template
-    chatData.content = await renderTemplate(template, templateData);
-
-    // Create the chat message
-    return ChatMessage.create(chatData, { renderSheet: false });
   }
 
   _performUtilityMacro(event, tokenId, actionId) {
