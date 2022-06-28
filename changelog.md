@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.20] 2022-06-28
+
+- TAH - add sourcemap - thank you Supe
+- pf2e - change spell posting to spell casting - thank you Supe
+
 ## [2.2.19] 2022-06-17
 
 - TAH - update tagify.css - thank you Shark that walks like a man
