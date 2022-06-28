@@ -621,7 +621,6 @@ export class ActionHandlerPf2e extends ActionHandler {
     );
   }
 
-  /** @private */
   _getSpellsList(actor, tokenId) {
     let result = this.initializeEmptyCategory("spells");
 
@@ -631,86 +630,56 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     let spellCategories = this.initializeEmptySubcategory();
 
-    items.forEach((spellcastingEntry) => {
-      const bookName = spellcastingEntry.data.name;
+    for (const spellcastingEntry of items) {
+      const bookName = spellcastingEntry.name;
       let spellcastingEntryCategory = this.initializeEmptySubcategory(bookName);
       spellcastingEntryCategory.name = bookName;
       spellCategories.subcategories.push(spellcastingEntryCategory);
 
       const spellInfo = spellcastingEntry.getSpellData();
 
-      spellInfo.levels
-        .filter((level) => level.active.length > 0)
-        .forEach((level, i) => {
-          let levelName = `${game.i18n.localize(level.label)}`;
-          let levelSubcategory = this.initializeEmptySubcategory();
+      const activeLevels = spellInfo.levels.filter((level) => level.active.length > 0);
+      for (const [i, level] of Object.entries(activeLevels)) {
+        const isFirst = Number(i) === 0;
+        let levelName = String(game.i18n.localize(level.label));
+        let levelSubcategory = this.initializeEmptySubcategory();
 
-          if (i === 0) {
-            levelName = `${bookName} - ${levelName}`;
-            this._setSpellSlotInfo(
-              actor,
-              tokenId,
-              levelSubcategory,
-              level,
-              spellInfo,
-              true
-            );
-            levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
-          } else {
-            this._setSpellSlotInfo(
-              actor,
-              tokenId,
-              levelSubcategory,
-              level,
-              spellInfo,
-              false
-            );
-          }
+        this._setSpellSlotInfo(actor, tokenId, levelSubcategory, level, spellInfo, isFirst);
 
-          level.active
-            .filter((i) => (i?.expended ?? false) === false && i)
-            .forEach(({ spell, expended }) => {
-              let encodedValue = [
-                macroType,
-                tokenId,
-                `${spellInfo.id}>${level.level}>${spell.data._id}`,
-              ].join(this.delimiter);
-              let spellAction = {
-                name: spell.name,
-                encodedValue: encodedValue,
-                id: spell.data._id,
-              };
-              spellAction.img = this._getImage(spell);
-              spellAction.icon = this._getActionIcon(
-                spell.data.data?.time?.value
-              );
-              spellAction.spellLevel = level.level;
+        if (isFirst) {
+          levelName = `${bookName} - ${levelName}`;
+          levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
+        }
 
-              this._addSpellInfo(spell, spellAction);
-              levelSubcategory.actions.push(spellAction);
-              if (
-                expended === false &&
-                spellcastingEntry.isPrepared &&
-                !spellcastingEntry.isFlexible &&
-                !spell.isCantrip
-              ) {
-                let spellExpend = {
-                  name: "-",
-                  encodedValue: encodedValue + ">expend",
-                  id: spell.data.id,
-                  cssClass: "stickLeft",
-                };
-                levelSubcategory.actions.push(spellExpend);
-              }
-            });
+        const availableSpells = level.active.filter((i) => !i?.expended && i);
+        for (const { spell, uses } of availableSpells) {
+          let encodedValue = [
+            macroType,
+            tokenId,
+            `${spellInfo.id}>${level.level}>${spell.data._id}`,
+          ].join(this.delimiter);
 
-          this._combineSubcategoryWithCategory(
-            spellcastingEntryCategory,
-            levelName,
-            levelSubcategory
-          );
-        });
-    });
+          const spellAction = {
+            name: spell.name,
+            encodedValue: encodedValue,
+            id: spell.data._id,
+            img: this._getImage(spell),
+            icon: this._getActionIcon(spell.data.data?.time?.value),
+            spellLevel: level.level,
+            info2: uses ? `${uses.value}/${uses.max}` : null,
+          };
+
+          this._addSpellInfo(spell, spellAction);
+          levelSubcategory.actions.push(spellAction);
+        }
+
+        this._combineSubcategoryWithCategory(
+          spellcastingEntryCategory,
+          levelName,
+          levelSubcategory
+        );
+      }
+    }
 
     this._combineSubcategoryWithCategory(
       result,
