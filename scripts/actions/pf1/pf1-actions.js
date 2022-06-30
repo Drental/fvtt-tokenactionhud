@@ -522,7 +522,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let dispose = feats.reduce(
       function (dispose, f) {
-        const activationType = f.data.activation.type;
+        const activationType = f.data.activation?.type ?? f.data.actions[0]?.activation.type;
         const macroType = "feat";
 
         let feat = this._buildItem(tokenId, actor, macroType, f);
