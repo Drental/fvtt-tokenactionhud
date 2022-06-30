@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.21] 2022-06-30
+
+- pf1 - fix HUD for new classes - thank you claudekennilol and Noon
+
 ## [2.2.20] 2022-06-28
 
 - TAH - add sourcemap - thank you Supe
