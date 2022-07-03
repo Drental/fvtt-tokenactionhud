@@ -373,8 +373,10 @@ export class RollHandlerBasePf2e extends RollHandler {
   /** @private */
   async _rollSpell(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
-
     let [spellbookId, level, spellId, expend] = actionParts;
+    
+    if (this.isRenderItem()) return this.doRenderItem(tokenId, spellId);
+    
     const spellcasting = actor.items.get(spellbookId);
     const spell = actor.items.get(spellId);
     if (!spellcasting || !spell) return;
@@ -382,7 +384,6 @@ export class RollHandlerBasePf2e extends RollHandler {
     await spellcasting.cast(spell, { message: !expend, consume: true, level: Number(level) });
     Hooks.callAll("forceUpdateTokenActionHUD");
 
-    if (this.isRenderItem()) return this.doRenderItem(tokenId, spellId);
     return;
   }
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.22] 2022-07-04
+
+- pf2 - don't cast spells on rightclick - done by my own fingers!
+
 ## [2.2.21] 2022-06-30
 
 - pf1 - fix HUD for new classes - thank you claudekennilol and Noon
