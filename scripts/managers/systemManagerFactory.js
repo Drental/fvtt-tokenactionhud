@@ -26,6 +26,7 @@ import { ED4eSystemManager } from './ed4e.js'
 import { GURPSSystemManager } from './gurps.js'
 import { Space1889SystemManager } from './space1889.js'
 import { CoC7SystemManager } from './coc7.js'
+import { CleenmainSystemManager } from './cleenmain.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
@@ -90,6 +91,8 @@ export class SystemManagerFactory {
         return new Space1889SystemManager(appName);
       case 'CoC7':
         return new CoC7SystemManager(appName);
+      case 'cleenmain':
+        return new CleenmainSystemManager(appName);
     }
   }
 }

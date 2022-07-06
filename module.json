@@ -101,7 +101,8 @@
     "earthdawn4e",
     "gurps",
     "space1889",
-    "CoC7"
+    "CoC7",
+    "cleenmain"
   ],
   "dependencies": [],
   "socket": false,

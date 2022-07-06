@@ -43,7 +43,8 @@ Hooks.on("init", () => {
     "earthdawn4e": "earthdawn4e",
     "gurps": "gurps",
     "space1889": "space1889",
-    "CoC7": "CoC7"
+    "CoC7": "CoC7",
+    "cleenmain": "cleenmain"
     /* put all the SystemManagers that are included directly in TAH here */
   }
   Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
