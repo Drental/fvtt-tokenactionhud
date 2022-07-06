@@ -1,6 +1,6 @@
 import { SystemManager } from "./manager.js";
 import { ActionHandlerCleenmain as ActionHandler } from "../actions/cleenmain/cleenmain-actions.js";
-import { RollHandlerBaseSymbaroum as Core } from "../rollHandlers/cleenmain/cleenmain-base.js";
+import { RollHandlerBaseCleenmain as Core } from "../rollHandlers/cleenmain/cleenmain-base.js";
 import * as settings from "../settings/cleenmain-settings.js";
 
 export class CleenmainSystemManager extends SystemManager {
