@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.23] 2022-07-06
+
+- cleenmain - new system - thank you Khaali!
+
 ## [2.2.22] 2022-07-04
 
 - pf2 - don't cast spells on rightclick - done by my own fingers!
