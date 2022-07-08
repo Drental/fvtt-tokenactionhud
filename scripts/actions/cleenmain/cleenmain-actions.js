@@ -25,7 +25,7 @@ export class ActionHandlerCleenmain extends ActionHandler {
     let actorType = actor.data.type;
 
     let weapons = this._getWeapons(actor, tokenId);
-    let armors = this._getSkills(actor, tokenId);
+    let skills = this._getSkills(actor, tokenId);
 
     this._combineCategoryWithList(
       result,
@@ -46,8 +46,8 @@ export class ActionHandlerCleenmain extends ActionHandler {
   _getSkills(actor, tokenId) {
     let filteredItems = actor.items.filter(item => item.type == "skill").sort(function (a, b) {return a.name.localeCompare(b.name);});
     let result = this.initializeEmptyCategory("actorSkills");
-    let abilitiesCategory = this.initializeEmptySubcategory();
-    abilitiesCategory.actions = this._produceMap(
+    let skillsCategory = this.initializeEmptySubcategory();
+    skillsCategory.actions = this._produceMap(
       tokenId,
       filteredItems,
       "skill"

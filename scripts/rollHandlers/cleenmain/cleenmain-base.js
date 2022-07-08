@@ -27,10 +27,10 @@ export class RollHandlerBaseCleenmain extends RollHandler {
   }
 
   _handleWeapon(macroType, event, actor, itemId) {
-    return this.actor.check(itemId, "weapon-attack");
+    return actor.check(itemId, "weapon-attack");
   }
 
   _handleSkill(macroType, event, actor, itemId) {
-    return this.actor.check(itemId, "skill");
+    return actor.check(itemId, "skill");
   }
 }
