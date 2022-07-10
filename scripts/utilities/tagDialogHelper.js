@@ -86,9 +86,10 @@ export class TagDialogHelper {
       topLabel: game.i18n.localize("tokenactionhud.subcategoryTagExplanation"),
       placeholder: game.i18n.localize("tokenactionhud.filterPlaceholder"),
       clearButtonText: game.i18n.localize("tokenactionhud.clearButton"),
+      advancedCategoryOptions: game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`)
     };
 
-    let submitFunc = async (choices, indexValue) => {
+    let submitFunc = async (choices, indexValue, html) => {
       let subcats = choices.map((c) => {
         return { id: c.id, title: c.value, type: c.type };
       });
@@ -97,6 +98,12 @@ export class TagDialogHelper {
         categoryId,
         subcats
       );
+      
+      const customWidth = parseInt(html.find(`input[name="custom-width"]`).val());
+      const compactView = html.find(`input[name="compact-view"]`).prop("checked");
+      const characterCount = parseInt(html.find(`input[name="character-count"]`).val());
+      const advancedCategoryOptions = { customWidth, compactView, characterCount };
+      await game.user.setFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`, advancedCategoryOptions);
     };
 
     TagDialog.showDialog(

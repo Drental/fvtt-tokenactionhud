@@ -5,6 +5,24 @@
     placeholder="{{placeholder}}"
   /></div>
 <div><button class="tags--removeAllBtn">{{clearButtonText}}</button></div>
+
+<br><br>
+<div class="flexrow" style="justify-content:space-between; align-items: center;">
+  <label style="max-width:130px">{{localize "tokenactionhud.advancedCategoryOptions.customWidth"}}</label>
+  <input type="number" style="margin-left:100px" name="custom-width" value="{{advancedCategoryOptions.customWidth}}" />
+</div>
+
+<div class="flexrow" style="justify-content:space-between; align-items: center;">
+  <label style="max-width:130px">{{localize "tokenactionhud.advancedCategoryOptions.compactView"}}</label>
+  <input type="checkbox" name="compact-view" {{#if advancedCategoryOptions.compactView}}checked{{/if}} />
+</div>
+
+<div class="flexrow" style="justify-content:space-between; align-items: center;">
+  <label style="max-width:200px">{{localize "tokenactionhud.advancedCategoryOptions.characterCount"}}</label>
+  <input type="number" style="margin-left:82px" name="character-count" placeholder="2" value="{{advancedCategoryOptions.characterCount}}" />
+</div>
+<br>
+
 {{#if index}}
   <div>
     <select id="token-action-hud-index" name="index" size="1">

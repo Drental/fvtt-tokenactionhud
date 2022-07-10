@@ -83,6 +83,32 @@ export class TokenActionHUD extends Application {
     data.scale = this.getScale();
     data.background = this.getBackground();
     settings.Logger.debug("HUD data:", data);
+    
+    for (const category of data.actions.categories) {
+      const advancedCategoryOptions = game.user.getFlag("token-action-hud", `categories.${category.id}.advancedCategoryOptions`);
+      if (!advancedCategoryOptions?.compactView) continue;
+
+      const characterCount = advancedCategoryOptions.characterCount ?? 2;
+      subcatRecursion(category);
+
+      function subcatRecursion(category) {
+        for (const subcategory of category.subcategories) {
+          for (const action of subcategory.actions) {
+            action.title = action.name;
+
+            if (action.name.length < 2) continue;
+            else if (characterCount === 0) action.name = "";
+            else action.name = action.name
+              .split(" ")
+              .map(p => p.slice(0, characterCount))
+              .join(" ");
+          }
+
+          if (subcategory.subcategories.length) subcategory.subcategories.forEach(s => subcatRecursion(s));
+        }
+      }
+    }
+
     return data;
   }
 

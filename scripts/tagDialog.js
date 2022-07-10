@@ -36,7 +36,7 @@ export class TagDialog extends Dialog {
             let index = html.find('select[id="token-action-hud-index"]');
             let indexValue;
             if (index.length > 0) indexValue = index[0]?.value;
-            await submitFunc(selection, indexValue);
+            await submitFunc(selection, indexValue, html);
           },
         },
         cancel: {
