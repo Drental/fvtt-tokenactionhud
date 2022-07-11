@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.25] 2022-07-11
+
+- TAH - implemented advanced category options.
+
 ## [2.2.24] 2022-07-06
 
 - cleenmain - build fixed - done by my own fingers! (don't blame them, they said they weren't able to test because they didN#t know the build process)
