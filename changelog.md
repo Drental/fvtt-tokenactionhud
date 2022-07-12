@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.2.26] 2022-07-12
+- TAH - adjusted custom category width within advanced category options to prevent conflicts with UI modules.
+
 ## [2.2.25] 2022-07-11
 
 - TAH - implemented advanced category options.
