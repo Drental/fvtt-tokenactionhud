@@ -69,10 +69,6 @@ export class CategoryResizer {
       if (boxWidth < minWidth) return;
 
       let newWidth = cssWidth - step;
-
-      const categoryId = catId.replace("tah-category-", "");
-      const customWidth = game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions.customWidth`);
-      if (customWidth) return CategoryResizer.resizeActions(actions, customWidth);
       
       CategoryResizer.resizeActions(actions, newWidth);
     }
