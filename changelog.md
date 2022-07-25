@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.27] 2022-07-25
+
+- cleenmain - system fixed - thank you Khaali!
+
 ## [2.2.26] 2022-07-12
 - TAH - adjusted custom category width within advanced category options to prevent conflicts with UI modules.
 
