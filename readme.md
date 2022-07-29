@@ -10,6 +10,40 @@ This module populates a repositionable HUD showing the most common basic actions
 3. or in the Manifest URL field paste: `https://github.com/espositos/fvtt-tokenactionhud/raw/master/module.json`
 4. Within the game, click on **Settings** -> **Manage Modules** and make sure the Token Action Hud is enabled.
 
+# Supported systems
+
+- DnD5e (including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
+- Dungeon World
+- Pathfinder Second Edition (Official)
+- Warhammer Fantasy Roleplay 4th Edition
+- Starfinder
+- Shadow of the Demon Lord
+- Pathfinder 1
+- LANCER
+- 3.5e SRD
+- Savage Worlds Adventure Edition
+- Star Wars FFG system for Foundry VTT
+- Tormenta20
+- Blades In The Dark
+- Symbaroum
+- OpenD6 Space
+- Alien RPG
+- Cthulhu Hack
+- Kamigakari: God Hunter
+- Tagmar RPG
+- Dungeonslayers 4
+- Chroniques Oubliées Contemporain
+- Chroniques Oubliées Fantasy
+- Forbidden Lands
+- DnD 4th Edition
+- Earthdawn 4th Edition
+- GURPS 4th Edition Game Aid (Unofficial)
+- Call of Cthulhu 7th edition (Unofficial)
+- Clé en main
+- Any other system? I believe the HUD is modular enough that anyone who understands what the players of their system want and how actions in their system are handled could quickly build it into the HUD. Please contact me if you'd like to add support for your favourite system.
+
+[Developing for your system or module](adding_systems.md)
+
 # Usage
 
 Once activated, selecting a token that has an actor/character sheet associated with it and that you have permission to control should display an an action bar that is populated with the actions and abilities available for that token. The HUD can be disabled on a per-user basis if so desired.
@@ -36,38 +70,6 @@ Offers a variety of settings including support for third-party roll handlers (Pl
 ## Starfinder RPG
 
 ![Starfinder RPG](.github/readme/tah-sfrpg.gif)
-
-# Supported systems
-
-- Blades in the Dark
-- DND5e (including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
-- Dungeon World
-- PF2E
-- WFRP4e
-- SFRPG
-- SWRPG
-- SotDL
-- PF1
-- Star Wars FFG
-- Tormenta20
-- Symbaroum
-- Cthulhu Hack
-- Chroniques Oubliées
-- Lancer
-- D35E
-- dnd4e
-- swade
-- od6s
-- alienrpg
-- kamigakari
-- tagmar
-- ds4
-- forbidden-lands
-- GURPS
-- clé en main
-- Any other system? I believe the HUD is modular enough that anyone who understands what the players of their system want and how actions in their system are handled could quickly build it into the HUD. Please contact me if you'd like to add support for your favourite system.
-
-[Developing for your system or module](adding_systems.md)
 
 # Support
 
