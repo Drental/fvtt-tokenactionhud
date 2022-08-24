@@ -4,6 +4,7 @@
 
 - TAH - fixed security alert about terser - done by yours truly
 - pf2e - fixed alternative strike usages (combination weapon and thrown) - done by yours truly
+- pf2e - make rightclick on strikes open the item sheet - done by yours truly
 
 ## [2.2.27] 2022-07-25
 
