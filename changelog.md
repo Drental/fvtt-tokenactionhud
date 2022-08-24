@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.28] 2022-08-24
+
+- TAH - fixed security alert about terser - done by yours truly
+- pf2e - fixed alternative strike usages (combination weapon and thrown) - done by yours truly
+
 ## [2.2.27] 2022-07-25
 
 - cleenmain - system fixed - thank you Khaali!

@@ -138,7 +138,7 @@ export class PcActionHandlerPf2e {
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
     const macroType = "toggle";
-    const toggles = actor.data.data.toggles;
+    const toggles = actor.system.toggles;
 
     if (!toggles.length) return;
 
@@ -169,7 +169,7 @@ export class PcActionHandlerPf2e {
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
 
-    const att = actor.data.data.attack;
+    const att = actor.system.attack;
     if (att) {
       const attMod =
         att.totalModifier < 0 ? att.totalModifier : `+${att.totalModifier}`;
@@ -205,7 +205,7 @@ export class PcActionHandlerPf2e {
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();
 
-    let rollableAttributes = Object.entries(actor.data.data.attributes).filter(
+    let rollableAttributes = Object.entries(actor.system.attributes).filter(
       (a) => !!a[1]?.roll
     );
     let attributesMap = rollableAttributes.map((a) => {

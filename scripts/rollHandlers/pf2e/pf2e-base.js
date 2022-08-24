@@ -173,7 +173,7 @@ export class RollHandlerBasePf2e extends RollHandler {
 
   /** @private */
   _rollAttributeChar(event, actor, actionId) {
-    let attribute = actor.data.data.attributes[actionId];
+    let attribute = actor.system.attributes[actionId];
     if (!attribute) {
       actor.rollAttribute(event, actionId);
     } else {
@@ -200,10 +200,10 @@ export class RollHandlerBasePf2e extends RollHandler {
 
     let value, max;
     if (slot === "focus") {
-      value = actor.data.data.resources.focus.value;
-      max = actor.data.data.resources.focus.max;
+      value = actor.system.resources.focus.value;
+      max = actor.system.resources.focus.max;
     } else {
-      let slots = spellbook.data.data.slots;
+      let slots = spellbook.system.slots;
       value = slots[slot].value;
       max = slots[slot].max;
     }
@@ -248,38 +248,38 @@ export class RollHandlerBasePf2e extends RollHandler {
 
     let strikeName = actionParts[0];
     let strikeType = actionParts[1];
-    let strikeUsage = actionParts[2];
+    let altUsage = actionParts[2] ? actionParts[2] : null;
 
-    let strike = actor.data.data.actions
+    let strike = actor.system.actions
       .filter((a) => a.type === "strike")
       .find((s) => s.name === strikeName);
 
     if (this.isRenderItem()) {
-      let item = actor.data.data.actions
+      let item = actor.system.actions
         .filter((a) => a.type === "strike")
         .find((s) => s.name === strikeName).origin;
       if (item) return this.doRenderItem(tokenId, item.data.id);
     }
 
-    if (strikeUsage !== "") {
-      strike = strike[strikeUsage];
+    if (altUsage !== null) {
+      if (altUsage === "melee") {
+        strike = strike.altUsages.find((s) => s.item.isMelee);
+      }
+      if (altUsage === "thrown") {
+        strike = strike.altUsages.find((s) => s.item.isThrown);
+      }
     }
 
-    let options;
     switch (strikeType) {
       case "damage":
-        options = actor.getRollOptions(["all", "damage-roll"]);
-        strike.damage({ event, options });
+        strike.damage({ event });
         break;
       case "critical":
-        options = actor.getRollOptions(["all", "damage-roll"]);
-        strike.critical({ event, options });
+        strike.critical({ event });
         break;
       default:
-        options = actor.getRollOptions(["all", "attack-roll"]);
         strike.variants[strikeType]?.roll({
           event,
-          options,
         });
         break;
     }
@@ -293,12 +293,12 @@ export class RollHandlerBasePf2e extends RollHandler {
     let strikeType = actionParts[1];
     let strikeUsage = actionParts[2];
 
-    let strike = actor.data.data.actions
+    let strike = actor.system.actions
       .filter((a) => a.type === "strike")
       .find((s) => s.name === strikeName);
 
     if (this.isRenderItem()) {
-      let item = actor.data.data.actions
+      let item = actor.system.actions
         .filter((a) => a.type === "strike")
         .find((s) => s.name === strikeName).origin;
       if (item) return this.doRenderItem(tokenId, item.data.id);
@@ -367,21 +367,25 @@ export class RollHandlerBasePf2e extends RollHandler {
   /** @private */
   _rollFamiliarAttack(event, actor) {
     const options = actor.getRollOptions(["all", "attack"]);
-    actor.data.data.attack.roll(event, options);
+    actor.system.attack.roll(event, options);
   }
 
   /** @private */
   async _rollSpell(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
     let [spellbookId, level, spellId, expend] = actionParts;
-    
+
     if (this.isRenderItem()) return this.doRenderItem(tokenId, spellId);
-    
+
     const spellcasting = actor.items.get(spellbookId);
     const spell = actor.items.get(spellId);
     if (!spellcasting || !spell) return;
 
-    await spellcasting.cast(spell, { message: !expend, consume: true, level: Number(level) });
+    await spellcasting.cast(spell, {
+      message: !expend,
+      consume: true,
+      level: Number(level),
+    });
     Hooks.callAll("forceUpdateTokenActionHUD");
 
     return;
@@ -417,8 +421,8 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   async _adjustResources(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.resources[property][valueName];
-    let max = actor.data.data.resources[property]["max"];
+    let value = actor.system.resources[property][valueName];
+    let max = actor.system.resources[property]["max"];
 
     if (this.rightClick) {
       if (value <= 0) return;
@@ -440,7 +444,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   async _adjustCondition(event, actor, property) {
-    let max = actor.data.data.attributes[property]["max"];
+    let max = actor.system.attributes[property]["max"];
 
     if (this.rightClick) {
       await actor.decreaseCondition(property);

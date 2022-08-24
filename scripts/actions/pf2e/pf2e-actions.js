@@ -68,7 +68,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     const subcategory = this.initializeEmptySubcategory(macroType);
 
     const allSkillSets = actors.map((a) =>
-      Object.entries(a.data.data.skills).filter((s) => !!s[1].roll)
+      Object.entries(a.system.skills).filter((s) => !!s[1].roll)
     );
     const minSkillSetSize = Math.min(...allSkillSets.map((s) => s.length));
     const smallestSkillSet = allSkillSets.find(
@@ -204,21 +204,21 @@ export class ActionHandlerPf2e extends ActionHandler {
     let items = (actor.items ?? [])
       .filter(
         (a) =>
-          ["held","worn"].includes(a.data.data.equipped?.carryType) && !a.data.data.containerId?.value?.length
+          ["held","worn"].includes(a.system.equipped?.carryType) && !a.system.containerId?.value?.length
       )
       .filter((i) => filter.includes(i.data.type))
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
     if (actor.data.type === "character")
-      weaponList = weaponList.filter((i) => ["held","worn"].includes(i.data.data.equipped?.carryType));
+      weaponList = weaponList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let weaponActions = this._buildItemActions(tokenId, macroType, weaponList);
     let weapons = this.initializeEmptySubcategory();
     weapons.actions = weaponActions;
 
     let armourList = items.filter((i) => i.type === "armor");
     if (actor.data.type === "character")
-      armourList = armourList.filter((i) => ["held","worn"].includes(i.data.data.equipped?.carryType));
+      armourList = armourList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let armourActions = this._buildItemActions(tokenId, macroType, armourList);
     let armour = this.initializeEmptySubcategory();
     armour.actions = armourActions;
@@ -273,8 +273,8 @@ export class ActionHandlerPf2e extends ActionHandler {
     const allContainerIds = [
       ...new Set(
         actor.items
-          .filter((i) => i.data.data.containerId?.value)
-          .map((i) => i.data.data.containerId.value)
+          .filter((i) => i.system.containerId?.value)
+          .map((i) => i.system.containerId.value)
       ),
     ];
     const containers = (items ?? []).filter((i) =>
@@ -284,7 +284,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     containers.forEach((container) => {
       const containerId = container.id;
       const contents = actor.items
-        .filter((i) => i.data.data.containerId?.value === containerId)
+        .filter((i) => i.system.containerId?.value === containerId)
         .sort(this._foundrySort);
       if (contents.length === 0) return;
 
@@ -295,7 +295,7 @@ export class ActionHandlerPf2e extends ActionHandler {
         contents
       );
       containerCategory.actions = containerActions;
-      containerCategory.info1 = container.data.data.bulkCapacity.value;
+      containerCategory.info1 = container.system.bulkCapacity.value;
 
       this._combineSubcategoryWithCategory(
         category,
@@ -332,7 +332,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
-    let strikes = actor.data.data.actions?.filter((a) => a.type === macroType);
+    let strikes = actor.system.actions?.filter((a) => a.type === macroType);
 
 
     if (!strikes) return;
@@ -410,7 +410,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       }
     }
 
-    if (s.auxiliaryActions) {
+    if (s.auxiliaryActions && !usage) {
       const auxActionsMap = s.auxiliaryActions.map(
         function (a) {
           return {
@@ -432,9 +432,11 @@ export class ActionHandlerPf2e extends ActionHandler {
       });
     }
 
-    this._combineSubcategoryWithCategory(category, s.name, subcategory);
-    if (s.meleeUsage) {
-      this._buildStrikeSubcategory(s.meleeUsage, category, "meleeUsage", tokenId, actor);
+    this._combineSubcategoryWithCategory(category, usage ? usage : s.name, subcategory);
+    if (!usage) {
+      for (const altUsage of s.altUsages) {
+        this._buildStrikeSubcategory(altUsage, category, altUsage.item.isMelee ? "melee" : "thrown", tokenId, actor);
+      }
     }
   }
 
@@ -460,7 +462,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       id: item.id,
       img: img,
     };
-    action.info1 = item.data.data.quantity?.value;
+    action.info1 = item.system.quantity?.value;
 
     return action;
   }
@@ -516,7 +518,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     if (settings.get("ignorePassiveActions"))
       filteredActions = filteredActions.filter(
-        (a) => a.data.data.actionType.value !== "passive"
+        (a) => a.system.actionType.value !== "passive"
       );
 
     let actions = this.initializeEmptySubcategory();
@@ -524,7 +526,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       tokenId,
       (filteredActions ?? []).filter(
         (a) =>
-          a.data.data.actionType?.value === "action" && this._actionIsShort(a)
+          a.system.actionType?.value === "action" && this._actionIsShort(a)
       ),
       macroType
     );
@@ -534,7 +536,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       tokenId,
       (filteredActions ?? []).filter(
         (a) =>
-          a.data.data.actionType?.value === "reaction" && this._actionIsShort(a)
+          a.system.actionType?.value === "reaction" && this._actionIsShort(a)
       ),
       macroType
     );
@@ -544,7 +546,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       tokenId,
       (filteredActions ?? []).filter(
         (a) =>
-          a.data.data.actionType?.value === "free" && this._actionIsShort(a)
+          a.system.actionType?.value === "free" && this._actionIsShort(a)
       ),
       macroType
     );
@@ -554,7 +556,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       tokenId,
       (filteredActions ?? []).filter(
         (a) =>
-          a.data.data.actionType?.value === "passive" &&
+          a.system.actionType?.value === "passive" &&
           this._actionIsShort(a) &&
           a.type !== "feat"
       ),
@@ -565,7 +567,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     exploration.actions = this._produceActionMap(
       tokenId,
       (filteredActions ?? []).filter((a) =>
-        a.data.data.traits?.value.includes("exploration")
+        a.system.traits?.value.includes("exploration")
       ),
       macroType
     );
@@ -574,7 +576,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     downtime.actions = this._produceActionMap(
       tokenId,
       (filteredActions ?? []).filter((a) =>
-        a.data.data.traits?.value.includes("downtime")
+        a.system.traits?.value.includes("downtime")
       ),
       macroType
     );
@@ -616,8 +618,8 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _actionIsShort(action) {
     return !(
-      action.data.data.traits?.value.includes("exploration") ||
-      action.data.data.traits?.value.includes("downtime")
+      action.system.traits?.value.includes("exploration") ||
+      action.system.traits?.value.includes("downtime")
     );
   }
 
@@ -664,7 +666,7 @@ export class ActionHandlerPf2e extends ActionHandler {
             encodedValue: encodedValue,
             id: spell.data._id,
             img: this._getImage(spell),
-            icon: this._getActionIcon(spell.data.data?.time?.value),
+            icon: this._getActionIcon(spell.system?.time?.value),
             spellLevel: level.level,
             info2: uses ? `${uses.value}/${uses.max}` : null,
           };
@@ -718,7 +720,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   ) {
     let maxSlots, valueSlots, increaseId, decreaseId;
     if (firstSubcategory && spellInfo.isFocusPool) {
-      let focus = actor.data.data.resources.focus;
+      let focus = actor.system.resources.focus;
       maxSlots = focus.max;
       valueSlots = focus.value;
 
@@ -799,7 +801,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     if (components) {
       spell.info1 = components.value;
     } else {
-      components = s.data.data.components?.value.split(",");
+      components = s.system.components?.value.split(",");
       spell.info1 = components
         .map((c) => c.trim().charAt(0).toUpperCase())
         .join("");
@@ -820,14 +822,14 @@ export class ActionHandlerPf2e extends ActionHandler {
     let active = this.initializeEmptySubcategory();
     active.actions = this._produceActionMap(
       tokenId,
-      (items ?? []).filter((a) => a.data.data.actionType.value !== "passive"),
+      (items ?? []).filter((a) => a.system.actionType.value !== "passive"),
       macroType
     );
 
     let passive = this.initializeEmptySubcategory();
     passive.actions = this._produceActionMap(
       tokenId,
-      (items ?? []).filter((a) => a.data.data.actionType.value === "passive"),
+      (items ?? []).filter((a) => a.system.actionType.value === "passive"),
       macroType,
       true
     );
@@ -896,7 +898,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       let attributes = this.initializeEmptySubcategory();
       let attributeActions = [];
 
-      let heroPoints = actor.data.data.resources?.heroPoints;
+      let heroPoints = actor.system.resources?.heroPoints;
       if (heroPoints)
         attributeActions.push(
           this._getAttributeAction(
@@ -908,8 +910,8 @@ export class ActionHandlerPf2e extends ActionHandler {
           )
         );
 
-      let doomedPoints = actor.data.data.attributes?.doomed;
-      let dyingPoints = actor.data.data.attributes?.dying;
+      let doomedPoints = actor.system.attributes?.doomed;
+      let dyingPoints = actor.system.attributes?.dying;
       if (dyingPoints) {
         let dyingVal = dyingPoints.value;
         let dyingMax = dyingPoints.max;
@@ -937,7 +939,7 @@ export class ActionHandlerPf2e extends ActionHandler {
         attributeActions.push(recoveryCheckAction);
       }
 
-      let woundedPoints = actor.data.data.attributes?.wounded;
+      let woundedPoints = actor.system.attributes?.wounded;
       if (woundedPoints)
         attributeActions.push(
           this._getAttributeAction(
@@ -1050,7 +1052,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
-    let quantity = item.data.data.quantity?.value;
+    let quantity = item.system.quantity?.value;
     if (quantity > 1) {
       result = quantity;
     }

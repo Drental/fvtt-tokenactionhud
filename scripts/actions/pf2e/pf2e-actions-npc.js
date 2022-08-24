@@ -87,7 +87,7 @@ export class NpcActionHandlerPf2e {
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
     const macroType = "toggle";
-    const toggles = actor.data.data.toggles;
+    const toggles = actor.system.toggles;
 
     if (!toggles.length) return;
 
