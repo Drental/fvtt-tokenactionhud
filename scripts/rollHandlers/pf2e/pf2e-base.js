@@ -257,7 +257,7 @@ export class RollHandlerBasePf2e extends RollHandler {
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => s.name === strikeName).origin;
+        .find((s) => s.name === strikeName).item;
       if (item) return this.doRenderItem(tokenId, item.data.id);
     }
 
