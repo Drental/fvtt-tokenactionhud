@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.29] 2022-08-25
+
+- pf2e - fixed *not* alternative strike usages (combination weapon and thrown) - done by yours truly
+
 ## [2.2.28] 2022-08-24
 
 - TAH - fixed security alert about terser - done by yours truly
