@@ -235,17 +235,23 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _getActiveEquipment(equipment) {
-    const activationTypes = Object.keys(
-      game.sw5e.config.abilityActivationTypes
-    ).filter((at) => at !== "none");
+    let activeEquipment = []
+    if (!settings.get("showItemsWithoutAction")) {
+      const activationTypes = Object.keys(
+        game.sw5e.config.abilityActivationTypes
+      ).filter((at) => at !== "none");
 
-    let activeEquipment = equipment.filter((e) => {
-      const equipmentData = this._getDocumentData(e);
-      let activation = equipmentData.activation;
-      if (!activation) return false;
+      activeEquipment = equipment.filter((e) => {
+        const equipmentData = this._getDocumentData(e);
+        let activation = equipmentData.activation;
+        if (!activation) return false;
 
-      return activationTypes.includes(equipmentData.activation.type);
-    });
+        return activationTypes.includes(equipmentData.activation.type);
+      });
+    }
+    else {
+      activeEquipment = equipment;
+    }
 
     return activeEquipment;
   }
@@ -429,7 +435,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @private */
   _buildFeaturesCategory(token) {
     let validFeats = this._filterLongerActions(
-      token.actor.data.items.filter((i) => i.type == "feat")
+      token.actor.data.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
     );
     let sortedFeats = this._sortByItemSort(validFeats);
     return this._categoriseFeats(token.id, token.actor, sortedFeats);

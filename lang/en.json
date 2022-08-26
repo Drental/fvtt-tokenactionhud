@@ -431,6 +431,10 @@
           "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
           "name": "Show empty items (includes items and powers)"
         },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
         "showPowerInfo": {
           "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
           "name": "Display power information"

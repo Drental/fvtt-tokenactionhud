@@ -143,6 +143,22 @@ export function register(appName, updateFunc) {
     },
   });
 
+  game.settings.register(appName, "showItemsWithoutAction", {
+    name: game.i18n.localize(
+      "tokenactionhud.settings.sw5e.showItemsWithoutAction.name"
+    ),
+    hint: game.i18n.localize(
+      "tokenactionhud.settings.sw5e.showItemsWithoutAction.hint"
+    ),
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
   if (game.modules.get("character-actions-list-5e")?.active) {
     game.settings.register(appName, "useActionList", {
       name: game.i18n.localize("tokenactionhud.settings.useActionList.name"),
