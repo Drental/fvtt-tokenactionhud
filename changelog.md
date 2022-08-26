@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.3.0] 2022-08-26
+
+- pf2e - fixed npc strike usage - done by yours truly
+
 ## [2.2.29] 2022-08-25
 
 - pf2e - fixed *not* alternative strike usages (combination weapon and thrown) - done by yours truly

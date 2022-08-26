@@ -433,7 +433,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     }
 
     this._combineSubcategoryWithCategory(category, usage ? usage : s.name, subcategory);
-    if (!usage && s.altUsages.length > 0) {
+    if (!usage && s.altUsages) {
       for (const altUsage of s.altUsages) {
         this._buildStrikeSubcategory(altUsage, category, altUsage.item.isMelee ? "melee" : "thrown", tokenId, actor);
       }
