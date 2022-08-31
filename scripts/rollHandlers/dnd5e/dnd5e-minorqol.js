@@ -25,7 +25,7 @@ export class RollHandlerMinorQol5e extends RollHandlerBase5e {
     }
 
     var versatile;
-    if (item.data.data.properties?.ver) {
+    if (item.system.properties?.ver) {
       versatile = this.rightClick;
     }
 

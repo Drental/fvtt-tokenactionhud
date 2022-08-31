@@ -53,21 +53,21 @@ export class ActionHandlerCoC7 extends ActionHandler {
     let melee = this.initializeEmptySubcategory();
     let ranged = this.initializeEmptySubcategory();
 
-    for (let characteristicKey in actor.data.data.characteristics) {
+    for (let characteristicKey in actor.system.characteristics) {
       category.actions.push({
-        name: this.i18n(actor.data.data.characteristics[characteristicKey].label),
+        name: this.i18n(actor.system.characteristics[characteristicKey].label),
         encodedValue: ["characteristic", tokenId, characteristicKey].join(this.delimiter),
       });
     }
-    if (actor.data.data.attribs.lck.value) {
+    if (actor.system.attribs.lck.value) {
       category.actions.push({
-        name: actor.data.data.attribs.lck.label,
+        name: actor.system.attribs.lck.label,
         encodedValue: ["attribute", tokenId, 'lck'].join(this.delimiter),
       });
     }
-    if (actor.data.data.attribs.san.value) {
+    if (actor.system.attribs.san.value) {
       category.actions.push({
-        name: actor.data.data.attribs.san.label,
+        name: actor.system.attribs.san.label,
         encodedValue: ["attribute", tokenId, 'san'].join(this.delimiter),
       });
     }
@@ -95,7 +95,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     for (let item of actor.items) {
       if (item.type === 'weapon') {
-        if (item.data.data.properties?.rngd) {
+        if (item.system.properties?.rngd) {
           ranged.actions.push({
             name: item.name,
             encodedValue: ["weapon", tokenId, item.id].join(this.delimiter),

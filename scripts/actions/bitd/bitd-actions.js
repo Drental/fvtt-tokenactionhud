@@ -45,10 +45,10 @@ export class ActionHandlerBitD extends ActionHandler {
   _getActions(actor, tokenId) {
     let result = this.initializeEmptyCategory("actions");
 
-    for (let attribute in actor.data.data.attributes) {
+    for (let attribute in actor.system.attributes) {
       let attributeCategory = this.initializeEmptySubcategory();
-      for (let skill_name in actor.data.data.attributes[attribute].skills) {
-        let skill = actor.data.data.attributes[attribute].skills[skill_name];
+      for (let skill_name in actor.system.attributes[attribute].skills) {
+        let skill = actor.system.attributes[attribute].skills[skill_name];
         let name = this.i18n(skill.label);
         let encodedValue = ["action", tokenId, skill_name].join(this.delimiter);
 
@@ -58,7 +58,7 @@ export class ActionHandlerBitD extends ActionHandler {
         });
       }
       let attributeTitle = this.i18n(
-        actor.data.data.attributes[attribute].label
+        actor.system.attributes[attribute].label
       );
       this._combineSubcategoryWithCategory(
         result,
@@ -73,8 +73,8 @@ export class ActionHandlerBitD extends ActionHandler {
     let result = this.initializeEmptyCategory("actions");
 
     let resistanceCategory = this.initializeEmptySubcategory();
-    for (let attribute in actor.data.data.attributes) {
-      let name = this.i18n(actor.data.data.attributes[attribute].label);
+    for (let attribute in actor.system.attributes) {
+      let name = this.i18n(actor.system.attributes[attribute].label);
       let encodedValue = ["resistance", tokenId, attribute].join(
         this.delimiter
       );

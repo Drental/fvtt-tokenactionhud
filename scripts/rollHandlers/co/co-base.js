@@ -70,7 +70,7 @@ export class RollHandlerBaseCo extends RollHandler {
     let item = actor.items.get(actionId);
 
     // Consumable spell
-    if (item.data.data.properties.consumable) actor.consumeItem(item);
+    if (item.system.properties.consumable) actor.consumeItem(item);
     else {
       // Only Dommage
       if (this.isShift(event)) {
@@ -85,10 +85,10 @@ export class RollHandlerBaseCo extends RollHandler {
     let item = actor.items.get(actionId);  
 
     // Equipable item
-    if (item.data.data.properties.equipable) actor.toggleEquipItem(item, this.isShift(event));
+    if (item.system.properties.equipable) actor.toggleEquipItem(item, this.isShift(event));
 
     // Consumable item
-    if (item.data.data.properties.consumable) actor.consumeItem(item);
+    if (item.system.properties.consumable) actor.consumeItem(item);
     
   }
 

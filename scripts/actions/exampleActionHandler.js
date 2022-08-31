@@ -39,7 +39,7 @@ export class ExampleActionHandler extends ActionHandler {
     let items = actor.items;
 
     let weapons = items.filter(
-      (i) => i.data.type === "weapons" && i.data.data.equipped
+      (i) => i.data.type === "weapons" && i.system.equipped
     );
     let weaponsActions = this._produceMap(tokenId, weapons, macroType);
     let weaponsSubcategory = this.initializeEmptySubcategory();
@@ -47,7 +47,7 @@ export class ExampleActionHandler extends ActionHandler {
     this._combineSubcategoryWithCategory(result, "weapons", weaponsSubcategory);
 
     let armor = items.filter(
-      (i) => i.data.type === "armor" && i.data.data.equipped
+      (i) => i.data.type === "armor" && i.system.equipped
     );
     let armorActions = this._produceMap(tokenId, armor, macroType);
     let armorSubcategory = this.initializeEmptySubcategory();

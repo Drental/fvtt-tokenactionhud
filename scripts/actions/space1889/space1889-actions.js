@@ -75,12 +75,12 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		let result = this.initializeEmptyCategory('defenses');
 		const type = 'defense';
 
-		let category = this._addEntry(tokenId, this.i18n('SPACE1889.SecondaryAttributeDef') + ' (' + actor.data.data.secondaries.defense.total + ')', 'defense', type);
+		let category = this._addEntry(tokenId, this.i18n('SPACE1889.SecondaryAttributeDef') + ' (' + actor.system.secondaries.defense.total + ')', 'defense', type);
 		if (actor.data.type != 'creature')
 		{
-			this._addEntry(tokenId, this.i18n('SPACE1889.Block') + ' (' + actor.data.data.block.value + ')', 'block', type, category);
-			this._addEntry(tokenId, this.i18n('SPACE1889.Parry') + ' (' + actor.data.data.parry.value + ')', 'parry', type, category);
-			this._addEntry(tokenId, this.i18n('SPACE1889.Evasion') + ' (' + actor.data.data.evasion.value + ')', 'evasion', type, category);
+			this._addEntry(tokenId, this.i18n('SPACE1889.Block') + ' (' + actor.system.block.value + ')', 'block', type, category);
+			this._addEntry(tokenId, this.i18n('SPACE1889.Parry') + ' (' + actor.system.parry.value + ')', 'parry', type, category);
+			this._addEntry(tokenId, this.i18n('SPACE1889.Evasion') + ' (' + actor.system.evasion.value + ')', 'evasion', type, category);
 		}
 
 		this._combineSubcategoryWithCategory(result, this.i18n('SPACE1889.SecondaryAttributeDef'), category);
@@ -169,7 +169,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 
 	_abilities(actor, tokenId)
 	{
-		const abilities = actor.data.data.abilities;
+		const abilities = actor.system.abilities;
 		let result = this.initializeEmptyCategory('abilities');
 
 		let actions = Object.entries(game.space1889.config.abilities).map((e) =>
@@ -185,7 +185,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 
 		let abilityCategory = this.initializeEmptySubcategory();
 		abilityCategory.actions = actions.filter((a) => !!a);
-		this._addEntry(tokenId, this.i18n('SPACE1889.SecondaryAttributePer') + ' (' + actor.data.data.secondaries.perception.total.toString() + ')', 'perception', 'secondary', abilityCategory);
+		this._addEntry(tokenId, this.i18n('SPACE1889.SecondaryAttributePer') + ' (' + actor.system.secondaries.perception.total.toString() + ')', 'perception', 'secondary', abilityCategory);
 
 		this._combineSubcategoryWithCategory(result, this.i18n('SPACE1889.AbilityPl'), abilityCategory);
 

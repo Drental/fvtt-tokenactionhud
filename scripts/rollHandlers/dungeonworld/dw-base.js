@@ -51,7 +51,7 @@ export class RollHandlerBaseDw extends RollHandler {
   }
 
   _handleDamage(macroType, event, actor, actionId) {
-    let damage = actor.data.data.attributes.damage;
+    let damage = actor.system.attributes.damage;
     let damageDie = `${damage.value}`;
     let damageMod = damage.misc.value > 0 ? damage.misc.value : 0;
 
@@ -79,7 +79,7 @@ export class RollHandlerBaseDw extends RollHandler {
   }
 
   _handleAbility(macroType, event, actor, actionId) {
-    let ability = actor.data.data.abilities[actionId];
+    let ability = actor.system.abilities[actionId];
 
     let mod = ability.mod;
     let formula = `2d6+${mod}`;

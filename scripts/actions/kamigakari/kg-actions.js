@@ -67,7 +67,7 @@ export class ActionHandlerKg extends ActionHandler {
   _getMainStat(actor, tokenId) {
     let result = this.initializeEmptyCategory("mainStat");
 
-    let mainStat = Object.entries(actor.data.data.attributes).filter(
+    let mainStat = Object.entries(actor.system.attributes).filter(
       (a) => a[1]?.add !== undefined && a[1]?.base === undefined
     );
     let mainStatMap = mainStat.map((a) => {
@@ -89,7 +89,7 @@ export class ActionHandlerKg extends ActionHandler {
   _getSubStat(actor, tokenId) {
     let result = this.initializeEmptyCategory("subStat");
 
-    let subStat = Object.entries(actor.data.data.attributes).filter(
+    let subStat = Object.entries(actor.system.attributes).filter(
       (a) => a[1]?.add === undefined && a[1]?.label !== undefined
     );
     let subStatMap = subStat.map((a) => {
@@ -246,7 +246,7 @@ export class ActionHandlerKg extends ActionHandler {
 
   _getTalentsByManyTiming(actor, tokenId, timings) {
     let talent = actor.items.filter((a) =>
-      timings.includes(a.data.data.timing)
+      timings.includes(a.system.timing)
     );
     let talentAction = this._produceMap(tokenId, talent, "item");
 
@@ -257,7 +257,7 @@ export class ActionHandlerKg extends ActionHandler {
   }
 
   _getTalentsByTiming(actor, tokenId, timing) {
-    let talent = actor.items.filter((a) => a.data.data.timing === timing);
+    let talent = actor.items.filter((a) => a.system.timing === timing);
     let talentAction = this._produceMap(tokenId, talent, "item");
 
     let talentCategory = this.initializeEmptySubcategory();
@@ -294,7 +294,7 @@ export class ActionHandlerKg extends ActionHandler {
 
   _getItemByType(actor, tokenId, type) {
     let item = actor.items.filter(
-      (a) => a.data.data.class === type || a.data.type == type
+      (a) => a.system.class === type || a.data.type == type
     );
     let itemAction = this._produceMap(tokenId, item, "item");
 
@@ -312,8 +312,8 @@ export class ActionHandlerKg extends ActionHandler {
         let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
         let item = { name: i.name, encodedValue: encodedValue, id: i.id };
 
-        if (macroType == "item" && i.data.data.quantity !== undefined)
-          item.name = i.name + " X " + i.data.data.quantity;
+        if (macroType == "item" && i.system.quantity !== undefined)
+          item.name = i.name + " X " + i.system.quantity;
 
         return item;
       });

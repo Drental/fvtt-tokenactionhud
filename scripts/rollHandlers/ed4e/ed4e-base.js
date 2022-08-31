@@ -121,7 +121,7 @@ export class RollHandlerBaseED4e extends RollHandler {
             actor.update({
                 data: {
                     "tactics": {
-                        [tactic]: !actor.data.data.tactics[tactic]
+                        [tactic]: !actor.system.tactics[tactic]
                     }
                 }
             })
@@ -160,15 +160,15 @@ export class RollHandlerBaseED4e extends RollHandler {
         const actor = super.getActor(tokenId);
         const item = actor.items.get(actionId);
 
-        if (item.data.data.attackstep !== 0) {
+        if (item.system.attackstep !== 0) {
             const modifier = 0;
-            const strain = item.data.data.strain ? item.data.data.strain : 0;
+            const strain = item.system.strain ? item.system.strain : 0;
             const karma = 0;
 
-            let type = (item.data.data.powerType === "Attack") ? "attack" : (item.data.data.attackstep > 0) ? "test" : "";
+            let type = (item.system.powerType === "Attack") ? "attack" : (item.system.attackstep > 0) ? "test" : "";
             const parameters = {
                 itemID: actionId,
-                steps: item.data.data.attackstep,
+                steps: item.system.attackstep,
                 talent: item.name,
                 strain: strain,
                 type: type,

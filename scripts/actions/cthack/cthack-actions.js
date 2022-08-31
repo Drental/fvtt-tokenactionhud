@@ -61,7 +61,7 @@ export class ActionHandlerCthack extends ActionHandler {
     let result = this.initializeEmptyCategory("saves");
     let attributesCategory = this.initializeEmptySubcategory();
 
-    let saves = Object.entries(actor.data.data.saves);
+    let saves = Object.entries(actor.system.saves);
 
     attributesCategory.actions = saves.map((c) => {
       const saveId = c[0];
@@ -204,7 +204,7 @@ export class ActionHandlerCthack extends ActionHandler {
   _getIcon(item) {
     // Capacity activable
     if (item.type === "ability" && item.data.data?.uses?.per !== "Permanent") {
-      if (item.data.data.uses.value > 0) {
+      if (item.system.uses.value > 0) {
         return '<i class="fas fa-check"></i>';
       }
       else return '<i class="fas fa-times"></i>';      

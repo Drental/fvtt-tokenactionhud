@@ -128,13 +128,13 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getArmors(actor, tokenId) {
     let result = this.initializeEmptyCategory("actorArmors");
     let armorsCategory = this.initializeEmptySubcategory();
-    let encodedValue = ["armor", tokenId, actor.data.data.combat.id].join(
+    let encodedValue = ["armor", tokenId, actor.system.combat.id].join(
       this.delimiter
     );
     let item = {
-      name: actor.data.data.combat.armor,
+      name: actor.system.combat.armor,
       encodedValue: encodedValue,
-      id: actor.data.data.combat.id,
+      id: actor.system.combat.id,
     };
 
     armorsCategory.actions = [item];
@@ -167,7 +167,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getAttributes(actor, tokenId) {
     let result = this.initializeEmptyCategory("attributes");
-    let attributes = Object.entries(actor.data.data.attributes);
+    let attributes = Object.entries(actor.system.attributes);
     let attributesCategory = this.initializeEmptySubcategory();
     attributesCategory.actions = attributes.map((c) => {
       let encodedValue = ["attribute", tokenId, c[0]].join(this.delimiter);

@@ -15,7 +15,7 @@ export class ActionHandlerLancer extends ActionHandler {
     let actorId = token.actor.id;
     result.actorId = actorId;
     let actor = token.actor;
-    let mm = await actor.data.data.derived.mm;
+    let mm = await actor.system.derived.mm;
 
     if (!actor) return result;
 
@@ -106,7 +106,7 @@ export class ActionHandlerLancer extends ActionHandler {
         if (item != null) return item.data.type === "npc_feature";
       })
       .filter((item) => {
-        return item.data.data.type === itemType;
+        return item.system.type === itemType;
       })
       .map((item) => {
         return this._makeAction(item.name, macro, actorId, item.id);

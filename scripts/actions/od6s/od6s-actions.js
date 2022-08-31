@@ -60,8 +60,8 @@ export class ActionHandlerOD6S extends ActionHandler {
 
         if (isNewerVersion(game.system.data.version, "0.2.4")) {
             if (actor.type === 'vehicle' || actor.type === 'starship') {
-                if (actor.data.data.crewmembers.length > 0) {
-                    for (let i of actor.data.data.crewmembers) {
+                if (actor.system.crewmembers.length > 0) {
+                    for (let i of actor.system.crewmembers) {
                         let crewMember = await game.od6s.getActorFromUuid(i.uuid);
                         if(crewMember.testUserPermission(game.user, "OWNER")) {
                             let category = this._buildVehicleCategory(crewMember, crewMember.uuid, 'crew');
@@ -97,11 +97,11 @@ export class ActionHandlerOD6S extends ActionHandler {
         );
 
         let weapons = items
-            .filter((i) => i.data.type === "weapon" && i.data.data.equipped.value)
+            .filter((i) => i.data.type === "weapon" && i.system.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name));
         let meleeWeapons = items
             .filter(
-                (i) => i.data.type === "weapon" && i.data.data.subtype === "Melee" && i.data.data.equipped.value)
+                (i) => i.data.type === "weapon" && i.system.subtype === "Melee" && i.system.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name))
             .valueOf();
         let weaponActions = this._produceMap(tokenId, weapons, macroType);
@@ -175,7 +175,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                 let resistances = [];
                 let name;
 
-                if (actor.data.data.vehicle.type === "vehicle") {
+                if (actor.system.vehicle.type === "vehicle") {
                     name = game.i18n.localize(game.od6s.config.vehicleToughnessName);
                 } else {
                     name = game.i18n.localize(game.od6s.config.starshipToughnessName);
@@ -183,9 +183,9 @@ export class ActionHandlerOD6S extends ActionHandler {
                 let encodedValue = [macroType, tokenId, "vehicletoughness"].join(this.delimiter);
                 resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
 
-                if (actor.data.data.vehicle.shields.value > 0) {
-                    for (let arc in actor.data.data.vehicle.shields.arcs) {
-                        let name = game.i18n.localize(actor.data.data.vehicle.shields.arcs[arc].label) +
+                if (actor.system.vehicle.shields.value > 0) {
+                    for (let arc in actor.system.vehicle.shields.arcs) {
+                        let name = game.i18n.localize(actor.system.vehicle.shields.arcs[arc].label) +
                             " " + game.i18n.localize('OD6S.SHIELDS');
                         let encodedValue = [
                             macroType,
@@ -208,7 +208,7 @@ export class ActionHandlerOD6S extends ActionHandler {
 
             let vehicleWeaponsSubcategory = this.initializeEmptySubcategory();
             vehicleWeaponsSubcategory.actions = this._produceMap(tokenId,
-                actor.data.data.vehicle.vehicle_weapons.filter(i => i.data.equipped.value),
+                actor.system.vehicle.vehicle_weapons.filter(i => i.data.equipped.value),
                 macroType);
             this._combineSubcategoryWithCategory(
                 result,
@@ -222,9 +222,9 @@ export class ActionHandlerOD6S extends ActionHandler {
                     let name = '';
                     if (action === 'sensors') {
                         if (game.settings.get('od6s', 'sensors')) {
-                            for (let type in actor.data.data.vehicle.sensors.types) {
+                            for (let type in actor.system.vehicle.sensors.types) {
                                 name = game.i18n.localize(game.od6s.config.vehicle_actions[action].name) + ": " +
-                                    game.i18n.localize(actor.data.data.vehicle.sensors.types[type].label);
+                                    game.i18n.localize(actor.system.vehicle.sensors.types[type].label);
                                 let encodedValue = [
                                     macroType,
                                     tokenId,
@@ -267,7 +267,7 @@ export class ActionHandlerOD6S extends ActionHandler {
     _buildAttributesCategory(actor, tokenId, categoryName) {
         let macroType = "attribute";
         let result = this.initializeEmptyCategory("attributes");
-        let attributes = actor.data.data.attributes;
+        let attributes = actor.system.attributes;
 
         let actions = Object.entries(attributes).map((e) => {
             if (e[1].score === 0) return;

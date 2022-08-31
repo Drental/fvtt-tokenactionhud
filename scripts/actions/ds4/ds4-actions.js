@@ -51,7 +51,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     const displayCheckTargetNumbers = !!actor && settings.get("displayCheckTargetNumbers");
     checksSubcategory.actions = Object.entries(CONFIG.DS4.i18n.checks).map(([id, name]) => ({
       id,
-      name: displayCheckTargetNumbers ? `${name} (${actor.data.data.checks[id]})` : name,
+      name: displayCheckTargetNumbers ? `${name} (${actor.system.checks[id]})` : name,
       encodedValue: ["check", tokenId, id].join(this.delimiter),
       img: CONFIG.DS4.icons.checks[id],
     }));
@@ -67,7 +67,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     inventoryCategory.name = inventoryCategoryName;
 
     const equippedItems = actor.items
-      .filter((item) => item.data.data.equipped)
+      .filter((item) => item.system.equipped)
       .sort((a, b) => a.data.sort - b.data.sort);
 
     const weaponsSubcategory = this.initializeEmptySubcategory();
@@ -85,7 +85,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     spellsCategory.name = this.i18n("DS4.HeadingSpells");
 
     const equippedItems = actor.items
-      .filter((item) => item.data.data.equipped)
+      .filter((item) => item.system.equipped)
       .sort((a, b) => a.data.sort - b.data.sort);
 
     const spellsSubcategory = this.initializeEmptySubcategory();

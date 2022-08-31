@@ -164,12 +164,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
   /** @private */
   _buildSkillCategory(token, actor, actionList) {
-    if (!actor.data.data.skills) return actionList;
+    if (!actor.system.skills) return actionList;
 
     let category = this.initializeEmptyCategory("skills");
     let macroType = "skill";
 
-    const actorSkills = Object.entries(actor.data.data.skills);
+    const actorSkills = Object.entries(actor.system.skills);
     const coreSkills = CONFIG.SFRPG.skills;
 
     let skillsActions = actorSkills
@@ -257,7 +257,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let subCategory = this.initializeEmptySubcategory();
 
     let itemsOfType = itemList.filter(
-      (item) => item.data.data.actionType == actionType
+      (item) => item.system.actionType == actionType
     );
     subCategory.actions = itemsOfType.map((item) =>
       this._buildItemAction(tokenId, macroType, item)
@@ -328,7 +328,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   ) {
     let subCategory = this.initializeEmptySubcategory();
 
-    let itemsOfType = itemList.filter((item) => item.data.data.level === level);
+    let itemsOfType = itemList.filter((item) => item.system.level === level);
     subCategory.actions = itemsOfType.map((item) => {
       let action = this._buildItemAction(tokenId, macroType, item);
       if (settings.get("showSpellInfo")) this._addSpellInfo(item, action);
@@ -363,7 +363,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _buildItemAction(tokenId, macroType, item) {
     let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
-    let icon = this._getActionIcon(item.data.data.activation?.type);
+    let icon = this._getActionIcon(item.system.activation?.type);
     let result = {
       name: item.name,
       id: item.id,
@@ -384,8 +384,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
-    if (item.data.data.quantity > 1) {
-      result = item.data.data.quantity;
+    if (item.system.quantity > 1) {
+      result = item.system.quantity;
     }
 
     return result;
@@ -395,7 +395,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _getUsesOrUsageData(item) {
     let result = "";
 
-    let uses = item.data.data.uses;
+    let uses = item.system.uses;
     if (uses?.max || uses?.value) {
       result = uses.value ?? "";
 
@@ -422,7 +422,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _getCapacityData(item) {
     let result = "";
 
-    let capacity = item.data.data.capacity;
+    let capacity = item.system.capacity;
     if (!capacity) return result;
 
     result = capacity.value ?? "";
@@ -471,7 +471,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     const category = this.initializeEmptyCategory(itemType);
 
     const groupedWeapons = weapons.reduce((grouped, w) => {
-      const groupName = w.data.data.mount.arc;
+      const groupName = w.system.mount.arc;
       if (!grouped.hasOwnProperty(groupName)) grouped[groupName] = [];
 
       grouped[groupName].push(w);
@@ -496,7 +496,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           id: a.id,
           img: this._getImage(a),
         };
-        action.info1 = a.data.data.pcu ?? "";
+        action.info1 = a.system.pcu ?? "";
 
         subcategory.actions.push(action);
       });
@@ -523,7 +523,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       .getDocuments();
 
     const groupedActions = actions.reduce((grouped, a) => {
-      const role = a.data.data.role;
+      const role = a.system.role;
       if (!grouped.hasOwnProperty(role)) grouped[role] = [];
 
       grouped[role].push(a);
@@ -544,7 +544,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     ];
 
     order.forEach((role) => {
-      const crew = actor.data.data.crew;
+      const crew = actor.system.crew;
       const crewRole = crew[role];
       const npcRole = crew.npcData[role];
 
@@ -562,7 +562,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           id: a.id,
           img: this._getImage(a),
         };
-        action.info1 = a.data.data.resolvePointCost ?? "";
+        action.info1 = a.system.resolvePointCost ?? "";
 
         subcategory.actions.push(action);
       });
@@ -602,7 +602,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     const macroType = "shields";
     const category = this.initializeEmptySubcategory(macroType);
 
-    const shields = actor.data.data.attributes?.shields;
+    const shields = actor.system.attributes?.shields;
     if (!shields) return actionList;
 
     category.info1 = `${shields.value}/${shields.max}`;
@@ -617,7 +617,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       { name: "+10", value: "+10" },
     ];
 
-    const quadrants = actor.data.data.quadrants;
+    const quadrants = actor.system.quadrants;
     sides.forEach((side) => {
       const currShields = quadrants[side]["shields"];
       if (!currShields) return;

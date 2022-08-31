@@ -62,8 +62,8 @@ export class RollHandlerBaseT20 extends RollHandler {
     const skillData = {
       actor: actor,
       type: "perícia",
-      data: actor.data.data.pericias[checkId],
-      name: actor.data.data.pericias[checkId].label,
+      data: actor.system.pericias[checkId],
+      name: actor.system.pericias[checkId].label,
       id: checkId,
     };
     actor.rollPericia(skillData);

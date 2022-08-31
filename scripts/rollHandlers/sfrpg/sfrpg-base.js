@@ -87,9 +87,9 @@ export class RollHandlerBaseSfrpg extends RollHandler {
 
   needsRecharge(item) {
     return (
-      item.data.data.recharge &&
-      !item.data.data.recharge.charged &&
-      item.data.data.recharge.value
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
     );
   }
 
@@ -101,8 +101,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     let shieldChange = parseInt(payload[1]);
     if (shieldChange === NaN) return;
 
-    const shields = actor.data.data.attributes.shields;
-    const shield = actor.data.data.quadrants[side]["shields"];
+    const shields = actor.system.attributes.shields;
+    const shield = actor.system.quadrants[side]["shields"];
 
     let newValue;
     if (shieldChange < 0) {

@@ -114,7 +114,7 @@ export class RollHandlerBase5e extends RollHandler {
         actor.longRest();
         break;
       case "inspiration":
-        let update = !actor.data.data.attributes.inspiration;
+        let update = !actor.system.attributes.inspiration;
         actor.update({ "data.attributes.inspiration": update });
         break;
       case "toggleCombat":

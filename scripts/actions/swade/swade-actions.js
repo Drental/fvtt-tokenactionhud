@@ -40,7 +40,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addAttributes(list, tokenId, actor) {
-    const attr = actor.data.data.attributes;
+    const attr = actor.system.attributes;
     const macroType = "attribute";
 
     const subcat = this.initializeEmptySubcategory("attributes");
@@ -100,7 +100,7 @@ export class ActionHandlerSwade extends ActionHandler {
     const macroType = "powerPoints";
     const cat = this.initializeEmptyCategory(macroType);
 
-    const pp = actor.data.data.powerPoints;
+    const pp = actor.system.powerPoints;
     if (pp) cat.info1 = `${pp.value}/${pp.max}`;
 
     this._addCounterSubcategory(
@@ -125,7 +125,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _groupPowers(powers) {
-    const powerTypes = [...new Set(powers.map((i) => i.data.data.rank))];
+    const powerTypes = [...new Set(powers.map((i) => i.system.rank))];
 
     return powerTypes.reduce((grouped, p) => {
       let powerName = p;
@@ -133,7 +133,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
       if (!grouped.hasOwnProperty(p)) grouped[powerName] = [];
 
-      grouped[powerName].push(...powers.filter((i) => i.data.data.rank === p));
+      grouped[powerName].push(...powers.filter((i) => i.system.rank === p));
 
       return grouped;
     }, {});
@@ -146,7 +146,7 @@ export class ActionHandlerSwade extends ActionHandler {
     let items = actor.data.items;
 
     if (actor.data.type === "character")
-      items = items.filter((i) => i.data.data.equipped);
+      items = items.filter((i) => i.system.equipped);
 
     const weapons = items.filter((i) => i.type === "weapon");
     const weaponsName = this.i18n("tokenactionhud.weapons");
@@ -179,7 +179,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addCounterSubcategory(
       cat,
       tokenId,
-      actor.data.data.wounds,
+      actor.system.wounds,
       woundsName,
       "wounds"
     );
@@ -188,7 +188,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addCounterSubcategory(
       cat,
       tokenId,
-      actor.data.data.fatigue,
+      actor.system.fatigue,
       fatigueName,
       "fatigue"
     );
@@ -295,7 +295,7 @@ export class ActionHandlerSwade extends ActionHandler {
   _addStatuses(list, tokenId, actor) {
     const cat = this.initializeEmptyCategory("status");
     const macroType = "status";
-    const statuses = actor.data.data.status;
+    const statuses = actor.system.status;
 
     const subcat = this.initializeEmptySubcategory("status");
     Object.entries(statuses).forEach((s) => {
@@ -318,7 +318,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addBennies(list, tokenId, actor) {
-    const bennies = actor.data.data.bennies;
+    const bennies = actor.system.bennies;
     if (!bennies) return;
 
     const cat = this.initializeEmptyCategory("bennies");
@@ -440,15 +440,15 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _getItemQuantity(item) {
-    if (item.data.data.quantity !== 1) return item.data.data.quantity;
+    if (item.system.quantity !== 1) return item.system.quantity;
 
     return "";
   }
 
   /** @private */
   _getItemShots(item) {
-    const curr = item.data.data.currentShots;
-    const shots = item.data.data.shots;
+    const curr = item.system.currentShots;
+    const shots = item.system.shots;
 
     if (!curr) return;
 
@@ -477,7 +477,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _getPowerPoints(item) {
-    const pp = item.data.data.pp;
+    const pp = item.system.pp;
     if (pp.toString().toLowerCase() === "special") return "*";
 
     const points = parseInt(pp.toString());

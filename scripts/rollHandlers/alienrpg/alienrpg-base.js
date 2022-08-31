@@ -62,8 +62,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
       switch (macroType) {
         case "attribute":
           rData = {
-            roll: actor.data.data.attributes[actionId].value,
-            label: actor.data.data.attributes[actionId].label,
+            roll: actor.system.attributes[actionId].value,
+            label: actor.system.attributes[actionId].label,
           };
           if (event.type === "click") {
             actor.rollAbility(actor, rData);
@@ -76,15 +76,15 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
             case "mobility":
             case "observation":
               rData = {
-                roll: actor.data.data.general[actionId].value,
-                label: actor.data.data.general[actionId].label,
+                roll: actor.system.general[actionId].value,
+                label: actor.system.general[actionId].label,
               };
               break;
             default:
               let clabel =
                 attributename[0].toUpperCase() + attributename.substring(1);
               rData = {
-                roll: actor.data.data.attributes[actionId].value,
+                roll: actor.system.attributes[actionId].value,
                 label: [clabel],
               };
               break;
@@ -97,8 +97,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           break;
         case "skill":
           rData = {
-            roll: actor.data.data.skills[actionId].mod,
-            label: actor.data.data.skills[actionId].label,
+            roll: actor.system.skills[actionId].mod,
+            label: actor.system.skills[actionId].label,
           };
           if (event.type === "click") {
             actor.rollAbility(actor, rData);
@@ -118,7 +118,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           break;
         case "armor":
           rData = {
-            roll: actor.data.data.general.armor.value,
+            roll: actor.system.general.armor.value,
             spbutt: "armor",
           };
           actor.rollAbility(actor, rData);
@@ -163,7 +163,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         break;
       case "rollStress":
         if (actor.data.type === "character") {
-          rData = { panicroll: actor.data.data.header.stress };
+          rData = { panicroll: actor.system.header.stress };
         } else {
           rData = { panicroll: { value: 0, label: "Stress" } };
         }
@@ -177,13 +177,13 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         await this._adjustAttribute(event, actor, "health", "value", actionId);
         break;
       case "creatureAttack":
-        let rAttData = { atttype: actor.data.data.rTables };
+        let rAttData = { atttype: actor.system.rTables };
         actor.creatureAttackRoll(actor, rAttData);
         break;
       case "acidSplash":
         let aSplashData = {
-          roll: actor.data.data.general.acidSplash.value,
-          label: actor.data.data.general.acidSplash.label,
+          roll: actor.system.general.acidSplash.value,
+          label: actor.system.general.acidSplash.label,
         };
         actor.creatureAcidRoll(actor, aSplashData);
         break;
@@ -194,7 +194,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   }
 
   async _adjustAttribute(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.header[property][valueName];
+    let value = actor.system.header[property][valueName];
     let max = "10";
 
     if (this.rightClick) {
@@ -211,7 +211,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   }
 
   async togggleConditionState(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.general[property][valueName];
+    let value = actor.system.general[property][valueName];
     let max = "1";
 
     if (this.rightClick) {

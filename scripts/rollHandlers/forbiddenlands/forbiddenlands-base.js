@@ -47,13 +47,13 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
       let rData = [];
       switch (macroType) {
         case 'attribute':
-          rData = { roll: actor.data.data.attribute[actionId].value, label: actor.data.data.attribute[actionId].label };
+          rData = { roll: actor.system.attribute[actionId].value, label: actor.system.attribute[actionId].label };
           if (event.type === 'click') {
             actor.sheet.rollAttribute(game.i18n.localize(rData.label).toLowerCase());
           }
           break;
         case 'skill':
-          rData = { roll: actor.data.data.skill[actionId].mod, label: actor.data.data.skill[actionId].label };
+          rData = { roll: actor.system.skill[actionId].mod, label: actor.system.skill[actionId].label };
           if (event.type === 'click') {
             actor.sheet.rollSkill(game.i18n.localize(rData.label).toLowerCase());
           }
@@ -93,7 +93,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         break;
       case 'rollStress':
         if (actor.data.type === 'character') {
-          rData = { panicroll: actor.data.data.header.stress };
+          rData = { panicroll: actor.system.header.stress };
         } else {
           rData = { panicroll: { value: 0, label: 'Stress' } };
         }
@@ -107,11 +107,11 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         await this._adjustAttribute(event, actor, 'health', 'value', actionId);
         break;
       case 'creatureAttack':
-        let rAttData = { atttype: actor.data.data.rTables };
+        let rAttData = { atttype: actor.system.rTables };
         actor.creatureAttackRoll(actor, rAttData);
         break;
       case 'acidSplash':
-        let aSplashData = { roll: actor.data.data.general.acidSplash.value, label: actor.data.data.general.acidSplash.label };
+        let aSplashData = { roll: actor.system.general.acidSplash.value, label: actor.system.general.acidSplash.label };
         actor.creatureAcidRoll(actor, aSplashData);
         break;
       case 'rollCrit':
@@ -121,7 +121,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   async _adjustAttribute(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.header[property][valueName];
+    let value = actor.system.header[property][valueName];
     let max = '10';
 
     if (this.rightClick) {
@@ -138,7 +138,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   async togggleConditionState(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.general[property][valueName];
+    let value = actor.system.general[property][valueName];
     let max = '1';
 
     if (this.rightClick) {

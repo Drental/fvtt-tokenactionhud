@@ -115,7 +115,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let attributes = this.initializeEmptySubcategory();
     let macroType = "challenge";
 
-    let rollableAttributes = Object.entries(actor.data.data.attributes);
+    let rollableAttributes = Object.entries(actor.system.attributes);
     let attributesMap = rollableAttributes.map((c) => {
       let name = this.i18n("tokenactionhud.attribute." + c[0]);
       let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
@@ -142,7 +142,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     if (
       actors.every((actor) => {
-        let rollableAttributes = Object.entries(actor.data.data.attributes);
+        let rollableAttributes = Object.entries(actor.system.attributes);
 
         attributesMap = rollableAttributes.map((c) => {
           let name = this.i18n("tokenactionhud.attribute." + c[0]);
@@ -175,7 +175,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let talents = actor.items.filter((i) => i.type == macroType);
 
     const groups = [
-      ...new Set(talents.map((talent) => talent.data.data.groupname)),
+      ...new Set(talents.map((talent) => talent.system.groupname)),
     ];
     groups.sort().forEach((group) => {
       if (group != undefined) {
@@ -185,7 +185,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
         let levelSubcategory = this.initializeEmptySubcategory();
         talents.forEach((talentEntry) => {
-          if (talentEntry.data.data.groupname == group) {
+          if (talentEntry.system.groupname == group) {
             let encodedValue = [macroType, tokenId, talentEntry.id].join(
               this.delimiter
             );
@@ -251,7 +251,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let result = this.initializeEmptySubcategory();
 
     const traditions = [
-      ...new Set(spells.map((spell) => spell.data.data.tradition)),
+      ...new Set(spells.map((spell) => spell.system.tradition)),
     ];
     traditions.sort().forEach((tradition) => {
       if (tradition != undefined) {
@@ -261,7 +261,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
         let levelSubcategory = this.initializeEmptySubcategory();
         spells.forEach((spellEntry) => {
-          if (spellEntry.data.data.tradition == tradition) {
+          if (spellEntry.system.tradition == tradition) {
             let encodedValue = [macroType, tokenId, spellEntry.id].join(
               this.delimiter
             );
@@ -403,7 +403,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _getUsesData(item) {
     let result = "";
 
-    let uses = item.data.data.uses;
+    let uses = item.system.uses;
     if (!uses) return result;
 
     if (!(uses.max || uses.value)) return result;
@@ -420,7 +420,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _getCastingsData(item) {
     let result = "";
 
-    let uses = item.data.data.castings;
+    let uses = item.system.castings;
     if (!uses) return result;
 
     if (!(uses.max || uses.value)) return result;

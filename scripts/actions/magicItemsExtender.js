@@ -92,7 +92,7 @@ export class MagicItemActionListExtender extends ActionListExtender {
   }
 
   _isItemEquipped(magicItem) {
-    return magicItem.item.data.data.equipped;
+    return magicItem.item.system.equipped;
   }
 
   _isItemAttuned(magicItem) {

@@ -87,7 +87,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let conditionsTitle = this.i18n("tokenactionhud.conditions");
     let conditionsCategory = this._getConditionsList(
       tokenId,
-      actor.data.data.attributes.conditions,
+      actor.system.attributes.conditions,
       "conditions",
       conditionsTitle,
       "condition"
@@ -115,7 +115,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   _addSkillsList(result, actor, tokenId) {
-    let skills = this._getSkillsList(actor.data.data.skills, tokenId);
+    let skills = this._getSkillsList(actor.system.skills, tokenId);
     let skillsTitle = this.i18n("tokenactionhud.skills");
     this._combineCategoryWithList(result, skillsTitle, skills);
   }
@@ -136,7 +136,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let checksTitle = this.i18n("tokenactionhud.checks");
     let checks = this._getAbilityList(
       tokenId,
-      actor.data.data.abilities,
+      actor.system.abilities,
       "checks",
       checksTitle,
       "abilityCheck"
@@ -240,7 +240,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getItemList(actor, tokenId) {
     let validItems = actor.items
-      .filter((i) => i.data.data.quantity > 0)
+      .filter((i) => i.system.quantity > 0)
       .map((i) => i.data);
     let sortedItems = this._sortByItemSort(validItems);
     let macroType = "item";
@@ -356,7 +356,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       const currentSpellbookCategory = this.initializeEmptySubcategory(`spells-${sbId}`);
       const checksCategory = this.initializeEmptySubcategory("concentration", "tokenactionhud.checks");
 
-      const spellbook = actor.data.data.attributes.spells.spellbooks[sbId];
+      const spellbook = actor.system.attributes.spells.spellbooks[sbId];
       const isSpontaneous = spellbook.spontaneous;
 
       const toUpperFirstChar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
@@ -396,7 +396,7 @@ export class ActionHandlerPf1 extends ActionHandler {
             ? `${this.i18n("tokenactionhud.level")} ${level[0]}`
             : this.i18n("tokenactionhud.cantrips");
         var spellInfo =
-          actor.data.data.attributes?.spells?.spellbooks[sbId]["spells"][
+          actor.system.attributes?.spells?.spellbooks[sbId]["spells"][
           "spell" + level[0]
           ];
         if (spellInfo && spellInfo.max > 0) {
@@ -471,7 +471,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _isSpellCastable(actor, spell) {
     const spellbook = spell.data.spellbook;
     const isSpontaneous =
-      actor.data.data.attributes.spells.spellbooks[spellbook].spontaneous;
+      actor.system.attributes.spells.spellbooks[spellbook].spontaneous;
 
     if (actor.data.type !== "character") return true;
 
@@ -1018,7 +1018,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       if (consumeType === "charges") {
         let consumeId = item.data.consume.target;
         let target = actor.items.get(consumeId);
-        let uses = target?.data.data.uses;
+        let uses = target?.system.uses;
         if (uses?.value) {
           result = uses.value;
           if (uses.max) result += `/${uses.max}`;
@@ -1028,7 +1028,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       if (!(consumeType === "attribute" || consumeType === "charges")) {
         let consumeId = item.data.consume.target;
         let target = actor.items.get(consumeId);
-        let quantity = target?.data.data.quantity;
+        let quantity = target?.system.quantity;
         if (quantity) {
           result = quantity;
         }

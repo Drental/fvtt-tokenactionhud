@@ -55,7 +55,7 @@ export class ActionHandler5e extends ActionHandler {
 
   _buildAbilitiesCategory(token) {
     const actor = token.actor;
-    const abilities = actor.data.data.abilities;
+    const abilities = actor.system.abilities;
 
     if (settings.get("splitAbilities")) {
       const savesTitle = this.i18n("tokenactionhud.saves");
@@ -298,7 +298,7 @@ export class ActionHandler5e extends ActionHandler {
     const macroType = "spell";
 
     // Reverse sort spells by level
-    const spellSlotInfo = Object.entries(actor.data.data.spells).sort(
+    const spellSlotInfo = Object.entries(actor.system.spells).sort(
       (a, b) => {
         return b[0].toUpperCase().localeCompare(a[0].toUpperCase(), undefined, {
           sensitivity: "base",
@@ -510,7 +510,7 @@ export class ActionHandler5e extends ActionHandler {
     const actor = token.actor;
     if (actor.data.type === "vehicle") return;
 
-    const skills = actor.data.data.skills;
+    const skills = actor.system.skills;
 
     let result = this.initializeEmptyCategory("skills");
     result.name = this.i18n("tokenactionhud.skills");
@@ -644,7 +644,7 @@ export class ActionHandler5e extends ActionHandler {
         name: this.i18n("tokenactionhud.longRest"),
       });
 
-      if (actor.data.data.attributes.hp.value <= 0) {
+      if (actor.system.attributes.hp.value <= 0) {
         let deathSaveValue = [macroType, token.id, "deathSave"].join(
           this.delimiter
         );
@@ -664,7 +664,7 @@ export class ActionHandler5e extends ActionHandler {
         encodedValue: inspirationValue,
         name: this.i18n("tokenactionhud.inspiration"),
       };
-      inspirationAction.cssClass = actor.data.data.attributes?.inspiration
+      inspirationAction.cssClass = actor.system.attributes?.inspiration
         ? "active"
         : "";
       utility.actions.push(inspirationAction);
@@ -932,7 +932,7 @@ export class ActionHandler5e extends ActionHandler {
         name: this.i18n("tokenactionhud.inspiration"),
       };
       inspirationAction.cssClass = actors.every(
-        (a) => a.data.data.attributes?.inspiration
+        (a) => a.system.attributes?.inspiration
       )
         ? "active"
         : "";
@@ -1055,7 +1055,7 @@ export class ActionHandler5e extends ActionHandler {
       if (consumeType === "charges") {
         let consumeId = itemData.consume.target;
         let target = actor.items.get(consumeId);
-        let uses = target?.data.data.uses;
+        let uses = target?.system.uses;
         if (uses?.value) {
           result = uses.value;
           if (uses.max) result += `/${uses.max}`;
@@ -1065,7 +1065,7 @@ export class ActionHandler5e extends ActionHandler {
       if (!(consumeType === "attribute" || consumeType === "charges")) {
         let consumeId = itemData.consume.target;
         let target = actor.items.get(consumeId);
-        let quantity = target?.data.data.quantity;
+        let quantity = target?.system.quantity;
         if (quantity) {
           result = quantity;
         }

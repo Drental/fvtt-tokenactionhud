@@ -90,7 +90,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let items = actor.getItemTypes(type);
     let filtered =
       actor.data.type === "character"
-        ? items.filter((i) => i.data.data.equipped)
+        ? items.filter((i) => i.system.equipped)
         : items;
     subcategory.actions = this._produceMap(tokenId, filtered, type);
 
@@ -208,7 +208,7 @@ export class ActionHandlerWfrp extends ActionHandler {
         !(
           s.data.name.startsWith(transMelee) ||
           s.data.name.startsWith(transRanged)
-        ) && s.data.data.advanced.value !== "adv"
+        ) && s.system.advanced.value !== "adv"
     );
     let basicId = `${categoryId}_basic`;
     this._setFilterSuggestions(basicId, basicSkills);
@@ -226,7 +226,7 @@ export class ActionHandlerWfrp extends ActionHandler {
         !(
           s.data.name.startsWith(transMelee) ||
           s.data.name.startsWith(transRanged)
-        ) && s.data.data.advanced.value === "adv"
+        ) && s.system.advanced.value === "adv"
     );
     let advancedId = `${categoryId}_advanced`;
     this._setFilterSuggestions(advancedId, advancedSkills);
@@ -295,7 +295,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     let spells = actor.getItemTypes("spell");
 
-    let petties = spells.filter((i) => i.data.data.lore.value === "petty");
+    let petties = spells.filter((i) => i.system.lore.value === "petty");
     let pettyCategory = this.initializeEmptySubcategory();
     pettyCategory.actions = this._produceMap(tokenId, petties, macroType);
 
@@ -305,9 +305,9 @@ export class ActionHandlerWfrp extends ActionHandler {
       pettyCategory
     );
 
-    let lores = spells.filter((i) => i.data.data.lore.value !== "petty");
+    let lores = spells.filter((i) => i.system.lore.value !== "petty");
     let loresCategorised = lores.reduce((output, spell) => {
-      let loreType = spell.data.data.lore.value;
+      let loreType = spell.system.lore.value;
       if (!output.hasOwnProperty(loreType)) {
         output[loreType] = [];
       }
@@ -352,7 +352,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     let miracles = prayers.filter((i) => i.type.value !== "blessing");
     let miraclesCategorised = miracles.reduce((output, prayer) => {
-      let miracleType = prayer.data.data.type.value;
+      let miracleType = prayer.system.type.value;
       if (!output.hasOwnProperty(miracleType)) {
         output[miracleType] = [];
       }

@@ -36,7 +36,7 @@ export class ActionHandlerT20 extends ActionHandler {
     // conditions = this._getConditionsList(actor, tokenId);
 
     let spells = this._getSpellsList(actor, tokenId);
-    let skills = this._getSkillsList(actor.data.data.pericias, tokenId);
+    let skills = this._getSkillsList(actor.system.pericias, tokenId);
 
     let itemsTitle = this.i18n("tokenactionhud.inventory");
     let spellsTitle = this.i18n("tokenactionhud.spells");
@@ -53,7 +53,7 @@ export class ActionHandlerT20 extends ActionHandler {
     let abilitiesTitle = this.i18n("tokenactionhud.abilities");
     let abilities = this._getAbilityList(
       tokenId,
-      actor.data.data.atributos,
+      actor.system.atributos,
       "atributos",
       abilitiesTitle,
       "atributo"
@@ -262,7 +262,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
         if (!subcategory) {
           subcategory = this.initializeEmptySubcategory();
-          // subcategory.info1 = `${actor.data.data.attributes.pm.value}/${actor.data.data.attributes.pm.max}`;
+          // subcategory.info1 = `${actor.system.attributes.pm.value}/${actor.system.attributes.pm.max}`;
         }
 
         subcategory.actions.push(spell);

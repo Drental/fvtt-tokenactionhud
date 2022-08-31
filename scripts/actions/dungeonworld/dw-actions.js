@@ -187,7 +187,7 @@ export class ActionHandlerDw extends ActionHandler {
 
   _getMovesByType(actor, tokenId, movesType) {
     let moves = actor.itemTypes.move.filter(
-      (m) => m.data.data.moveType === movesType
+      (m) => m.system.moveType === movesType
     );
     let result = this.initializeEmptyCategory("moves");
 
@@ -209,7 +209,7 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   _getRollMoves(moves, tokenId) {
-    let rollMoves = moves.filter((m) => m.data.data.rollType !== "");
+    let rollMoves = moves.filter((m) => m.system.rollType !== "");
     let rollActions = this._produceMap(tokenId, rollMoves, "move");
     let rollCategory = this.initializeEmptySubcategory();
     rollCategory.actions = rollActions;
@@ -218,7 +218,7 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   _getBookMoves(moves, tokenId) {
-    let bookMoves = moves.filter((m) => m.data.data.rollType === "");
+    let bookMoves = moves.filter((m) => m.system.rollType === "");
     let bookActions = this._produceMap(tokenId, bookMoves, "move");
     let bookCategory = this.initializeEmptySubcategory();
     bookCategory.actions = bookActions;
@@ -249,13 +249,13 @@ export class ActionHandlerDw extends ActionHandler {
   _getSpells(actor, tokenId, categoryId, categoryName, categoryType) {
     let items = actor.itemTypes[categoryType];
     let preparedSpells = items
-      .filter((s) => s.data.data.prepared)
+      .filter((s) => s.system.prepared)
       .sort(
         (a, b) =>
-          parseInt(a.data.data.spellLevel) - parseInt(b.data.data.spellLevel)
+          parseInt(a.system.spellLevel) - parseInt(b.system.spellLevel)
       );
     let spellsByLevel = preparedSpells.reduce((acc, s) => {
-      let spellLevel = s.data.data.spellLevel;
+      let spellLevel = s.system.spellLevel;
       let levelName =
         spellLevel == 0
           ? "Rotes"
@@ -288,7 +288,7 @@ export class ActionHandlerDw extends ActionHandler {
   _getAbilities(actor, tokenId) {
     let result = this.initializeEmptyCategory("abilities");
 
-    let abilities = Object.entries(actor.data.data.abilities);
+    let abilities = Object.entries(actor.system.abilities);
     let abilitiesMap = abilities.map((a) => {
       return { data: { _id: a[0] }, name: a[1].label };
     });
@@ -308,7 +308,7 @@ export class ActionHandlerDw extends ActionHandler {
   _getMovesNpc(actor, tokenId) {
     let result = this.initializeEmptyCategory("moves");
 
-    let biography = actor.data.data.details.biography;
+    let biography = actor.system.details.biography;
 
     let instinctsCategory = this.initializeEmptySubcategory();
     let instinctRegex = new RegExp("<p(|s+[^>]*)>(Instinct:.*?)</ps*>", "g");
@@ -348,7 +348,7 @@ export class ActionHandlerDw extends ActionHandler {
 
   _getTags(actor, tokenId) {
     let result = this.initializeEmptyCategory("tags");
-    let tags = actor.data.data.tagsString.split(",").map((t) => {
+    let tags = actor.system.tagsString.split(",").map((t) => {
       let tag = t.trim();
       if (tag.length === 0) return;
 
@@ -369,7 +369,7 @@ export class ActionHandlerDw extends ActionHandler {
 
   _getSpecialQualities(actor, tokenId) {
     let result = this.initializeEmptyCategory("qualities");
-    let qualities = actor.data.data.attributes.specialQualities.value
+    let qualities = actor.system.attributes.specialQualities.value
       .split(",")
       .map((s) => {
         let quality = s.trim();

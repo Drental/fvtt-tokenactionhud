@@ -65,7 +65,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
     _buildAbilitiesCategory(token) {
         const actor = token.actor;
-        const abilities = actor.data.data.abilities;
+        const abilities = actor.system.abilities;
 
         return this._getAbilityList(
             token.id,
@@ -227,12 +227,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
                 img: this._getImage(item)
             };
             if (settings.get("hideUnequippedInventory")) {
-                if (!item.data.data.equipped) {
+                if (!item.system.equipped) {
                     return;
                 }
             }
             if (settings.get("hideQuantityZero")) {
-                if (item.data.data.quantity < 1) {
+                if (item.system.quantity < 1) {
                     return;
                 }
             }
@@ -268,7 +268,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         // powerGroupType is not initalised by default
         let groupType = this._getDocumentData(actor).powerGroupTypes
         if (!groupType) {
-            actor.data.data.powerGroupTypes = "usage"
+            actor.system.powerGroupTypes = "usage"
             groupType = "usage"
         }
         const groupings = game.dnd4eBeta.tokenBarHooks.generatePowerGroups(actor)
@@ -346,7 +346,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         const actor = token.actor;
         if (actor.data.type === "vehicle") return;
 
-        const skills = actor.data.data.skills;
+        const skills = actor.system.skills;
 
         let result = this.initializeEmptyCategory("skills");
         result.name = this.i18n("tokenactionhud.skills");
@@ -771,7 +771,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
                 name: this.i18n("tokenactionhud.inspiration"),
             };
             inspirationAction.cssClass = actors.every(
-                (a) => a.data.data.attributes?.inspiration
+                (a) => a.system.attributes?.inspiration
             )
                 ? "active"
                 : "";

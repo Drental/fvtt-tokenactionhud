@@ -154,7 +154,7 @@ export class ActionHandlerED4e extends ActionHandler {
         const actor = token.actor;
         if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
 
-        const favoriteItems = actor.data.items.filter( e=> e.data.data.favorite === "true");
+        const favoriteItems = actor.data.items.filter( e=> e.system.favorite === "true");
 
         let result = this.initializeEmptyCategory('favorites');
         result.name = this.i18n("earthdawn.h.hotlist");
@@ -164,8 +164,8 @@ export class ActionHandlerED4e extends ActionHandler {
                 let itemID = e.id;
                 let macroType = e.type.toLowerCase();
                 let name = e.name;
-                if (e.data.data.hasOwnProperty("ranks")) {
-                    name += " (" + e.data.data.ranks + ")";
+                if (e.system.hasOwnProperty("ranks")) {
+                    name += " (" + e.system.ranks + ")";
                 }
                 let encodedValue = [macroType, token.id, itemID].join(this.delimiter);
                 return {name: name, id: itemID, encodedValue: encodedValue};
@@ -201,7 +201,7 @@ export class ActionHandlerED4e extends ActionHandler {
         let talentActions = talents.map(e => {
             try {
                 let talentId = e.id;
-                let name = e.name + " (" + e.data.data.ranks + ")";
+                let name = e.name + " (" + e.system.ranks + ")";
                 let encodedValue = [macroType, token.id, talentId].join(this.delimiter);
                 return {name: name, id: talentId, encodedValue: encodedValue};
             } catch (error) {
@@ -262,7 +262,7 @@ export class ActionHandlerED4e extends ActionHandler {
                     },
                 ]
 
-                let name_subcat = e.data.data.currentspell ? `${e.data.data.currentspell} (${e.data.data.totalthreads}/${e.data.data.threadsrequired})` : e.name;
+                let name_subcat = e.system.currentspell ? `${e.system.currentspell} (${e.system.totalthreads}/${e.system.threadsrequired})` : e.name;
 
                 this._combineSubcategoryWithCategory(
                     result,
@@ -295,7 +295,7 @@ export class ActionHandlerED4e extends ActionHandler {
         let skillActions = skills.map(e => {
             try {
                 let skillId = e.id;
-                let name = e.name + " (" + e.data.data.ranks + ")";
+                let name = e.name + " (" + e.system.ranks + ")";
                 let encodedValue = [macroType, token.id, skillId].join(this.delimiter);
                 return {name: name, id: skillId, encodedValue: encodedValue};
             } catch (error) {
@@ -376,7 +376,7 @@ export class ActionHandlerED4e extends ActionHandler {
         let img = this._getImage(item);
         let action = { name: item.name, id: itemId, encodedValue: encodedValue, img: img};
         if (['weapon', 'armor', 'shield'].indexOf(item.type) >= 0) {
-            action['cssClass'] = item.data.data.worn === true ? 'active' : '';
+            action['cssClass'] = item.system.worn === true ? 'active' : '';
         }
         return action;
     }
@@ -418,7 +418,7 @@ export class ActionHandlerED4e extends ActionHandler {
                     name: this.i18n(e), // localize in system
                     id: null,
                     encodedValue: ['toggle', token.id, mapPropToActionID[e]].join(this.delimiter),
-                    cssClass: actor.data.data.tactics[mapPropToActionID[e].split(".")[1]] === true ? 'active' : ''
+                    cssClass: actor.system.tactics[mapPropToActionID[e].split(".")[1]] === true ? 'active' : ''
                 }
             }
         ).filter(s => !!s) // filter out nulls
@@ -456,7 +456,7 @@ export class ActionHandlerED4e extends ActionHandler {
         const actor = token.actor;
         if (['creature'].indexOf(actor.data.type) < 0) return;
 
-        const attacks = actor.data.items.filter( e=> e.data.data.powerType === 'Attack');
+        const attacks = actor.data.items.filter( e=> e.system.powerType === 'Attack');
 
         let result = this.initializeEmptyCategory('attacks');
         result.name = this.i18n("earthdawn.a.attacks");
@@ -487,7 +487,7 @@ export class ActionHandlerED4e extends ActionHandler {
         const actor = token.actor;
         if (['creature'].indexOf(actor.data.type) < 0) return;
 
-        const powers = actor.data.items.filter( e=> e.data.data.powerType === 'Power');
+        const powers = actor.data.items.filter( e=> e.system.powerType === 'Power');
 
         let result = this.initializeEmptyCategory('powers');
         result.name = this.i18n("earthdawn.p.powers");
@@ -518,7 +518,7 @@ export class ActionHandlerED4e extends ActionHandler {
         const actor = token.actor;
         if (['creature'].indexOf(actor.data.type) < 0) return;
 
-        const maneuvers = actor.data.items.filter( e=> e.data.data.powerType === 'Maneuver');
+        const maneuvers = actor.data.items.filter( e=> e.system.powerType === 'Maneuver');
 
         let result = this.initializeEmptyCategory('maneuvers');
         result.name = this.i18n("earthdawn.m.maneuvers");

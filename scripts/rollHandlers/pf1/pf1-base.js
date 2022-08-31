@@ -150,7 +150,7 @@ export class RollHandlerBasePf1 extends RollHandler {
     let actor = super.getActor(tokenId);
     let buff = super.getItem(actor, buffId);
 
-    let update = { data: { active: !buff.data.data.active } };
+    let update = { data: { active: !buff.system.active } };
 
     await buff.update(update);
   }
@@ -158,7 +158,7 @@ export class RollHandlerBasePf1 extends RollHandler {
   async adjustCondition(event, tokenId, conditionKey) {
     let actor = super.getActor(tokenId);
 
-    const value = actor.data.data.attributes.conditions[conditionKey];
+    const value = actor.system.attributes.conditions[conditionKey];
 
     let update = { data: { attributes: { conditions: {} } } };
     update.data.attributes.conditions[conditionKey] = !value;

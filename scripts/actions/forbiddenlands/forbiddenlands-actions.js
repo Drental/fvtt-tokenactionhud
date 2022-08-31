@@ -138,7 +138,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let powConsumables = this.initializeEmptySubcategory();
     let macroType = 'consumables';
 
-    let rollableConsumables = Object.entries(actor.data.data.consumable);
+    let rollableConsumables = Object.entries(actor.system.consumable);
     // remove Power from the list
     rollableConsumables.splice(1, 1);
     let consumablesMap = rollableConsumables.map((c) => {
@@ -175,7 +175,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = '';
-    let quantity = item.data.data.quantity?.value;
+    let quantity = item.system.quantity?.value;
     if (quantity > 1) {
       result = quantity;
     }
@@ -188,7 +188,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       let attributes = this.initializeEmptySubcategory();
       let macroType = 'skill';
       
-      let rollableSkills = Object.entries(actor.data.data.skill);
+      let rollableSkills = Object.entries(actor.system.skill);
     let skillMap = rollableSkills.map((c) => {
         let name = this.i18n('tokenactionhud.settings.forbiddenlands.skill' + c[0]);
         let id = c[0];
@@ -208,7 +208,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let attributes = this.initializeEmptySubcategory();
     let macroType = 'attribute';
 
-    let rollableAttributes = Object.entries(actor.data.data.attribute);
+    let rollableAttributes = Object.entries(actor.system.attribute);
     let attributesMap = rollableAttributes.map((c) => {
       let name = this.i18n('tokenactionhud.settings.forbiddenlands.attribute' + c[0]);
       let id = c[0];
@@ -274,22 +274,22 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
       let hungryStateValue = [macroType, tokenId, 'toggleHungry', ''].join(this.delimiter);
       generalActions = { id: 'toggleHungry', encodedValue: hungryStateValue, name: this.i18n("CONDITION.HUNGRY") };
-      generalActions.cssClass = actor.data.data.condition.hungry.value ? 'active' : '';
+      generalActions.cssClass = actor.system.condition.hungry.value ? 'active' : '';
       general.actions.push(generalActions);
       
       let thirstyStateValue = [macroType, tokenId, 'toggleThirsty', ''].join(this.delimiter);
       generalActions = { id: 'toggleThirsty', encodedValue: thirstyStateValue, name: this.i18n("CONDITION.THIRSTY") };
-      generalActions.cssClass = actor.data.data.condition.thirsty.value ? 'active' : '';
+      generalActions.cssClass = actor.system.condition.thirsty.value ? 'active' : '';
       general.actions.push(generalActions);
       
       let coldStateValue = [macroType, tokenId, 'toggleCold', ''].join(this.delimiter);
       generalActions = { id: 'toggleCold', encodedValue: coldStateValue, name: this.i18n("CONDITION.COLD") };
-      generalActions.cssClass = actor.data.data.condition.cold.value ? 'active' : '';
+      generalActions.cssClass = actor.system.condition.cold.value ? 'active' : '';
       general.actions.push(generalActions);
       
       let sleepyStateValue = [macroType, tokenId, 'toggleSleepy', ''].join(this.delimiter);
       generalActions = { id: 'toggleSleepy', encodedValue: sleepyStateValue, name: this.i18n("CONDITION.SLEEPY") };
-      generalActions.cssClass = actor.data.data.condition.sleepy.value ? 'active' : '';
+      generalActions.cssClass = actor.system.condition.sleepy.value ? 'active' : '';
       general.actions.push(generalActions);
 
       this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.settings.forbiddenlands.conditions'), general);
