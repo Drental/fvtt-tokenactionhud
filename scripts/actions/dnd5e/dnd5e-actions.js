@@ -98,7 +98,7 @@ export class ActionHandler5e extends ActionHandler {
     const allowedTypes = ["npc", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 
@@ -900,7 +900,7 @@ export class ActionHandler5e extends ActionHandler {
     let rests = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
 
-    if (actors.every((a) => a.data.type === "character")) {
+    if (actors.every((a) => a.type === "character")) {
       let shortRestValue = [macroType, tokenId, "shortRest"].join(
         this.delimiter
       );
@@ -1033,7 +1033,7 @@ export class ActionHandler5e extends ActionHandler {
       let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));
       if (consumeType === "attribute") {
-        let target = getProperty(actor, `data.data.${parentId}`);
+        let target = getProperty(actor, `system.${parentId}`);
 
         if (target) {
           result = target.value ?? 0;

@@ -315,8 +315,8 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let powerList = items.filter((i) => i.data.totalPower > 0);
 
     let powerMap = powerList.map((c) => {
-      let name = c.data.name;
-      let id = c.data._id;
+      let name = c.name;
+      let id = c._id;
       let pencodedValue = [macroType, tokenId, name, id].join(this.delimiter);
       return { name: name, encodedValue: pencodedValue, id: id };
     });
@@ -452,7 +452,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     const allowedTypes = ["monster", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     this._addMultiUtilities(list, list.tokenId, actors);
   }
@@ -772,7 +772,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   /** @override */
   _setFilterSuggestions(id, items) {
     let suggestions = items?.map((s) => {
-      return { id: s.data._id, value: s.name };
+      return { id: s._id, value: s.name };
     });
     if (suggestions?.length > 0)
       this.filterManager.setSuggestions(id, suggestions);

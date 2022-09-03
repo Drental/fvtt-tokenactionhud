@@ -114,14 +114,14 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _getItemList(actor, tokenId) {
-    let weapons = actor.items.filter((item) => item.data?.type === "weapon");
+    let weapons = actor.items.filter((item) => item.type === "weapon");
     let weaponActions = weapons.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "weapon", w)
     );
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
 
-    let equipment = actor.items.filter((item) => item.data?.type === "item");
+    let equipment = actor.items.filter((item) => item.type === "item");
     let equipmentActions = equipment.map((e) =>
       this._buildEquipmentItem(tokenId, actor, "item", e)
     );
@@ -141,7 +141,7 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _getAbilities(actor, tokenId) {
-    let abilities = actor.items.filter((item) => item.data?.type === "ability");
+    let abilities = actor.items.filter((item) => item.type === "ability");
     let abilitiesActions = abilities.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "ability", w)
     );
@@ -162,10 +162,10 @@ export class ActionHandlerCthack extends ActionHandler {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.data._id].join(
+        let encodedValue = [macroType, tokenId, i._id].join(
           this.delimiter
         );
-        let item = { name: i.name, encodedValue: encodedValue, id: i.data._id };
+        let item = { name: i.name, encodedValue: encodedValue, id: i._id };
         return item;
       });
   }

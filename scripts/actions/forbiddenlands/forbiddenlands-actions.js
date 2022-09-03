@@ -260,7 +260,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     list.actorId = 'multi';
 
     const allowedTypes = ['monster', 'character'];
-    let actors = canvas.tokens.controlled.map((t) => t.actor).filter((a) => allowedTypes.includes(a.data.type));
+    let actors = canvas.tokens.controlled.map((t) => t.actor).filter((a) => allowedTypes.includes(a.type));
   }
 
   _getConditionsList(actor, tokenId) {
