@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.0] 2022-09-03
+
+- tah - rough v10 migration - Work in Progress, *I might not finish this! But got it to load.*
+- SW5e - brought in line with dnd5e chhanges - thanks Kakeman89!
+- dnd4e - allow skipping dialogs on some actions - thanks Draconas!
+
 ## [2.3.0] 2022-08-26
 
 - pf2e - fixed npc strike usage - done by yours truly
