@@ -117,7 +117,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
         game.dnd4eBeta.tokenBarHooks.healDialog(actor, event)
         break;
       case "initiative":
-        await this.performInitiativeMacro(tokenId);
+        await this.performInitiativeMacro(tokenId, event);
         break;
       case "actionPoint":
         game.dnd4eBeta.tokenBarHooks.actionPoint(actor, event)
@@ -131,10 +131,10 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     }
   }
 
-  async performInitiativeMacro(tokenId) {
+  async performInitiativeMacro(tokenId, event) {
     let actor = super.getActor(tokenId);
 
-    await actor.rollInitiative({ createCombatants: true });
+    await actor.rollInitiative({ createCombatants: true, event });
 
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
