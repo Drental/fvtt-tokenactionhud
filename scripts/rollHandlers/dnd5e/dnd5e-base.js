@@ -90,8 +90,6 @@ export class RollHandlerBase5e extends RollHandler {
       return;
     }
 
-    if (item.type === "spell") return item.use();
-
     return item.use({ event });
   }
 

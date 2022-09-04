@@ -120,7 +120,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.weapons"), weaponsCat);
 
     // Armors and shield
-    let protections = actor.items.filter((item) => item.data?.type === "item" && (item.system.subtype === "armor" || item.system.subtype === "shield"));
+    let protections = actor.items.filter((item) => item.type === "item" && (item.system.subtype === "armor" || item.system.subtype === "shield"));
     let protectionsActions = protections.map((p) =>
       this._buildEquipmentItem(tokenId, actor, "item", p)
     );
@@ -130,7 +130,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.co.protections"), protectionsCat);
 
     // Consumables
-    let consumables = actor.items.filter((item) => item.data?.type === "item" && item.system.subtype !== "spell" && item.system.properties.consumable && item.system.qty > 0);
+    let consumables = actor.items.filter((item) => item.type === "item" && item.system.subtype !== "spell" && item.system.properties.consumable && item.system.qty > 0);
 
     let consumablesActions = consumables.map((p) =>
       this._buildEquipmentItem(tokenId, actor, "item", p)
@@ -141,7 +141,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.consumables"), consumablesCat);
 
     // Spells
-    let spells = actor.items.filter((item) => item.data?.type === "item" && item.system.subtype === "spell");
+    let spells = actor.items.filter((item) => item.type === "item" && item.system.subtype === "spell");
 
     let spellsActions = spells.map((s) =>
       this._buildEquipmentItem(tokenId, actor, "item", s)
@@ -152,7 +152,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.spells"), spellsCat);
 
     // Other equipment
-    let others = actor.items.filter((item) => item.data?.type === "item" && (item.system.subtype !== "armor" && item.system.subtype !== "shield" && item.system.subtype !== "melee" && item.system.subtype !== "ranged" && item.system.subtype !== "spell" && !item.system.properties.consumable));
+    let others = actor.items.filter((item) => item.type === "item" && (item.system.subtype !== "armor" && item.system.subtype !== "shield" && item.system.subtype !== "melee" && item.system.subtype !== "ranged" && item.system.subtype !== "spell" && !item.system.properties.consumable));
     let othersActions = others.map((i) =>
       this._buildEquipmentItem(tokenId, actor, "item", i)
     );
@@ -169,7 +169,7 @@ export class ActionHandlerCo extends ActionHandler {
     let result = this.initializeEmptyCategory("capacities");
 
     // Capacities
-    let capacities = actor.items.filter(item => item.data?.type === "capacity");
+    let capacities = actor.items.filter(item => item.type === "capacity");
     let capacitiesActions = capacities.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "capacity", w)
     );

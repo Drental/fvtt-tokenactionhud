@@ -294,7 +294,7 @@ export class ActionHandlerKg extends ActionHandler {
 
   _getItemByType(actor, tokenId, type) {
     let item = actor.items.filter(
-      (a) => a.system.class === type || a.data.type == type
+      (a) => a.system.class === type || a.type == type
     );
     let itemAction = this._produceMap(tokenId, item, "item");
 

@@ -177,7 +177,7 @@ export class ActionHandlerWfrp extends ActionHandler {
       "tokenactionhud.wfrp.rangedSkillPrefix"
     );
 
-    let meleeSkills = skills.filter((s) => s.data.name.startsWith(transMelee));
+    let meleeSkills = skills.filter((s) => s.name.startsWith(transMelee));
     let meleeId = `${categoryId}_melee`;
     this._setFilterSuggestions(meleeId, meleeSkills);
     let meleeCat = this.initializeEmptySubcategory(meleeId);
@@ -190,7 +190,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     );
 
     let rangedSkills = skills.filter((s) =>
-      s.data.name.startsWith(transRanged)
+      s.name.startsWith(transRanged)
     );
     let rangedId = `${categoryId}_ranged`;
     this._setFilterSuggestions(rangedId, rangedSkills);
@@ -206,8 +206,8 @@ export class ActionHandlerWfrp extends ActionHandler {
     let basicSkills = skills.filter(
       (s) =>
         !(
-          s.data.name.startsWith(transMelee) ||
-          s.data.name.startsWith(transRanged)
+          s.name.startsWith(transMelee) ||
+          s.name.startsWith(transRanged)
         ) && s.system.advanced.value !== "adv"
     );
     let basicId = `${categoryId}_basic`;
