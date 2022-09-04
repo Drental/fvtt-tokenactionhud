@@ -16,13 +16,13 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		if (!token)
 			return result;
 
-		let tokenId = token.data._id;
+		let tokenId = token.id;
 		result.tokenId = tokenId;
 		let actor = token.actor;
 		if (!actor)
 			return result;
 
-		result.actorId = actor.data._id;
+		result.actorId = actor.id;
 
 		this._combineCategoryWithList(
 			result,
@@ -36,7 +36,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._skills(actor, tokenId)
 		);
 
-		if (actor.data.talents.find(e => e.data.isRollable) != undefined)
+		if (actor.talents.find(e => e.data.isRollable) != undefined)
 		{
 			this._combineCategoryWithList(
 				result,
@@ -64,7 +64,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._damage(actor, tokenId)
 		)
 
-		if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+		if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
 		return result;
 	}
@@ -76,7 +76,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		const type = 'defense';
 
 		let category = this._addEntry(tokenId, this.i18n('SPACE1889.SecondaryAttributeDef') + ' (' + actor.system.secondaries.defense.total + ')', 'defense', type);
-		if (actor.data.type != 'creature')
+		if (actor.type != 'creature')
 		{
 			this._addEntry(tokenId, this.i18n('SPACE1889.Block') + ' (' + actor.system.block.value + ')', 'block', type, category);
 			this._addEntry(tokenId, this.i18n('SPACE1889.Parry') + ' (' + actor.system.parry.value + ')', 'parry', type, category);
@@ -106,11 +106,11 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		let result = this.initializeEmptyCategory('skills');
 		let category = this.initializeEmptySubcategory();
 
-		for (const skill of actor.data.skills)
+		for (const skill of actor.skills)
 		{
 			this._addEntry(tokenId, this.i18n(skill.data.nameLangId) + ' (' + skill.data.rating.toString() + ')', skill.data.id, 'skill', category);
 
-			for (const spezi of actor.data.speciSkills)
+			for (const spezi of actor.speciSkills)
 			{
 				if (spezi.data.underlyingSkillId == skill.data.id)
 					this._addEntry(tokenId, this.i18n(spezi.data.nameLangId) + ' (' + spezi.data.rating.toString() + ')', spezi.data.id, 'specialization', category);
@@ -128,7 +128,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		let result = this.initializeEmptyCategory('attacks');
 		let category = this.initializeEmptySubcategory();
 
-		for (const weapon of actor.data.weapons)
+		for (const weapon of actor.weapons)
 		{
 			this._addEntry(tokenId, weapon.name + ' (' + weapon.data.attack.toString() + ')', weapon.data.id, 'weapon', category);
 		}
@@ -144,7 +144,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		let result = this.initializeEmptyCategory('talents');
 		let category = this.initializeEmptySubcategory();
 
-		for (const talent of actor.data.talents)
+		for (const talent of actor.talents)
 		{
 			if (talent.data.isRollable)
 				this._addEntry(tokenId, this.i18n(talent.data.nameLangId), talent.data.id, 'talent', category);

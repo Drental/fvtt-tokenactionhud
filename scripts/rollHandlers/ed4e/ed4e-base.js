@@ -126,7 +126,7 @@ export class RollHandlerBaseED4e extends RollHandler {
                 }
             })
         } else {
-            const currentValue = actor.data.data[actionId];
+            const currentValue = actor.data[actionId];
             const valueType = typeof currentValue;
             let newValue = valueType === "string" ? this._toggleBooleanString(currentValue) : !currentValue;
             actor.update({
@@ -140,7 +140,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     toggleItemWornProperty(event, tokenId, actionId) {
         const actor = super.getActor(tokenId);
         const item = actor.items.get(actionId);
-        const currentValue = item.data.data['worn'];
+        const currentValue = item.system['worn'];
         const valueType = typeof currentValue;
         let newValue = valueType === "string" ? this._toggleBooleanString(currentValue) : !currentValue;
         item.update({

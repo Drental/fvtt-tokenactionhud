@@ -19,7 +19,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
     if (!actor) return result;
 
-    switch (actor.data.type) {
+    switch (actor.type) {
       case "pilot":
         this._combineCategoryWithList(
           result,
@@ -63,7 +63,7 @@ export class ActionHandlerLancer extends ActionHandler {
         break;
     }
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -101,9 +101,9 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "item";
 
     result.name = name;
-    result.actions = actor.data.items
+    result.actions = actor.items
       .filter((item) => {
-        if (item != null) return item.data.type === "npc_feature";
+        if (item != null) return item.type === "npc_feature";
       })
       .filter((item) => {
         return item.system.type === itemType;

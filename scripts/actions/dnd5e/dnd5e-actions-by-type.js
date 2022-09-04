@@ -39,7 +39,7 @@ export class ActionHandler5eGroupByType extends ActionHandler5e {
       }
     }
     if (
-      token.actor.data.type === "character" ||
+      token.actor.type === "character" ||
       !settings.get("showAllNpcItems")
     ) {
       spells = this._filterNonpreparedSpells(spells);

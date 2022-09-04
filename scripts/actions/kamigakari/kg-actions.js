@@ -18,7 +18,7 @@ export class ActionHandlerKg extends ActionHandler {
     if (!actor) return result;
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (actorType === "enemy") {
       let attack = this._getEnemyTalents(actor, tokenId);
 

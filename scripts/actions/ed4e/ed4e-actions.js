@@ -26,7 +26,7 @@ export class ActionHandlerED4e extends ActionHandler {
         }
 
         if (settings.get('showHudTitle')) {
-            list.hudTitle = token.data?.name;
+            list.hudTitle = token.name;
         }
 
         const cats = await this._buildCategories(token);
@@ -68,8 +68,8 @@ export class ActionHandlerED4e extends ActionHandler {
         if (!settings.get("showGeneral")) return;
 
         const actor = token.actor;
-        //if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
-        const isCreature = ['creature'].indexOf(actor.data.type) === 0;
+        //if (['pc', 'npc'].indexOf(actor.type) < 0) return;
+        const isCreature = ['creature'].indexOf(actor.type) === 0;
 
         const attributeProperties = [
             "earthdawn.d.dexterity",
@@ -128,7 +128,7 @@ export class ActionHandlerED4e extends ActionHandler {
                     name: this.i18n(e), // localize in system
                     id: null,
                     encodedValue: ["toggle", token.id, mapPropToActionID[e]].join(this.delimiter),
-                    cssClass: actor.data.data["usekarma"] === "true" ? 'active' : ''
+                    cssClass: actor.data["usekarma"] === "true" ? 'active' : ''
                 }
             }
         ).filter(s => !!s) // filter out nulls
@@ -152,9 +152,9 @@ export class ActionHandlerED4e extends ActionHandler {
         if (!settings.get("showFavorites")) return;
 
         const actor = token.actor;
-        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+        if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
-        const favoriteItems = actor.data.items.filter( e=> e.system.favorite === "true");
+        const favoriteItems = actor.items.filter( e=> e.system.favorite === "true");
 
         let result = this.initializeEmptyCategory('favorites');
         result.name = this.i18n("earthdawn.h.hotlist");
@@ -188,9 +188,9 @@ export class ActionHandlerED4e extends ActionHandler {
         if (!settings.get("showTalents")) return;
 
         const actor = token.actor;
-        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+        if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
-        const talents = actor.data.items.filter( e=> e.type === 'talent');
+        const talents = actor.items.filter( e=> e.type === 'talent');
 
         // get list of talents
 
@@ -226,9 +226,9 @@ export class ActionHandlerED4e extends ActionHandler {
         ) return;
 
         const actor = token.actor;
-        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+        if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
-        const matrices = actor.data.items.filter(e=> e.type === 'spellmatrix');
+        const matrices = actor.items.filter(e=> e.type === 'spellmatrix');
         if (matrices.length < 1) return;
 
         let result = this.initializeEmptyCategory('matrix');
@@ -282,9 +282,9 @@ export class ActionHandlerED4e extends ActionHandler {
         if (!settings.get("showSkills")) return;
 
         const actor = token.actor;
-        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+        if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
-        const skills = actor.data.items.filter( e=> e.type === 'skill');
+        const skills = actor.items.filter( e=> e.type === 'skill');
 
         // get list of talents
 
@@ -319,13 +319,13 @@ export class ActionHandlerED4e extends ActionHandler {
         const actor = token.actor;
         const tokenId = token.id;
 
-        if (['pc', 'npc'].indexOf(actor.data.type) < 0) return;
+        if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
         let macroType = 'inventory';
 
         // get list of items
 
-        let validItems = actor.data.items.filter(i => ['weapon', 'armor', 'shield', 'equipment'].indexOf(i.type) > -1);
+        let validItems = actor.items.filter(i => ['weapon', 'armor', 'shield', 'equipment'].indexOf(i.type) > -1);
 
         let weapons = validItems.filter(i => (i.type === 'weapon'));
         let weaponActions = weapons.map(w => this._buildItem(tokenId, actor, macroType, w))
@@ -391,7 +391,7 @@ export class ActionHandlerED4e extends ActionHandler {
         result.name = this.i18n("earthdawn.c.combat")
 
         // weapons
-        let weapons = actor.data.items.filter(i => ['weapon', 'equipment'].indexOf(i.type) > -1).filter(i => (i.type === 'weapon') && this._getEntityData(i).worn);
+        let weapons = actor.items.filter(i => ['weapon', 'equipment'].indexOf(i.type) > -1).filter(i => (i.type === 'weapon') && this._getEntityData(i).worn);
         let weaponActions = weapons.map(w => this._buildItem(token.id, actor, "weaponAttack", w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let weaponsCat = this.initializeEmptySubcategory();
@@ -454,9 +454,9 @@ export class ActionHandlerED4e extends ActionHandler {
 
     _buildAttacksCategory(token) {
         const actor = token.actor;
-        if (['creature'].indexOf(actor.data.type) < 0) return;
+        if (['creature'].indexOf(actor.type) < 0) return;
 
-        const attacks = actor.data.items.filter( e=> e.system.powerType === 'Attack');
+        const attacks = actor.items.filter( e=> e.system.powerType === 'Attack');
 
         let result = this.initializeEmptyCategory('attacks');
         result.name = this.i18n("earthdawn.a.attacks");
@@ -485,9 +485,9 @@ export class ActionHandlerED4e extends ActionHandler {
 
     _buildCreaturePowersCategory(token) {
         const actor = token.actor;
-        if (['creature'].indexOf(actor.data.type) < 0) return;
+        if (['creature'].indexOf(actor.type) < 0) return;
 
-        const powers = actor.data.items.filter( e=> e.system.powerType === 'Power');
+        const powers = actor.items.filter( e=> e.system.powerType === 'Power');
 
         let result = this.initializeEmptyCategory('powers');
         result.name = this.i18n("earthdawn.p.powers");
@@ -516,9 +516,9 @@ export class ActionHandlerED4e extends ActionHandler {
 
     _buildCreatureManeuversCategory(token) {
         const actor = token.actor;
-        if (['creature'].indexOf(actor.data.type) < 0) return;
+        if (['creature'].indexOf(actor.type) < 0) return;
 
-        const maneuvers = actor.data.items.filter( e=> e.system.powerType === 'Maneuver');
+        const maneuvers = actor.items.filter( e=> e.system.powerType === 'Maneuver');
 
         let result = this.initializeEmptyCategory('maneuvers');
         result.name = this.i18n("earthdawn.m.maneuvers");
@@ -546,7 +546,8 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
     _getEntityData(entity) {
-        return entity.data.data ?? entity.data;
+        // return entity.data.data ?? entity.data;
+        return entity;
     }
 
     _getImage(item) {

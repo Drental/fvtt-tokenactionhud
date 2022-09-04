@@ -90,15 +90,14 @@ export class RollHandlerBaseSW5e extends RollHandler {
       return;
     }
 
-    if (item.data.type === "power") return actor.usePower(item);
+    if (item.type === "power") return actor.usePower(item);
 
-    return item.roll({ event });
+    return item.use({ event });
   }
 
   needsRecharge(item) {
-    const itemData = this._getDocumentData(item);
     return (
-      itemData.recharge && !itemData.recharge.charged && itemData.recharge.value
+      item.system.recharge && !item.system.recharge.charged && item.system.recharge.value
     );
   }
 
@@ -161,13 +160,13 @@ export class RollHandlerBaseSW5e extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
       await this.toggleCondition(event, tokenId, statusId);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
@@ -199,9 +198,5 @@ export class RollHandlerBaseSW5e extends RollHandler {
 
   findCondition(id) {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
-  }
-
-  _getDocumentData(entity) {
-    return entity.data.data ?? entity.data;
   }
 }

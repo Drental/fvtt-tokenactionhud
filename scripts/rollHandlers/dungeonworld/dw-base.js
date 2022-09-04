@@ -17,7 +17,7 @@ export class RollHandlerBaseDw extends RollHandler {
     let actionId = payload[2];
 
     let actor = super.getActor(tokenId);
-    let charType = actor.data.type;
+    let charType = actor.type;
 
     if (charType === "character") {
       switch (macroType) {

@@ -13,7 +13,7 @@ export class ActionHandlerBitD extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -21,7 +21,7 @@ export class ActionHandlerBitD extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor.data._id;
+    result.actorId = actor.id;
 
     let actions = this._getActions(actor, tokenId);
     let resistances = this._getResistances(actor, tokenId);
@@ -37,7 +37,7 @@ export class ActionHandlerBitD extends ActionHandler {
       resistances
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }

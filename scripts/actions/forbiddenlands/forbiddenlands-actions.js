@@ -34,7 +34,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     if (!actor) return result;
 
     let legitimateActors = ['character', 'monster'];
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (!legitimateActors.includes(actorType)) return result;
 
     result.actorId = actor.id;
@@ -52,7 +52,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       attack = this._getAttackList(actor, tokenId);
     }
     // // console.log('ActionHandlerForbiddenLands -> doBuildActionList -> utility', utility);
-    switch (actor.data.type) {
+    switch (actor.type) {
       case 'character':
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.skills'), skills);
@@ -62,14 +62,14 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.consumables'), consumables);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.conditions'), conditions);
         this._setFilterSuggestions(actor);
-        if (settings.get('showHudTitle')) result.hudTitle = token.data?.name;
+        if (settings.get('showHudTitle')) result.hudTitle = token.name;
         break;
       case 'monster':
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
         this._setFilterSuggestions(actor);
-        if (settings.get('showHudTitle')) result.hudTitle = token.data?.name;
+        if (settings.get('showHudTitle')) result.hudTitle = token.name;
         break;
 
       default:
@@ -268,7 +268,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let conditions = this.initializeEmptySubcategory();
     let macroType = 'conditions';
 
-    if (actor.data.type === 'character') {
+    if (actor.type === 'character') {
       let general = this.initializeEmptySubcategory();
       let generalActions = [];
 

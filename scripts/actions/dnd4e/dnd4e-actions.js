@@ -37,7 +37,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         }
 
         if (settings.get("showHudTitle")) {
-            list.hudTitle = token.data?.name;
+            list.hudTitle = token.name;
         }
 
         const cats = await this._buildCategories(token);
@@ -127,9 +127,9 @@ export class ActionHandlerDnD4e extends ActionHandler {
             ritual: { label: "DND4EBETA.FeatRitual", items: [], dataset: {type: "ritual"} }
         };
 
-        actor.data.items.forEach((item) => {
-            if (Object.keys(features).includes(item.data.type)) {
-                features[item.data.type].items.push(item)
+        actor.items.forEach((item) => {
+            if (Object.keys(features).includes(item.type)) {
+                features[item.type].items.push(item)
             }
         })
 
@@ -147,7 +147,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         features.forEach((item) => {
             const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
             const action = {
-                name: item.data.name,
+                name: item.name,
                 id: item.id,
                 encodedValue: encodedValue,
                 img: this._getImage(item)
@@ -187,12 +187,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
             items.consumable.subcategories[e[0]] = subCat
         });
 
-        actor.data.items.forEach((item) => {
-            if (Object.keys(items).includes(item.data.type)) {
-                const menuItem = items[item.data.type]
+        actor.items.forEach((item) => {
+            if (Object.keys(items).includes(item.type)) {
+                const menuItem = items[item.type]
                 if (menuItem.subcategories && menuItem.subcategoryField) {
-                    if (item.data.data[menuItem.subcategoryField]) {
-                        const subCat = item.data.data[menuItem.subcategoryField]
+                    if (item.system[menuItem.subcategoryField]) {
+                        const subCat = item.system[menuItem.subcategoryField]
                         if (menuItem.subcategories[subCat]) {
                             menuItem.subcategories[subCat].items.push(item)
                             return;
@@ -221,7 +221,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         items.forEach((item) => {
             const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
             const action = {
-                name: item.data.name,
+                name: item.name,
                 id: item.id,
                 encodedValue: encodedValue,
                 img: this._getImage(item)
@@ -260,13 +260,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
         const actor = token.actor;
         const tokenId = token.id;
 
-        let allPowers = actor.data.items.filter((item) => item.data.type === "power")
+        let allPowers = actor.items.filter((item) => item.type === "power")
 
         let result = this.initializeEmptyCategory("Powers");
         result.name = this.i18n("DND4EBETA.Powers");
 
         // powerGroupType is not initalised by default
-        let groupType = this._getDocumentData(actor).powerGroupTypes
+        let groupType = actor.powerGroupTypes
         if (!groupType) {
             actor.system.powerGroupTypes = "usage"
             groupType = "usage"
@@ -289,7 +289,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         }
 
         allPowers.forEach(power => {
-            const key = this._getDocumentData(power)[groupField]
+            const key = power.system[groupField]
             if (groupings[key]) {
                 groupings[key].items.push(power)
             }
@@ -313,8 +313,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
         if(settings.get("hideUsedPowers")) {
             powers = powers.filter((power) => {
-                const data = this._getDocumentData(power)
-                return data.useType === "recharge" || game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, power)
+                return power.system.useType === "recharge" || game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, power)
             })
         }
         else {
@@ -328,13 +327,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
         powers.forEach((item) => {
                 const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
                 const action = {
-                    name: item.data.name,
+                    name: item.name,
                     id: item.id,
                     encodedValue: encodedValue,
                     img: this._getImage(item)
                 };
                 if (colour) {
-                    action.cssClass = `force-ability-usage--${this._getDocumentData(item).useType}`
+                    action.cssClass = `force-ability-usage--${item.system.useType}`
                 }
                 result.actions.push(action)
             })
@@ -344,7 +343,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     /** @private */
     _buildSkillsCategory(token) {
         const actor = token.actor;
-        if (actor.data.type === "vehicle") return;
+        if (actor.type === "vehicle") return;
 
         const skills = actor.system.skills;
 
@@ -488,7 +487,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
         if (game.dnd4eBeta.tokenBarHooks.version >= 2) {
             // so long as there is an action point available - as I houserule that you can use more than 1 an encounter
-            const shouldShowActionPoint = !settings.get("hideUsedPowers") || this._getDocumentData(actor).actionpoints?.value > 0
+            const shouldShowActionPoint = !settings.get("hideUsedPowers") || actor.system.actionpoints?.value > 0
             if (shouldShowActionPoint) {
                 utility.actions.push({
                     id: "actionPoint",
@@ -498,7 +497,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             }
 
             // either should not be hiding used powers, or should not have used 2nd wind
-            const shouldShowSecondWind = !settings.get("hideUsedPowers") || !this._getDocumentData(actor).details?.secondwind
+            const shouldShowSecondWind = !settings.get("hideUsedPowers") || !actor.system.details?.secondwind
             if (shouldShowSecondWind) {
                 utility.actions.push({
                     id: "secondWind",
@@ -551,11 +550,10 @@ export class ActionHandlerDnD4e extends ActionHandler {
         let passiveCategory = this.initializeEmptySubcategory();
 
         effects.forEach((e) => {
-            const effectData = this._getDocumentData(e);
-            const name = effectData.label;
+            const name = e.label;
             const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
-            const cssClass = effectData.disabled ? "" : "active";
-            const image = effectData.icon;
+            const cssClass = e.disabled ? "" : "active";
+            const image = e.icon;
             let action = {
                 name: name,
                 id: e.id,
@@ -605,7 +603,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
                     "some" in actor.effects.entries
                         ? actor.effects.entries
                         : actor.effects;
-                effects.some((e) => e.data.flags.core?.statusId === c.id);
+                effects.some((e) => e.flags.core?.statusId === c.id);
             })
                 ? "active"
                 : "";
@@ -643,7 +641,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
             const effects =
                 "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-            const cssClass = effects.some((e) => e.data.flags.core?.statusId === c.id)
+            const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
                 ? "active"
                 : "";
             const image = c.icon;
@@ -797,7 +795,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
     _getImage(item) {
         let result = "";
-        if (settings.get("showIcons")) result = item.data.img ?? "";
+        if (settings.get("showIcons")) result = item.img ?? "";
 
         return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
     }
@@ -806,8 +804,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         if (settings.get("showEmptyItems")) return items;
 
         return items.filter((i) => {
-            const iData = this._getDocumentData(i);
-            let uses = iData.uses;
+            let uses = i.system.uses;
             // Assume something with no uses is unlimited in its use.
             if (!uses) return true;
 
@@ -827,9 +824,5 @@ export class ActionHandlerDnD4e extends ActionHandler {
             8: '<i class="fas fa-check-double"></i>',
         };
         return icons[level];
-    }
-
-    _getDocumentData(entity) {
-        return entity.data.data ?? entity.data;
     }
 }

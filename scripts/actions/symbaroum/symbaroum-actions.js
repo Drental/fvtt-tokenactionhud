@@ -22,7 +22,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
 
     let mysticalPowers = this._getMysticalPowers(actor, tokenId);
     let traits = this._getTraits(actor, tokenId);
@@ -64,14 +64,14 @@ export class ActionHandlerSymbaroum extends ActionHandler {
       attributes
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
 
   _getMysticalPowers(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "mysticalPower" && item.data.data?.script
+      (item) => item.data?.type === "mysticalPower" && item.system?.script
     );
     let result = this.initializeEmptyCategory("actorPowers");
     let powersCategory = this.initializeEmptySubcategory();
@@ -90,7 +90,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getTraits(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "trait" && item.data.data?.script
+      (item) => item.data?.type === "trait" && item.system?.script
     );
     let result = this.initializeEmptyCategory("actorsTraits");
     let traitsCategory = this.initializeEmptySubcategory();
@@ -107,7 +107,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getWeapons(actor, tokenId) {
     let filteredItems = actor.items.filter(
       (item) =>
-        item.data?.type === "weapon" && item.data.data?.state === "active"
+        item.data?.type === "weapon" && item.system?.state === "active"
     );
     let result = this.initializeEmptyCategory("actorWeapons");
     let weaponsCategory = this.initializeEmptySubcategory();
@@ -148,7 +148,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getAbilities(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "ability" && item.data.data?.script
+      (item) => item.data?.type === "ability" && item.system?.script
     );
     let result = this.initializeEmptyCategory("actorAbilities");
     let abilitiesCategory = this.initializeEmptySubcategory();

@@ -70,7 +70,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._setFilterSuggestions(actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -89,7 +89,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let subcategory = this.initializeEmptySubcategory();
     let items = actor.getItemTypes(type);
     let filtered =
-      actor.data.type === "character"
+      actor.type === "character"
         ? items.filter((i) => i.system.equipped)
         : items;
     subcategory.actions = this._produceMap(tokenId, filtered, type);

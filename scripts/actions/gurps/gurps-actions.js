@@ -12,11 +12,11 @@ export class ActionHandlerGURPS extends ActionHandler {
       let result = this.initializeEmptyActionList();
       if (!GURPS) return result;  // If the GURPS Global is not defined, do nothing
       if (!token) return result;
-      let tokenId = token.data._id;
+      let tokenId = token.id;
       result.tokenId = tokenId;
       let actor = token.actor;
       if (!actor) return result;
-      result.actorId = actor.data._id;
+      result.actorId = actor.id;
         
       this._combineCategoryWithList(
         result,
@@ -52,7 +52,7 @@ export class ActionHandlerGURPS extends ActionHandler {
           this._maneuvers(actor, tokenId)
         );
   
-      if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+      if (settings.get("showHudTitle")) result.hudTitle = token.name;
   
       return result;
     }
@@ -134,7 +134,7 @@ export class ActionHandlerGURPS extends ActionHandler {
     let cnt = 0
     let columns = 0
     let result = this.initializeEmptyCategory(key);
-    GURPS.recurselist(actor.data.data[key], (e, k, d) => {
+    GURPS.recurselist(actor.data[key], (e, k, d) => {
       if (e.level > 0) {
         let attributeCategory = this.initializeEmptySubcategory();
         let q = '"'

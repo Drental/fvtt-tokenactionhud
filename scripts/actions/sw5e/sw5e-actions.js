@@ -26,7 +26,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     }
 
     if (settings.get("showHudTitle")) {
-      list.hudTitle = token.data?.name;
+      list.hudTitle = token.name;
     }
 
     const cats = await this._buildCategories(token);
@@ -151,20 +151,20 @@ export class ActionHandlerSW5e extends ActionHandler {
     const tokenId = token.id;
 
     let validItems = this._filterLongerActions(
-      actor.data.items.filter((i) => this._getDocumentData(i).quantity > 0)
+      actor.items.filter((i) => i.system.quantity > 0)
     );
     let sortedItems = this._sortByItemSort(validItems);
     let macroType = "item";
 
     let equipped;
-    if (actor.data.type === "npc" && settings.get("showAllNpcItems")) {
+    if (actor.type === "npc" && settings.get("showAllNpcItems")) {
       equipped = sortedItems.filter(
         (i) =>
           i.type !== "consumable" && i.type !== "power" && i.type !== "feat"
       );
     } else {
       equipped = sortedItems.filter(
-        (i) => i.type !== "consumable" && this._getDocumentData(i).equipped
+        (i) => i.type !== "consumable" && i.system.equipped
       );
     }
     let activeEquipped = this._getActiveEquipment(equipped);
@@ -242,11 +242,10 @@ export class ActionHandlerSW5e extends ActionHandler {
       ).filter((at) => at !== "none");
 
       activeEquipment = equipment.filter((e) => {
-        const equipmentData = this._getDocumentData(e);
-        let activation = equipmentData.activation;
+        let activation = e.system.activation;
         if (!activation) return false;
 
-        return activationTypes.includes(equipmentData.activation.type);
+        return activationTypes.includes(e.system.activation.type);
       });
     }
     else {
@@ -261,14 +260,14 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @private */
   _buildPowersCategory(token) {
     const actor = token.actor;
-    if (["vehicle", "starship"].includes (actor.data.type)) return;
+    if (["vehicle", "starship"].includes (actor.type)) return;
 
     let validPowers = this._filterLongerActions(
-      actor.data.items.filter((i) => i.type === "power")
+      actor.items.filter((i) => i.type === "power")
     );
     validPowers = this._filterExpendedItems(validPowers);
 
-    if (actor.data.type === "character" || !settings.get("showAllNpcItems"))
+    if (actor.type === "character" || !settings.get("showAllNpcItems"))
       validPowers = this._filterNonpreparedPowers(validPowers);
 
     let powersSorted = this._sortPowersByLevel(validPowers);
@@ -280,15 +279,13 @@ export class ActionHandlerSW5e extends ActionHandler {
     let result = Object.values(powers);
 
     result.sort((a, b) => {
-      const aData = this._getDocumentData(a);
-      const bData = this._getDocumentData(b);
-      if (aData.level === bData.level)
+      if (a.system.level === b.system.level)
         return a.name
           .toUpperCase()
           .localeCompare(b.name.toUpperCase(), undefined, {
             sensitivity: "base",
           });
-      return aData.level - bData.level;
+      return a.system.level - b.system.level;
     });
 
     return result;
@@ -330,11 +327,10 @@ export class ActionHandlerSW5e extends ActionHandler {
 
     let dispose = powers.reduce(
       function (dispose, s) {
-        const powerData = this._getDocumentData(s);
-        let prep = powerData.preparation.mode;
+        let prep = s.system.preparation.mode;
         const prepType = game.sw5e.config.powerPreparationModes[prep];
 
-        var level = powerData.level;
+        var level = s.system.level;
         let natPower = prep === "atwill" || prep === "innate";
 
         var max, slots, levelName, levelKey, levelInfo;
@@ -404,8 +400,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _addPowerInfo(s, power) {
-    const powerData = this._getDocumentData(s);
-    let c = powerData.components;
+    let c = s.components;
 
     power.info1 = "";
     power.info2 = "";
@@ -435,7 +430,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @private */
   _buildFeaturesCategory(token) {
     let validFeats = this._filterLongerActions(
-      token.actor.data.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
+      token.actor.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
     );
     let sortedFeats = this._sortByItemSort(validFeats);
     return this._categoriseFeats(token.id, token.actor, sortedFeats);
@@ -450,8 +445,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
     let dispose = feats.reduce(
       function (dispose, f) {
-        const featData = this._getDocumentData(f);
-        const activationType = featData.activation.type;
+        const activationType = f.system.activation.type;
         const macroType = "feat";
 
         let feat = this._buildEquipmentItem(tokenId, actor, macroType, f);
@@ -499,7 +493,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @private */
   _buildSkillsCategory(token) {
     const actor = token.actor;
-    if (actor.data.type === "vehicle") return;
+    if (actor.type === "vehicle") return;
 
     const skills = actor.system.skills;
 
@@ -513,7 +507,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       .map((e) => {
         try {
           let skillId = e[0];
-          const skillset = (actor.data.type !== "starship") ? game.sw5e.config.skills : game.sw5e.config.starshipSkills;
+          const skillset = (actor.type !== "starship") ? game.sw5e.config.skills : game.sw5e.config.starshipSkills;
           let name = abbr ? skillId : skillset[skillId];
           name = name.charAt(0).toUpperCase() + name.slice(1);
           let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
@@ -639,7 +633,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
     this._addIntiativeSubcategory(macroType, result, token.id);
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let shortRestValue = [macroType, token.id, "shortRest"].join(
         this.delimiter
       );
@@ -683,7 +677,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       utility.actions.push(inspirationAction);
     }
 
-    if (actor.data.type === "starship") {
+    if (actor.type === "starship") {
       let rechargeRepairValue = [macroType, token.id, "rechargeRepair"].join(
         this.delimiter
       );
@@ -770,11 +764,10 @@ export class ActionHandlerSW5e extends ActionHandler {
     let passiveCategory = this.initializeEmptySubcategory();
 
     effects.forEach((e) => {
-      const effectData = this._getDocumentData(e);
-      const name = effectData.label;
+      const name = e.label;
       const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
-      const cssClass = effectData.disabled ? "" : "active";
-      const image = effectData.icon;
+      const cssClass = e.disabled ? "" : "active";
+      const image = e.icon;
       let action = {
         name: name,
         id: e.id,
@@ -824,7 +817,7 @@ export class ActionHandlerSW5e extends ActionHandler {
           "some" in actor.effects.entries
             ? actor.effects.entries
             : actor.effects;
-        effects.some((e) => e.data.flags.core?.statusId === c.id);
+        effects.some((e) => e.flags.core?.statusId === c.id);
       })
         ? "active"
         : "";
@@ -862,7 +855,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const effects =
         "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-      const cssClass = effects.some((e) => e.data.flags.core?.statusId === c.id)
+      const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
         ? "active"
         : "";
       const image = c.icon;
@@ -1052,11 +1045,10 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildItem(tokenId, actor, macroType, item) {
-    const itemData = this._getDocumentData(item);
     const itemId = item.id;
     let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
     let img = this._getImage(item);
-    let icon = this._getActionIcon(item.data?.data?.activation?.type);
+    let icon = this._getActionIcon(item.system.activation?.type);
     let result = {
       name: item.name,
       id: itemId,
@@ -1066,9 +1058,9 @@ export class ActionHandlerSW5e extends ActionHandler {
     };
 
     if (
-      itemData.recharge &&
-      !itemData.recharge.charged &&
-      itemData.recharge.value
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
     ) {
       result.name += ` (${this.i18n("tokenactionhud.recharge")})`;
     }
@@ -1094,9 +1086,8 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _getQuantityData(item) {
-    const itemData = this._getDocumentData(item);
     let result = "";
-    let quantity = itemData.quantity;
+    let quantity = item.system.quantity;
     if (quantity > 1) {
       result = quantity;
     }
@@ -1106,10 +1097,9 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _getUsesData(item) {
-    const itemData = this._getDocumentData(item);
     let result = "";
 
-    let uses = itemData.uses;
+    let uses = item.system.uses;
     if (!uses) return result;
 
     result = uses.value === 0 && uses.max ? "0" : uses.value;
@@ -1123,12 +1113,11 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _getConsumeData(item, actor) {
-    const itemData = this._getDocumentData(item);
     let result = "";
 
-    let consumeType = itemData.consume?.type;
+    let consumeType = item.system.consume?.type;
     if (consumeType && consumeType !== "") {
-      let consumeId = itemData.consume.target;
+      let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));
       if (consumeType === "attribute") {
         let target = getProperty(actor, `data.data.${parentId}`);
@@ -1140,7 +1129,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       }
 
       if (consumeType === "charges") {
-        let consumeId = itemData.consume.target;
+        let consumeId = item.system.consume.target;
         let target = actor.items.get(consumeId);
         let uses = target?.system.uses;
         if (uses?.value) {
@@ -1150,7 +1139,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       }
 
       if (!(consumeType === "attribute" || consumeType === "charges")) {
-        let consumeId = itemData.consume.target;
+        let consumeId = item.system.consume.target;
         let target = actor.items.get(consumeId);
         let quantity = target?.system.quantity;
         if (quantity) {
@@ -1168,13 +1157,12 @@ export class ActionHandlerSW5e extends ActionHandler {
 
     if (settings.get("hideLongerActions"))
       result = items.filter((i) => {
-        const iData = this._getDocumentData(i);
         return (
-          !iData.activation ||
+          !i.system.activation ||
           !(
-            iData.activation.type === "minute" ||
-            iData.activation.type === "hour" ||
-            iData.activation.type === "day"
+            i.system.activation.type === "minute" ||
+            i.system.activation.type === "hour" ||
+            i.system.activation.type === "day"
           )
         );
       });
@@ -1191,16 +1179,15 @@ export class ActionHandlerSW5e extends ActionHandler {
 
     if (settings.get("showAllNonpreparablePowers")) {
       result = powers.filter((i) => {
-        const iData = this._getDocumentData(i);
         return (
-          iData.preparation.prepared ||
-          nonpreparablePowers.includes(iData.preparation.mode) ||
-          iData.level === 0
+          i.system.preparation.prepared ||
+          nonpreparablePowers.includes(i.system.preparation.mode) ||
+          i.system.level === 0
         );
       });
     } else {
       result = powers.filter(
-        (i) => this._getDocumentData(i).preparation.prepared
+        (i) => this.system.preparation.prepared
       );
     }
 
@@ -1211,8 +1198,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     if (settings.get("showEmptyItems")) return items;
 
     return items.filter((i) => {
-      const iData = this._getDocumentData(i);
-      let uses = iData.uses;
+      let uses = i.system.uses;
       // Assume something with no uses is unlimited in its use.
       if (!uses) return true;
 
@@ -1258,9 +1244,5 @@ export class ActionHandlerSW5e extends ActionHandler {
       day: `<i class="fas fa-hourglass-end"></i>`,
     };
     return img[action];
-  }
-
-  _getDocumentData(entity) {
-    return entity.data.data ?? entity.data;
   }
 }

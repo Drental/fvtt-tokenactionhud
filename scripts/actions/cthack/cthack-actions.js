@@ -12,7 +12,7 @@ export class ActionHandlerCthack extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -20,7 +20,7 @@ export class ActionHandlerCthack extends ActionHandler {
 
     if (!actor) return result;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (actorType != "character") return result;
 
     result.actorId = actor.id;
@@ -51,7 +51,7 @@ export class ActionHandlerCthack extends ActionHandler {
       abilities
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -203,7 +203,7 @@ export class ActionHandlerCthack extends ActionHandler {
  /** @private */
   _getIcon(item) {
     // Capacity activable
-    if (item.type === "ability" && item.data.data?.uses?.per !== "Permanent") {
+    if (item.type === "ability" && item.system.uses?.per !== "Permanent") {
       if (item.system.uses.value > 0) {
         return '<i class="fas fa-check"></i>';
       }

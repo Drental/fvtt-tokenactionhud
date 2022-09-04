@@ -88,9 +88,8 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   needsRecharge(actor, item) {
-    const itemData = this._getDocumentData(item);
     return (
-        itemData.useType === "recharge" && !game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, item)
+        item.system.useType === "recharge" && !game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, item)
     );
   }
 
@@ -147,13 +146,13 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
       await this.toggleCondition(event, tokenId, statusId);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
@@ -185,9 +184,5 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
   findCondition(id) {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
-  }
-
-  _getDocumentData(entity) {
-    return entity.data.data ?? entity.data;
   }
 }
