@@ -210,7 +210,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     await actor.update(update);
   }
 
-  async togggleConditionState(event, actor, property, valueName, actionId) {
+  async toggleConditionState(event, actor, property, valueName, actionId) {
     let value = actor.system.general[property][valueName];
     let max = "1";
 
@@ -274,19 +274,19 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
     switch (actionId) {
       case "toggleStarving":
-        this.togggleConditionState(event, actor, "starving", "value");
+        this.toggleConditionState(event, actor, "starving", "value");
         break;
       case "toggleDehydrated":
-        this.togggleConditionState(event, actor, "dehydrated", "value");
+        this.toggleConditionState(event, actor, "dehydrated", "value");
         break;
       case "toggleExhausted":
-        this.togggleConditionState(event, actor, "exhausted", "value");
+        this.toggleConditionState(event, actor, "exhausted", "value");
         break;
       case "toggleFreezing":
-        this.togggleConditionState(event, actor, "freezing", "value");
+        this.toggleConditionState(event, actor, "freezing", "value");
         break;
       case "togglePanic":
-        this.togggleConditionState(event, actor, "panic", "value");
+        this.toggleConditionState(event, actor, "panic", "value");
         break;
     }
   }

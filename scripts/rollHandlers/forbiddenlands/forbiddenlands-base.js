@@ -75,7 +75,9 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         case 'conditions':
           this.performConditionMacro(event, tokenId, actionId);
           break;
-
+        case 'consumables':
+          this.performConsumableMacro(tokenId, actionId);
+          break;
         case 'utility':
           this.performUtilityMacro(event, tokenId, actionId);
         default:
@@ -137,26 +139,8 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     await actor.update(update);
   }
 
-  async togggleConditionState(event, actor, property, valueName, actionId) {
-    let value = actor.system.general[property][valueName];
-    let max = '1';
-
-    if (this.rightClick) {
-      if (value <= 0) return;
-      value--;
-      if (property === 'panic') {
-        actor.checkAndEndPanic(actor);
-      }
-    } else {
-      if (value >= max) return;
-      value++;
-      if (property === 'panic') {
-        actor.checkAndEndPanic(actor);
-      }
-    }
-
-    let update = { data: { general: { [property]: { [valueName]: value } } } };
-    await actor.update(update);
+  async toggleConditionState(actor, property) {
+    actor.toggleCondition(property);
   }
 
   performUtilityMacro(event, tokenId, actionId) {
@@ -198,22 +182,25 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     let token = super.getToken(tokenId);
 
     switch (actionId) {
-      case 'toggleStarving':
-        this.togggleConditionState(event, actor, 'starving', 'value');
+      case 'toggleHungry':
+        this.toggleConditionState(actor, 'hungry');
         break;
-      case 'toggleDehydrated':
-        this.togggleConditionState(event, actor, 'dehydrated', 'value');
+      case 'toggleThirsty':
+        this.toggleConditionState(actor, 'thirsty');
         break;
-      case 'toggleExhausted':
-        this.togggleConditionState(event, actor, 'exhausted', 'value');
+      case 'toggleCold':
+        this.toggleConditionState(actor, 'cold');
         break;
-      case 'toggleFreezing':
-        this.togggleConditionState(event, actor, 'freezing', 'value');
-        break;
-      case 'togglePanic':
-        this.togggleConditionState(event, actor, 'panic', 'value');
+      case 'toggleSleepy':
+        this.toggleConditionState(actor, 'sleepy');
         break;
     }
+  }
+
+  performConsumableMacro(tokenId, actionId) {
+    let actor = super.getActor(tokenId);
+    if (!actor) return;
+    actor.sheet.rollConsumable(actionId)
   }
 
   /** @private */
