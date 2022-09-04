@@ -139,8 +139,6 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let macroType = 'consumables';
 
     let rollableConsumables = Object.entries(actor.system.consumable);
-    // remove Power from the list
-    rollableConsumables.splice(1, 1);
     let consumablesMap = rollableConsumables.map((c) => {
       let name = this.i18n('tokenactionhud.settings.forbiddenlands.consumables' + c[0]);
       let id = c[0];
