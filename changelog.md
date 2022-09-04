@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.1] 2022-09-04
+
+- tah - replace deprecated Methods across the codebase - big thanks to Larkinabout!!
+
 ## [3.0.0] 2022-09-03
 
 - tah - rough v10 migration - Work in Progress, *I might not finish this! But got it to load.*
