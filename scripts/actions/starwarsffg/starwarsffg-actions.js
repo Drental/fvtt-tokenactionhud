@@ -13,7 +13,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -36,7 +36,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       forcePowers
     );
 
-    const data = actor.data.data;
+    const data = actor.data;
 
     data.skilltypes.forEach((type) => {
       let skills = this._getSkills(type, data, tokenId);
@@ -51,7 +51,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       );
     }
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }

@@ -8,7 +8,7 @@ export class RollHandler {
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
 
   getActor(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.data._id === tokenId)?.actor;
+    return canvas.tokens.placeables.find((t) => t.id === tokenId)?.actor;
   }
 
   getItem(actor, itemId) {
@@ -16,7 +16,7 @@ export class RollHandler {
   }
 
   getToken(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.data._id === tokenId);
+    return canvas.tokens.placeables.find((t) => t.id === tokenId);
   }
 
   throwInvalidValueErr(err) {

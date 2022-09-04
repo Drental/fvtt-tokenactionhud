@@ -17,7 +17,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -38,7 +38,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     this._addChecksList(result, actor, tokenId);
     this._addUtilityList(result, actor, tokenId);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -246,7 +246,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let macroType = "item";
 
     let equipped = sortedItems.filter(
-      (i) => i.type !== "consumable" && i.data.equipped
+      (i) => i.type !== "consumable" && i.system.equipped
     );
 
     let weapons = equipped.filter((i) => i.type == "weapon");
@@ -473,7 +473,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     const isSpontaneous =
       actor.system.attributes.spells.spellbooks[spellbook].spontaneous;
 
-    if (actor.data.type !== "character") return true;
+    if (actor.type !== "character") return true;
 
     if (spell.data.atWill) return true;
 
@@ -507,7 +507,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getFeatsList(actor, tokenId) {
     let validFeats = actor.items
       .filter((i) => i.type == "feat")
-      .map((i) => i.data);
+      .map((i) => i.datqa);
     let sortedFeats = this._sortByItemSort(validFeats);
     let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
 
@@ -872,7 +872,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
@@ -973,7 +973,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getQuantityData(item) {
     let result = "";
     if (item.data.quantity > 1) {
-      result = item.data.quantity;
+      result = item.system.quantity;
     }
 
     return result;
@@ -983,7 +983,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getUsesData(item) {
     let result = "";
 
-    let uses = item.data.uses;
+    let uses = item.system.uses;
     if (!uses) return result;
 
     if (!(uses.max || uses.value)) return result;

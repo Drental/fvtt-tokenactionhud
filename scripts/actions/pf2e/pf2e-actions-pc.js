@@ -8,7 +8,7 @@ export class PcActionHandlerPf2e {
   }
 
   buildActionList(result, tokenId, actor) {
-    const type = actor.data.type;
+    const type = actor.type;
     if (type === "familiar") {
       this._forFamiliar(result, tokenId, actor);
     } else {

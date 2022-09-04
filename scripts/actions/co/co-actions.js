@@ -12,7 +12,7 @@ export class ActionHandlerCo extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -20,7 +20,7 @@ export class ActionHandlerCo extends ActionHandler {
 
     if (!actor) return result;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (actorType != "character" && actorType != "npc") return result;
 
     result.actorId = actor.id;
@@ -35,7 +35,7 @@ export class ActionHandlerCo extends ActionHandler {
     this._combineCategoryWithList(result, this.i18n("tokenactionhud.inventory"), items);
     this._combineCategoryWithList(result, this.i18n("tokenactionhud.co.capacities"), capacities);
     
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -83,7 +83,7 @@ export class ActionHandlerCo extends ActionHandler {
     // Weapons
     let weaponsCategory = this.initializeEmptySubcategory();
 
-    let weapons = actor.items.filter(item => item.data.type === "item" && (item.system.subtype === "melee" || item.system.subtype === "ranged") && item.system.worn);
+    let weapons = actor.items.filter(item => item.type === "item" && (item.system.subtype === "melee" || item.system.subtype === "ranged") && item.system.worn);
     
     weaponsCategory.actions = weapons.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "weapon", w)
@@ -94,7 +94,7 @@ export class ActionHandlerCo extends ActionHandler {
     // Spells
     let spellsCategory = this.initializeEmptySubcategory();
 
-    let spells = actor.items.filter(item => item.data.type === "item" && item.system.subtype === "spell" && (item.system.properties.weapon || item.system.properties.activable));
+    let spells = actor.items.filter(item => item.type === "item" && item.system.subtype === "spell" && (item.system.properties.weapon || item.system.properties.activable));
     
     spellsCategory.actions = spells.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "spell", w)
@@ -110,7 +110,7 @@ export class ActionHandlerCo extends ActionHandler {
     let result = this.initializeEmptyCategory("inventory");
 
     // Weapons
-    let weapons = actor.items.filter(item => item.data.type === "item" && (item.system.subtype === "melee" || item.system.subtype === "ranged"));
+    let weapons = actor.items.filter(item => item.type === "item" && (item.system.subtype === "melee" || item.system.subtype === "ranged"));
     let weaponActions = weapons.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "item", w)
     );

@@ -83,7 +83,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         const resistanceTypes = ["pr", "er"];
         let resistances = [];
         for (let r of resistanceTypes) {
-            let name = game.i18n.localize(actor.data.data[r].label);
+            let name = game.i18n.localize(actor.data[r].label);
             let encodedValue = [macroType, tokenId, r].join(this.delimiter);
             resistances.push({name: name, id: r, encodedValue: encodedValue});
         }
@@ -208,7 +208,7 @@ export class ActionHandlerOD6S extends ActionHandler {
 
             let vehicleWeaponsSubcategory = this.initializeEmptySubcategory();
             vehicleWeaponsSubcategory.actions = this._produceMap(tokenId,
-                actor.system.vehicle.vehicle_weapons.filter(i => i.data.equipped.value),
+                actor.system.vehicle.vehicle_weapons.filter(i => i.system.equipped.value),
                 macroType);
             this._combineSubcategoryWithCategory(
                 result,

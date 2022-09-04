@@ -11,14 +11,14 @@ export class TagmarActionHandler extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
     let actor = token.actor;
     if (!actor) return result;
 
-    if (actor.data.type == "Inventario") return result;
+    if (actor.type == "Inventario") return result;
 
     result.actorId = actor.id;
 
@@ -72,7 +72,7 @@ export class TagmarActionHandler extends ActionHandler {
       resistSubCategory
     );
 
-    if (actor.data.type == "NPC") {
+    if (actor.type == "NPC") {
       let moralAction = this._produceMap(
         tokenId,
         [{ name: "Moral", id: "Moral" }],

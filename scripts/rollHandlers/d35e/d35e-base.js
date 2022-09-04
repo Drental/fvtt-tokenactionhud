@@ -20,7 +20,7 @@ export class RollHandlerBaseD35E extends RollHandler {
 
     if (tokenId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.data._id;
+        let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {

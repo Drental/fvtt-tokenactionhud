@@ -45,7 +45,7 @@ export class GenericActionHandler {
       name: this.baseHandler.i18n("tokenactionhud.toggleCombatState"),
     };
     combatAction.cssClass = canvas.tokens.placeables.find(
-      (t) => t.data._id === tokenId
+      (t) => t.id === tokenId
     ).inCombat
       ? "active"
       : "";
@@ -61,8 +61,8 @@ export class GenericActionHandler {
         name: this.baseHandler.i18n("tokenactionhud.toggleVisibility"),
       };
       visibilityAction.cssClass = !canvas.tokens.placeables.find(
-        (t) => t.data._id === tokenId
-      ).data.hidden
+        (t) => t.id === tokenId
+      ).document.hidden
         ? "active"
         : "";
       utility.actions.push(visibilityAction);
@@ -102,7 +102,7 @@ export class GenericActionHandler {
         encodedValue: visbilityValue,
         name: this.baseHandler.i18n("tokenactionhud.toggleVisibility"),
       };
-      visibilityAction.cssClass = tokens.every((t) => !t.data.hidden)
+      visibilityAction.cssClass = tokens.every((t) => !t.document.hidden)
         ? "active"
         : "";
       utility.actions.push(visibilityAction);

@@ -42,6 +42,6 @@ export class RollHandlerCoreOD6S extends RollHandler {
   }
 
   rollItemMacro(event, actor, actionId, parry = false) {
-    actor.items.find((i) => i.data._id === actionId).roll(parry);
+    actor.items.find((i) => i.id === actionId).roll(parry);
   }
 }

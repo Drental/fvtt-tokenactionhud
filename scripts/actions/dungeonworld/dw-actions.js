@@ -19,7 +19,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -29,7 +29,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
 
     if (actorType === "npc") {
       let damage = this._getDamage(actor, tokenId);
@@ -122,7 +122,7 @@ export class ActionHandlerDw extends ActionHandler {
       );
     }
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -407,10 +407,10 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   _addItemInfo(i, item) {
-    let uses = i.data.data?.uses;
+    let uses = item.system.uses;
     item.info1 = uses ?? "";
 
-    let quantity = i.data.data?.quantity;
+    let quantity = item.system.quantity;
     item.info2 = quantity > 1 ? quantity : "";
   }
 }

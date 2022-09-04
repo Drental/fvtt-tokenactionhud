@@ -12,7 +12,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     if (!token) return actionList;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     actionList.tokenId = tokenId;
 
@@ -22,7 +22,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     actionList.actorId = actor.id;
 
-    if (actor.data.type !== "starship") {
+    if (actor.type !== "starship") {
       this._buildItemCategory(token, actionList);
       this._buildSpellsCategory(token, actionList);
       this._buildFeatsCategory(token, actionList);
@@ -37,14 +37,14 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     settings.Logger.debug("SFRPG ActionList:", actionList);
 
-    if (settings.get("showHudTitle")) actionList.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) actionList.hudTitle = token.name;
 
     return actionList;
   }
 
   _buildItemCategory(token, actionList) {
-    var itemList = token.actor.data.items;
-    let tokenId = token.data._id;
+    var itemList = token.actor.items;
+    let tokenId = token.id;
 
     var itemsCategoryName = this.i18n("tokenactionhud.equipment");
     var itemsMacroType = "item";
@@ -71,8 +71,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
   }
 
   _buildFeatsCategory(token, actionList) {
-    var itemList = token.actor.data.items.filter((item) => item.type == "feat");
-    let tokenId = token.data._id;
+    var itemList = token.actor.items.filter((item) => item.type == "feat");
+    let tokenId = token.id;
 
     var itemsCategoryName = this.i18n("tokenactionhud.features");
     var itemsMacroType = "feat";
@@ -137,10 +137,10 @@ export class ActionHandlerSfrpg extends ActionHandler {
   }
 
   _buildSpellsCategory(token, actionList) {
-    var itemList = token.actor.data.items.filter(
+    var itemList = token.actor.items.filter(
       (item) => item.type == "spell"
     );
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     var categoryName = this.i18n("tokenactionhud.spellbook");
     var macroType = "spell";
@@ -184,7 +184,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           name = coreSkills[key];
         }
 
-        let encodedValue = [macroType, token.data._id, key].join(
+        let encodedValue = [macroType, token.id, key].join(
           this.delimiter
         );
         let icon = this._getClassSkillIcon(data.value);
@@ -213,7 +213,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     let abilitiesActions = Object.entries(CONFIG.SFRPG.abilities).map((e) => {
       let name = e[1];
-      let encodedValue = [macroType, token.data._id, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let abilitiesCategory = this.initializeEmptySubcategory();
@@ -235,7 +235,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     let saveActions = Object.entries(CONFIG.SFRPG.saves).map((e) => {
       let name = e[1];
-      let encodedValue = [macroType, token.data._id, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let savesCategory = this.initializeEmptySubcategory();
@@ -465,7 +465,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   /** @private */
   _addStarshipWeapons(token, actor, actionList) {
     const itemType = "starshipWeapon";
-    const weapons = actor.data.items.filter((i) => i.type === itemType); //.filter(w => w.data.mount.mounted && w.data.mount.activated);
+    const weapons = actor.items.filter((i) => i.type === itemType); //.filter(w => w.data.mount.mounted && w.data.mount.activated);
     if (weapons.length === 0) return;
 
     const category = this.initializeEmptyCategory(itemType);

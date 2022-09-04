@@ -174,7 +174,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
 
   /** @private */
   async _adjustAttributes(event, actor, macroType, actionId) {
-    let attribute = actor.data.data[macroType];
+    let attribute = actor.data[macroType];
 
     if (!attribute) return;
 

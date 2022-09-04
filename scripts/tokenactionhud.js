@@ -323,7 +323,7 @@ export class TokenActionHUD extends Application {
       hudTitle.css("top", -hudTitle[0].getBoundingClientRect().height);
 
     let token = canvas?.tokens?.placeables.find(
-      (t) => t.data._id === this.targetActions?.tokenId
+      (t) => t.id === this.targetActions?.tokenId
     );
     if (settings.get("onTokenHover") && token) {
       this.setHoverPos(token);
@@ -338,13 +338,13 @@ export class TokenActionHUD extends Application {
   setUserPos() {
     if (
       !(
-        game.user.data.flags["token-action-hud"] &&
-        game.user.data.flags["token-action-hud"].hudPos
+        game.user.flags["token-action-hud"] &&
+        game.user.flags["token-action-hud"].hudPos
       )
     )
       return;
 
-    let pos = game.user.data.flags["token-action-hud"].hudPos;
+    let pos = game.user.flags["token-action-hud"].hudPos;
     let defaultLeftPos = this.defaultLeftPos;
     let defaultTopPos = this.defaultTopPos;
 

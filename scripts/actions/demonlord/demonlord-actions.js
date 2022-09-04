@@ -17,7 +17,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
     result.tokenId = tokenId;
 
     let actor = token.actor;
@@ -38,7 +38,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
       attributes
     );
 
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       this._combineCategoryWithList(
         result,
         this.i18n("tokenactionhud.weapons"),
@@ -51,7 +51,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
         weapons
       );
 
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       this._combineCategoryWithList(
         result,
         this.i18n("tokenactionhud.talents"),
@@ -77,7 +77,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     this._setFilterSuggestions(actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -307,7 +307,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let shortRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
@@ -331,7 +331,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actors.every((actor) => actor.data.type === "character")) {
+    if (actors.every((actor) => actor.type === "character")) {
       let shortRestValue = [macroType, tokenId, "rest", ""].join(
         this.delimiter
       );

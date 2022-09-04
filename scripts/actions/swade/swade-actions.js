@@ -33,7 +33,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addSpecialAbilities(result, tokenId, actor);
     this._addUtilities(result, tokenId, actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -74,7 +74,7 @@ export class ActionHandlerSwade extends ActionHandler {
   _addSkills(list, tokenId, actor) {
     const cat = this.initializeEmptyCategory("skills");
     const macroType = "skill";
-    const skills = actor.data.items.filter((i) => i.type === macroType);
+    const skills = actor.items.filter((i) => i.type === macroType);
 
     const subcat = this.initializeEmptySubcategory("skills");
     skills.forEach((s) => {
@@ -94,7 +94,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addPowers(list, tokenId, actor) {
-    const powers = actor.data.items.filter((i) => i.type === "power");
+    const powers = actor.items.filter((i) => i.type === "power");
     if (powers.length === 0) return;
 
     const macroType = "powerPoints";
@@ -143,9 +143,9 @@ export class ActionHandlerSwade extends ActionHandler {
   _addInventory(list, tokenId, actor) {
     const cat = this.initializeEmptyCategory("inventory");
 
-    let items = actor.data.items;
+    let items = actor.items;
 
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       items = items.filter((i) => i.system.equipped);
 
     const weapons = items.filter((i) => i.type === "weapon");
@@ -232,11 +232,11 @@ export class ActionHandlerSwade extends ActionHandler {
   _addEdgesAndHinderances(list, tokenId, actor) {
     const cat = this.initializeEmptyCategory("edges");
 
-    const edges = actor.data.items.filter((i) => i.type === "edge");
+    const edges = actor.items.filter((i) => i.type === "edge");
     const edgesName = this.i18n("tokenactionhud.edges");
     this._addItemSubcategory(tokenId, edgesName, edges, "edges", cat);
 
-    const hindrances = actor.data.items.filter((i) => i.type === "hindrance");
+    const hindrances = actor.items.filter((i) => i.type === "hindrance");
     const hindName = this.i18n("tokenactionhud.hindrances");
     this._addItemSubcategory(tokenId, hindName, hindrances, "hindrances", cat);
 
@@ -250,7 +250,7 @@ export class ActionHandlerSwade extends ActionHandler {
   _addSpecialAbilities(list, tokenId, actor) {
     const cat = this.initializeEmptyCategory("abilities");
 
-    const specialAbilities = actor.data.items.filter((i) => i.type === "ability");
+    const specialAbilities = actor.items.filter((i) => i.type === "ability");
     const abilityName = this.i18n("tokenactionhud.swade.abilities");
     this._addItemSubcategory(tokenId, abilityName, specialAbilities, "abilities", cat);
 

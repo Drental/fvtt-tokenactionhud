@@ -17,7 +17,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -37,7 +37,7 @@ export class ActionHandlerD35E extends ActionHandler {
     this._addChecksList(result, actor, tokenId);
     this._addUtilityList(result, actor, tokenId);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -138,7 +138,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _getAttacksList(actor, tokenId) {
-    let validAttacks = actor.data.items.filter((i) => i.type === "attack");
+    let validAttacks = actor.items.filter((i) => i.type === "attack");
     let sortedAttacks = this._sortByItemSort(validAttacks);
     let macroType = "attack";
 
@@ -165,7 +165,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
-    let validFullAttacks = actor.data.items.filter(
+    let validFullAttacks = actor.items.filter(
       (i) => i.type === "full-attack"
     );
     let sortedFullAttacks = this._sortByItemSort(validFullAttacks);
@@ -183,7 +183,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _getBuffsList(actor, tokenId) {
-    let validBuff = actor.data.items.filter((i) => i.type === "buff");
+    let validBuff = actor.items.filter((i) => i.type === "buff");
     let sortedBuffs = this._sortByItemSort(validBuff);
     let macroType = "buff";
 
@@ -206,7 +206,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _getItemList(actor, tokenId) {
-    let validItems = actor.data.items.filter((i) => i.system.quantity > 0);
+    let validItems = actor.items.filter((i) => i.system.quantity > 0);
     let sortedItems = this._sortByItemSort(validItems);
     let macroType = "item";
 
@@ -300,7 +300,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _getSpellsList(actor, tokenId) {
-    let validSpells = actor.data.items.filter((i) => i.type === "spell");
+    let validSpells = actor.items.filter((i) => i.type === "spell");
     validSpells = this._filterExpendedItems(validSpells);
 
     let spells = this._categoriseSpells(actor, tokenId, validSpells);
@@ -458,7 +458,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _getFeatsList(actor, tokenId) {
-    let validFeats = actor.data.items.filter((i) => i.type == "feat");
+    let validFeats = actor.items.filter((i) => i.type == "feat");
     let sortedFeats = this._sortByItemSort(validFeats);
     let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
 
@@ -708,7 +708,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",

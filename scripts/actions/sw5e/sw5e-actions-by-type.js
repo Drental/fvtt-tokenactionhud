@@ -39,7 +39,7 @@ export class ActionHandlerSW5eGroupByType extends ActionHandlerSW5e {
       }
     }
     if (
-      token.actor.data.type === "character" ||
+      token.actor.type === "character" ||
       !settings.get("showAllNpcItems")
     ) {
       powers = this._filterNonpreparedPowers(powers);

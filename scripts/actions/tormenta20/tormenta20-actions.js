@@ -18,7 +18,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -64,7 +64,7 @@ export class ActionHandlerT20 extends ActionHandler {
     // this._combineCategoryWithList(result, effectsTitle, effects);
     // this._combineCategoryWithList(result, conditionsTitle, conditions);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -100,16 +100,16 @@ export class ActionHandlerT20 extends ActionHandler {
   /** @private */
   _getItemList(actor, tokenId) {
     let validItems = this._filterLongerActions(
-      actor.data.items.filter((i) => i.data.qtd > 0)
+      actor.items.filter((i) => i.data.qtd > 0)
     );
     let sortedItems = this._sortByItemSort(validItems);
     let macroType = "item";
 
     let equipped;
-    // if (actor.data.type === 'npc' && settings.get('showAllNpcItems')) {
+    // if (actor.type === 'npc' && settings.get('showAllNpcItems')) {
     // equipped = sortedItems.filter(i => i.type !== 'consumivel' && i.type !== 'magia' && i.type !== 'poder');
     // } else {
-    // equipped = sortedItems.filter(i => i.type !== 'consumivel' && i.data.equipped);
+    // equipped = sortedItems.filter(i => i.type !== 'consumivel' && i.system.equipped);
     // }
     equipped = sortedItems.filter((i) => i.type !== "consumivel");
     let activeEquipped = this._getActiveEquipment(equipped);
@@ -200,11 +200,11 @@ export class ActionHandlerT20 extends ActionHandler {
   /** @private */
   _getSpellsList(actor, tokenId) {
     let validSpells = this._filterLongerActions(
-      actor.data.items.filter((i) => i.type === "magia")
+      actor.items.filter((i) => i.type === "magia")
     );
     validSpells = this._filterExpendedItems(validSpells);
 
-    // if (actor.data.type === 'character' || !settings.get('showAllNpcItems'))
+    // if (actor.type === 'character' || !settings.get('showAllNpcItems'))
     // validSpells = this._filterNonpreparedSpells(validSpells);
 
     let spellsSorted = this._sortSpellsByLevel(validSpells);
@@ -301,7 +301,7 @@ export class ActionHandlerT20 extends ActionHandler {
   /** @private */
   _getFeatsList(actor, tokenId) {
     let validFeats = this._filterLongerActions(
-      actor.data.items.filter((i) => i.type == "poder")
+      actor.items.filter((i) => i.type == "poder")
     );
     let sortedFeats = this._sortByItemSort(validFeats);
     let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
@@ -528,7 +528,7 @@ export class ActionHandlerT20 extends ActionHandler {
       const name = this.i18n(c.label);
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const cssClass = actors.every((actor) =>
-        actor.effects.entries.some((e) => e.data.flags.core?.statusId === c.id)
+        actor.effects.entries.some((e) => e.flags.core?.statusId === c.id)
       )
         ? "active"
         : "";
@@ -565,7 +565,7 @@ export class ActionHandlerT20 extends ActionHandler {
       const name = this.i18n(c.label);
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const cssClass = actor.effects.entries.some(
-        (e) => e.data.flags.core?.statusId === c.id
+        (e) => e.flags.core?.statusId === c.id
       )
         ? "active"
         : "";

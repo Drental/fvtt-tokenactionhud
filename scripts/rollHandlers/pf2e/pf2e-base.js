@@ -30,7 +30,7 @@ export class RollHandlerBasePf2e extends RollHandler {
           knownCharacters.includes(t.actor?.data.type)
         );
         for (let token of controlled) {
-          let idToken = token.data._id;
+          let idToken = token.id;
           await this._handleMacros(event, macroType, idToken, actionId);
         }
       } else {
@@ -44,7 +44,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   async _handleMacros(event, macroType, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let charType;
-    if (actor) charType = actor.data.type;
+    if (actor) charType = actor.type;
 
     let sharedActions = [
       "ability",

@@ -21,7 +21,7 @@ export class ActionHandlerDs4 extends ActionHandler {
     }
 
     if (settings.get("showHudTitle")) {
-      actionList.hudTitle = token.data?.name;
+      actionList.hudTitle = token.name;
     }
 
     const categories = this._buildSingleTokenCategories(token);

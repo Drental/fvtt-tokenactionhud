@@ -12,7 +12,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -24,7 +24,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
       return result;
     }
 
-    result.actorId = actor.data._id;
+    result.actorId = actor.id;
 
     let actions = this._getActions(actor, tokenId);
     let skills = this._getSkills(actor, tokenId);
@@ -41,7 +41,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
       skills
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -89,7 +89,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n('CoC7.Entities.' + actor.data.type.charAt(0).toUpperCase() + actor.data.type.slice(1)),
+      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
       category
     );
 
@@ -183,7 +183,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n('CoC7.Entities.' + actor.data.type.charAt(0).toUpperCase() + actor.data.type.slice(1)),
+      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
       category
     );
 

@@ -18,7 +18,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     let attributename = payload[3];
     let actor = super.getActor(tokenId);
     let charType;
-    if (actor) charType = actor.data.type;
+    if (actor) charType = actor.type;
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ['item', 'armor'];
@@ -92,7 +92,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         await this._adjustAttribute(event, actor, 'stress', 'value', actionId);
         break;
       case 'rollStress':
-        if (actor.data.type === 'character') {
+        if (actor.type === 'character') {
           rData = { panicroll: actor.system.header.stress };
         } else {
           rData = { panicroll: { value: 0, label: 'Stress' } };
@@ -115,7 +115,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         actor.creatureAcidRoll(actor, aSplashData);
         break;
       case 'rollCrit':
-        actor.rollCrit(actor.data.type);
+        actor.rollCrit(actor.type);
         break;
     }
   }
@@ -176,10 +176,10 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
 
   async performMultiToggleUtilityMacro(actionId) {
     if (actionId === 'toggleVisibility') {
-      const allVisible = canvas.tokens.controlled.every((t) => !t.data.hidden);
+      const allVisible = canvas.tokens.controlled.every((t) => !t.document.hidden);
       canvas.tokens.controlled.forEach((t) => {
         if (allVisible) t.toggleVisibility();
-        else if (t.data.hidden) t.toggleVisibility();
+        else if (t.document.hidden) t.toggleVisibility();
       });
     }
 

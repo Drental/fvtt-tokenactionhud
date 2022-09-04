@@ -22,14 +22,14 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
     result.tokenId = tokenId;
 
     let actor = token.actor;
     if (!actor) return result;
 
     let knownActors = ["character", "npc", "familiar"];
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (!knownActors.includes(actorType)) return result;
 
     result.actorId = actor.id;
@@ -40,7 +40,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     if (actorType === "npc")
       this.npcActionHandler.buildActionList(result, tokenId, actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -145,7 +145,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   }
 
   _addMultiUtilities(list, tokenId, actors) {
-    if (!actors.every((actor) => actor.data.type === "character")) return;
+    if (!actors.every((actor) => actor.type === "character")) return;
 
     let result = this.initializeEmptyCategory("utility");
     let macroType = "utility";
@@ -210,14 +210,14 @@ export class ActionHandlerPf2e extends ActionHandler {
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       weaponList = weaponList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let weaponActions = this._buildItemActions(tokenId, macroType, weaponList);
     let weapons = this.initializeEmptySubcategory();
     weapons.actions = weaponActions;
 
     let armourList = items.filter((i) => i.type === "armor");
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       armourList = armourList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let armourActions = this._buildItemActions(tokenId, macroType, armourList);
     let armour = this.initializeEmptySubcategory();
@@ -658,13 +658,13 @@ export class ActionHandlerPf2e extends ActionHandler {
           let encodedValue = [
             macroType,
             tokenId,
-            `${spellInfo.id}>${level.level}>${spell.data._id}`,
+            `${spellInfo.id}>${level.level}>${spell.id}`,
           ].join(this.delimiter);
 
           const spellAction = {
             name: spell.name,
             encodedValue: encodedValue,
-            id: spell.data._id,
+            id: spell.id,
             img: this._getImage(spell),
             icon: this._getActionIcon(spell.system?.time?.value),
             spellLevel: level.level,
@@ -894,7 +894,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let result = this.initializeEmptyCategory("utility");
     let macroType = "utility";
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let attributes = this.initializeEmptySubcategory();
       let attributeActions = [];
 
@@ -1036,7 +1036,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     result.forEach((i) =>
       this._addItemInfo(
-        itemList.find((item) => item.data._id === i.id),
+        itemList.find((item) => item.id === i.id),
         i
       )
     );
