@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.0.2] 2022-09-04
+
+- tah - More v10 compat - big thanks to Wickermoon!!
+- forbidden-lands - add code for conditions and consumables - thank you Larkinabout!
+
 ## [3.0.1] 2022-09-04
 
 - tah - replace deprecated Methods across the codebase - big thanks to Larkinabout!!
