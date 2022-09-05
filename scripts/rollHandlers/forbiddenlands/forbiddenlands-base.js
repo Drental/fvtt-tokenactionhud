@@ -44,18 +44,15 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
             break;
         }
       }
-      let rData = [];
       switch (macroType) {
         case 'attribute':
-          rData = { roll: actor.system.attribute[actionId].value, label: actor.system.attribute[actionId].label };
           if (event.type === 'click') {
-            actor.sheet.rollAttribute(game.i18n.localize(rData.label).toLowerCase());
+            actor.sheet.rollAttribute(actionId);
           }
           break;
         case 'skill':
-          rData = { roll: actor.system.skill[actionId].mod, label: actor.system.skill[actionId].label };
           if (event.type === 'click') {
-            actor.sheet.rollSkill(game.i18n.localize(rData.label).toLowerCase());
+            actor.sheet.rollSkill(actionId);
           }
           break;
         case 'weapon':
