@@ -312,7 +312,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let items = (actor.items ?? [])
       .filter((a) => filter.includes(a.type))
       .sort(this._foundrySort);
-    let powerList = items.filter((i) => i.data.totalPower > 0);
+    let powerList = items.filter((i) => i.system.totalPower > 0);
 
     let powerMap = powerList.map((c) => {
       let name = c.name;
@@ -836,8 +836,8 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   }
   /** @protected */
   _foundrySort(a, b) {
-    if (!(a?.data?.sort || b?.data?.sort)) return 0;
+    if (!(a?.sort || b?.sort)) return 0;
 
-    return a.data.sort - b.data.sort;
+    return a.sort - b.sort;
   }
 }

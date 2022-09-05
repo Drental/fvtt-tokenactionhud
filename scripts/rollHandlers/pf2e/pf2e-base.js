@@ -27,7 +27,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       const knownCharacters = ["character", "familiar", "npc"];
       if (tokenId === "multi") {
         const controlled = canvas.tokens.controlled.filter((t) =>
-          knownCharacters.includes(t.actor?.data.type)
+          knownCharacters.includes(t.actor?.type)
         );
         for (let token of controlled) {
           let idToken = token.id;
@@ -258,7 +258,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
         .find((s) => s.name === strikeName).item;
-      if (item) return this.doRenderItem(tokenId, item.data.id);
+      if (item) return this.doRenderItem(tokenId, item.id);
     }
 
     if (altUsage !== null) {
@@ -301,7 +301,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
         .find((s) => s.name === strikeName).origin;
-      if (item) return this.doRenderItem(tokenId, item.data.id);
+      if (item) return this.doRenderItem(tokenId, item.id);
     }
 
     if (strikeUsage !== "") {

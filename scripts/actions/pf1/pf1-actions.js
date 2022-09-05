@@ -50,7 +50,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     const allowedTypes = ["npc", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 
@@ -152,9 +152,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _getAttacksList(actor, tokenId) {
-    let validAttacks = actor.items
-      .filter((i) => i.type === "attack")
-      .map((i) => i.data);
+    let validAttacks = actor.items.filter((i) => i.type === "attack");
     let sortedAttacks = this._sortByItemSort(validAttacks);
     let macroType = "attack";
 
@@ -215,14 +213,13 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getBuffsList(actor, tokenId) {
     let validBuff = actor.items
-      .filter((i) => i.type === "buff")
-      .map((i) => i.data);
+      .filter((i) => i.type === "buff");
     let sortedBuffs = this._sortByItemSort(validBuff);
     let macroType = "buff";
 
     let buffActions = sortedBuffs.map((w) => {
       var action = this._buildItem(tokenId, actor, macroType, w);
-      action.cssClass = w.data.active ? "active" : "";
+      action.cssClass = w.isActive ? "active" : "";
       return action;
     });
     let buffCat = this.initializeEmptySubcategory();
@@ -240,8 +237,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getItemList(actor, tokenId) {
     let validItems = actor.items
-      .filter((i) => i.system.quantity > 0)
-      .map((i) => i.data);
+      .filter((i) => i.system.quantity > 0);
     let sortedItems = this._sortByItemSort(validItems);
     let macroType = "item";
 
@@ -277,8 +273,8 @@ export class ActionHandlerPf1 extends ActionHandler {
     let expendedFiltered = this._filterExpendedItems(allConsumables);
     let consumable = expendedFiltered.filter(
       (c) =>
-        (c.data.uses?.value && c.data.uses?.value >= 0) ||
-        (c.data.uses?.max && c.data.uses?.max >= 0)
+        (c.system.uses?.value && c.system.uses?.value >= 0) ||
+        (c.system.uses?.max && c.system.uses?.max >= 0)
     );
     let consumableActions = consumable.map((c) =>
       this._buildItem(tokenId, actor, macroType, c)
@@ -288,8 +284,8 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let inconsumable = allConsumables.filter(
       (c) =>
-        !(c.data.uses?.max || c.data.uses?.value) &&
-        c.data.consumableType != "ammo"
+        !(c.system.uses?.max || c.system.uses?.value) &&
+        c.system.consumableType != "ammo"
     );
     let incomsumableActions = inconsumable.map((i) =>
       this._buildItem(tokenId, actor, macroType, i)
@@ -336,8 +332,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getSpellsList(actor, tokenId) {
     let validSpells = actor.items
-      .filter((i) => i.type === "spell")
-      .map((i) => i.data);
+      .filter((i) => i.type === "spell");
     validSpells = this._filterExpendedItems(validSpells);
 
     let spells = this._categoriseSpells(actor, tokenId, validSpells);
@@ -350,7 +345,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let spellResults = [];
     const macroType = "spell";
 
-    const spellbookIds = [...new Set(spells.map((i) => i.data.spellbook))].sort();
+    const spellbookIds = [...new Set(spells.map((i) => i.system.spellbook))].sort();
 
     spellbookIds.forEach((sbId) => {
       const currentSpellbookCategory = this.initializeEmptySubcategory(`spells-${sbId}`);
@@ -372,18 +367,18 @@ export class ActionHandlerPf1 extends ActionHandler {
       );
 
       const sbSpells = spells
-        .filter((s) => s.data.spellbook === sbId)
+        .filter((s) => s.system.spellbook === sbId)
         .sort((a, b) =>
           a.name.toUpperCase().localeCompare(b.name.toUpperCase(), undefined, {
             sensitivity: "base",
           })
         )
-        .sort((a, b) => a.data.level - b.data.level);
+        .sort((a, b) => a.system.level - b.system.level);
 
       const spellsByLevel = sbSpells.reduce((arr, s) => {
-        if (!arr.hasOwnProperty(s.data.level)) arr[s.data.level] = [];
+        if (!arr.hasOwnProperty(s.system.level)) arr[s.system.level] = [];
 
-        arr[s.data.level].push(s);
+        arr[s.system.level].push(s);
 
         return arr;
       }, {});
@@ -438,10 +433,10 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _addSpellInfo(spell, isSpontaneous, spellAction) {
-    let c = spell.data.components;
+    let c = spell.system.components;
 
-    if (!isSpontaneous && spell.data.preparation) {
-      let prep = spell.data.preparation;
+    if (!isSpontaneous && spell.system.preparation) {
+      let prep = spell.system.preparation;
       if (prep.maxAmount)
         spellAction.info1 = `${prep.preparedAmount}/${prep.maxAmount}`;
     }
@@ -469,18 +464,18 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _isSpellCastable(actor, spell) {
-    const spellbook = spell.data.spellbook;
+    const spellbook = spell.system.spellbook;
     const isSpontaneous =
       actor.system.attributes.spells.spellbooks[spellbook].spontaneous;
 
     if (actor.type !== "character") return true;
 
-    if (spell.data.atWill) return true;
+    if (spell.system.atWill) return true;
 
-    if (isSpontaneous && spell.data.preparation.spontaneousPrepared)
+    if (isSpontaneous && spell.system.preparation.spontaneousPrepared)
       return true;
 
-    if (spell.data.preparation.preparedAmount === 0) return false;
+    if (spell.system.preparation.preparedAmount === 0) return false;
 
     return true;
   }
@@ -505,9 +500,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _getFeatsList(actor, tokenId) {
-    let validFeats = actor.items
-      .filter((i) => i.type == "feat")
-      .map((i) => i.datqa);
+    let validFeats = actor.items.filter((i) => i.type == "feat");
     let sortedFeats = this._sortByItemSort(validFeats);
     let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
 
@@ -522,12 +515,12 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let dispose = feats.reduce(
       function (dispose, f) {
-        const activationType = f.data.activation?.type ?? f.data.actions[0]?.activation.type;
+        const activationType = f.system.activation?.type ?? f.system.actions[0]?.activation.type;
         const macroType = "feat";
 
         let feat = this._buildItem(tokenId, actor, macroType, f);
 
-        if (!f.document.isActive) {
+        if (!f.isActive) {
           disabled.actions.push(feat);
           return;
         }
@@ -899,7 +892,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actors.every((a) => a.data.type === "character")) {
+    if (actors.every((a) => a.type === "character")) {
       let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
@@ -924,7 +917,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _buildItem(tokenId, actor, macroType, item) {
     let encodedValue = [macroType, tokenId, item._id].join(this.delimiter);
     let img = this._getImage(item);
-    let icon = this._getActionIcon(item.data?.activation?.type);
+    let icon = this._getActionIcon(item.system.activation?.type);
     let name = this._getItemName(item);
     let result = {
       name: name,
@@ -935,9 +928,9 @@ export class ActionHandlerPf1 extends ActionHandler {
     };
 
     if (
-      item.data.recharge &&
-      !item.data.recharge.charged &&
-      item.data.recharge.value
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
     ) {
       result.name += ` (${this.i18n("tokenactionhud.recharge")})`;
     }
@@ -954,8 +947,8 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getItemName(item) {
     let name;
 
-    if (item.data.identified || game.user.isGM) name = item.data.identifiedName;
-    else name = item.data.unidentified?.name;
+    if (item.system.identified || game.user.isGM) name = item.system.identifiedName;
+    else name = item.system.unidentified?.name;
 
     if (!name) name = item.name;
 
@@ -971,11 +964,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   /** @private */
   _getQuantityData(item) {
-    let result = "";
-    if (item.data.quantity > 1) {
-      result = item.system.quantity;
-    }
-
+    let result = (item.system.quantity > 1) ? item.system.quantity : ""
     return result;
   }
 
@@ -1001,22 +990,22 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getConsumeData(item, actor) {
     let result = "";
 
-    let consumeType = item.data.consume?.type;
+    let consumeType = item.system.consume?.type;
     if (consumeType && consumeType !== "") {
-      let consumeId = item.data.consume.target;
+      let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));
       if (consumeType === "attribute") {
-        let target = getProperty(actor, `data.data.${consumeId}`);
+        let target = getProperty(actor, `system.${consumeId}`);
 
         if (target) {
-          let parent = getProperty(actor, `data.data.${parentId}`);
+          let parent = getProperty(actor, `system.${parentId}`);
           result = target;
           if (!!parent.max) result += `/${parent.max}`;
         }
       }
 
       if (consumeType === "charges") {
-        let consumeId = item.data.consume.target;
+        let consumeId = item.system.consume.target;
         let target = actor.items.get(consumeId);
         let uses = target?.system.uses;
         if (uses?.value) {
@@ -1026,7 +1015,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       }
 
       if (!(consumeType === "attribute" || consumeType === "charges")) {
-        let consumeId = item.data.consume.target;
+        let consumeId = item.system.consume.target;
         let target = actor.items.get(consumeId);
         let quantity = target?.system.quantity;
         if (quantity) {
@@ -1042,7 +1031,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     if (settings.get("showEmptyItems")) return items;
 
     return items.filter((i) => {
-      let uses = i.data.uses;
+      let uses = i.system.uses;
       // Assume something with no uses is unlimited in its use.
       if (!uses) return true;
 

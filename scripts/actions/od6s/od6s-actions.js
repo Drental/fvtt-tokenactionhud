@@ -58,7 +58,7 @@ export class ActionHandlerOD6S extends ActionHandler {
             );
         }
 
-        if (isNewerVersion(game.system.data.version, "0.2.4")) {
+        if (isNewerVersion(game.system.version, "0.2.4")) {
             if (actor.type === 'vehicle' || actor.type === 'starship') {
                 if (actor.system.crewmembers.length > 0) {
                     for (let i of actor.system.crewmembers) {
@@ -97,11 +97,11 @@ export class ActionHandlerOD6S extends ActionHandler {
         );
 
         let weapons = items
-            .filter((i) => i.data.type === "weapon" && i.system.equipped.value)
+            .filter((i) => i.type === "weapon" && i.system.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name));
         let meleeWeapons = items
             .filter(
-                (i) => i.data.type === "weapon" && i.system.subtype === "Melee" && i.system.equipped.value)
+                (i) => i.type === "weapon" && i.system.subtype === "Melee" && i.system.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name))
             .valueOf();
         let weaponActions = this._produceMap(tokenId, weapons, macroType);
@@ -171,7 +171,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         let result = this.initializeEmptyCategory("vehicleactions");
 
         if (actor.getFlag('od6s', 'crew')) {
-            if (isNewerVersion(game.system.data.version, "0.1.14")) {
+            if (isNewerVersion(game.system.version, "0.1.14")) {
                 let resistances = [];
                 let name;
 
@@ -291,7 +291,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         let result = this.initializeEmptyCategory(categoryName);
         let items = actor.items;
         let skills = items.filter(
-            (i) => i.data.type === "skill" || i.data.type === "specialization"
+            (i) => i.type === "skill" || i.type === "specialization"
         );
         skills.sort((a, b) => a.name.localeCompare(b.name));
         let skillActions = this._produceMap(tokenId, skills, macroType);

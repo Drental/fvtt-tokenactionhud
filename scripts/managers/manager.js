@@ -105,6 +105,6 @@ export class SystemManager {
   }
 
   static getModuleTitle(id) {
-    return game.modules.get(id)?.data.title ?? "";
+    return game.modules.get(id)?.title ?? "";
   }
 }

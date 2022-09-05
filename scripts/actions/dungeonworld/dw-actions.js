@@ -395,10 +395,10 @@ export class ActionHandlerDw extends ActionHandler {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.data._id].join(
+        let encodedValue = [macroType, tokenId, i.id].join(
           this.delimiter
         );
-        let item = { name: i.name, encodedValue: encodedValue, id: i.data._id };
+        let item = { name: i.name, encodedValue: encodedValue, id: i.id };
 
         this._addItemInfo(i, item);
 
@@ -407,10 +407,10 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   _addItemInfo(i, item) {
-    let uses = item.system.uses;
+    let uses = item.system?.uses;
     item.info1 = uses ?? "";
 
-    let quantity = item.system.quantity;
+    let quantity = item.system?.quantity;
     item.info2 = quantity > 1 ? quantity : "";
   }
 }

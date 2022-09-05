@@ -49,7 +49,7 @@ Hooks.on("init", () => {
   }
   Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
   
-  const system = game.data.system.id;
+  const system = game.system.id;
   const supportedSystem = systemManagers[system];
   if(!supportedSystem) {
     console.error("Token Action HUD: System not supported")
@@ -65,7 +65,7 @@ Hooks.on("init", () => {
 // Hooks.on("init", () => {
 //   registerHandlerbars();
 
-//   let system = game.data.system.id;
+//   let system = game.system.id;
 
 //   systemManager = SystemManagerFactory.create(system, appName);
 //   systemManager.registerSettings();

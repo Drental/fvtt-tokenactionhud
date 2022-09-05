@@ -76,7 +76,7 @@ export class ActionHandlerT20 extends ActionHandler {
     const allowedTypes = ["npc", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 

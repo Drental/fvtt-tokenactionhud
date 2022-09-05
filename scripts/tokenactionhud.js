@@ -382,7 +382,7 @@ export class TokenActionHUD extends Application {
           elmnt.css(
             "left",
             token.worldTransform.tx +
-              (token.data.width * canvas.dimensions.size + 55) *
+              (token.width * canvas.dimensions.size + 55) *
                 canvas.scene._viewPosition.scale +
               "px"
           );

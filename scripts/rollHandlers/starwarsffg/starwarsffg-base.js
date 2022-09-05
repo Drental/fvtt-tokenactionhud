@@ -92,7 +92,7 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
     const actorSheet = actor.sheet.getData();
     const skill = actor.system.skills[skillname];
     const characteristic =
-      actorSheet.data.characteristics[skill.characteristic];
+      actorSheet.system.characteristics[skill.characteristic];
     game.ffg.DiceHelpers.rollSkillDirect(
       skill,
       characteristic,

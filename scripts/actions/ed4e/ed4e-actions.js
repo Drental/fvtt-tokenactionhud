@@ -370,7 +370,6 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
     _buildItem(tokenId, actor, macroType, item) {
-        //const itemData = this._getEntityData(item);
         const itemId = item.id ?? item._id;
         let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
         let img = this._getImage(item);

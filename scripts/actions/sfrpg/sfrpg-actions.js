@@ -122,7 +122,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     if (settings.get("showMiscFeats")) {
       const miscFeats = itemList.filter(
         (i) =>
-          !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.data.actionType)
+          !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.system.actionType)
       );
       this._addSubcategoryByItemList(
         this.i18n("tokenactionhud.misc"),
@@ -405,7 +405,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       return result;
     }
 
-    let usage = item.data.usage;
+    let usage = item.system.usage;
     if (usage?.value) {
       result = usage.value ?? "";
 
@@ -465,7 +465,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   /** @private */
   _addStarshipWeapons(token, actor, actionList) {
     const itemType = "starshipWeapon";
-    const weapons = actor.items.filter((i) => i.type === itemType); //.filter(w => w.data.mount.mounted && w.data.mount.activated);
+    const weapons = actor.items.filter((i) => i.type === itemType); //.filter(w => w.system.mount.mounted && w.system.mount.activated);
     if (weapons.length === 0) return;
 
     const category = this.initializeEmptyCategory(itemType);
