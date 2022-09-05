@@ -84,37 +84,16 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
-    let rData = 0;
+  async _handleUniqueActionsChar(macroType, event, actor, actionId) {
     switch (macroType) {
       case 'stress':
         await this._adjustAttribute(event, actor, 'stress', 'value', actionId);
         break;
-      case 'rollStress':
-        if (actor.type === 'character') {
-          rData = { panicroll: actor.system.header.stress };
-        } else {
-          rData = { panicroll: { value: 0, label: 'Stress' } };
-        }
-        if (event.type === 'click') {
-          actor.rollAbility(actor, rData);
-        } else {
-          actor.rollAbilityMod(actor, rData);
-        }
-        break;
       case 'health':
         await this._adjustAttribute(event, actor, 'health', 'value', actionId);
         break;
-      case 'creatureAttack':
-        let rAttData = { atttype: actor.system.rTables };
-        actor.creatureAttackRoll(actor, rAttData);
-        break;
-      case 'acidSplash':
-        let aSplashData = { roll: actor.system.general.acidSplash.value, label: actor.system.general.acidSplash.label };
-        actor.creatureAcidRoll(actor, aSplashData);
-        break;
-      case 'rollCrit':
-        actor.rollCrit(actor.type);
+      case 'monsterAttack':
+        actor.sheet.rollSpecificAttack(actionId);
         break;
     }
   }

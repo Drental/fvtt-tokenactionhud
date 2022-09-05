@@ -13,6 +13,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let weapons = {};
     let inventory = {};
     let talents = {};
+    let spells = {};
     let consumables = {};
     let conditions = {};
     let attack = {};
@@ -44,10 +45,12 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       weapons = this._getWeaponsList(actor, tokenId);
       inventory = this._getItemsList(actor, tokenId);
       talents = this._getTalentsList(actor, tokenId);
+      spells = this._getSpellsList(actor, tokenId);
       consumables = this._getConsumablesList(actor, tokenId);
       conditions = this._getConditionsList(actor, tokenId);
     } else if (actorType == 'monster') {
       attributes = this._getAttributes(actor, tokenId);
+      skills = this._getSkills(actor, tokenId);
       talents = this._getMonsterTalentsList(actor, tokenId);
       attack = this._getAttackList(actor, tokenId);
     }
@@ -59,6 +62,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), weapons);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.inventory'), inventory);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
+        this._combineCategoryWithList(result, this.i18n('tokenactionhud.spells'), spells);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.consumables'), consumables);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.conditions'), conditions);
         this._setFilterSuggestions(actor);
@@ -66,6 +70,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
         break;
       case 'monster':
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
+        this._combineCategoryWithList(result, this.i18n('tokenactionhud.skills'), skills);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
         this._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
         this._setFilterSuggestions(actor);
@@ -128,6 +133,21 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let talent = this.initializeEmptySubcategory();
     talent.actions = talentActions;
     this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.talents'), talent);
+
+    return result;
+  }
+
+  _getSpellsList(actor, tokenId) {
+    let macroType = 'item';
+    let result = this.initializeEmptyCategory('items');
+    let filter = ['spell'];
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+
+    let spellList = items.filter((i) => i.type === 'spell');
+    let spellActions = this._buildItemActions(tokenId, macroType, spellList);
+    let spell = this.initializeEmptySubcategory();
+    spell.actions = spellActions;
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.spells'), spell);
 
     return result;
   }
