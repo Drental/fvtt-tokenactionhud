@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.3] 2022-09-05
+
+- tah - More v10 compat.
+- pf1 - Fix error when selecting token (#258).
+- dnd5e - Fix error when selecting more than one token (#259).
+
 ## [3.0.2] 2022-09-04
 
 - tah - More v10 compat - big thanks to Wickermoon!!
