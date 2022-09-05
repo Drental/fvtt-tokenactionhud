@@ -43,6 +43,7 @@ export class RollHandlerBase5e extends RollHandler {
         this.rollAbilityCheckMacro(event, tokenId, actionId);
         break;
       case "item":
+      case "weapon":
       case "spell":
       case "feat":
         if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);

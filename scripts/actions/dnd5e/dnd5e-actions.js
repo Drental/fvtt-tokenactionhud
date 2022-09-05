@@ -41,16 +41,29 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   _buildCategories(token) {
-    return [
-      this._buildItemsCategory(token),
-      this._buildSpellsCategory(token),
-      this._buildFeaturesCategory(token),
-      this._buildSkillsCategory(token),
-      this._buildAbilitiesCategory(token),
-      this._buildEffectsCategory(token),
-      this._buildConditionsCategory(token),
-      this._buildUtilityCategory(token),
-    ];
+    const actor = token.actor;
+    
+    if (actor.type === "character" || actor.type === "npc") {
+      return [
+        this._buildItemsCategory(token),
+        this._buildSpellsCategory(token),
+        this._buildFeaturesCategory(token),
+        this._buildSkillsCategory(token),
+        this._buildAbilitiesCategory(token),
+        this._buildEffectsCategory(token),
+        this._buildConditionsCategory(token),
+        this._buildUtilityCategory(token)
+      ];
+    }
+    if (actor.type === "vehicle") {
+      return [
+        this._buildWeaponsCategory(token),
+        this._buildFeaturesCategory(token),
+        this._buildAbilitiesCategory(token),
+        this._buildEffectsCategory(token),
+        this._buildConditionsCategory(token),
+      ];
+    }
   }
 
   _buildAbilitiesCategory(token) {
@@ -226,6 +239,39 @@ export class ActionHandler5e extends ActionHandler {
       consumablesCat
     );
     this._combineSubcategoryWithCategory(result, toolsTitle, toolsCat);
+
+    return result;
+  }
+
+  /** WEAPONS **/
+
+  /** @private */
+  _buildWeaponsCategory(token) {
+    const actor = token.actor;
+    const tokenId = token.id;
+
+    let validWeapons = this._filterLongerActions(
+      actor.items.filter((i) => i.type === 'weapon')
+    );
+    let sortedWeapons = this._sortByItemSort(validWeapons);
+    let macroType = "weapon";
+
+    let equipped = sortedWeapons.filter((i) => i.system.equipped);
+    let activeEquipped = this._getActiveEquipment(equipped);
+
+    let weapons = activeEquipped;
+    let weaponActions = weapons.map((w) =>
+      this._buildEquipmentItem(tokenId, actor, macroType, w)
+    );
+    let weaponsCat = this.initializeEmptySubcategory();
+    weaponsCat.actions = weaponActions;
+
+    let weaponsTitle = this.i18n("tokenactionhud.weapons");
+
+    let result = this.initializeEmptyCategory("weapons");
+    result.name = this.i18n("tokenactionhud.weapons");
+
+    this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
     return result;
   }
@@ -451,7 +497,10 @@ export class ActionHandler5e extends ActionHandler {
     let passive = this.initializeEmptySubcategory();
     let lair = this.initializeEmptySubcategory();
     let legendary = this.initializeEmptySubcategory();
-
+    let actions = this.initializeEmptySubcategory();
+    let features = this.initializeEmptySubcategory();
+    let reactions = this.initializeEmptySubcategory();
+    
     let dispose = feats.reduce(
       function (dispose, f) {
         const activationType = f.system.activation.type;
@@ -459,24 +508,45 @@ export class ActionHandler5e extends ActionHandler {
 
         let feat = this._buildEquipmentItem(tokenId, actor, macroType, f);
 
-        if (!activationType || activationType === "") {
-          passive.actions.push(feat);
-          return;
+        if (actor.type === "vehicle") {
+          if (activationType && activationType !== "none" && activationType !== "reaction") {
+            actions.actions.push(feat);
+            return;
+          }
+
+          if (!activationType || activationType === "none") {
+            features.actions.push(feat);
+            return;
+          }
+
+          if (activationType == "reaction") {
+            reactions.actions.push(feat);
+            return;
+          }
+
+          actions.actions.push(feat);
+          return
         }
 
-        if (activationType == "lair") {
-          lair.actions.push(feat);
+        if (actor.type === "character" || actor.type === "npc") {
+          if (!activationType || activationType === "") {
+            passive.actions.push(feat);
+            return;
+          }
+  
+          if (activationType == "lair") {
+            lair.actions.push(feat);
+            return;
+          }
+  
+          if (activationType == "legendary") {
+            legendary.actions.push(feat);
+            return;
+          }
+  
+          active.actions.push(feat);
           return;
         }
-
-        if (activationType == "legendary") {
-          legendary.actions.push(feat);
-          return;
-        }
-
-        active.actions.push(feat);
-
-        return;
       }.bind(this),
       {}
     );
@@ -487,10 +557,17 @@ export class ActionHandler5e extends ActionHandler {
     let activeTitle = this.i18n("tokenactionhud.active");
     let legendaryTitle = this.i18n("tokenactionhud.legendary");
     let lairTitle = this.i18n("tokenactionhud.lair");
+    let actionsTitle = this.i18n("tokenactionhud.actions");
+    let featuresTitle = this.i18n("tokenactionhud.features");
+    let reactionsTitle = this.i18n("tokenactionhud.reactions");
+  
     this._combineSubcategoryWithCategory(result, activeTitle, active);
     this._combineSubcategoryWithCategory(result, legendaryTitle, legendary);
     this._combineSubcategoryWithCategory(result, lairTitle, lair);
-
+    this._combineSubcategoryWithCategory(result, actionsTitle, actions);
+    this._combineSubcategoryWithCategory(result, featuresTitle, features);
+    this._combineSubcategoryWithCategory(result, reactionsTitle, reactions);
+    
     if (!settings.get("ignorePassiveFeats")) {
       let passiveTitle = this.i18n("tokenactionhud.passive");
       this._combineSubcategoryWithCategory(result, passiveTitle, passive);
@@ -502,8 +579,6 @@ export class ActionHandler5e extends ActionHandler {
   /** @private */
   _buildSkillsCategory(token) {
     const actor = token.actor;
-    if (actor.type === "vehicle") return;
-
     const skills = actor.system.skills;
 
     let result = this.initializeEmptyCategory("skills");
