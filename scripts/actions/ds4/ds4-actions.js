@@ -68,7 +68,7 @@ export class ActionHandlerDs4 extends ActionHandler {
 
     const equippedItems = actor.items
       .filter((item) => item.system.equipped)
-      .sort((a, b) => a.data.sort - b.data.sort);
+      .sort((a, b) => a.sort - b.sort);
 
     const weaponsSubcategory = this.initializeEmptySubcategory();
     weaponsSubcategory.actions = equippedItems
@@ -86,7 +86,7 @@ export class ActionHandlerDs4 extends ActionHandler {
 
     const equippedItems = actor.items
       .filter((item) => item.system.equipped)
-      .sort((a, b) => a.data.sort - b.data.sort);
+      .sort((a, b) => a.sort - b.sort);
 
     const spellsSubcategory = this.initializeEmptySubcategory();
     spellsSubcategory.actions = equippedItems

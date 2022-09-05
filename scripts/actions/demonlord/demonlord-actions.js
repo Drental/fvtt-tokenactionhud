@@ -234,13 +234,13 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let result = Object.values(spells);
 
     result.sort((a, b) => {
-      if (a.data.rank === b.data.rank)
+      if (a.system.rank === b.system.rank)
         return a.name
           .toUpperCase()
           .localeCompare(b.name.toUpperCase(), undefined, {
             sensitivity: "base",
           });
-      return a.data.rank - b.data.rank;
+      return a.system.rank - b.system.rank;
     });
 
     return result;
@@ -295,7 +295,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     const allowedTypes = ["creature", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     this._addMultiAttributes(list, list.tokenId, actors);
     this._addMultiUtilities(list, list.tokenId, actors);

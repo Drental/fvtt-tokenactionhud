@@ -160,8 +160,8 @@ export class RollHandlerBasePf1 extends RollHandler {
 
     const value = actor.system.attributes.conditions[conditionKey];
 
-    let update = { data: { attributes: { conditions: {} } } };
-    update.data.attributes.conditions[conditionKey] = !value;
+    let update = { system: { attributes: { conditions: {} } } };
+    update.system.attributes.conditions[conditionKey] = !value;
 
     await actor.update(update);
   }

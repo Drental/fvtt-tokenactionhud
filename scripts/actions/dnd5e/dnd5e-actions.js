@@ -548,7 +548,7 @@ export class ActionHandler5e extends ActionHandler {
     let abbr = settings.get("abbreviateSkills");
 
     let skillsActions = Object.entries(game.dnd5e.config.skills).map((e) => {
-      let name = abbr ? e[0] : e[1];
+      let name = abbr ? e[0] : e[1].label;
       name = name.charAt(0).toUpperCase() + name.slice(1);
       let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };

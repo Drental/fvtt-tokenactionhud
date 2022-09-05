@@ -258,11 +258,11 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
     if (actionId === "toggleCombat") {
       const allInCombat = canvas.tokens.controlled.every(
-        (t) => t.data.inCombat
+        (t) => t.inCombat
       );
       for (let t of canvas.tokens.controlled) {
         if (allInCombat) await t.toggleCombat();
-        else if (!t.data.inCombat) await t.toggleCombat();
+        else if (!t.inCombat) await t.toggleCombat();
       }
       Hooks.callAll("forceUpdateTokenActionHUD");
     }

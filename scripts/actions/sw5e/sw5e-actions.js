@@ -95,12 +95,12 @@ export class ActionHandlerSW5e extends ActionHandler {
     list.tokenId = "multi";
     list.actorId = "multi";
 
-    const allowedTypes = (canvas.tokens.controlled.every((a) => a.data.type === "starship")) ? ["starship"] : ["npc", "character"];
+    const allowedTypes = (canvas.tokens.controlled.every((a) => a.type === "starship")) ? ["starship"] : ["npc", "character"];
     const multiStarships = (allowedTypes === ["starships"]);
     
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 
@@ -959,7 +959,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let repairs = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
 
-    if (actors.every((a) => a.data.type === "character")) {
+    if (actors.every((a) => a.type === "character")) {
       let shortRestValue = [macroType, tokenId, "shortRest"].join(
         this.delimiter
       );
@@ -991,7 +991,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       utility.actions.push(inspirationAction);
     }
 
-    if (actors.every((a) => a.data.type === "starship")) {
+    if (actors.every((a) => a.type === "starship")) {
       let rechargeRepairValue = [macroType, tokenId, "rechargeRepair"].join(
         this.delimiter
       );
@@ -1120,7 +1120,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));
       if (consumeType === "attribute") {
-        let target = getProperty(actor, `data.data.${parentId}`);
+        let target = getProperty(actor, `system.${parentId}`);
 
         if (target) {
           result = target.value ?? 0;

@@ -49,7 +49,7 @@ export class ActionHandlerD35E extends ActionHandler {
     const allowedTypes = ["npc", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 
@@ -733,7 +733,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
     let rests = this.initializeEmptySubcategory();
 
-    if (actors.every((a) => a.data.type === "character")) {
+    if (actors.every((a) => a.type === "character")) {
       let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
@@ -836,10 +836,10 @@ export class ActionHandlerD35E extends ActionHandler {
       let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));
       if (consumeType === "attribute") {
-        let target = getProperty(actor, `data.data.${consumeId}`);
+        let target = getProperty(actor, `system.${consumeId}`);
 
         if (target) {
-          let parent = getProperty(actor, `data.data.${parentId}`);
+          let parent = getProperty(actor, `system.${parentId}`);
           result = target;
           if (!!parent.max) result += `/${parent.max}`;
         }

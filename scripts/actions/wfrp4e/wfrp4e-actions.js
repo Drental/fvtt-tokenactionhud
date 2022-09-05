@@ -224,8 +224,8 @@ export class ActionHandlerWfrp extends ActionHandler {
     let advancedSkills = skills.filter(
       (s) =>
         !(
-          s.data.name.startsWith(transMelee) ||
-          s.data.name.startsWith(transRanged)
+          s.name.startsWith(transMelee) ||
+          s.name.startsWith(transRanged)
         ) && s.system.advanced.value === "adv"
     );
     let advancedId = `${categoryId}_advanced`;

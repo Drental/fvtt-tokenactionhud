@@ -87,7 +87,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         const allowedTypes = ["Player Character","NPC"];
         let actors = canvas.tokens.controlled
             .map((t) => t.actor)
-            .filter((a) => allowedTypes.includes(a.data.type));
+            .filter((a) => allowedTypes.includes(a.type));
 
         const tokenId = list.tokenId;
 
@@ -744,7 +744,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
         let rests = this.initializeEmptySubcategory();
         let utility = this.initializeEmptySubcategory();
 
-        if (actors.every((a) => a.data.type === "character")) {
+        if (actors.every((a) => a.type === "character")) {
             let shortRestValue = [macroType, tokenId, "shortRest"].join(
                 this.delimiter
             );

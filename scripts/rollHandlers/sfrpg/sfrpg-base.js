@@ -113,8 +113,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
 
     if (newValue === shield.value) return;
 
-    const update = { data: { quadrants: {} } };
-    update.data.quadrants[side] = { shields: { value: newValue } };
+    const update = { system: { quadrants: {} } };
+    update.system.quadrants[side] = { shields: { value: newValue } };
 
     await actor.update(update);
   }

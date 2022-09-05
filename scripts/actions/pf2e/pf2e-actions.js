@@ -52,7 +52,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     const allowedTypes = ["npc", "character", "familiar"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     const tokenId = list.tokenId;
 
@@ -206,7 +206,7 @@ export class ActionHandlerPf2e extends ActionHandler {
         (a) =>
           ["held","worn"].includes(a.system.equipped?.carryType) && !a.system.containerId?.value?.length
       )
-      .filter((i) => filter.includes(i.data.type))
+      .filter((i) => filter.includes(i.type))
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
@@ -312,7 +312,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     let filter = ["effect"];
     let items = (actor.items ?? [])
-      .filter((i) => filter.includes(i.data.type))
+      .filter((i) => filter.includes(i.type))
       .sort(this._foundrySort);
 
     let effectsList = items.filter((i) => i.type === "effect");
