@@ -7,12 +7,12 @@ export class PcActionHandlerPf2e {
     this.baseHandler = actionHandlerpf2e;
   }
 
-  buildActionList(result, tokenId, actor) {
+  async buildActionList(result, tokenId, actor) {
     const type = actor.type;
     if (type === "familiar") {
       this._forFamiliar(result, tokenId, actor);
     } else {
-      this._forCharacter(result, tokenId, actor);
+      await this._forCharacter(result, tokenId, actor);
     }
 
     let skills = this.baseHandler._getSkillsList(actor, tokenId);
@@ -66,12 +66,12 @@ export class PcActionHandlerPf2e {
   }
 
   /** @private */
-  _forCharacter(result, tokenId, actor) {
+  async _forCharacter(result, tokenId, actor) {
     let toggles = this._getTogglesCategory(actor, tokenId);
     let strikes = this._getStrikesList(actor, tokenId);
     let actions = this.baseHandler._getActionsList(actor, tokenId);
     let items = this.baseHandler._getItemsList(actor, tokenId);
-    let spells = this.baseHandler._getSpellsList(actor, tokenId);
+    let spells = await this.baseHandler._getSpellsList(actor, tokenId);
     let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
 

@@ -35,10 +35,10 @@ export class ActionHandlerPf2e extends ActionHandler {
     result.actorId = actor.id;
 
     if (actorType === "character" || actorType === "familiar")
-      this.pcActionHandler.buildActionList(result, tokenId, actor);
+      await this.pcActionHandler.buildActionList(result, tokenId, actor);
 
     if (actorType === "npc")
-      this.npcActionHandler.buildActionList(result, tokenId, actor);
+      await this.npcActionHandler.buildActionList(result, tokenId, actor);
 
     if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
@@ -623,7 +623,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     );
   }
 
-  _getSpellsList(actor, tokenId) {
+  async _getSpellsList(actor, tokenId) {
     let result = this.initializeEmptyCategory("spells");
 
     let filter = ["spellcastingEntry"];
@@ -638,7 +638,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       spellcastingEntryCategory.name = bookName;
       spellCategories.subcategories.push(spellcastingEntryCategory);
 
-      const spellInfo = spellcastingEntry.getSpellData();
+      const spellInfo = await spellcastingEntry.getSpellData();
 
       const activeLevels = spellInfo.levels.filter((level) => level.active.length > 0);
       for (const [i, level] of Object.entries(activeLevels)) {
@@ -1069,8 +1069,8 @@ export class ActionHandlerPf2e extends ActionHandler {
   _produceAction(tokenId, item, type, isPassive = false) {
     let encodedValue = [type, tokenId, item.id].join(this.delimiter);
     let icon;
-    let actions = item.data?.data?.actions;
-    let actionType = item.data?.data?.actionType?.value;
+    let actions = item.system?.actions;
+    let actionType = item.system?.actionType?.value;
     if (["free", "reaction", "passive"].includes(actionType)) {
       icon = this._getActionIcon(actionType);
     } else if (actions && !isPassive) {

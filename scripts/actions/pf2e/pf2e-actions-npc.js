@@ -7,11 +7,11 @@ export class NpcActionHandlerPf2e {
     this.baseHandler = actionHandlerpf2e;
   }
 
-  buildActionList(result, tokenId, actor) {
+  async buildActionList(result, tokenId, actor) {
     let strikes = this._getStrikesListNpc(actor, tokenId);
     let actions = this.baseHandler._getActionsList(actor, tokenId);
     let items = this.baseHandler._getItemsList(actor, tokenId);
-    let spells = this.baseHandler._getSpellsList(actor, tokenId);
+    let spells = await this.baseHandler._getSpellsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
     let skills = this.baseHandler._getSkillsList(actor, tokenId);
     let saves = this.baseHandler._getSaveList(actor, tokenId);
