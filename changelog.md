@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.0.4] 2022-09-07
+
+- tah - Make content height responsive to HUD position. A scroll bar will now appear for long lists.
+- dnd5e - Add Weapon category for Vehicle actor type (#244).
+- dnd5e - Recategorise Features for Vehicle actor type to match Default 5e Vehicle Sheet.
+- forbidden-lands - Fix some skills not including character stats (#241).
+- forbidden-lands - Fix monster attacks not working.
+- forbidden-lands - Add character spells and monster skills to the HUD.
+- pf2e - Fix error caused by missing async/await chain on getSpellData().
+
 ## [3.0.3] 2022-09-05
 
 - tah - More v10 compat.

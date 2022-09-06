@@ -40,7 +40,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         switch (charType) {
           case 'character':
           case 'monster':
-            await this._handleUniqueActionsChar(macroType, event, tokenId, actor, actionId);
+            await this._handleUniqueActionsChar(macroType, event, actor, actionId);
             break;
         }
       }
