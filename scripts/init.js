@@ -1,7 +1,6 @@
 import { TokenActionHUD } from "./tokenactionhud.js";
 import { SystemManagerFactory } from "./managers/systemManagerFactory.js";
 import { registerHandlerbars } from "./utilities/handlebars.js";
-import * as settings from "./settings.js";
 
 const appName = "token-action-hud";
 

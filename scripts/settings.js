@@ -309,9 +309,3 @@ function registerColorSettings(appName) {
     }
   );
 }
-
-
-
-
-
-

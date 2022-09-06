@@ -315,8 +315,6 @@ export class TokenActionHUD extends Application {
       .find(".tah-filterholder")
       .parents(".tah-subcategory")
       .css("cursor", "pointer");
-
-    html.find(action)
   }
 
   applySettings() {
