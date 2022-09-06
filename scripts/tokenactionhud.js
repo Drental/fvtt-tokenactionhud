@@ -118,6 +118,18 @@ export class TokenActionHUD extends Application {
     const repositionIcon = "#tah-reposition";
     const categoriesIcon = "#tah-categories";
     const action = ".tah-action";
+    const buttonBackgroundColor = game.settings.get("token-action-hud", "buttonBackgroundColor");
+    const buttonBorderColor = game.settings.get("token-action-hud", "buttonBorderColor")
+
+    for (let categoryButton of html.find(".tah-category button")) {
+      categoryButton.style.backgroundColor = buttonBackgroundColor;
+      categoryButton.style.borderColor = buttonBorderColor;
+    }
+
+    for (let actionButton of html.find(".tah-action button")) {
+      actionButton.style.backgroundColor = buttonBackgroundColor;
+      actionButton.style.borderColor = buttonBorderColor;
+    }
 
     const handleClick = (e) => {
       let target = e.target;
@@ -303,6 +315,8 @@ export class TokenActionHUD extends Application {
       .find(".tah-filterholder")
       .parents(".tah-subcategory")
       .css("cursor", "pointer");
+
+    html.find(action)
   }
 
   applySettings() {

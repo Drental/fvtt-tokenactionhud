@@ -1,6 +1,7 @@
 import { TokenActionHUD } from "./tokenactionhud.js";
 import { SystemManagerFactory } from "./managers/systemManagerFactory.js";
 import { registerHandlerbars } from "./utilities/handlebars.js";
+import * as settings from "./settings.js";
 
 const appName = "token-action-hud";
 
@@ -57,8 +58,7 @@ Hooks.on("init", () => {
   }
   systemManager = SystemManagerFactory.create(supportedSystem, appName);
   systemManager.registerSettings();
-  if (game.settings.get(systemManager.appName, "dorakoUI"))
-    injectCSS("dorako-action-hud");
+  if (game.settings.get(systemManager.appName, "dorakoUI")) injectCSS("dorako-action-hud");
 });
 
 
@@ -70,6 +70,14 @@ Hooks.on("init", () => {
 //   systemManager = SystemManagerFactory.create(system, appName);
 //   systemManager.registerSettings();
 // });
+
+Hooks.once('ready', async () => {
+  if (game.user.isGM) {
+    if (typeof ColorPicker === 'undefined') {
+      ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable the 'Color Picker' module.")
+    }
+  }
+});
 
 Hooks.on("canvasReady", async () => {
   let user = game.user;

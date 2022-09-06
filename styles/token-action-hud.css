@@ -11,6 +11,7 @@
   margin: 5px;
   background: none;
   font-size: small;
+  border-radius: 3px;
 }
 
 #token-action-hud [class*="icon-"] {
@@ -143,6 +144,7 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
+  border-radius: 3px;
 }
 
 /* Show the dropdown menu on hover */
@@ -151,23 +153,21 @@
   flex-direction: column;
   padding: 2px;
   position: absolute;
-  left: -155px;
+  left: -80px;
   background: none;
 }
 
 .tah-subcategory {
-  display: grid;
-  grid-template-columns: 150px auto;
-  grid-auto-rows: auto;
+  display: flex;
   cursor: default;
 }
 
 .tah-subtitle {
   position: relative;
-  grid-column: 1;
-  padding: 10px 8px 0px 0px;
+  flex: 1;
+  width: 75px;
+  padding: 10px 8px 0px 5px;
   margin: 0px;
-  min-width: 150px;
   color: #fff;
   text-shadow: -1px -1px 1px rgba(52, 52, 52, 1),
     -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
