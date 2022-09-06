@@ -141,6 +141,8 @@
 /* Dropdown Content (Hidden by Default) */
 .tah-content {
   display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Show the dropdown menu on hover */
@@ -157,7 +159,6 @@
   display: grid;
   grid-template-columns: 150px auto;
   grid-auto-rows: auto;
-  min-height: 33px;
   cursor: default;
 }
 

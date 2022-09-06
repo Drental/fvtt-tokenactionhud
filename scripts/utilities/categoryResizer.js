@@ -51,7 +51,6 @@ export class CategoryResizer {
       CategoryResizer.resizeActions(actions, newWidth);
     }
 
-    let priorWidth;
     while (
       CategoryResizer.shouldShrinkWidth(
         content,
@@ -72,6 +71,12 @@ export class CategoryResizer {
       
       CategoryResizer.resizeActions(actions, newWidth);
     }
+
+    // SET MAX-HEIGHT
+    const contentRect = content[0].getBoundingClientRect();
+    const maxHeight = window.innerHeight - contentRect.top - (window.innerHeight - bottomLimit);
+    const newHeight = (maxHeight < 100) ? 100 : maxHeight;
+    content.css({ "max-height": newHeight + "px" });
   }
 
   static calculateMaxRequiredWidth(actions) {
