@@ -88,6 +88,7 @@ export class SystemManager {
   registerSettings() {
     let rollHandlers = this.getAvailableRollHandlers();
     settings.registerSettings(this.appName, this, rollHandlers);
+    settings.initColorSettings(this.appName);
   }
 
   /** UTILITY */

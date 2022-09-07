@@ -253,8 +253,16 @@
         "name": "HUD scale"
       },
       "background": {
-        "hint": "Takes a valid HTML color (e.g. 'red', '#00000055', '#FFF', etc.) and uses it as the background, makes no checks as to the validity of the code.",
-        "name": "HUD Background color"
+        "hint": "Set the background color of the HUD.",
+        "name": "HUD Background Color"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Set the background color of the HUD buttons.",
+        "name": "Button Background Color"
+      },
+      "buttonBorderColor": {
+        "hint": "Set the border color of the HUD buttons.",
+        "name": "Button Border Color"
       },
       "showHudTitle": {
         "name": "Show HUD Title",

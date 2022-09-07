@@ -194,18 +194,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
-  game.settings.register(appName, "background", {
-    name: game.i18n.localize("tokenactionhud.settings.background.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.background.hint"),
-    scope: "client",
-    config: true,
-    type: String,
-    default: "none",
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
   game.settings.register(appName, "activeCssAsText", {
     name: game.i18n.localize("tokenactionhud.settings.activeCssAsText.name"),
     hint: game.i18n.localize("tokenactionhud.settings.activeCssAsText.hint"),
@@ -251,4 +239,73 @@ export function get(setting) {
 
 export function set(setting, value) {
   game.settings.set(appName, setting, value);
+}
+
+export function initColorSettings(appName) {
+  if (typeof ColorPicker === 'object') {
+    registerColorSettings(appName);
+  } else {
+    Hooks.once("colorPickerReady", () => {
+      registerColorSettings(appName);
+    }); 
+  }
+}
+
+function registerColorSettings(appName) {
+  ColorPicker.register(
+    appName,
+    "background",
+    {
+      name: game.i18n.localize("tokenactionhud.settings.background.name"),
+      hint: game.i18n.localize("tokenactionhud.settings.background.hint"),
+      scope: "client",
+      restricted: true,
+      default: "#00000000",
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    },
+    {
+      format: "hexa",
+      alphaChannel: true
+    }
+  );
+
+  ColorPicker.register(
+    appName,
+    "buttonBackgroundColor",
+    {
+      name: game.i18n.localize("tokenactionhud.settings.buttonBackgroundColor.name"),
+      hint: game.i18n.localize("tokenactionhud.settings.buttonBackgroundColor.hint"),
+      scope: "client",
+      restricted: true,
+      default: "#000000b3",
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    },
+    {
+      format: "hexa",
+      alphaChannel: true
+    }
+  );
+
+  ColorPicker.register(
+    appName,
+    "buttonBorderColor",
+    {
+      name: game.i18n.localize("tokenactionhud.settings.buttonBorderColor.name"),
+      hint: game.i18n.localize("tokenactionhud.settings.buttonBorderColor.hint"),
+      scope: "client",
+      restricted: true,
+      default: "#000000ff",
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    },
+    {
+      format: "hexa",
+      alphaChannel: true
+    }
+  );
 }

@@ -199,6 +199,11 @@
         "id": "cleenmain",
         "type": "system"
       }
+    ],
+    "requires": [
+      {
+        "id": "color-picker"
+      }
     ]
   },
   "socket": false,
