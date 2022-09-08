@@ -70,8 +70,8 @@ export class TokenActionHUD extends Application {
     return scale;
   }
 
-  getBackground() {
-    return settings.get("background");
+  getSetting(key) {
+    return settings.get(key);
   }
 
   /** @override */
@@ -81,7 +81,7 @@ export class TokenActionHUD extends Application {
     data.id = "token-action-hud";
     data.hovering = settings.get("onTokenHover");
     data.scale = this.getScale();
-    data.background = this.getBackground();
+    data.background = this.getSetting("background") ?? "#00000000";
     settings.Logger.debug("HUD data:", data);
     
     for (const category of data.actions.categories) {
@@ -114,12 +114,12 @@ export class TokenActionHUD extends Application {
 
   /** @override */
   activateListeners(html) {
-    const tokenactionhud = "#token-action-hud";
     const repositionIcon = "#tah-reposition";
     const categoriesIcon = "#tah-categories";
+    const category = ".tah-category";
     const action = ".tah-action";
-    const buttonBackgroundColor = game.settings.get("token-action-hud", "buttonBackgroundColor");
-    const buttonBorderColor = game.settings.get("token-action-hud", "buttonBorderColor")
+    const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
+    const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
 
     for (let categoryButton of html.find(".tah-category button")) {
       categoryButton.style.backgroundColor = buttonBackgroundColor;
@@ -196,7 +196,7 @@ export class TokenActionHUD extends Application {
     }
 
     function closeAllCategories(event) {
-      html.find(".tah-category").removeClass("hover");
+      html.find(category).removeClass("hover");
     }
 
     function toggleCategory(event) {
@@ -225,7 +225,7 @@ export class TokenActionHUD extends Application {
     if (settings.get("clickOpenCategory")) {
       html.find(".tah-title-button").click("click", toggleCategory);
     } else {
-      html.find(".tah-category").hover(openCategory, closeCategory);
+      html.find(category).hover(openCategory, closeCategory);
     }
 
     html.find(categoriesIcon).mousedown((ev) => {
@@ -236,85 +236,93 @@ export class TokenActionHUD extends Application {
     });
 
     html.find(repositionIcon).mousedown((ev) => {
-      ev.preventDefault();
-      ev = ev || window.event;
+      this.dragEvent(ev);
+    });
 
-      let hud = $(document.body).find(tokenactionhud);
-      let marginLeft = parseInt(hud.css("marginLeft").replace("px", ""));
-      let marginTop = parseInt(hud.css("marginTop").replace("px", ""));
-
-      dragElement(document.getElementById("token-action-hud"));
-      let pos1 = 0,
-        pos2 = 0,
-        pos3 = 0,
-        pos4 = 0;
-
-      function dragElement(elmnt) {
-        elmnt.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-          e = e || window.event;
-          e.preventDefault();
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-
-          document.onmouseup = closeDragElement;
-          document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-          e = e || window.event;
-          e.preventDefault();
-          // calculate the new cursor position:
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          // set the element's new position:
-          elmnt.style.top = elmnt.offsetTop - pos2 - marginTop + "px";
-          elmnt.style.left = elmnt.offsetLeft - pos1 - marginLeft + "px";
-          elmnt.style.position = "fixed";
-          elmnt.style.zIndex = 100;
-        }
-
-        function closeDragElement() {
-          // stop moving when mouse button is released:
-          elmnt.onmousedown = null;
-          document.onmouseup = null;
-          document.onmousemove = null;
-          let xPos =
-            elmnt.offsetLeft - pos1 > window.innerWidth
-              ? window.innerWidth
-              : elmnt.offsetLeft - pos1;
-          let yPos =
-            elmnt.offsetTop - pos2 > window.innerHeight - 20
-              ? window.innerHeight - 100
-              : elmnt.offsetTop - pos2;
-          xPos = xPos < 0 ? 0 : xPos;
-          yPos = yPos < 0 ? 0 : yPos;
-          if (
-            xPos != elmnt.offsetLeft - pos1 ||
-            yPos != elmnt.offsetTop - pos2
-          ) {
-            elmnt.style.top = yPos + "px";
-            elmnt.style.left = xPos + "px";
-          }
-          settings.Logger.info(
-            `Setting position to x: ${xPos}px, y: ${yPos}px, and saving in user flags.`
-          );
-          game.user.update({
-            flags: {
-              "token-action-hud": { hudPos: { top: yPos, left: xPos } },
-            },
-          });
-        }
-      }
+    html.find(category).mousedown((ev) => {
+      this.dragEvent(ev);
     });
 
     $(document)
       .find(".tah-filterholder")
       .parents(".tah-subcategory")
       .css("cursor", "pointer");
+  }
+
+  dragEvent(ev) {
+    ev.preventDefault();
+    ev = ev || window.event;
+    const tokenactionhud = "#token-action-hud";
+    let hud = $(document.body).find(tokenactionhud);
+    let marginLeft = parseInt(hud.css("marginLeft").replace("px", ""));
+    let marginTop = parseInt(hud.css("marginTop").replace("px", ""));
+
+    dragElement(document.getElementById("token-action-hud"));
+    let pos1 = 0,
+      pos2 = 0,
+      pos3 = 0,
+      pos4 = 0;
+
+    function dragElement(elmnt) {
+      elmnt.onmousedown = dragMouseDown;
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = elmnt.offsetTop - pos2 - marginTop + "px";
+        elmnt.style.left = elmnt.offsetLeft - pos1 - marginLeft + "px";
+        elmnt.style.position = "fixed";
+        elmnt.style.zIndex = 100;
+      }
+
+      function closeDragElement() {
+        // stop moving when mouse button is released:
+        elmnt.onmousedown = null;
+        document.onmouseup = null;
+        document.onmousemove = null;
+        let xPos =
+          elmnt.offsetLeft - pos1 > window.innerWidth
+            ? window.innerWidth
+            : elmnt.offsetLeft - pos1;
+        let yPos =
+          elmnt.offsetTop - pos2 > window.innerHeight - 20
+            ? window.innerHeight - 100
+            : elmnt.offsetTop - pos2;
+        xPos = xPos < 0 ? 0 : xPos;
+        yPos = yPos < 0 ? 0 : yPos;
+        if (
+          xPos != elmnt.offsetLeft - pos1 ||
+          yPos != elmnt.offsetTop - pos2
+        ) {
+          elmnt.style.top = yPos + "px";
+          elmnt.style.left = xPos + "px";
+        }
+        settings.Logger.info(
+          `Setting position to x: ${xPos}px, y: ${yPos}px, and saving in user flags.`
+        );
+        game.user.update({
+          flags: {
+            "token-action-hud": { hudPos: { top: yPos, left: xPos } },
+          },
+        });
+      }
+    }
   }
 
   applySettings() {

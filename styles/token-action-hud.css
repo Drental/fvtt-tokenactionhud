@@ -29,9 +29,11 @@
   color: #fff;
   padding: 0.25em;
   margin: 0.25em;
-  text-shadow: -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
   text-align: left;
   pointer-events: none;
   position: absolute;
@@ -65,9 +67,11 @@
   color: #ddd;
   padding: 3px;
   margin: 3px;
-  text-shadow: -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
   text-align: center;
   pointer-events: none;
 }
@@ -102,8 +106,11 @@
   text-align: center;
   background: rgba(0, 0, 0, 0.7);
   padding: 3px;
-  margin: 3px;
+  margin-right: 2px;
   border: 1px solid #000;
+  text-shadow:
+    0px 0px 2px rgb(0 0 0 / 50%),
+    0px 0px 5px rgb(0 0 0 / 25%);
 }
 
 .tah-title-button:hover {
@@ -119,18 +126,12 @@
 .tah-title-button > .fa,
 .tah-title-button > .fas {
   visibility: hidden;
-  width: auto;
-  height: auto;
   color: rgba(255, 255, 255, 0.6);
-  text-align: center;
   font-size: 6px;
-  padding: 3px;
-  margin: 1px;
-  border: 1px solid transparent;
   pointer-events: none;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 3px;
+  right: 3px;
 }
 
 .tah-title-button:hover > .fa,
@@ -151,30 +152,34 @@
 .tah-category.hover .tah-content {
   display: flex;
   flex-direction: column;
-  padding: 2px;
+  padding: 3px;
   position: absolute;
-  left: -80px;
+  left: -152px;
   background: none;
 }
 
 .tah-subcategory {
   display: flex;
+  padding-bottom: 3px;
   cursor: default;
 }
 
 .tah-subtitle {
   position: relative;
-  flex: 1;
-  width: 75px;
-  padding: 10px 8px 0px 5px;
-  margin: 0px;
-  color: #fff;
-  text-shadow: -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1);
-  font-size: small;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   text-align: right;
-  line-height: 1em;
+  height: 32px;
+  width: 150px;
+  padding-right: 5px;
+  color: #fff;
+  text-shadow: 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1), 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+  font-size: small;
 }
 
 .tah-filterholder {
@@ -211,6 +216,7 @@
   flex-flow: row wrap;
   align-items: center;
   width: 400px;
+  gap: 3px;
 }
 
 .tah-actions .stickLeft {
@@ -249,49 +255,58 @@
 .tah-action {
   flex-grow: 0;
   flex-basis: auto;
-  padding: 3px 0px 3px 0px;
-  margin: 3px 0px 3px 6px;
   background: none;
+}
+
+.tah-action-name {
+  margin: 0 5px 0 5px;
 }
 
 .tah-info1,
 .tah-info2,
 .tah-info3 {
+  margin-left: 2px;
   font-size: smaller;
   display: inline;
 }
 
 .tah-info1 {
-  text-shadow: 0 0 1px rgba(2, 248, 14, 0.95), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow: 
+    0 0 1px rgba(2, 248, 14, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
 }
 
 .tah-info2 {
-  text-shadow: 0 0 1px rgba(240, 2, 248, 0.95),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow:
+    0 0 1px rgba(240, 2, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
 }
 
 .tah-info3 {
-  text-shadow: 0 0 1px rgba(2, 240, 248, 0.95),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow: 
+    0 0 1px rgba(2, 240, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
 }
 
 .tah-icon {
   display: inline;
+  margin-right: 2px;
 }
 
 .tah-img {
-  display: inline;
-  padding: 4px 12px 4px 12px;
-  margin: 0px 5px 0px 0px;
-  border-radius: 3px;
-}
-
-.tah-action .tah-img {
-  border: 1px solid rgba(129, 129, 129, 0.877);
+  display: inline-flex;
+  border-radius: 3px 0 0 3px;
+  width: 30px;
+  height: 30px;
 }
 
 .tah-icon > .fa,
@@ -302,13 +317,16 @@
 
 .tah-subtitle > .tah-icon > .fa,
 .tah-subtitle > .tah-icon > .fas {
-  text-shadow: 0 0 1px rgb(255, 255, 255), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1), -1px -1px 1px rgba(52, 52, 52, 1),
-    -1px -1px 1px rgba(52, 52, 52, 1);
+  text-shadow:
+    0 0 1px rgb(255, 255, 255),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
 }
 
 .tah-info1:before {
-  content: " (";
+  content: "(";
 }
 
 .tah-info1:after {
@@ -316,7 +334,7 @@
 }
 
 .tah-info2:before {
-  content: " [";
+  content: "[";
 }
 
 .tah-info2:after {
@@ -324,7 +342,7 @@
 }
 
 .tah-info3:before {
-  content: " {";
+  content: "{";
 }
 
 .tah-info3:after {
@@ -332,13 +350,21 @@
 }
 
 .tah-action button {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
   width: 100%;
   min-width: 50px;
+  padding: 0;
+  margin: 0;
   font-size: small;
   text-decoration: none;
   color: #ddd;
   border: 1px solid #000;
   background: rgba(0, 0, 0, 0.7);
+  text-shadow:
+    0px 0px 2px rgb(0 0 0 / 50%),
+    0px 0px 5px rgb(0 0 0 / 25%);
 }
 
 /* Change color of dropdown links on hover */

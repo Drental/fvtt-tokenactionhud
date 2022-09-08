@@ -1,13 +1,13 @@
 
-<div class="tah-category{{#if cssClass}} {{cssClass}}{{/if}}" {{#if this.id}}id="tah-category-{{this.id}}"{{/if}}>
+<div class="tah-category{{~#if cssClass}} {{cssClass}}{{~/if~}}" {{~#if this.id~}}id="tah-category-{{this.id}}"{{~/if~}}>
     <button class="tah-title-button" value="{{this.id}}">
         {{cap this.name}}
         <i class="fa fa-filter" aria-hidden="true"></i>
-        {{#if this.info1}}<div class="tah-info1">{{this.info1}}</div>{{/if}}
-        {{#if this.info2}}<div class="tah-info2">{{this.info2}}</div>{{/if}}
-        {{#if this.info3}}<div class="tah-info3">{{this.info3}}</div>{{/if}}
+        {{~#if this.info1~}}<div class="tah-info1">{{this.info1}}</div>{{~/if~}}
+        {{~#if this.info2~}}<div class="tah-info2">{{this.info2}}</div>{{~/if~}}
+        {{~#if this.info3~}}<div class="tah-info3">{{this.info3}}</div>{{~/if~}}
     </button>
-    <div class="tah-content" {{#if background}}style='background: {{background}}'{{/if}}>
+    <div class="tah-content" {{~#if background~}}style='background: {{background}}'{{~/if~}}>
         {{#each subcategories}}
         {{>"modules/token-action-hud/templates/subcategory.hbs"}}
         {{/each}}

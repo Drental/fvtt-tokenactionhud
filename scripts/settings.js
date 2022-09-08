@@ -233,8 +233,10 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   Logger.debug("available rollHandlers: ", rollHandlers);
 };
 
-export function get(setting) {
-  return game.settings.get(appName, setting);
+export function get(key) {
+  if (game.settings.settings.get(`${appName}.${key}`)) {
+    return game.settings.get(appName, key);
+  }
 }
 
 export function set(setting, value) {

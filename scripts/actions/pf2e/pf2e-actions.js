@@ -206,7 +206,7 @@ export class ActionHandlerPf2e extends ActionHandler {
         (a) =>
           ["held","worn"].includes(a.system.equipped?.carryType) && !a.system.containerId?.value?.length
       )
-      .filter((i) => filter.includes(i.type))
+      .filter((i) => filter.includes(i.type) && i.system.quantity > 0)
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
@@ -332,11 +332,12 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
-    let strikes = actor.system.actions?.filter((a) => a.type === macroType);
-
+    let strikes = actor.system.actions?.filter((a) => 
+      a.type === macroType && 
+      a.item.system.quantity > 0
+    );
 
     if (!strikes) return;
-
 
     strikes.forEach((s) => {
       this._buildStrikeSubcategory(s, category, "", tokenId, actor);
@@ -811,6 +812,15 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _getFeatsList(actor, tokenId) {
     let macroType = "feat";
+    let featTypes = [
+      {featType: "ancestryfeature", title: this.i18n("tokenactionhud.ancestryFeatures")},
+      {featType: "classfeature", title: this.i18n("tokenactionhud.classFeatures")},
+      {featType: "ancestry", title: this.i18n("tokenactionhud.ancestryFeats")},
+      {featType: "class", title: this.i18n("tokenactionhud.classFeats")},
+      {featType: "skill", title: this.i18n("tokenactionhud.skillFeats")},
+      {featType: "general", title: this.i18n("tokenactionhud.generalFeats")},
+      {featType: "bonus", title: this.i18n("tokenactionhud.bonusFeats")}
+    ]
 
     let result = this.initializeEmptyCategory("feats");
 
@@ -819,31 +829,21 @@ export class ActionHandlerPf2e extends ActionHandler {
       .filter((a) => filter.includes(a.type))
       .sort(this._foundrySort);
 
-    let active = this.initializeEmptySubcategory();
-    active.actions = this._produceActionMap(
-      tokenId,
-      (items ?? []).filter((a) => a.system.actionType.value !== "passive"),
-      macroType
-    );
 
-    let passive = this.initializeEmptySubcategory();
-    passive.actions = this._produceActionMap(
-      tokenId,
-      (items ?? []).filter((a) => a.system.actionType.value === "passive"),
-      macroType,
-      true
-    );
+    for (const featType of featTypes) {
+      let subcategory = this.initializeEmptySubcategory();
+      subcategory.actions = this._produceActionMap(
+        tokenId,
+        (items ?? []).filter((a) => a.featType === featType.featType),
+        macroType
+      );
 
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.active"),
-      active
-    );
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.passive"),
-      passive
-    );
+      this._combineSubcategoryWithCategory(
+        result,
+        featType.title,
+        subcategory
+      );
+    }
 
     return result;
   }

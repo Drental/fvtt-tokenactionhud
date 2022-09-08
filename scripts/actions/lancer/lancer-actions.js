@@ -333,9 +333,9 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _coreBonSubCategory(mm, actorId) {
     let result = this.initializeEmptySubcategory();
-    let corebonus = mm.Pilot.CoreBonuses;
+    let coreBonus = mm.Pilot.CoreBonuses;
     result.name = "Core Bonuses";
-    result.actions = corebonus.map((bonus) => {
+    result.actions = coreBonus.map((bonus) => {
       let option = {};
       option.pilot = mm.Pilot.RegistryID;
       return this._makeAction(
