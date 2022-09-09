@@ -194,7 +194,7 @@ export class ActionHandler5e extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = activeEquipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment"
+      (i) => i.type != "weapon" && i.type != "equipment" && i.type != "tool" 
     );
     let otherActions = other.map((o) =>
       this._buildEquipmentItem(tokenId, actor, macroType, o)
