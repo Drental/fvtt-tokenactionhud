@@ -66,13 +66,33 @@ export class GenericActionHandler {
         ? "active"
         : "";
       utility.actions.push(visibilityAction);
+
+      this.baseHandler._combineSubcategoryWithCategory(
+        utilityCat,
+        this.baseHandler.i18n("tokenactionhud.token"),
+        utility
+      );
     }
 
-    this.baseHandler._combineSubcategoryWithCategory(
-      utilityCat,
-      this.baseHandler.i18n("tokenactionhud.token"),
-      utility
-    );
+    if (game.combat?.current?.tokenId === tokenId) {
+      let turn = this.baseHandler.initializeEmptySubcategory();
+
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(
+        this.baseHandler.delimiter
+      );
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.baseHandler.i18n("tokenactionhud.endTurn"),
+      };
+      turn.actions.push(endTurnAction);
+
+      this.baseHandler._combineSubcategoryWithCategory(
+        utilityCat,
+        this.baseHandler.i18n("tokenactionhud.turn"),
+        turn
+      );
+    }
   }
 
   /** @private */

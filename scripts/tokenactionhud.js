@@ -117,6 +117,7 @@ export class TokenActionHUD extends Application {
     const repositionIcon = "#tah-reposition";
     const categoriesIcon = "#tah-categories";
     const category = ".tah-category";
+    const titleButton = ".tah-title-button";
     const action = ".tah-action";
     const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
     const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
@@ -212,7 +213,7 @@ export class TokenActionHUD extends Application {
     }
 
     html
-      .find(".tah-title-button")
+      .find(titleButton)
       .contextmenu("click", (e) => handlePossibleFilterButtonClick(e));
 
     html
@@ -223,7 +224,7 @@ export class TokenActionHUD extends Application {
       .contextmenu("click", (e) => handlePossibleFilterSubtitleClick(e));
 
     if (settings.get("clickOpenCategory")) {
-      html.find(".tah-title-button").click("click", toggleCategory);
+      html.find(titleButton).click("click", toggleCategory);
     } else {
       html.find(category).hover(openCategory, closeCategory);
     }
@@ -239,7 +240,7 @@ export class TokenActionHUD extends Application {
       this.dragEvent(ev);
     });
 
-    html.find(category).mousedown((ev) => {
+    html.find(titleButton).mousedown((ev) => {
       this.dragEvent(ev);
     });
 
@@ -252,76 +253,41 @@ export class TokenActionHUD extends Application {
   dragEvent(ev) {
     ev.preventDefault();
     ev = ev || window.event;
-    const tokenactionhud = "#token-action-hud";
-    let hud = $(document.body).find(tokenactionhud);
-    let marginLeft = parseInt(hud.css("marginLeft").replace("px", ""));
-    let marginTop = parseInt(hud.css("marginTop").replace("px", ""));
+    document.onmousemove = mouseMoveEvent;
+    document.onmouseup = mouseUpEvent;
 
-    dragElement(document.getElementById("token-action-hud"));
+    const element = ev.target.parentElement.closest('div#token-action-hud')
     let pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
+    pos2 = 0,
+    pos3 = ev.clientX,
+    pos4 = ev.clientY;
 
-    function dragElement(elmnt) {
-      elmnt.onmousedown = dragMouseDown;
+    function mouseMoveEvent (e) {
+      e = e || window.event;
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      // set the element's new position:
+      element.style.top = element.offsetTop - pos2 + "px";
+      element.style.left = element.offsetLeft - pos1 + "px";
+      element.style.position = "fixed";
+      element.style.zIndex = 100;
+    }
 
-      function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        pos3 = e.clientX;
-        pos4 = e.clientY;
+    function mouseUpEvent () {
+      document.onmousemove = null;
+      document.onmouseup = null;
 
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-      }
-
-      function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = elmnt.offsetTop - pos2 - marginTop + "px";
-        elmnt.style.left = elmnt.offsetLeft - pos1 - marginLeft + "px";
-        elmnt.style.position = "fixed";
-        elmnt.style.zIndex = 100;
-      }
-
-      function closeDragElement() {
-        // stop moving when mouse button is released:
-        elmnt.onmousedown = null;
-        document.onmouseup = null;
-        document.onmousemove = null;
-        let xPos =
-          elmnt.offsetLeft - pos1 > window.innerWidth
-            ? window.innerWidth
-            : elmnt.offsetLeft - pos1;
-        let yPos =
-          elmnt.offsetTop - pos2 > window.innerHeight - 20
-            ? window.innerHeight - 100
-            : elmnt.offsetTop - pos2;
-        xPos = xPos < 0 ? 0 : xPos;
-        yPos = yPos < 0 ? 0 : yPos;
-        if (
-          xPos != elmnt.offsetLeft - pos1 ||
-          yPos != elmnt.offsetTop - pos2
-        ) {
-          elmnt.style.top = yPos + "px";
-          elmnt.style.left = xPos + "px";
-        }
-        settings.Logger.info(
-          `Setting position to x: ${xPos}px, y: ${yPos}px, and saving in user flags.`
-        );
-        game.user.update({
-          flags: {
-            "token-action-hud": { hudPos: { top: yPos, left: xPos } },
-          },
-        });
-      }
+      game.user.update({
+        flags: {
+          "token-action-hud": { hudPos: { top: element.style.top, left: element.style.left } },
+        },
+      });
+  
+      settings.Logger.info(
+        `Setting position to x: ${element.style.top}px, y: ${element.style.left}px, and saving in user flags.`
+      );
     }
   }
 

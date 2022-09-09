@@ -8,7 +8,6 @@
   position: fixed;
   height: auto;
   width: auto;
-  margin: 5px;
   background: none;
   font-size: small;
   border-radius: 3px;
@@ -379,7 +378,7 @@
 }
 
 .tah-action .active {
-  background: rgba(85, 17, 0, 0.7);
+  background: rgba(85, 17, 0, 0.7) !important;
 }
 
 .tah-action .activeText:after {

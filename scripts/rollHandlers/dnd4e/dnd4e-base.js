@@ -97,7 +97,6 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
-
     switch (actionId) {
       case "toggleCombat":
         token.toggleCombat();
@@ -126,6 +125,9 @@ export class RollHandlerBaseDnD4e extends RollHandler {
         break;
       case "deathSave":
         game.dnd4eBeta.tokenBarHooks.deathSave(actor, event)
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

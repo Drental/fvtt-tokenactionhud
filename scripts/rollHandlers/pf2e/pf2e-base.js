@@ -391,7 +391,7 @@ export class RollHandlerBasePf2e extends RollHandler {
     return;
   }
 
-  _performUtilityMacro(event, tokenId, actionId) {
+  async _performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -411,6 +411,9 @@ export class RollHandlerBasePf2e extends RollHandler {
         break;
       case "toggleVisibility":
         token.toggleVisibility();
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

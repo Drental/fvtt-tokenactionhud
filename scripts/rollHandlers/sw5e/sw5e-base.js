@@ -141,6 +141,9 @@ export class RollHandlerBaseSW5e extends RollHandler {
       case "initiative":
         await this.performInitiativeMacro(tokenId);
         break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        break;
     }
   }
 
