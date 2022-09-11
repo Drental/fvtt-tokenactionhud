@@ -631,7 +631,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let repairs = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
 
-    this._addIntiativeSubcategory(macroType, result, token.id);
+    this._addCombatSubcategory(macroType, result, token.id);
 
     if (actor.type === "character") {
       let shortRestValue = [macroType, token.id, "shortRest"].join(
@@ -878,56 +878,59 @@ export class ActionHandlerSW5e extends ActionHandler {
   }
 
   /** @private */
-  _addIntiativeSubcategory(macroType, category, tokenId) {
+  _addCombatSubcategory(macroType, category, tokenId) {
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // Roll Initiative
     const combat = game.combat;
     let combatant, currentInitiative;
     if (combat) {
       combatant = combat.combatants.find((c) => c.tokenId === tokenId);
       currentInitiative = combatant?.initiative;
     }
-
-    let initiative = this.initializeEmptySubcategory();
-
-    let initiativeValue = [macroType, tokenId, "initiative"].join(
-      this.delimiter
-    );
-    let initiativeName = `${this.i18n("tokenactionhud.rollInitiative")}`;
-
+    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: initiativeName,
+      name: this.i18n("tokenactionhud.rollInitiative"),
     };
 
     if (currentInitiative) initiativeAction.info1 = currentInitiative;
     initiativeAction.cssClass = currentInitiative ? "active" : "";
 
-    initiative.actions.push(initiativeAction);
+    combatSubcategory.actions.push(initiativeAction);
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenactionhud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.initiative"),
-      initiative
+      this.i18n("tokenactionhud.combat"),
+      combatSubcategory
     );
   }
 
   /** @private */
-  _addMultiIntiativeSubcategory(macroType, tokenId, category) {
+  _addMultiCombatSubcategory(macroType, tokenId, category) {
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // Roll Initiative
     const combat = game.combat;
-
-    let initiative = this.initializeEmptySubcategory();
-
-    let initiativeValue = [macroType, tokenId, "initiative"].join(
-      this.delimiter
-    );
-    let initiativeName = `${this.i18n("tokenactionhud.rollInitiative")}`;
-
+    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: initiativeName,
+      name: this.i18n("tokenactionhud.rollInitiative"),
     };
-
     let isActive;
     if (combat) {
       let tokenIds = canvas.tokens.controlled.map((t) => t.id);
@@ -936,15 +939,13 @@ export class ActionHandlerSW5e extends ActionHandler {
       );
       isActive = tokenCombatants.every((c) => !!c?.initiative);
     }
-
     initiativeAction.cssClass = isActive ? "active" : "";
-
-    initiative.actions.push(initiativeAction);
+    combatSubcategory.actions.push(initiativeAction);
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.initiative"),
-      initiative
+      this.i18n("tokenactionhud.combat"),
+      combatSubcategory
     );
   }
 
@@ -953,7 +954,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let category = this.initializeEmptyCategory("utility");
     let macroType = "utility";
 
-    this._addMultiIntiativeSubcategory(macroType, tokenId, category);
+    this._addMultiCombatSubcategory(macroType, tokenId, category);
 
     let rests = this.initializeEmptySubcategory();
     let repairs = this.initializeEmptySubcategory();

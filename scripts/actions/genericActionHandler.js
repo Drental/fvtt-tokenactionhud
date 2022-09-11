@@ -33,64 +33,43 @@ export class GenericActionHandler {
   /** @private */
   _getUtilityList(utilityCat, tokenId) {
     let macroType = "utility";
-
     let utility = this.baseHandler.initializeEmptySubcategory();
 
+    // Toggle Combat
+    const inCombat = canvas.tokens.placeables.find((t) => t.id === tokenId).inCombat
+    const name = (inCombat) 
+      ? this.baseHandler.i18n("tokenactionhud.removeFromCombat")
+      : this.baseHandler.i18n("tokenactionhud.addToCombat");
     let combatStateValue = [macroType, tokenId, "toggleCombat"].join(
       this.baseHandler.delimiter
     );
     let combatAction = {
       id: "toggleCombat",
       encodedValue: combatStateValue,
-      name: this.baseHandler.i18n("tokenactionhud.toggleCombatState"),
+      name: name,
     };
-    combatAction.cssClass = canvas.tokens.placeables.find(
-      (t) => t.id === tokenId
-    ).inCombat
-      ? "active"
-      : "";
     utility.actions.push(combatAction);
 
+    // Toggle Visibility
     if (game.user.isGM) {
+      const hidden = canvas.tokens.placeables.find((t) => t.id === tokenId).document.hidden
+      const name = (hidden)
+        ? this.baseHandler.i18n("tokenactionhud.makeVisible")
+        : this.baseHandler.i18n("tokenactionhud.makeInvisible");
       let visbilityValue = [macroType, tokenId, "toggleVisibility"].join(
         this.baseHandler.delimiter
       );
       let visibilityAction = {
         id: "toggleVisibility",
         encodedValue: visbilityValue,
-        name: this.baseHandler.i18n("tokenactionhud.toggleVisibility"),
+        name: name,
       };
-      visibilityAction.cssClass = !canvas.tokens.placeables.find(
-        (t) => t.id === tokenId
-      ).document.hidden
-        ? "active"
-        : "";
       utility.actions.push(visibilityAction);
 
       this.baseHandler._combineSubcategoryWithCategory(
         utilityCat,
         this.baseHandler.i18n("tokenactionhud.token"),
         utility
-      );
-    }
-
-    if (game.combat?.current?.tokenId === tokenId) {
-      let turn = this.baseHandler.initializeEmptySubcategory();
-
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(
-        this.baseHandler.delimiter
-      );
-      let endTurnAction = {
-        id: "endTurn",
-        encodedValue: endTurnValue,
-        name: this.baseHandler.i18n("tokenactionhud.endTurn"),
-      };
-      turn.actions.push(endTurnAction);
-
-      this.baseHandler._combineSubcategoryWithCategory(
-        utilityCat,
-        this.baseHandler.i18n("tokenactionhud.turn"),
-        turn
       );
     }
   }
@@ -102,29 +81,35 @@ export class GenericActionHandler {
 
     let utility = this.baseHandler.initializeEmptySubcategory();
 
+    // Toggle Combat
+    const inCombat = tokens.every((t) => t.inCombat);
+    const name = (inCombat) 
+      ? this.baseHandler.i18n("tokenactionhud.removeFromCombat")
+      : this.baseHandler.i18n("tokenactionhud.addToCombat");
     let combatStateValue = [macroType, tokenId, "toggleCombat"].join(
       this.baseHandler.delimiter
     );
     let combatAction = {
       id: "toggleCombat",
       encodedValue: combatStateValue,
-      name: this.baseHandler.i18n("tokenactionhud.toggleCombatState"),
+      name: name,
     };
-    combatAction.cssClass = tokens.every((t) => t.inCombat) ? "active" : "";
     utility.actions.push(combatAction);
 
+    // Toggle Visibility
     if (game.user.isGM) {
+      const hidden = tokens.every((t) => !t.document.hidden);
+      const name = (hidden)
+      ? this.baseHandler.i18n("tokenactionhud.makeVisible")
+      : this.baseHandler.i18n("tokenactionhud.makeInvisible");
       let visbilityValue = [macroType, tokenId, "toggleVisibility"].join(
         this.baseHandler.delimiter
       );
       let visibilityAction = {
         id: "toggleVisibility",
         encodedValue: visbilityValue,
-        name: this.baseHandler.i18n("tokenactionhud.toggleVisibility"),
+        name: name,
       };
-      visibilityAction.cssClass = tokens.every((t) => !t.document.hidden)
-        ? "active"
-        : "";
       utility.actions.push(visibilityAction);
     }
 
