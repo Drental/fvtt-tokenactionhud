@@ -472,8 +472,13 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     if (spell.system.atWill) return true;
 
-    if (isSpontaneous && spell.system.preparation.spontaneousPrepared)
-      return true;
+    if (isSpontaneous) {
+      if (spell.system.preparation.spontaneousPrepared) {
+        return true;
+      } else {
+        return false;
+      }
+    } 
 
     if (spell.system.preparation.preparedAmount === 0) return false;
 
