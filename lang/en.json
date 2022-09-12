@@ -267,6 +267,58 @@
         "hint": "Adjust the scale of the HUD in percentage terms (100 being the default)",
         "name": "HUD scale"
       },
+      "showAbilitiesCategory": {
+        "hint": "Show the Abilities category on the HUD",
+        "name": "Show Abilties"
+      },
+      "showAttacksCategory": {
+        "hint": "Show the Attacks category on the HUD",
+        "name": "Show Attacks"
+      },
+      "showBuffsCategory": {
+        "hint": "Show the Buffs category on the HUD",
+        "name": "Show Buffs"
+      },
+      "showChecksCategory": {
+        "hint": "Show the Checks category on the HUD",
+        "name": "Show Checks"
+      },
+      "showConditionsCategory": {
+        "hint": "Show the Conditions category on the HUD",
+        "name": "Show Conditions"
+      },
+      "showEffectsCategory": {
+        "hint": "Show the Effects category on the HUD",
+        "name": "Show Effects"
+      },
+      "showFeaturesCategory": {
+        "hint": "Show the Features category on the HUD",
+        "name": "Show Features"
+      },
+      "showInventoryCategory": {
+        "hint": "Show the Inventory category on the HUD",
+        "name": "Show Inventory"
+      },
+      "showPowersCategory": {
+        "hint": "Show the Powers category on the HUD",
+        "name": "Show Powers"
+      },
+      "showSavesCategory": {
+        "hint": "Show the Saves category on the HUD",
+        "name": "Show Saves"
+      },
+      "showSkillsCategory": {
+        "hint": "Show the Skills category on the HUD",
+        "name": "Show Skills"
+      },
+      "showSpellsCategory": {
+        "hint": "Show the Spells category on the HUD",
+        "name": "Show Spells"
+      },
+      "showUtilityCategory": {
+        "hint": "Show the Utility category on the HUD",
+        "name": "Show Utility"
+      },
       "background": {
         "hint": "Set the background color of the HUD.",
         "name": "HUD Background Color"
@@ -343,10 +395,6 @@
         "showAllNpcItems": {
           "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
           "name": "Show all NPC items"
-        },
-        "showConditionsCategory": {
-          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
-          "name": "Show Conditions Category"
         },
         "showEmptyItems": {
           "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",

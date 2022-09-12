@@ -260,7 +260,9 @@ export class TokenActionHUD extends Application {
     let pos1 = 0,
     pos2 = 0,
     pos3 = ev.clientX,
-    pos4 = ev.clientY;
+    pos4 = ev.clientY,
+    elementTop = element.offsetTop,
+    elementLeft = element.offsetLeft;
 
     function mouseMoveEvent (e) {
       e = e || window.event;
@@ -268,9 +270,12 @@ export class TokenActionHUD extends Application {
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
+      elementTop = element.offsetTop - pos2;
+      elementLeft = element.offsetLeft - pos1;
+      
       // set the element's new position:
-      element.style.top = element.offsetTop - pos2 + "px";
-      element.style.left = element.offsetLeft - pos1 + "px";
+      element.style.top = elementTop + "px";
+      element.style.left = elementLeft + "px";
       element.style.position = "fixed";
       element.style.zIndex = 100;
     }
@@ -281,12 +286,12 @@ export class TokenActionHUD extends Application {
 
       game.user.update({
         flags: {
-          "token-action-hud": { hudPos: { top: element.style.top, left: element.style.left } },
+          "token-action-hud": { hudPos: { top: elementTop, left: elementLeft } },
         },
       });
   
       settings.Logger.info(
-        `Setting position to x: ${element.style.top}px, y: ${element.style.left}px, and saving in user flags.`
+        `Setting position to x: ${elementTop}px, y: ${elementLeft}px, and saving in user flags.`
       );
     }
   }

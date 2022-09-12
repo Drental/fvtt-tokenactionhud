@@ -54,13 +54,14 @@ export class ActionHandlerDnD4e extends ActionHandler {
       this._buildSkillsCategory(token),
       this._buildPowersCategory(token),
       this._buildFeaturesCategory(token),
-      this._buildItemssCategory(token),
+      this._buildItemsCategory(token),
       this._buildConditionsCategory(token),
       this._buildUtilityCategory(token),
     ];
   }
 
   _buildAbilitiesCategory(token) {
+    if (settings.get("showAbilitiesCategory") === false) return;
     const actor = token.actor;
     const abilities = actor.system.abilities;
     return this._getAbilityList(
@@ -101,6 +102,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** POWERS **/
   _buildFeaturesCategory(token) {
+    if (settings.get("showFeaturesCategory") === false) return;
     const actor = token.actor;
     const tokenId = token.id;
     let result = this.initializeEmptyCategory("Features");
@@ -142,7 +144,8 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** Inventory **/
-  _buildItemssCategory(token) {
+  _buildItemsCategory(token) {
+    if (settings.get("showInventoryCategory") === false) return;
     const actor = token.actor;
     const tokenId = token.id;
     let result = this.initializeEmptyCategory("Inventory");
@@ -177,7 +180,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             }
           }
         }
-        menuItem.items.push(item)
+        items[item.type].items.push(item);
       }
     })
     const filterOff = Object.keys(filterObject).length === 0
@@ -221,12 +224,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
           this._combineSubcategoryWithCategory(result, this.i18n(e[1].label), subCat);
         }
       });
-      return result;
     }
+    return result;
   }
   
   /** @private */
   _buildPowersCategory(token) {
+    if (settings.get("showPowersCategory") === false) return;
     const actor = token.actor;
     const tokenId = token.id;
     let allPowers = actor.items.filter((item) => item.type === "power")
@@ -300,6 +304,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _buildSkillsCategory(token) {
+    if (settings.get("showSkillsCategory") === false) return;
     const actor = token.actor;
     if (actor.type === "vehicle") return;
     const skills = actor.system.skills;
@@ -389,6 +394,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _buildUtilityCategory(token) {
+    if (settings.get("showUtilityCategory") === false) return;
     const actor = token.actor;
     let result = this.initializeEmptyCategory("utility");
     result.name = this.i18n("tokenactionhud.utility");
@@ -454,6 +460,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _buildEffectsCategory(token) {
+    if (settings.get("showEffectsCategory") === false) return;
     let result = this.initializeEmptyCategory("effects");
     result.name = this.i18n("tokenactionhud.effects");
     this._addEffectsSubcategories(token.actor, token.id, result);
@@ -462,7 +469,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _buildConditionsCategory(token) {
-    if (!settings.get("showConditionsCategory")) return;
+    if (settings.get("showConditionsCategory") === false) return;
     let result = this.initializeEmptyCategory("conditions");
     result.name = this.i18n("tokenactionhud.conditions");
     this._addConditionsSubcategory(token.actor, token.id, result);

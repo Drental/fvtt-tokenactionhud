@@ -29,13 +29,13 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     this._addAttacksList(result, actor, tokenId);
     this._addBuffsList(result, actor, tokenId);
-    this._addConditionsList(result, actor, tokenId);
     this._addItemsList(result, actor, tokenId);
     this._addSpellBooksList(result, actor, tokenId);
-    this._addFeatsList(result, actor, tokenId);
+    this._addFeaturesList(result, actor, tokenId);
     this._addSkillsList(result, actor, tokenId);
     this._addSavesList(result, actor, tokenId);
     this._addChecksList(result, actor, tokenId);
+    this._addConditionsList(result, actor, tokenId);
     this._addUtilityList(result, actor, tokenId);
 
     if (settings.get("showHudTitle")) result.hudTitle = token.name;
@@ -72,18 +72,21 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   _addAttacksList(result, actor, tokenId) {
+    if (settings.get("showAttacksCategory") === false) return;
     let attacks = this._getAttacksList(actor, tokenId);
     let attackTitle = this.i18n("tokenactionhud.attack");
     this._combineCategoryWithList(result, attackTitle, attacks);
   }
 
   _addBuffsList(result, actor, tokenId) {
+    if (settings.get("showBuffsCategory") === false) return;
     let buffs = this._getBuffsList(actor, tokenId);
     let buffsTitle = this.i18n("tokenactionhud.buffs");
     this._combineCategoryWithList(result, buffsTitle, buffs);
   }
 
   _addConditionsList(result, actor, tokenId) {
+    if (settings.get("showConditionsCategory") === false) return;
     let conditionsTitle = this.i18n("tokenactionhud.conditions");
     let conditionsCategory = this._getConditionsList(
       tokenId,
@@ -96,31 +99,36 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   _addItemsList(result, actor, tokenId) {
+    if (settings.get("showInventoryCategory") === false) return;
     let items = this._getItemList(actor, tokenId);
     let itemsTitle = this.i18n("tokenactionhud.inventory");
     this._combineCategoryWithList(result, itemsTitle, items);
   }
 
   _addSpellBooksList(result, actor, tokenId) {
+    if (settings.get("showSpellsCategory") === false) return;
     let spells = this._getSpellsList(actor, tokenId);
     spells.forEach(s => {
       this._combineCategoryWithList(result, s.label, s.category);
     });
   }
 
-  _addFeatsList(result, actor, tokenId) {
-    let feats = this._getFeatsList(actor, tokenId);
+  _addFeaturesList(result, actor, tokenId) {
+    if (settings.get("showFeaturesCategory") === false) return;
+    let feats = this._getFeaturesList(actor, tokenId);
     let featsTitle = this.i18n("tokenactionhud.features");
     this._combineCategoryWithList(result, featsTitle, feats);
   }
 
   _addSkillsList(result, actor, tokenId) {
+    if (settings.get("showSkillsCategory") === false) return;
     let skills = this._getSkillsList(actor.system.skills, tokenId);
     let skillsTitle = this.i18n("tokenactionhud.skills");
     this._combineCategoryWithList(result, skillsTitle, skills);
   }
 
   _addSavesList(result, actor, tokenId) {
+    if (settings.get("showSavesCategory") === false) return;
     let savesTitle = this.i18n("tokenactionhud.saves");
     let saves = this._getSavesList(
       tokenId,
@@ -133,6 +141,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   _addChecksList(result, actor, tokenId) {
+    if (settings.get("showChecksCategory") === false) return;
     let checksTitle = this.i18n("tokenactionhud.checks");
     let checks = this._getAbilityList(
       tokenId,
@@ -145,6 +154,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   _addUtilityList(result, actor, tokenId) {
+    if (settings.get("showUtilityCategory") === false) return;
     let utility = this._getUtilityList(actor, tokenId);
     let utilityTitle = this.i18n("tokenactionhud.utility");
     this._combineCategoryWithList(result, utilityTitle, utility);
@@ -472,8 +482,13 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     if (spell.system.atWill) return true;
 
-    if (isSpontaneous && spell.system.preparation.spontaneousPrepared)
-      return true;
+    if (isSpontaneous) {
+      if (spell.system.preparation.spontaneousPrepared) {
+        return true;
+      } else {
+        return false;
+      }
+    } 
 
     if (spell.system.preparation.preparedAmount === 0) return false;
 
@@ -499,16 +514,16 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** FEATS **/
 
   /** @private */
-  _getFeatsList(actor, tokenId) {
+  _getFeaturesList(actor, tokenId) {
     let validFeats = actor.items.filter((i) => i.type == "feat");
     let sortedFeats = this._sortByItemSort(validFeats);
-    let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
+    let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
   }
 
   /** @private */
-  _categoriseFeats(tokenId, actor, feats) {
+  _categoriseFeatures(tokenId, actor, feats) {
     let active = this.initializeEmptySubcategory();
     let passive = this.initializeEmptySubcategory();
     let disabled = this.initializeEmptySubcategory();

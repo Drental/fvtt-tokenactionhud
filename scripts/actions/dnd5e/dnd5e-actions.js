@@ -67,6 +67,7 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   _buildAbilitiesCategory(token) {
+    if (settings.get("showAbilitiesCategory") === false) return;
     const actor = token.actor;
     const abilities = actor.system.abilities;
 
@@ -157,6 +158,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildItemsCategory(token) {
+    if (settings.get("showInventoryCategory") === false) return;
     const actor = token.actor;
     const tokenId = token.id;
 
@@ -302,6 +304,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildSpellsCategory(token) {
+    if (settings.get("showSpellsCategory") === false) return;
     const actor = token.actor;
     if (actor.type === "vehicle") return;
 
@@ -484,6 +487,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildFeaturesCategory(token) {
+    if (settings.get("showFeaturesCategory") === false) return;
     let validFeats = this._filterLongerActions(
       token.actor.items.filter((i) => i.type == "feat")
     );
@@ -578,6 +582,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildSkillsCategory(token) {
+    if (settings.get("showSkillsCategory") === false) return;
     const actor = token.actor;
     const skills = actor.system.skills;
 
@@ -684,6 +689,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildUtilityCategory(token) {
+    if (settings.get("showUtilityCategory") === false) return;
     const actor = token.actor;
 
     let result = this.initializeEmptyCategory("utility");
@@ -755,6 +761,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildEffectsCategory(token) {
+    if (settings.get("showEffectsCategory") === false) return;
     let result = this.initializeEmptyCategory("effects");
     result.name = this.i18n("tokenactionhud.effects");
     this._addEffectsSubcategories(token.actor, token.id, result);
@@ -763,7 +770,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildConditionsCategory(token) {
-    if (!settings.get("showConditionsCategory")) return;
+    if (settings.get("showConditionsCategory") === false) return;
     let result = this.initializeEmptyCategory("conditions");
     result.name = this.i18n("tokenactionhud.conditions");
     this._addConditionsSubcategory(token.actor, token.id, result);

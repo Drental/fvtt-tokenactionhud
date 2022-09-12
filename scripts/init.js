@@ -184,9 +184,16 @@ Hooks.on("canvasReady", async () => {
     game.tokenActionHUD.update();
   });
 
+  Hooks.on("createActiveEffect", () => {
+    game.tokenActionHUD.update();
+  });
+
+  Hooks.on("deleteActiveEffect", () => {
+    game.tokenActionHUD.update();
+  });
+
   game.tokenActionHUD.update();
 });
-
 
 function injectCSS(filename) {
   const head = document.getElementsByTagName("head")[0];

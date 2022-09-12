@@ -1,4 +1,29 @@
 export function register(appName, updateFunc) {
+  const showCategorySettings = [
+    'Inventory',
+    'Spells',
+    'Features',
+    'Skills',
+    'Abilities',
+    'Effects', 
+    'Conditions',
+    'Utility'
+  ]
+
+  for (const category of showCategorySettings) {
+    game.settings.register(appName, `show${category}Category`, {
+      name: game.i18n.localize(`tokenactionhud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenactionhud.settings.show${category}Category.hint`),
+      scope: "client",
+      config: true,
+      type: Boolean,
+      default: true,
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    })
+  }
+
   game.settings.register(appName, "ignorePassiveFeats", {
     name: game.i18n.localize(
       "tokenactionhud.settings.dnd5e.ignorePassiveFeats.name"
@@ -122,22 +147,6 @@ export function register(appName, updateFunc) {
     config: true,
     type: Boolean,
     default: false,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
-  game.settings.register(appName, "showConditionsCategory", {
-    name: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.showConditionsCategory.name"
-    ),
-    hint: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.showConditionsCategory.hint"
-    ),
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true,
     onChange: (value) => {
       updateFunc(value);
     },
