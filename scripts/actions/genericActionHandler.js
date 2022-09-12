@@ -1,3 +1,5 @@
+import * as settings from "../settings.js";
+
 export class GenericActionHandler {
   baseHandler;
 
@@ -15,6 +17,7 @@ export class GenericActionHandler {
 
   /** @private */
   _addUtilities(token, actionList, isMultipleTokens) {
+    if (settings.get("showUtilityCategory") === false) return;
     let utilityCat = actionList.categories.find((c) => c.id === "utility");
     if (!utilityCat) {
       utilityCat = this.baseHandler.initializeEmptyCategory("utility");
