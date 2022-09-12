@@ -57,6 +57,9 @@ export class RollHandlerBaseSpace1889 extends RollHandler
 			case 'weapon':
 				this.executeWeapon(event, actor, actionId);
 				break;
+			case 'manoeuvre':
+				this.executeManoeuvre(event, actor, actionId);
+				break;
 			case 'defense':
 				this.executeDefense(event, actor, actionId);
 				break
@@ -91,6 +94,11 @@ export class RollHandlerBaseSpace1889 extends RollHandler
 		actor.rollTalent(actionId, event);
 	}
 
+	executeManoeuvre(event, actor, actionId)
+	{
+		actor.rollManoeuvre(actionId, event);
+	}
+		
 	executeWeapon(event, actor, actionId)
 	{
 		actor.rollAttack(actionId, event);
