@@ -16,7 +16,7 @@
   "version": "3.0.4",
   "compatibility": {
     "minimum": "10",
-    "verified": "10.283"
+    "verified": "10.285"
   },
   "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
   "styles": ["./styles/token-action-hud.css", "/styles/lib/tagify/tagify.css"],
