@@ -152,7 +152,7 @@ export class RollHandlerBase5e extends RollHandler {
 
     const statusId = effect.flags.core?.statusId;
     if (statusId) {
-      await this.toggleCondition(event, tokenId, statusId);
+      await this.toggleCondition(event, tokenId, effect, statusId);
       return;
     }
 
@@ -160,12 +160,12 @@ export class RollHandlerBase5e extends RollHandler {
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  async toggleCondition(event, tokenId, effectId) {
+  async toggleCondition(event, tokenId, effect, statusId) {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
     if (
-      effectId.includes("combat-utility-belt.") &&
       game.cub &&
+      statusId.includes("combat-utility-belt.") &&
       !isRightClick
     ) {
       const cubCondition = this.findCondition(effectId)?.label;
@@ -174,8 +174,16 @@ export class RollHandlerBase5e extends RollHandler {
       game.cub.hasCondition(cubCondition, token)
         ? await game.cub.removeCondition(cubCondition, token)
         : await game.cub.addCondition(cubCondition, token);
+    }
+    if (
+         game.dfreds &&
+         effect.flags.isConvenient
+    ) {
+      const effectLabel = effect.label;
+      game.dfreds.effectInterface.toggleEffect(effectLabel);
+      
     } else {
-      const condition = this.findCondition(effectId);
+      const condition = this.findCondition(statusId);
       if (!condition) return;
 
       isRightClick
