@@ -106,7 +106,7 @@ export class RollHandlerBaseSpace1889 extends RollHandler
 
 	executeDefense(event, actor, actionId)
 	{
-		actor.rollDefence(actionId, event);
+		actor.rollDefense(actionId, event);
 	}
 
 	executeDamage(actor, actionId)

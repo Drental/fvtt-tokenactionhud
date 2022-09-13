@@ -90,7 +90,9 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._addEntry(tokenId, this.i18n('SPACE1889.Block') + ' (' + actor.system.block.value + ')', 'block', type, category);
 			this._addEntry(tokenId, this.i18n('SPACE1889.Parry') + ' (' + actor.system.parry.value + ')', 'parry', type, category);
 			this._addEntry(tokenId, this.i18n('SPACE1889.Evasion') + ' (' + actor.system.evasion.value + ')', 'evasion', type, category);
+			this._addEntry(tokenId, this.i18n('SPACE1889.ActiveDefense') + ' (' + actor.system.secondaries.defense.activeTotal + ')', 'activeDefense', type, category);
 		}
+		this._addEntry(tokenId, this.i18n('SPACE1889.PassiveDefense') + ' (' + actor.system.secondaries.defense.passiveTotal + ')', 'passiveDefense', type, category);
 		this._addEntry(tokenId, this.i18n('SPACE1889.TalentVolleAbwehr') + ' (' + (actor.system.secondaries.defense.total+4) + ')', 'totalDefense', type, category);
 
 		this._combineSubcategoryWithCategory(result, this.i18n('SPACE1889.SecondaryAttributeDef'), category);
