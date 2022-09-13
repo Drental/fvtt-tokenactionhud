@@ -305,11 +305,34 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let result = this.initializeEmptyCategory("utility");
     let macroType = "utility";
 
-    let rests = this.initializeEmptySubcategory();
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
 
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenactionhud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenactionhud.combat"),
+      combatSubcategory
+    );
+
+    // Rest Subcategory
+    let restSubcategory = this.initializeEmptySubcategory();
+
+    // Rest
     if (actor.type === "character") {
       let shortRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
-      rests.actions.push({
+      restSubcategory.actions.push({
         id: "rest",
         encodedValue: shortRestValue,
         name: this.i18n("tokenactionhud.settings.demonlord.rest"),
@@ -319,7 +342,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     this._combineSubcategoryWithCategory(
       result,
       this.i18n("tokenactionhud.settings.demonlord.rest"),
-      rests
+      restSubcategory
     );
 
     return result;

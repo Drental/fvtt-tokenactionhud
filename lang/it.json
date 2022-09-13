@@ -11,6 +11,7 @@
     "armour": "Armatura",
     "atk": "Att",
     "attack": "Attacco",
+    "attacks": "Attacchi",
     "attribute": {
       "agility": "Agilità",
       "intellect": "Intelletto",
@@ -229,16 +230,108 @@
         "hint": "Adjust the scale of the HUD in percentage terms (100 being the default)",
         "name": "HUD scale"
       },
+      "showAbilitiesCategory": {
+        "hint": "Show the Abilities category on the HUD",
+        "name": "Show Abilities"
+      },
+      "showActionsCategory": {
+        "hint": "Show the Actions category on the HUD",
+        "name": "Show Actions"
+      },
+      "showAttacksCategory": {
+        "hint": "Show the Attacks category on the HUD",
+        "name": "Show Attacks"
+      },
+      "showAttributesCategory": {
+        "hint": "Show the Attributes category on the HUD",
+        "name": "Show Attributes"
+      },
+      "showBuffsCategory": {
+        "hint": "Show the Buffs category on the HUD",
+        "name": "Show Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Show the Characteristics category on the HUD",
+        "name": "Show Characteristics"
+      },
+      "showChecksCategory": {
+        "hint": "Show the Checks category on the HUD",
+        "name": "Show Checks"
+      },
+      "showConditionsCategory": {
+        "hint": "Show the Conditions category on the HUD",
+        "name": "Show Conditions"
+      },
+      "showConsumablesCategory": {
+        "hint": "Show the Consumables category on the HUD",
+        "name": "Show Consumables"
+      },
+      "showEffectsCategory": {
+        "hint": "Show the Effects category on the HUD",
+        "name": "Show Effects"
+      },
+      "showFeaturesCategory": {
+        "hint": "Show the Features category on the HUD",
+        "name": "Show Features"
+      },
+      "showInventoryCategory": {
+        "hint": "Show the Inventory category on the HUD",
+        "name": "Show Inventory"
+      },
+      "showMagicCategory": {
+        "hint": "Show the Magic category on the HUD",
+        "name": "Show Magic"
+      },
+      "showPowersCategory": {
+        "hint": "Show the Powers category on the HUD",
+        "name": "Show Powers"
+      },
+      "showReligionCategory": {
+        "hint": "Show the Religion category on the HUD",
+        "name": "Show Religion"
+      },
+      "showSavesCategory": {
+        "hint": "Show the Saves category on the HUD",
+        "name": "Show Saves"
+      },
+      "showSkillsCategory": {
+        "hint": "Show the Skills category on the HUD",
+        "name": "Show Skills"
+      },
+      "showSpellsCategory": {
+        "hint": "Show the Spells category on the HUD",
+        "name": "Show Spells"
+      },
+      "showStrikesCategory": {
+        "hint": "Show the Strikes category on the HUD",
+        "name": "Show Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Show the Talents category on the HUD",
+        "name": "Show Talents"
+      },
+      "showTraitsCategory": {
+        "hint": "Show the Traits category on the HUD",
+        "name": "Show Traits"
+      },
+      "showUtilityCategory": {
+        "hint": "Show the Utility category on the HUD",
+        "name": "Show Utility"
+      },
+      "showWeaponsCategory": {
+        "hint": "Show the Weapons category on the HUD",
+        "name": "Show Weapons"
+      },
       "background": {
-        "hint": "Set the background color of the HUD.",
+        "hint": "Set the background color of the HUD",
         "name": "HUD Background Color"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons.",
+        "hint": "Set the background color of the HUD buttons",
         "name": "Button Background Color"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons.",
+        "hint": "Set the border color of the HUD buttons",
         "name": "Button Border Color"
       },
       "showHudTitle": {

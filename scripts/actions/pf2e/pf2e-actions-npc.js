@@ -14,8 +14,8 @@ export class NpcActionHandlerPf2e {
     let spells = await this.baseHandler._getSpellsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
     let skills = this.baseHandler._getSkillsList(actor, tokenId);
-    let saves = this.baseHandler._getSaveList(actor, tokenId);
     let attributes = this._getAttributeListNpc(actor, tokenId);
+    let saves = this.baseHandler._getSaveList(actor, tokenId);
     let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let utilities = this.baseHandler._getUtilityList(actor, tokenId);
 
@@ -73,6 +73,7 @@ export class NpcActionHandlerPf2e {
 
   /** @private */
   _getStrikesListNpc(actor, tokenId) {
+    if (settings.get("showStrikesCategory") === false) return;
     let result = this.baseHandler.initializeEmptyCategory("strikes");
     result.cssClass = "oneLine";
 
@@ -113,6 +114,7 @@ export class NpcActionHandlerPf2e {
 
   /** @private */
   _getAttributeListNpc(actor, tokenId) {
+    if (settings.get("showAttributesCategory") === false) return;
     let macroType = "attribute";
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();

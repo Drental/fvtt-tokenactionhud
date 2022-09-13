@@ -11,6 +11,7 @@
     "armour": "방어구",
     "atk": "공격",
     "attack": "공격",
+    "attacks": "공격",
     "attribute": {
       "agility": "민첩",
       "intellect": "지능",
@@ -235,9 +236,109 @@
         "hint": "백분율 단위로 HUD 크기를 조정한다(기본값 100)",
         "name": "HUD 크기"
       },
+      "showAbilitiesCategory": {
+        "hint": "Show the Abilities category on the HUD",
+        "name": "Show Abilities"
+      },
+      "showActionsCategory": {
+        "hint": "Show the Actions category on the HUD",
+        "name": "Show Actions"
+      },
+      "showAttacksCategory": {
+        "hint": "Show the Attacks category on the HUD",
+        "name": "Show Attacks"
+      },
+      "showAttributesCategory": {
+        "hint": "Show the Attributes category on the HUD",
+        "name": "Show Attributes"
+      },
+      "showBuffsCategory": {
+        "hint": "Show the Buffs category on the HUD",
+        "name": "Show Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Show the Characteristics category on the HUD",
+        "name": "Show Characteristics"
+      },
+      "showChecksCategory": {
+        "hint": "Show the Checks category on the HUD",
+        "name": "Show Checks"
+      },
+      "showConditionsCategory": {
+        "hint": "Show the Conditions category on the HUD",
+        "name": "Show Conditions"
+      },
+      "showConsumablesCategory": {
+        "hint": "Show the Consumables category on the HUD",
+        "name": "Show Consumables"
+      },
+      "showEffectsCategory": {
+        "hint": "Show the Effects category on the HUD",
+        "name": "Show Effects"
+      },
+      "showFeaturesCategory": {
+        "hint": "Show the Features category on the HUD",
+        "name": "Show Features"
+      },
+      "showInventoryCategory": {
+        "hint": "Show the Inventory category on the HUD",
+        "name": "Show Inventory"
+      },
+      "showMagicCategory": {
+        "hint": "Show the Magic category on the HUD",
+        "name": "Show Magic"
+      },
+      "showPowersCategory": {
+        "hint": "Show the Powers category on the HUD",
+        "name": "Show Powers"
+      },
+      "showReligionCategory": {
+        "hint": "Show the Religion category on the HUD",
+        "name": "Show Religion"
+      },
+      "showSavesCategory": {
+        "hint": "Show the Saves category on the HUD",
+        "name": "Show Saves"
+      },
+      "showSkillsCategory": {
+        "hint": "Show the Skills category on the HUD",
+        "name": "Show Skills"
+      },
+      "showSpellsCategory": {
+        "hint": "Show the Spells category on the HUD",
+        "name": "Show Spells"
+      },
+      "showStrikesCategory": {
+        "hint": "Show the Strikes category on the HUD",
+        "name": "Show Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Show the Talents category on the HUD",
+        "name": "Show Talents"
+      },
+      "showTraitsCategory": {
+        "hint": "Show the Traits category on the HUD",
+        "name": "Show Traits"
+      },
+      "showUtilityCategory": {
+        "hint": "Show the Utility category on the HUD",
+        "name": "Show Utility"
+      },
+      "showWeaponsCategory": {
+        "hint": "Show the Weapons category on the HUD",
+        "name": "Show Weapons"
+      },
       "background": {
-        "hint": "HTML 색상(예. 'red', '#000055', '#FFF', 기타)을 사용하여 배경에 사용한다. 코드의 유효성은 체크되지 않는다.",
-        "name": "HUD 배경 색상"
+        "hint": "Set the background color of the HUD",
+        "name": "HUD Background Color"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Set the background color of the HUD buttons",
+        "name": "Button Background Color"
+      },
+      "buttonBorderColor": {
+        "hint": "Set the border color of the HUD buttons",
+        "name": "Button Border Color"
       },
       "showHudTitle": {
         "name": "HUD 제목 표시",

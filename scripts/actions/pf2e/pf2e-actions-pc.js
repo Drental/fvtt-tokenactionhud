@@ -14,23 +14,33 @@ export class PcActionHandlerPf2e {
     } else {
       await this._forCharacter(result, tokenId, actor);
     }
+  }
 
+  /** @private */
+  _forFamiliar(result, tokenId, actor) {
+    let attack = this._getFamiliarAttack(actor, tokenId);
+    let items = this.baseHandler._getItemsList(actor, tokenId);
     let skills = this.baseHandler._getSkillsList(actor, tokenId);
-    let saves = this.baseHandler._getSaveList(actor, tokenId);
     let attributes = this._getAttributeList(actor, tokenId);
+    let saves = this.baseHandler._getSaveList(actor, tokenId);
+    let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let utilities = this.baseHandler._getUtilityList(actor, tokenId);
 
+   this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.attack"),
+      attack
+    );
     this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.inventory"),
+      items
+    );
+   this.baseHandler._combineCategoryWithList(
       result,
       this.i18n("tokenactionhud.skills"),
       skills
     );
-    this.baseHandler._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.saves"),
-      saves
-    );
-
     this.baseHandler._combineCategoryWithList(
       result,
       this.i18n("tokenactionhud.attributes"),
@@ -38,30 +48,18 @@ export class PcActionHandlerPf2e {
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.utility"),
-      utilities
-    );
-  }
-
-  /** @private */
-  _forFamiliar(result, tokenId, actor) {
-    let attack = this._getFamiliarAttack(actor, tokenId);
-    let items = this.baseHandler._getItemsList(actor, tokenId);
-    let effects = this.baseHandler._getEffectsList(actor, tokenId);
-    this.baseHandler._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.inventory"),
-      items
-    );
-    this.baseHandler._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.attack"),
-      attack
+      this.i18n("tokenactionhud.saves"),
+      saves
     );
     this.baseHandler._combineCategoryWithList(
       result,
       this.i18n("tokenactionhud.effects"),
       effects
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.utility"),
+      utilities
     );
   }
 
@@ -72,9 +70,13 @@ export class PcActionHandlerPf2e {
     let actions = this.baseHandler._getActionsList(actor, tokenId);
     let items = this.baseHandler._getItemsList(actor, tokenId);
     let spells = await this.baseHandler._getSpellsList(actor, tokenId);
-    let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
-
+    let skills = this.baseHandler._getSkillsList(actor, tokenId);
+    let attributes = this._getAttributeList(actor, tokenId);
+    let saves = this.baseHandler._getSaveList(actor, tokenId);
+    let effects = this.baseHandler._getEffectsList(actor, tokenId);
+    let utilities = this.baseHandler._getUtilityList(actor, tokenId);
+    
     this.baseHandler._combineCategoryWithList(
       result,
       this.i18n("tokenactionhud.toggles"),
@@ -92,11 +94,6 @@ export class PcActionHandlerPf2e {
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.effects"),
-      effects
-    );
-    this.baseHandler._combineCategoryWithList(
-      result,
       this.i18n("tokenactionhud.inventory"),
       items
     );
@@ -109,6 +106,36 @@ export class PcActionHandlerPf2e {
       result,
       this.i18n("tokenactionhud.features"),
       feats
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.skills"),
+      skills
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.attributes"),
+      attributes
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.saves"),
+      saves
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.effects"),
+      effects
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.utility"),
+      utilities
+    );
+    this.baseHandler._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.effects"),
+      effects
     );
   }
 
@@ -124,6 +151,7 @@ export class PcActionHandlerPf2e {
 
   /** @private */
   _getStrikesList(actor, tokenId) {
+    if (settings.get("showStrikesCategory") === false) return;
     let result = this.baseHandler.initializeEmptyCategory("strikes");
     result.cssClass = "oneLine";
 
@@ -201,6 +229,7 @@ export class PcActionHandlerPf2e {
 
   /** @private */
   _getAttributeList(actor, tokenId) {
+    if (settings.get("showAttributesCategory") === false) return;
     let macroType = "attribute";
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();

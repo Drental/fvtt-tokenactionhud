@@ -13,7 +13,7 @@
   ],
   "url": "https://github.com/Drental/fvtt-tokenactionhud",
   "flags": {},
-  "version": "3.0.4",
+  "version": "3.0.5",
   "compatibility": {
     "minimum": "10",
     "verified": "10.285"
@@ -208,7 +208,7 @@
   },
   "socket": false,
   "manifest": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json",
-  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/3.0.4/module.zip",
+  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/3.0.5/module.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false

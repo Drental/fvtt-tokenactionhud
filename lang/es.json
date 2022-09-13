@@ -10,6 +10,7 @@
     "armour": "Armadura",
     "atk": "Atq",
     "attack": "Ataque",
+    "Attacks": "Ataques",
     "attribute": {
       "agility": "Agilidad",
       "intellect": "Intelecto",
@@ -227,6 +228,110 @@
       "scale": {
         "hint": "Ajustar la escala del HUD de manera porcentual (100 es el valor por defecto)",
         "name": "Escala del HUD"
+      },
+      "showAbilitiesCategory": {
+        "hint": "Mostrar la categoría Habilidades en el HUD",
+        "name": "Mostrar Habilidades"
+      },
+      "showActionsCategory": {
+        "hint": "Mostrar la categoría Acciones en el HUD",
+        "name": "Mostrar Acciones"
+      },
+      "showAttacksCategory": {
+        "hint": "Mostrar la categoría Ataques en el HUD",
+        "name": "Mostrar Ataques"
+      },
+      "showAttributesCategory": {
+        "hint": "Mostrar la categoría Atributos en el HUD",
+        "name": "Mostrar Atributos"
+      },
+      "showBuffsCategory": {
+        "hint": "Mostrar la categoría Buffs en el HUD",
+        "name": "Mostrar Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Mostrar la categoría Características en el HUD",
+        "name": "Mostrar Características"
+      },
+      "showChecksCategory": {
+        "hint": "Mostrar la categoría Cheques en el HUD",
+        "name": "Mostrar Cheques"
+      },
+      "showConditionsCategory": {
+        "hint": "Mostrar la categoría Condiciones en el HUD",
+        "name": "Mostrar Condiciones"
+      },
+      "showConsumablesCategory": {
+        "hint": "Mostrar la categoría Consumibles en el HUD",
+        "name": "Mostrar Consumibles"
+      },
+      "showEffectsCategory": {
+        "hint": "Mostrar la categoría Efectos en el HUD",
+        "name": "Mostrar Efectos"
+      },
+      "showFeaturesCategory": {
+        "hint": "Mostrar la categoría Funciones en el HUD",
+        "name": "Mostrar Funciones"
+      },
+      "showInventoryCategory": {
+        "hint": "Mostrar la categoría de Inventario en el HUD",
+        "name": "Mostrar Inventario"
+      },
+      "showMagicCategory": {
+        "hint": "Mostrar la categoría Magia en el HUD",
+        "name": "Mostrar Magia"
+      },
+      "showPowersCategory": {
+        "hint": "Mostrar la categoría de Poderes en el HUD",
+        "name": "Mostrar Poderes"
+      },
+      "showReligionCategory": {
+        "hint": "Mostrar la categoría Religión en el HUD",
+        "name": "Mostrar Religión"
+      },
+      "showSavesCategory": {
+        "hint": "Mostrar la categoría Salvaciones en el HUD",
+        "name": "Mostrar Salvaciones"
+      },
+      "showSkillsCategory": {
+        "hint": "Mostrar la categoría Habilidades en el HUD",
+        "name": "Mostrar Habilidades"
+      },
+      "showSpellsCategory": {
+        "hint": "Mostrar la categoría Hechizos en el HUD",
+        "name": "Mostrar Hechizos"
+      },
+      "showStrikesCategory": {
+        "hint": "Mostrar la categoría Strikes en el HUD",
+        "name": "Mostrar Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Mostrar la categoría Talentos en el HUD",
+        "name": "Mostrar Talentos"
+      },
+      "showTraitsCategory": {
+        "hint": "Mostrar la categoría Atributos en el HUD",
+        "name": "Mostrar Atributos"
+      },
+      "showUtilityCategory": {
+        "hint": "Mostrar la categoría de Utilidad en el HUD",
+        "name": "Mostrar Utilidad"
+      },
+      "showWeaponsCategory": {
+        "hint": "Mostrar la categoría Armas en el HUD",
+        "name": "Mostrar Armas"
+      },
+      "background": {
+        "hint": "Establecer el color de fondo del HUD",
+        "name": "Color de Fondo de HUD"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Establecer el color de fondo de los botones del HUD",
+        "name": "Color de Fondo del Botón"
+      },
+      "buttonBorderColor": {
+        "hint": "Establecer el color del borde de los botones del HUD",
+        "name": "Color del Borde del Botón"
       },
       "showHudTitle": {
         "name": "Mostrar título del HUD",

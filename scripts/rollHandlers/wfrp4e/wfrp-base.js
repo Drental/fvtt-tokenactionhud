@@ -6,7 +6,7 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
     super();
   }
 
-  doHandleActionEvent(event, encodedValue) {
+  async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
     if (payload.length != 3) {
       super.throwInvalidValueErr();
@@ -65,6 +65,11 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
         return actor
           .setupSkill(item, bypassData)
           .then((setupData) => actor.basicTest(setupData));
+      case "utility":
+        if (actionId = "endTurn") {
+          if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        }
+        break;
     }
   }
 
