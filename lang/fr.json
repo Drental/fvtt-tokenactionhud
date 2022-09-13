@@ -351,15 +351,15 @@
         "name": "Afficher les armes"
       },
       "background": {
-        "hint": "Définir la couleur de fond du HUD",
+        "hint": "Définir la couleur de fond du HUD. Ce paramètre est ignoré avec le Dorako UI",
         "name": "Couleur de fond du HUD"
       },
       "buttonBackgroundColor": {
-        "hint": "Définir la couleur d'arrière-plan des boutons du HUD",
+        "hint": "Définir la couleur d'arrière-plan des boutons du HUD. Ce paramètre est ignoré avec le Dorako UI",
         "name": "Couleur d'arrière-plan du bouton"
       },
       "buttonBorderColor": {
-        "hint": "Définir la couleur de la bordure des boutons HUD",
+        "hint": "Définir la couleur de la bordure des boutons HUD. Ce paramètre est ignoré avec le Dorako Dorako UI",
         "name": "Couleur de la bordure du bouton"
       },
       "showHudTitle": {
@@ -369,6 +369,10 @@
       "showIcons": {
         "hint": "Si activée, l'image de l'action sera affichée sur le bouton HUD lorsqu'il est disponible.",
         "name": "Afficher les icônes d'action"
+      },
+      "style": {
+        "hint": "Définir le style du HUD",
+        "name": "Style"
       },
       "useActionList": {
         "name": "Groupe par Type d'Action",

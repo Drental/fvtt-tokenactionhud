@@ -322,15 +322,15 @@
         "name": "Mostrar Armas"
       },
       "background": {
-        "hint": "Establecer el color de fondo del HUD",
+        "hint": "Establecer el color de fondo del HUD. Esta configuración se ignora con el Dorako UI",
         "name": "Color de Fondo de HUD"
       },
       "buttonBackgroundColor": {
-        "hint": "Establecer el color de fondo de los botones del HUD",
+        "hint": "Establecer el color de fondo de los botones del HUD. Esta configuración se ignora con el Dorako UI",
         "name": "Color de Fondo del Botón"
       },
       "buttonBorderColor": {
-        "hint": "Establecer el color del borde de los botones del HUD",
+        "hint": "Establecer el color del borde de los botones del HUD. Esta configuración se ignora con el Dorako UI",
         "name": "Color del Borde del Botón"
       },
       "showHudTitle": {
@@ -340,6 +340,10 @@
       "showIcons": {
         "hint": "Si se activa, la imagen de la acción se mostrará en el botón del HUD cuando esté disponible.",
         "name": "Mostrar iconos de las acciones"
+      },
+      "style": {
+        "hint": "Establecer el estilo de la HUD",
+        "name": "Estilo"
       },
       "demonlord": {
         "attackoptions": "Opciones de Ataque",

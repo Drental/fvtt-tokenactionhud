@@ -119,8 +119,10 @@ export class TokenActionHUD extends Application {
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
-    const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
-    const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
+
+    if (settings.get("style") === "foundryVTT") {
+      const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
+      const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
 
     for (let categoryButton of html.find(".tah-category button")) {
       categoryButton.style.backgroundColor = buttonBackgroundColor;
@@ -131,7 +133,8 @@ export class TokenActionHUD extends Application {
       actionButton.style.backgroundColor = buttonBackgroundColor;
       actionButton.style.borderColor = buttonBorderColor;
     }
-
+    }
+    
     const handleClick = (e) => {
       let target = e.target;
 

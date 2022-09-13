@@ -322,15 +322,15 @@
         "name": "Show Weapons"
       },
       "background": {
-        "hint": "Set the background color of the HUD",
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI",
         "name": "HUD Background Color"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons",
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI",
         "name": "Button Background Color"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons",
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI",
         "name": "Button Border Color"
       },
       "showHudTitle": {
@@ -340,6 +340,10 @@
       "showIcons": {
         "hint": "If enabled, the action image will be displayed on the HUD button where available.",
         "name": "Show action icons"
+      },
+      "style": {
+        "hint": "Ustaw styl HUD",
+        "name": "Styl"
       },
       "demonlord": {
         "attackoptions": "Attack Options",

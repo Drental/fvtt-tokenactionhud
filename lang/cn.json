@@ -188,6 +188,10 @@
         "name": "显示HUD标题",
         "hint": "在HUD上显示标题，通常是受控指示物的别名。"
       },
+      "style": {
+        "hint": "設置 HUD 的樣式",
+        "name": "風格"
+      },
       "alwaysShowAdditionalCategories": {
         "name": "始终显示自定义分类",
         "hint": "启用后，自定义分类在没有选择指示物时也会显示出来。"

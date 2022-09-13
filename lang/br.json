@@ -313,15 +313,15 @@
         "name": "Mostrar Armas"
       },
       "background": {
-        "hint": "Defina a cor de fundo do HUD",
+        "hint": "Defina a cor de fundo do HUD. Esta configuração é ignorada com o Dorako UI",
         "name": "Cor de Fundo do HUD"
       },
       "buttonBackgroundColor": {
-        "hint": "Defina a cor de fundo dos botões HUD",
+        "hint": "Defina a cor de fundo dos botões HUD. Esta configuração é ignorada com o Dorako UI",
         "name": "Cor de Fundo do Botão"
       },
       "buttonBorderColor": {
-        "hint": "Defina a cor da borda dos botões HUD",
+        "hint": "Defina a cor da borda dos botões HUD. Esta configuração é ignorada com o Dorako UI",
         "name": "Cor da Borda do Botão"
       },
       "showHudTitle": {
@@ -331,6 +331,10 @@
       "showIcons": {
         "hint": "Os ícones serão exibidos no botão HUD quando disponível.",
         "name": "Mostrar ícones nos botões"
+      },
+      "style": {
+        "hint": "Defina o estilo do HUD",
+        "name": "Estilo"
       },
       "demonlord": {
         "attackoptions": "Attack Options",

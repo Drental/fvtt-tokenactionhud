@@ -19,8 +19,12 @@
     "verified": "10.285"
   },
   "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
-  "styles": ["./styles/token-action-hud.css", "/styles/lib/tagify/tagify.css"],
-    "languages": [
+  "styles": [
+    "./styles/token-action-hud.css", 
+    "./styles/tah-dorako.css", 
+    "./styles/lib/tagify/tagify.css"
+  ],
+  "languages": [
     {
       "lang": "en",
       "name": "English",

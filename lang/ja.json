@@ -351,15 +351,15 @@
         "name": "Show Weapons"
       },
       "background": {
-        "hint": "有効なHTMLカラー(例: '赤', '#00000055', '#FFF', etc.) を設定し、それを背景として使用します。",
-        "name": "HUD背景色"
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI",
+        "name": "HUD Background Color"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons",
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI",
         "name": "Button Background Color"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons",
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI",
         "name": "Button Border Color"
       },
       "showHudTitle": {
@@ -369,6 +369,10 @@
       "showIcons": {
         "hint": "有効にすると、アクションの画像がHUDのボタンに表示されます。",
         "name": "アクションアイコンを表示"
+      },
+      "style": {
+        "hint": "HUD のスタイルを設定する",
+        "name": "スタイル"
       },
       "useActionList": {
         "name": "アクションタイプ別グループ",

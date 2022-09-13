@@ -1,6 +1,7 @@
 import { TokenActionHUD } from "./tokenactionhud.js";
 import { SystemManagerFactory } from "./managers/systemManagerFactory.js";
 import { registerHandlerbars } from "./utilities/handlebars.js";
+import { switchCSS } from "./utils.js";
 
 const appName = "token-action-hud";
 
@@ -57,9 +58,8 @@ Hooks.on("init", () => {
   }
   systemManager = SystemManagerFactory.create(supportedSystem, appName);
   systemManager.registerSettings();
-  if (game.settings.get(systemManager.appName, "dorakoUI")) injectCSS("dorako-action-hud");
+  switchCSS(game.settings.get(systemManager.appName, "style"));
 });
-
 
 // Hooks.on("init", () => {
 //   registerHandlerbars();
@@ -195,15 +195,3 @@ Hooks.on("canvasReady", async () => {
   game.tokenActionHUD.update();
 });
 
-function injectCSS(filename) {
-  const head = document.getElementsByTagName("head")[0];
-  const mainCss = document.createElement("link");
-  mainCss.setAttribute("rel", "stylesheet");
-  mainCss.setAttribute("type", "text/css");
-  mainCss.setAttribute(
-    "href",
-    "modules/token-action-hud/styles/" + filename + ".css"
-  );
-  mainCss.setAttribute("media", "all");
-  head.insertBefore(mainCss, head.lastChild);
-}

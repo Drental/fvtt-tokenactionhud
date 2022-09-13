@@ -1,5 +1,6 @@
 import { Logger } from "./logger.js";
 import { ItemMacroOptions } from "./settings/dnd5e/itemMacroOptions.js";
+import { switchCSS } from "./utils.js";
 export { Logger } from "./logger.js";
 
 const updateFunc = (value) => {
@@ -24,16 +25,20 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
-  game.settings.register(appName, "dorakoUI", {
-    name: game.i18n.localize("tokenactionhud.settings.dorakoUI.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.dorakoUI.hint"),
+  game.settings.register(appName, "style", {
+    name: game.i18n.localize("tokenactionhud.settings.style.name"),
+    hint: game.i18n.localize("tokenactionhud.settings.style.hint"),
     scope: "client",
     config: true,
-    type: Boolean,
-    default: false,
-    onChange: (value) => {
-      updateFunc(value);
+    type: String,
+    default: "foundryVTT",
+    choices: {
+      foundryVTT: "Foundry VTT",
+      dorakoUI: "Dorako UI"
     },
+    onChange: (value) => {
+      switchCSS(value);
+    }
   });
 
   game.settings.register(appName, "enabledForUser", {
@@ -281,7 +286,7 @@ function registerColorSettings(appName) {
       hint: game.i18n.localize("tokenactionhud.settings.buttonBackgroundColor.hint"),
       scope: "client",
       restricted: true,
-      default: "#000000b3",
+      default: "#00000080",
       onChange: (value) => {
         updateFunc(value);
       },

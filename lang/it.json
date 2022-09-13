@@ -323,16 +323,16 @@
         "name": "Show Weapons"
       },
       "background": {
-        "hint": "Set the background color of the HUD",
-        "name": "HUD Background Color"
+        "hint": "Imposta il colore di sfondo dell'HUD. Questa impostazione viene ignorata con il Dorako UI",
+        "name": "Colore di sfondo dell'HUD"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons",
-        "name": "Button Background Color"
+        "hint": "Imposta il colore di sfondo dei pulsanti dell'HUD. Questa impostazione viene ignorata con il Dorako",
+        "name": "Colore di sfondo del pulsante"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons",
-        "name": "Button Border Color"
+        "hint": "Imposta il colore del bordo dei pulsanti dell'HUD. Questa impostazione viene ignorata con il Dorako UI",
+        "name": "Colore bordo pulsante"
       },
       "showHudTitle": {
         "name": "Show HUD Title",
@@ -341,6 +341,10 @@
       "showIcons": {
         "hint": "If enabled, the action image will be displayed on the HUD button where available.",
         "name": "Show action icons"
+      },
+      "style": {
+        "hint": "Set the style of the HUD",
+        "name": "Style"
       },
       "useActionList": {
         "name": "Group by Action Type",
