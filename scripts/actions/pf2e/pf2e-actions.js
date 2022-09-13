@@ -336,7 +336,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let macroType = "strike";
     let strikes = actor.system.actions?.filter((a) => 
       a.type === macroType && 
-      a.item.system.quantity > 0
+      (a.item.system.quantity > 0 || actor.type === 'npc')
     );
 
     if (!strikes) return;
