@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.0.5] 2022-09-13
+
+- Core - Rework default CSS.
+- Core - Add module settings for the button background color and button border color. The Color Picker module is required for these settings (#261).
+- Core - Rename 'Toggle Combat State' and 'Toggle Visibility' buttons to show the current state on the button (#157).
+- D&D 4e/5e, Forbidden Lands, Pathfinder 1e/2e, WFRP 4e - Add module settings to show/hide indivdual categories (#146).
+- D&D 4e/5e, Forbidden Lands, Pathfinder 1e/2e, Starfinder, WFRP 4e  - Add 'End Turn' button to the Utility category (#167).
+- D&D 5e - Add support for Dfred's Convenient Effects (#113).
+- Pathfinder 1e - Fix unprepared spells displaying for the Arcanist class (#214).
+- Pathfinder 2e - Recategorise subcategories in the Features category to match the default character sheet (#218).
+- Pathfinder 2e - Remove items with zero quantity from the HUD (#223).
+- Tormenta20 - Fix Abilities, Skills and Conditions categories (#207).
+
 ## [3.0.4] 2022-09-07
 
 - tah - Make content height responsive to HUD position. A scroll bar will now appear for long lists.
