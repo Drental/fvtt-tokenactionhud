@@ -34,6 +34,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       await this._addCrewActions(token, actor, actionList);
       this._addShields(token, actor, actionList);
     }
+    this._buildUtilityCategory(token, actionList);
 
     settings.Logger.debug("SFRPG ActionList:", actionList);
 
@@ -244,6 +245,31 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let savesTitle = this.i18n("tokenactionhud.saves");
     this._combineSubcategoryWithCategory(category, savesTitle, savesCategory);
     this._combineCategoryWithList(actionList, savesTitle, category);
+  }
+
+  _buildUtilityCategory(token, actionList) {
+    let category = this.initializeEmptyCategory("utility");
+    let macroType = "utility";
+    const utilityTitle = this.i18n("tokenactionhud.utility");
+    const tokenId = token.id;
+
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenactionhud.endTurn"),
+      };
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    const combatTitle = this.i18n("tokenactionhud.combat");
+    this._combineSubcategoryWithCategory(category, combatTitle, combatSubcategory);
+    this._combineCategoryWithList(actionList, utilityTitle, category);
   }
 
   _addSubcategoryByActionType(

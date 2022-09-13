@@ -11,6 +11,7 @@
     "armour": "Armadura",
     "atk": "Ataque",
     "attack": "Ataque",
+    "attacks": "Ataques",
     "attribute": {
       "agility": "Agilidade",
       "intellect": "Intelecto",
@@ -219,9 +220,113 @@
         "hint": "Ajuste a escala do HUD em % (sendo 1 o padrão)",
         "name": "Escala do HUD"
       },
+      "showAbilitiesCategory": {
+        "hint": "Mostrar a categoria de Habilidades no HUD",
+        "name": "Mostrar Habilidades"
+      },
+      "showActionsCategory": {
+        "hint": "Mostrar a categoria Ações no HUD",
+        "name": "Mostrar Ações"
+      },
+      "showAttacksCategory": {
+        "hint": "Mostrar a categoria Ataques no HUD",
+        "name": "Mostrar Ataques"
+      },
+      "showAttributesCategory": {
+        "hint": "Mostrar a categoria Atributos no HUD",
+        "name": "Mostrar Atributos"
+      },
+      "showBuffsCategory": {
+        "hint": "Mostrar a categoria Buffs no HUD",
+        "name": "Mostrar Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Mostrar a categoria Características no HUD",
+        "name": "Mostrar Características"
+      },
+      "showChecksCategory": {
+        "hint": "Mostrar a categoria Cheques no HUD",
+        "name": "Mostrar Cheques"
+      },
+      "showConditionsCategory": {
+        "hint": "Mostrar a categoria Condições no HUD",
+        "name": "Mostrar Condições"
+      },
+      "showConsumablesCategory": {
+        "hint": "Mostrar a categoria de Consumíveis no HUD",
+        "name": "Mostrar Consumíveis"
+      },
+      "showEffectsCategory": {
+        "hint": "Mostrar a categoria Efeitos no HUD",
+        "name": "Mostrar Efeitos"
+      },
+      "showFeaturesCategory": {
+        "hint": "Mostrar a categoria Recursos no HUD",
+        "name": "Mostrar Recursos"
+      },
+      "showInventoryCategory": {
+        "hint": "Mostrar a categoria de Inventário no HUD",
+        "name": "Mostrar IInventário"
+      },
+      "showMagicCategory": {
+        "hint": "Mostrar a categoria Magia no HUD",
+        "name": "Mostrar Magia"
+      },
+      "showPowersCategory": {
+        "hint": "Mostrar a categoria de Poderes no HUD",
+        "name": "Mostrar Poderes"
+      },
+      "showReligionCategory": {
+        "hint": "Mostrar a categoria Religião no HUD",
+        "name": "Mostrar Religiã"
+      },
+      "showSavesCategory": {
+        "hint": "Mostrar a categoria Salva no HUD",
+        "name": "Mostrar Salvamentos"
+      },
+      "showSkillsCategory": {
+        "hint": "Mostrar a categoria Habilidades no HUD",
+        "name": "Mostrar Habilidades"
+      },
+      "showSpellsCategory": {
+        "hint": "Mostrar a categoria Feitiços no HUD",
+        "name": "Mostrar Feitiços"
+      },
+      "showStrikesCategory": {
+        "hint": "Mostrar a categoria Strikes no HUD",
+        "name": "Mostrar Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Mostrar a categoria Talentos no HUD",
+        "name": "Mostrar Talentos"
+      },
+      "showTraitsCategory": {
+        "hint": "Mostrar a categoria Traços no HUD",
+        "name": "Mostrar Traços"
+      },
+      "showUtilityCategory": {
+        "hint": "Mostrar a categoria Utilidade no HUD",
+        "name": "Mostrar Utilidade"
+      },
+      "showWeaponsCategory": {
+        "hint": "Mostrar a categoria Armas no HUD",
+        "name": "Mostrar Armas"
+      },
+      "background": {
+        "hint": "Defina a cor de fundo do HUD",
+        "name": "Cor de Fundo do HUD"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Defina a cor de fundo dos botões HUD",
+        "name": "Cor de Fundo do Botão"
+      },
+      "buttonBorderColor": {
+        "hint": "Defina a cor da borda dos botões HUD",
+        "name": "Cor da Borda do Botão"
+      },
       "showHudTitle": {
-        "name": "Mostrar título do HUD",
-        "hint": "Coloca um título acima do HUD, normalmente o nome do token selecionado ."
+        "hint": "Coloca um título acima do HUD, normalmente o nome do token selecionado .",
+        "name": "Mostrar título do HUD"
       },
       "showIcons": {
         "hint": "Os ícones serão exibidos no botão HUD quando disponível.",

@@ -46,6 +46,11 @@ export class RollHandlerBaseSfrpg extends RollHandler {
         break;
       case "crewAction":
         this._handleCrewAction(event, tokenId, actionId);
+      case "utility":
+        if (actionId === 'endTurn') {
+          if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        }
+        break;
       default:
         break;
     }

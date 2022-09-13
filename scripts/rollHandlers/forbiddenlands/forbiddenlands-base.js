@@ -119,7 +119,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     actor.toggleCondition(property);
   }
 
-  performUtilityMacro(event, tokenId, actionId) {
+  async performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -130,6 +130,9 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
       case 'toggleCombat':
         token.toggleCombat();
         Hooks.callAll('forceUpdateTokenActionHUD');
+        break;
+      case 'endTurn':
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

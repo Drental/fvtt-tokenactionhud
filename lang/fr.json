@@ -11,6 +11,7 @@
     "armour": "Armure",
     "atk": "Atk",
     "attack": "Attaque",
+    "attacks": "Attaques",
     "attribute": {
       "agility": "Agilité",
       "intellect": "Intellect",
@@ -257,9 +258,109 @@
         "hint": "Ajuster l'échelle du HUD en termes de pourcentage (100 étant la valeur par défaut).",
         "name": "Echelle HUD"
       },
+      "showAbilitiesCategory": {
+        "hint": "Afficher la catégorie Capacités sur le HUD",
+        "name": "Afficher les aapacités"
+      },
+      "showActionsCategory": {
+        "hint": "Afficher la catégorie Actions sur le HUD",
+        "name": "Afficher les actions"
+      },
+      "showAttacksCategory": {
+        "hint": "Afficher la catégorie Attaques sur le HUD",
+        "name": "Afficher les attaques"
+      },
+      "showAttributesCategory": {
+        "hint": "Afficher la catégorie Attributs sur le HUD",
+        "name": "Afficher les attributs"
+      },
+      "showBuffsCategory": {
+        "hint": "Afficher la catégorie Buffs sur le HUD",
+        "name": "Afficher les buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Afficher la catégorie Caractéristiques sur le HUD",
+        "name": "Afficher les caractéristiques"
+      },
+      "showChecksCategory": {
+        "hint": "Afficher la catégorie Chèques sur le HUD",
+        "name": "Afficher les chèques"
+      },
+      "showConditionsCategory": {
+        "hint": "Afficher la catégorie Conditions sur le HUD",
+        "name": "Afficher les conditions"
+      },
+      "showConsumablesCategory": {
+        "hint": "Afficher la catégorie Consommables sur le HUD",
+        "name": "Afficher les consommables"
+      },
+      "showEffectsCategory": {
+        "hint": "Afficher la catégorie Effets sur le HUD",
+        "name": "Afficher les effets"
+      },
+      "showFeaturesCategory": {
+        "hint": "Afficher la catégorie Fonctionnalités sur le HUD",
+        "name": "Afficher les fonctionnalités"
+      },
+      "showInventoryCategory": {
+        "hint": "Afficher la catégorie Inventaire sur le HUD",
+        "name": "Afficher l'inventaire"
+      },
+      "showMagicCategory": {
+        "hint": "Afficher la catégorie magie sur le HUD",
+        "name": "Afficher la magie"
+      },
+      "showPowersCategory": {
+        "hint": "Afficher la catégorie Pouvoirs sur le HUD",
+        "name": "Afficher les pouvoirs"
+      },
+      "showReligionCategory": {
+        "hint": "Afficher la catégorie Religion sur le HUD",
+        "name": "Afficher la religion"
+      },
+      "showSavesCategory": {
+        "hint": "Afficher la catégorie Sauvegardes sur le HUD",
+        "name": "Afficher les sauvegardes"
+      },
+      "showSkillsCategory": {
+        "hint": "Afficher la catégorie Compétences sur le HUD",
+        "name": "Afficher les compétences"
+      },
+      "showSpellsCategory": {
+        "hint": "Afficher la catégorie Sorts sur le HUD",
+        "name": "Afficher les sorts"
+      },
+      "showStrikesCategory": {
+        "hint": "Afficher la catégorie Frappes sur le HUD",
+        "name": "Afficher les frappes"
+      },
+      "showTalentsCategory": {
+        "hint": "Afficher la catégorie Talents sur le HUD",
+        "name": "Afficher les talents"
+      },
+      "showTraitsCategory": {
+        "hint": "Afficher la catégorie Traits sur le HUD",
+        "name": "Afficher les traits"
+      },
+      "showUtilityCategory": {
+        "hint": "Afficher la catégorie Utilitaire sur le HUD",
+        "name": "Afficher l'utilitaire"
+      },
+      "showWeaponsCategory": {
+        "hint": "Afficher la catégorie Armes sur le HUD",
+        "name": "Afficher les armes"
+      },
       "background": {
-        "hint": "Prend un code couleur HTML valide (par exemple 'red', '#00000055', '#FFF', etc.) et l'utilise pour l'arrière-plan, sans vérifier la validité du code.",
+        "hint": "Définir la couleur de fond du HUD",
         "name": "Couleur de fond du HUD"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Définir la couleur d'arrière-plan des boutons du HUD",
+        "name": "Couleur d'arrière-plan du bouton"
+      },
+      "buttonBorderColor": {
+        "hint": "Définir la couleur de la bordure des boutons HUD",
+        "name": "Couleur de la bordure du bouton"
       },
       "showHudTitle": {
         "name": "Afficher le titre du HUD",

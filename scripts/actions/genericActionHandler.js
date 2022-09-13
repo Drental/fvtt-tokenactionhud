@@ -18,25 +18,28 @@ export class GenericActionHandler {
   /** @private */
   _addUtilities(token, actionList, isMultipleTokens) {
     if (settings.get("showUtilityCategory") === false) return;
-    let utilityCat = actionList.categories.find((c) => c.id === "utility");
-    if (!utilityCat) {
-      utilityCat = this.baseHandler.initializeEmptyCategory("utility");
-      utilityCat.name = this.baseHandler.i18n("tokenactionhud.utility");
-      actionList.categories.push(utilityCat);
+    
+    let utilityCategory = actionList.categories.find((c) => c.id === "utility");
+    if (!utilityCategory) {
+      utilityCategory = this.baseHandler.initializeEmptyCategory("utility");
+      utilityCategory.name = this.baseHandler.i18n("tokenactionhud.utility");
+      actionList.categories.push(utilityCategory);
     }
 
     if (isMultipleTokens) {
       const tokens = canvas.tokens.controlled;
-      this._addMultiUtilities(utilityCat, tokens);
+      this._addMultiUtilities(utilityCategory, tokens);
     } else {
-      this._getUtilityList(utilityCat, token.id);
+      this._getUtilityList(utilityCategory, token.id);
     }
   }
 
   /** @private */
-  _getUtilityList(utilityCat, tokenId) {
+  _getUtilityList(utilityCategory, tokenId) {
     let macroType = "utility";
-    let utility = this.baseHandler.initializeEmptySubcategory();
+
+    // Token Subcategory
+    let tokenSubcategory = this.baseHandler.initializeEmptySubcategory();
 
     // Toggle Combat
     const inCombat = canvas.tokens.placeables.find((t) => t.id === tokenId).inCombat
@@ -51,7 +54,7 @@ export class GenericActionHandler {
       encodedValue: combatStateValue,
       name: name,
     };
-    utility.actions.push(combatAction);
+    tokenSubcategory.actions.push(combatAction);
 
     // Toggle Visibility
     if (game.user.isGM) {
@@ -67,22 +70,20 @@ export class GenericActionHandler {
         encodedValue: visbilityValue,
         name: name,
       };
-      utility.actions.push(visibilityAction);
-
-      this.baseHandler._combineSubcategoryWithCategory(
-        utilityCat,
-        this.baseHandler.i18n("tokenactionhud.token"),
-        utility
-      );
+      tokenSubcategory.actions.push(visibilityAction);
     }
+
+    const tokenTitle = this.baseHandler.i18n("tokenactionhud.token")
+    this.baseHandler._combineSubcategoryWithCategory(utilityCategory, tokenTitle, tokenSubcategory);
   }
 
   /** @private */
-  _addMultiUtilities(utilityCat, tokens) {
+  _addMultiUtilities(utilityCategory, tokens) {
     let macroType = "utility";
     let tokenId = "multi";
 
-    let utility = this.baseHandler.initializeEmptySubcategory();
+    // Token Subcategory
+    let tokenSubcategory = this.baseHandler.initializeEmptySubcategory();
 
     // Toggle Combat
     const inCombat = tokens.every((t) => t.inCombat);
@@ -97,7 +98,7 @@ export class GenericActionHandler {
       encodedValue: combatStateValue,
       name: name,
     };
-    utility.actions.push(combatAction);
+    tokenSubcategory.actions.push(combatAction);
 
     // Toggle Visibility
     if (game.user.isGM) {
@@ -113,13 +114,10 @@ export class GenericActionHandler {
         encodedValue: visbilityValue,
         name: name,
       };
-      utility.actions.push(visibilityAction);
+      tokenSubcategory.actions.push(visibilityAction);
     }
 
-    this.baseHandler._combineSubcategoryWithCategory(
-      utilityCat,
-      this.baseHandler.i18n("tokenactionhud.token"),
-      utility
-    );
+    const tokenTitle = this.baseHandler.i18n("tokenactionhud.token")
+    this.baseHandler._combineSubcategoryWithCategory(utilityCategory, tokenTitle, tokenSubcategory);
   }
 }

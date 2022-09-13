@@ -23,20 +23,15 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let weapons = this._getItemsList(actor, tokenId, "weapon");
     let characteristics = this._getCharacteristics(actor, tokenId);
     let skills = this._getSkills(actor, tokenId);
-
+    let talents = this._getTalents(actor, tokenId);
+    let weapons = this._getItemsList(actor, tokenId, "weapon");
     let magic = this._getSpells(actor, tokenId);
     let prayers = this._getPrayers(actor, tokenId);
-    let talents = this._getTalents(actor, tokenId);
     let traits = this._getTraits(actor, tokenId);
+    let utility = this._getUtility(tokenId);
 
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.weapons"),
-      weapons
-    );
     this._combineCategoryWithList(
       result,
       this.i18n("tokenactionhud.characteristics"),
@@ -46,6 +41,16 @@ export class ActionHandlerWfrp extends ActionHandler {
       result,
       this.i18n("tokenactionhud.skills"),
       skills
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.talents"),
+      talents
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenactionhud.weapons"),
+      weapons
     );
     this._combineCategoryWithList(
       result,
@@ -59,13 +64,13 @@ export class ActionHandlerWfrp extends ActionHandler {
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.talents"),
-      talents
+      this.i18n("tokenactionhud.traits"),
+      traits
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.traits"),
-      traits
+      this.i18n("tokenactionhud.utility"),
+      utility
     );
 
     this._setFilterSuggestions(actor);
@@ -76,6 +81,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getItemsList(actor, tokenId, type) {
+    if (settings.get("showWeaponsCategory") === false) return;
     let types = type + "s";
     let result = this.initializeEmptyCategory("items");
 
@@ -140,6 +146,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getCharacteristics(actor, tokenId) {
+    if (settings.get("showCharacteristicsCategory") === false) return;
     let result = this.initializeEmptyCategory("characteristics");
     let macroType = "characteristic";
 
@@ -164,6 +171,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getSkills(actor, tokenId) {
+    if (settings.get("showSkillsCategory") === false) return;
     let categoryId = "skills";
     let macroType = "skill";
 
@@ -290,6 +298,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getSpells(actor, tokenId) {
+    if (settings.get("showMagicCategory") === false) return;
     let macroType = "spell";
     let result = this.initializeEmptyCategory("spells");
 
@@ -335,6 +344,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getPrayers(actor, tokenId) {
+    if (settings.get("showReligionCategory") === false) return;
     let macroType = "prayer";
     let result = this.initializeEmptyCategory("prayers");
 
@@ -380,6 +390,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getTalents(actor, tokenId) {
+    if (settings.get("showTalentsCategory") === false) return;
     let macroType = "talent";
     let result = this.initializeEmptyCategory("talents");
 
@@ -416,6 +427,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getTraits(actor, tokenId) {
+    if (settings.get("showTraitsCategory") === false) return;
     let macroType = "trait";
     let result = this.initializeEmptyCategory("traits");
 
@@ -446,6 +458,36 @@ export class ActionHandlerWfrp extends ActionHandler {
       result,
       this.i18n("tokenactionhud.unrollable"),
       unrollableCategory
+    );
+
+    return result;
+  }
+
+  _getUtility(tokenId) {
+    if (settings.get("showUtilityCategory") === false) return;
+    let result = this.initializeEmptyCategory("utility");
+    let macroType = "utility";
+
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+  
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenactionhud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    const combatTitle = this.i18n("tokenactionhud.combat")
+    this._combineSubcategoryWithCategory(
+      result,
+      combatTitle,
+      combatSubcategory
     );
 
     return result;
