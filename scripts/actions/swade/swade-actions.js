@@ -24,12 +24,17 @@ export class ActionHandlerSwade extends ActionHandler {
 
     this._addWoundsAndFatigue(result, tokenId, actor);
     this._addStatuses(result, tokenId, actor);
-    this._addBennies(result, tokenId, actor);
-    this._addAttributes(result, tokenId, actor);
-    this._addSkills(result, tokenId, actor);
-    this._addEdgesAndHinderances(result, tokenId, actor);
-    this._addSpecialAbilities(result, tokenId, actor);
-    this._addPowers(result, tokenId, actor);
+    if (actor.type === "character" || actor.type === "npc") {
+      this._addBennies(result, tokenId, actor);
+      this._addAttributes(result, tokenId, actor);
+      this._addSkills(result, tokenId, actor);
+      this._addEdgesAndHinderances(result, tokenId, actor);
+      this._addSpecialAbilities(result, tokenId, actor);
+      this._addPowers(result, tokenId, actor);
+    }
+    if (actor.type === "vehicle") {
+
+    }
     this._addGear(result, tokenId, actor);
     this._addUtilities(result, tokenId, actor);
 
@@ -41,6 +46,7 @@ export class ActionHandlerSwade extends ActionHandler {
   /** @private */
   _addAttributes(list, tokenId, actor) {
     const attr = actor.system.attributes;
+    if (!attr) return;
     const macroType = "attribute";
 
     const subcat = this.initializeEmptySubcategory("attributes");
@@ -149,9 +155,10 @@ export class ActionHandlerSwade extends ActionHandler {
 
     let items = actor.items;
 
-    if (actor.type === "character")
+    if (actor.type === "character" || actor.type === "vehicle") {
       items = items.filter((i) => ![0, 1].includes(i.system.equipStatus));
-
+    }
+    
     const weapons = items.filter((i) => i.type === "weapon");
     const weaponsName = this.i18n("tokenactionhud.weapons");
     this._addItemSubcategory(tokenId, weaponsName, weapons, "weapons", cat);
@@ -164,9 +171,13 @@ export class ActionHandlerSwade extends ActionHandler {
     const shieldsName = this.i18n("tokenactionhud.shields");
     this._addItemSubcategory(tokenId, shieldsName, shields, "shields", cat);
 
-    const misc = items.filter((i) => i.type === "misc" || i.type === "gear");
+    const misc = items.filter((i) => i.type === "misc" || (actor.type !== "vehicle" && i.type === "gear"));
     const miscName = this.i18n("tokenactionhud.misc");
     this._addItemSubcategory(tokenId, miscName, misc, "misc", cat);
+
+    const mods = items.filter((i) => actor.type === "vehicle" && i.type === "gear");
+    const modsName = this.i18n("tokenactionhud.mods");
+    this._addItemSubcategory(tokenId, modsName, mods, "mods", cat);
 
     this._combineCategoryWithList(
       list,
@@ -177,30 +188,37 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addWoundsAndFatigue(list, tokenId, actor) {
-    let cat = this.initializeEmptyCategory("wounds");
+    let woundsCategory = this.initializeEmptyCategory("wounds");
 
-    let woundsName = this.i18n("tokenactionhud.wounds");
+    // Wounds Subcategory
+    const woundsName = this.i18n("tokenactionhud.wounds");
     this._addCounterSubcategory(
-      cat,
+      woundsCategory,
       tokenId,
       actor.system.wounds,
       woundsName,
       "wounds"
     );
-
-    let fatigueName = this.i18n("tokenactionhud.fatigue");
-    this._addCounterSubcategory(
-      cat,
-      tokenId,
-      actor.system.fatigue,
-      fatigueName,
-      "fatigue"
-    );
-
+    
+    // Fatigue Subcategory
+    if (actor.type !== "vehicle") {
+      const fatigueName = this.i18n("tokenactionhud.fatigue");
+      this._addCounterSubcategory(
+        woundsCategory,
+        tokenId,
+        actor.system.fatigue,
+        fatigueName,
+        "fatigue"
+      );
+    }
+    
+    const woundsAndFatigueName = (actor.type === "vehicle")
+      ? this.i18n("tokenactionhud.wounds") 
+      : this.i18n("tokenactionhud.woundsAndFatigue");
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.woundsAndFatigue"),
-      cat
+      woundsAndFatigueName,
+      woundsCategory
     );
   }
 
@@ -306,7 +324,7 @@ export class ActionHandlerSwade extends ActionHandler {
       const key = s[0];
       const value = s[1];
 
-      const name = key.slice(2);
+      const name = key.slice(2).split(/(?=[A-Z])/).join(" ");
       const id = name.toLowerCase();
       const encodedValue = [macroType, tokenId, id].join(this.delimiter);
       const action = { name: name, id: name, encodedValue: encodedValue };
