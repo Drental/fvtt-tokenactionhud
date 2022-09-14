@@ -81,6 +81,7 @@
     "fullAttack": "Attaque totale",
     "gear": "Gear",
     "get": "Get",
+    "give": "Donner",
     "gm": "MJ",
     "general": "Général",
     "grit": "Grit",
@@ -555,6 +556,16 @@
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate skill and ability names"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
         }
       },
       "wfrp": {

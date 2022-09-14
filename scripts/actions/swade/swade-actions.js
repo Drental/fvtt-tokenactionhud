@@ -347,6 +347,7 @@ export class ActionHandlerSwade extends ActionHandler {
     const macroType = "benny";
     const benniesName = this.i18n("tokenactionhud.bennies");
 
+    // Spend Bennies
     const spendName = this.i18n("tokenactionhud.spend");
     const spendValue = [macroType, tokenId, "spend"].join(this.delimiter);
     const spendAction = {
@@ -355,18 +356,21 @@ export class ActionHandlerSwade extends ActionHandler {
       id: `bennySpend`,
     };
 
-    const getName = this.i18n("tokenactionhud.get");
-    const getValue = [macroType, tokenId, "get"].join(this.delimiter);
-    const getAction = { name: getName, encodedValue: getValue, id: `bennyGet` };
-
     const tokenSubcat = this.initializeEmptySubcategory(macroType);
     tokenSubcat.name = benniesName;
     tokenSubcat.info1 = bennies.value.toString();
     cat.info1 = bennies.value.toString();
 
     tokenSubcat.actions.push(spendAction);
-    tokenSubcat.actions.push(getAction);
 
+    // Give Bennies
+    const giveName = this.i18n("tokenactionhud.give");
+    if (this._checkGiveBennies(game.user.role)) {
+      const giveValue = [macroType, tokenId, "give"].join(this.delimiter);
+      const giveAction = { name: giveName, encodedValue: giveValue, id: `bennyGive` };
+      tokenSubcat.actions.push(giveAction);
+    }
+    
     this._combineSubcategoryWithCategory(cat, benniesName, tokenSubcat);
 
     if (game.user.isGM) {
@@ -380,16 +384,16 @@ export class ActionHandlerSwade extends ActionHandler {
           id: `gmBennySpend`,
         };
 
-        const gmGet = [gmMacroType, tokenId, "get"].join(this.delimiter);
-        const gmGetAction = {
-          name: getName,
-          encodedValue: gmGet,
-          id: `gmBennyGet`,
+        const gmGive = [gmMacroType, tokenId, "give"].join(this.delimiter);
+        const gmGiveAction = {
+          name: giveName,
+          encodedValue: gmGive,
+          id: `gmBennyGive`,
         };
 
         const gmSubcat = this.initializeEmptySubcategory(gmMacroType);
         gmSubcat.actions.push(gmSpendAction);
-        gmSubcat.actions.push(gmGetAction);
+        gmSubcat.actions.push(gmGiveAction);
         const gmName = `${this.i18n("tokenactionhud.gm")} ${benniesName}`;
         gmSubcat.info2 = gmBennies.toString();
         cat.info2 = gmBennies.toString();
@@ -398,6 +402,13 @@ export class ActionHandlerSwade extends ActionHandler {
     }
 
     this._combineCategoryWithList(list, benniesName, cat);
+  }
+
+   /** @private */
+   _checkGiveBennies (userRole) {
+    const allowGiveBennies = settings.get("allowGiveBennies")
+    if (userRole >= allowGiveBennies) return true
+    return false
   }
 
   /** @private */

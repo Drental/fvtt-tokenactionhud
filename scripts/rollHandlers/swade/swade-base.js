@@ -78,7 +78,7 @@ export class RollHandlerBaseSwade extends RollHandler {
       actor.spendBenny();
     }
 
-    if (actionId === "get") actor.getBenny();
+    if (actionId === "give") actor.getBenny();
   }
 
   /** @private */
@@ -91,7 +91,7 @@ export class RollHandlerBaseSwade extends RollHandler {
       game.user.spendBenny()
     }
 
-    if (actionId === "get") {
+    if (actionId === "give") {
       game.user.getBenny()
     }
 

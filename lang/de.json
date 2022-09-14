@@ -73,7 +73,8 @@
     "filterTitle": "Filter",
     "free": "Freie",
     "gear": "Ausrüstung",
-    "get": "Get",
+    "get": "Erhalten",
+    "give": "Geben",
     "gm": "GM",
     "general": "Allgemein",
     "grit": "Grit",
@@ -138,7 +139,7 @@
     "specialQualities": "Besondere Eigenschaften",
     "spellbook": "Zauberbuch",
     "spells": "Zauber",
-    "spend": "Spend",
+    "spend": "Verbringen",
     "starting": "Starting",
     "stat": "Stat",
     "stats": "Stats",
@@ -458,6 +459,16 @@
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate skill and ability names"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
         }
       },
       "wfrp": {

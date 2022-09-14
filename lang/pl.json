@@ -77,6 +77,7 @@
     "free": "Darmowe",
     "gear": "Sprzęt",
     "get": "Pobierz",
+    "give": "Dawać",
     "gm": "MG",
     "grit": "Grit",
     "handlerNotFound": "not found, reverting to core roller.",
@@ -466,6 +467,16 @@
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate skill and ability names"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
         }
       },
       "wfrp": {

@@ -77,7 +77,8 @@
     "filterTitle": "필터",
     "free": "자유",
     "gear": "Gear",
-    "get": "Get",
+    "get": "가져 오기",
+    "give": "주다",
     "gm": "GM",
     "grit": "Grit",
     "handlerNotFound": "찾을 수 없습니다. 기본 굴림으로 돌아갑니다.",
@@ -484,6 +485,22 @@
         "displayCheckTargetNumbers": {
           "name": "샘플 값 표시",
           "hint": "이 설정이 활성화되면 개별 샘플의 샘플 값이 표시됩니다."
+        }
+      }
+    },
+    "swade": {
+      "abbreviateAttributes": {
+        "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+        "name": "Abbreviate skill and ability names"
+      },
+      "allowGiveBennies" : {
+        "name": "Allow Give Bennies",
+        "hint": "Allow users with this role (and above) to give bennies via the HUD",
+        "choices" : {
+          "4": "Game Master",
+          "3": "Assistant GM",
+          "2": "Trusted Player",
+          "1": "Player"
         }
       }
     },

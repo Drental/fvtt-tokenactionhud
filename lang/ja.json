@@ -81,6 +81,7 @@
     "fullAttack": "全力攻撃",
     "gear": "装備",
     "get": "入手",
+    "give": "与える",
     "gm": "GM",
     "general": "一般",
     "grit": "勇気",
@@ -555,6 +556,16 @@
         "abbreviateAttributes": {
           "hint": "有効にすると、技能や能力値は略語が使用されます。",
           "name": "技能名、能力値名の略称"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
         }
       },
       "wfrp": {
