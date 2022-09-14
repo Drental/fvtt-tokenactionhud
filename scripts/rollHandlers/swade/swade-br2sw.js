@@ -47,6 +47,11 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       case "powerPoints":
         await this._adjustAttributes(event, actor, macroType, actionId);
         break;
+      case "utility":
+        if (actionId === "endTurn") {
+          if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        }
+        break;
     }
   }
 
@@ -100,7 +105,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       actor.spendBenny();
     }
 
-    if (actionId === "get") actor.getBenny();
+    if (actionId === "give") actor.getBenny();
   }
 
   /** @private */
@@ -113,7 +118,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       game.user.spendBenny()
     }
 
-    if (actionId === "get") {
+    if (actionId === "give") {
       game.user.getBenny()
     }
 
@@ -174,7 +179,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
 
   /** @private */
   async _adjustAttributes(event, actor, macroType, actionId) {
-    let attribute = actor.data[macroType];
+    let attribute = actor.system[macroType];
 
     if (!attribute) return;
 
