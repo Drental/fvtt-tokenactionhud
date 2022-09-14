@@ -1,20 +1,4 @@
 export function register(app, updateSettings) {
-  game.settings.register(app, "abbreviateAttributes", {
-    name: game.i18n.localize(
-      "tokenactionhud.settings.swade.abbreviateAttributes.name"
-    ),
-    hint: game.i18n.localize(
-      "tokenactionhud.settings.swade.abbreviateAttributes.hint"
-    ),
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: false,
-    onChange: (value) => {
-      updateSettings(value);
-    },
-  });
-
   game.settings.register(app, "allowGiveBennies", {
     name: game.i18n.localize(
       "tokenactionhud.settings.swade.allowGiveBennies.name"
@@ -36,4 +20,46 @@ export function register(app, updateSettings) {
       updateSettings(value);
     },
   });
+  game.settings.register(app, "abbreviateAttributes", {
+    name: game.i18n.localize(
+      "tokenactionhud.settings.swade.abbreviateAttributes.name"
+    ),
+    hint: game.i18n.localize(
+      "tokenactionhud.settings.swade.abbreviateAttributes.hint"
+    ),
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      updateSettings(value);
+    },
+  });
+  
+  const showCategorySettings = [
+    'WoundsFatigue',
+    'Status',
+    'Bennies',
+    'Attributes',
+    'Skills',
+    'EdgesHindrances',
+    'SpecialAbilities', 
+    'Powers',
+    'Gear',
+    'Utility'
+  ]
+
+  for (const category of showCategorySettings) {
+    game.settings.register(app, `show${category}Category`, {
+      name: game.i18n.localize(`tokenactionhud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenactionhud.settings.show${category}Category.hint`),
+      scope: "client",
+      config: true,
+      type: Boolean,
+      default: true,
+      onChange: (value) => {
+        updateSettings(value);
+      },
+    })
+  }
 }

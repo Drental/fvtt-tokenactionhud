@@ -79,8 +79,8 @@
     "filterTitle": "Filtre",
     "free": "Libre",
     "fullAttack": "Attaque totale",
-    "gear": "Gear",
-    "get": "Get",
+    "gear": "Équipement",
+    "get": "Obtenir",
     "give": "Donner",
     "gm": "MJ",
     "general": "Général",
@@ -163,6 +163,7 @@
     "skilltriggers": "Déclancheurs de compétences",
     "special": "Spécial",
     "specialActions": "Actions spéciales",
+    "specialAbilities": "Capacités spéciales",
     "specialQualities": "Qualités spéciales",
     "spellbook": "Grimoire",
     "spells": "Sorts",
@@ -174,10 +175,6 @@
     "strikes": "Frappes",
     "subcategoryTagExplanation": "Ajoutez et supprimez des sous-catégories : saisissez du texte libre pour les sous-catégories ou sélectionnez des compendiums liés..",
     "subcategoryTagTitle": "Ajouter/supprimer des sous-catégories",
-    "swade": {
-      "abilities": "Capacités",
-      "specialAbilities": "Capacités Spéciales"
-    },
     "systems": "Systèmes",
     "tags": "Tags",
     "talents": "Talents",
@@ -261,51 +258,63 @@
         "name": "Echelle HUD"
       },
       "showAbilitiesCategory": {
-        "hint": "Afficher la catégorie Capacités sur le HUD",
-        "name": "Afficher les aapacités"
+        "hint": "Afficher la catégorie capacités sur le HUD",
+        "name": "Afficher les capacités"
       },
       "showActionsCategory": {
-        "hint": "Afficher la catégorie Actions sur le HUD",
+        "hint": "Afficher la catégorie actions sur le HUD",
         "name": "Afficher les actions"
       },
       "showAttacksCategory": {
-        "hint": "Afficher la catégorie Attaques sur le HUD",
+        "hint": "Afficher la catégorie attaques sur le HUD",
         "name": "Afficher les attaques"
       },
       "showAttributesCategory": {
-        "hint": "Afficher la catégorie Attributs sur le HUD",
+        "hint": "Afficher la catégorie attributs sur le HUD",
         "name": "Afficher les attributs"
+      },
+      "showBenniesCategory": {
+        "hint": "Afficher la catégorie Bennies sur le HUD",
+        "name": "Afficher Bennies"
       },
       "showBuffsCategory": {
         "hint": "Afficher la catégorie Buffs sur le HUD",
         "name": "Afficher les buffs"
       },
       "showCharacteristicsCategory": {
-        "hint": "Afficher la catégorie Caractéristiques sur le HUD",
+        "hint": "Afficher la catégorie caractéristiques sur le HUD",
         "name": "Afficher les caractéristiques"
       },
       "showChecksCategory": {
-        "hint": "Afficher la catégorie Chèques sur le HUD",
+        "hint": "Afficher la catégorie chèques sur le HUD",
         "name": "Afficher les chèques"
       },
       "showConditionsCategory": {
-        "hint": "Afficher la catégorie Conditions sur le HUD",
+        "hint": "Afficher la catégorie conditions sur le HUD",
         "name": "Afficher les conditions"
       },
       "showConsumablesCategory": {
-        "hint": "Afficher la catégorie Consommables sur le HUD",
+        "hint": "Afficher la catégorie consommables sur le HUD",
         "name": "Afficher les consommables"
       },
+      "showEdgesHindrancesCategory": {
+        "hint": "Afficher la catégorie Edges/Hindrances sur le HUD",
+        "name": "Afficher les Edges/Hindrances"
+      },
       "showEffectsCategory": {
-        "hint": "Afficher la catégorie Effets sur le HUD",
+        "hint": "Afficher la catégorie effets sur le HUD",
         "name": "Afficher les effets"
       },
       "showFeaturesCategory": {
-        "hint": "Afficher la catégorie Fonctionnalités sur le HUD",
+        "hint": "Afficher la catégorie fonctionnalités sur le HUD",
         "name": "Afficher les fonctionnalités"
       },
+      "showGearCategory": {
+        "hint": "Afficher la catégorie équipement sur le HUD",
+        "name": "Afficher l'équipement"
+      },
       "showInventoryCategory": {
-        "hint": "Afficher la catégorie Inventaire sur le HUD",
+        "hint": "Afficher la catégorie inventaire sur le HUD",
         "name": "Afficher l'inventaire"
       },
       "showMagicCategory": {
@@ -313,44 +322,56 @@
         "name": "Afficher la magie"
       },
       "showPowersCategory": {
-        "hint": "Afficher la catégorie Pouvoirs sur le HUD",
+        "hint": "Afficher la catégorie pouvoirs sur le HUD",
         "name": "Afficher les pouvoirs"
       },
       "showReligionCategory": {
-        "hint": "Afficher la catégorie Religion sur le HUD",
+        "hint": "Afficher la catégorie religion sur le HUD",
         "name": "Afficher la religion"
       },
       "showSavesCategory": {
-        "hint": "Afficher la catégorie Sauvegardes sur le HUD",
+        "hint": "Afficher la catégorie sauvegardes sur le HUD",
         "name": "Afficher les sauvegardes"
       },
       "showSkillsCategory": {
-        "hint": "Afficher la catégorie Compétences sur le HUD",
+        "hint": "Afficher la catégorie compétences sur le HUD",
         "name": "Afficher les compétences"
       },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Afficher la catégorie capacités spéciales sur le HUD",
+        "name": "Afficher les capacités spéciales"
+      },
       "showSpellsCategory": {
-        "hint": "Afficher la catégorie Sorts sur le HUD",
+        "hint": "Afficher la catégorie sorts sur le HUD",
         "name": "Afficher les sorts"
       },
+      "showStatusCategory": {
+        "hint": "Afficher la catégorie d'état sur le HUD",
+        "name": "Afficher l'état"
+      },
       "showStrikesCategory": {
-        "hint": "Afficher la catégorie Frappes sur le HUD",
+        "hint": "Afficher la catégorie frappes sur le HUD",
         "name": "Afficher les frappes"
       },
       "showTalentsCategory": {
-        "hint": "Afficher la catégorie Talents sur le HUD",
+        "hint": "Afficher la catégorie talents sur le HUD",
         "name": "Afficher les talents"
       },
       "showTraitsCategory": {
-        "hint": "Afficher la catégorie Traits sur le HUD",
+        "hint": "Afficher la catégorie traits sur le HUD",
         "name": "Afficher les traits"
       },
       "showUtilityCategory": {
-        "hint": "Afficher la catégorie Utilitaire sur le HUD",
+        "hint": "Afficher la catégorie utilitaire sur le HUD",
         "name": "Afficher l'utilitaire"
       },
       "showWeaponsCategory": {
-        "hint": "Afficher la catégorie Armes sur le HUD",
+        "hint": "Afficher la catégorie armes sur le HUD",
         "name": "Afficher les armes"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Afficher la catégorie blessures/fatigue sur le HUD",
+        "name": "Afficher blessures/fatigue"
       },
       "background": {
         "hint": "Définir la couleur de fond du HUD. Ce paramètre est ignoré avec le Dorako UI",
@@ -513,7 +534,7 @@
       "sw5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -555,11 +576,11 @@
       "swade": {
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "allowGiveBennies" : {
-          "name": "Allow Give Bennies",
-          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "name": "Autoriser Donner des Bennies",
+          "hint": "Autoriser les utilisateurs avec ce rôle (et supérieur) à donner des bennies via le HUD",
           "choices" : {
             "4": "Game Master",
             "3": "Assistant GM",

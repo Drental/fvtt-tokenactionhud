@@ -62,6 +62,8 @@
     "skills": "技能",
     "strikes": "打击",
     "lore": "学识",
+    "special": "特別的",
+    "specialAbilities": "特殊的能力",
     "specialQualities": "特殊数量",
     "spells": "法术",
     "spellbook": "法术书",
@@ -128,7 +130,6 @@
     "hase": "HASE",
     "skilltriggers": "Skill Triggers",
     "commonSkills": "Common skills",
-    "special": "Special",
     "techs": "Techs",
     "gear": "Gear",
     "engineering": "Engineering",
@@ -258,7 +259,7 @@
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown."
         },
         "abbreviateSkills": {
-          "name": "Abbreviate skill and ability names",
+          "name": "Abbreviate Skill and Ability Names",
           "hint": "If enabled, skills and abilities will use a three-character abbreviation."
         },
         "showEmptyItems": {
@@ -284,7 +285,7 @@
           "hint": "If disabled, left-clicking a spell will roll attack (shift right-click for bonus dialogue), right-clicking will roll damage (ctrl right-click for bonus dialogue). If neither are applicable, the spell card will be printed to chat anyway."
         },
         "abbreviateSkills": {
-          "name": "Abbreviate skill and ability names",
+          "name": "Abbreviate Skill and Ability Names",
           "hint": "If enabled, skills and abilities will use a three-character abbreviation."
         },
         "ignorePassiveActions": {
@@ -324,7 +325,7 @@
       },
       "swade": {
         "abbreviateAttributes": {
-          "name": "Abbreviate skill and ability names",
+          "name": "Abbreviate Skill and Ability Names",
           "hint": "If enabled, skills and abilities will use a three-character abbreviation."
         },
         "allowGiveBennies" : {

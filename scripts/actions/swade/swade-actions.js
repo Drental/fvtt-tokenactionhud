@@ -45,6 +45,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addAttributes(list, tokenId, actor) {
+    if (settings.get("showAttributesCategory") === false) return;
     const attr = actor.system.attributes;
     if (!attr) return;
     const macroType = "attribute";
@@ -78,6 +79,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addSkills(list, tokenId, actor) {
+    if (settings.get("showSkillsCategory") === false) return;
     const cat = this.initializeEmptyCategory("skills");
     const macroType = "skill";
     const skills = actor.items.filter((i) => i.type === macroType);
@@ -100,6 +102,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addPowers(list, tokenId, actor) {
+    if (settings.get("showPowersCategory") === false) return;
     const powers = actor.items.filter((i) => i.type === "power");
     if (powers.length === 0) return;
 
@@ -151,6 +154,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addGear(list, tokenId, actor) {
+    if (settings.get("showGearCategory") === false) return;
     const cat = this.initializeEmptyCategory("gear");
 
     let items = actor.items;
@@ -188,6 +192,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addWoundsAndFatigue(list, tokenId, actor) {
+    if (settings.get("showWoundsFatigueCategory") === false) return;
     let woundsCategory = this.initializeEmptyCategory("wounds");
 
     // Wounds Subcategory
@@ -252,6 +257,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addEdgesAndHinderances(list, tokenId, actor) {
+    if (settings.get("showEdgesHindrancesCategory") === false) return;
     const cat = this.initializeEmptyCategory("edges");
 
     const edges = actor.items.filter((i) => i.type === "edge");
@@ -270,15 +276,16 @@ export class ActionHandlerSwade extends ActionHandler {
   }
 
   _addSpecialAbilities(list, tokenId, actor) {
+    if (settings.get("showSpecialAbilitiesCategory") === false) return;
     const cat = this.initializeEmptyCategory("abilities");
 
     const specialAbilities = actor.items.filter((i) => i.type === "ability");
-    const abilityName = this.i18n("tokenactionhud.swade.abilities");
+    const abilityName = this.i18n("tokenactionhud.abilities");
     this._addItemSubcategory(tokenId, abilityName, specialAbilities, "abilities", cat);
 
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.swade.specialAbilities"),
+      this.i18n("tokenactionhud.specialAbilities"),
       cat
     );
   }
@@ -315,6 +322,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addStatuses(list, tokenId, actor) {
+    if (settings.get("showStatusCategory") === false) return;
     const cat = this.initializeEmptyCategory("status");
     const macroType = "status";
     const statuses = actor.system.status;
@@ -340,6 +348,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addBennies(list, tokenId, actor) {
+    if (settings.get("showBenniesCategory") === false) return;
     const bennies = actor.system.bennies;
     if (!bennies) return;
 
@@ -413,6 +422,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addUtilities(list, tokenId, actor) {
+    if (settings.get("showUtilityCategory") === false) return;
     let cat = this.initializeEmptyCategory("utility");
     let macroType = "utility";
 

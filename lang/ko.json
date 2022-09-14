@@ -149,6 +149,7 @@
     "skilltriggers": "Skill Triggers",
     "special": "특수",
     "specialActions": "특수 행동",
+    "specialAbilities": "특수 능력",
     "specialQualities": "특수 능력",
     "spellbook": "주문서",
     "spells": "주문",
@@ -254,6 +255,10 @@
         "hint": "Show the Attributes category on the HUD",
         "name": "Show Attributes"
       },
+      "showBenniesCategory": {
+        "hint": "Show the Bennies category on the HUD",
+        "name": "Show Bennies"
+      },
       "showBuffsCategory": {
         "hint": "Show the Buffs category on the HUD",
         "name": "Show Buffs"
@@ -274,6 +279,10 @@
         "hint": "Show the Consumables category on the HUD",
         "name": "Show Consumables"
       },
+      "showEdgesHindrancesCategory": {
+        "hint": "Show the Edges/Hindrances category on the HUD",
+        "name": "Show Edges/Hindrances"
+      },
       "showEffectsCategory": {
         "hint": "Show the Effects category on the HUD",
         "name": "Show Effects"
@@ -281,6 +290,10 @@
       "showFeaturesCategory": {
         "hint": "Show the Features category on the HUD",
         "name": "Show Features"
+      },
+      "showGearCategory": {
+        "hint": "Show the Gear category on the HUD",
+        "name": "Show Gear"
       },
       "showInventoryCategory": {
         "hint": "Show the Inventory category on the HUD",
@@ -306,9 +319,17 @@
         "hint": "Show the Skills category on the HUD",
         "name": "Show Skills"
       },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Show the Special Abilities category on the HUD",
+        "name": "Show Special Abilities"
+      },
       "showSpellsCategory": {
         "hint": "Show the Spells category on the HUD",
         "name": "Show Spells"
+      },
+      "showStatusCategory": {
+        "hint": "Show the Status category on the HUD",
+        "name": "Show Status"
       },
       "showStrikesCategory": {
         "hint": "Show the Strikes category on the HUD",
@@ -329,6 +350,10 @@
       "showWeaponsCategory": {
         "hint": "Show the Weapons category on the HUD",
         "name": "Show Weapons"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Show the Wounds/Fatigue category on the HUD",
+        "name": "Show Wounds/Fatigue"
       },
       "background": {
         "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI",
@@ -491,7 +516,7 @@
     "swade": {
       "abbreviateAttributes": {
         "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-        "name": "Abbreviate skill and ability names"
+        "name": "Abbreviate Skill and Ability Names"
       },
       "allowGiveBennies" : {
         "name": "Allow Give Bennies",

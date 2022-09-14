@@ -74,7 +74,7 @@
     "filterTagExplanation": "Añade qué elementos se muestran u ocultan en una categoría específica.",
     "filterTitle": "Filtro",
     "free": "Free",
-    "gear": "Gear",
+    "gear": "Equipo",
     "get": "Recibir",
     "give": "Dar",
     "gm": "GM",
@@ -142,7 +142,8 @@
     "skills": "Habilidades",
     "skilltriggers": "Skill Triggers",
     "special": "Especial",
-    "specialQualities": "Special Qualities",
+    "specialAbilities": "Habilidades especiales",
+    "specialQualities": "Cualidades especiales",
     "spellbook": "Libro de conjuros",
     "spells": "Conjuros",
     "spend": "Usar",
@@ -247,6 +248,10 @@
         "hint": "Mostrar la categoría Atributos en el HUD",
         "name": "Mostrar Atributos"
       },
+      "showBenniesCategory": {
+        "hint": "Mostrar la categoría Bennies en el HUD",
+        "name": "Mostrar Bennies"
+      },
       "showBuffsCategory": {
         "hint": "Mostrar la categoría Buffs en el HUD",
         "name": "Mostrar Buffs"
@@ -267,6 +272,10 @@
         "hint": "Mostrar la categoría Consumibles en el HUD",
         "name": "Mostrar Consumibles"
       },
+      "showEdgesHindrancesCategory": {
+        "hint": "Mostrar la categoría de Ventajas/Desventajas en el HUD",
+        "name": "Mostrar Ventajas/Desventajas"
+      },
       "showEffectsCategory": {
         "hint": "Mostrar la categoría Efectos en el HUD",
         "name": "Mostrar Efectos"
@@ -274,6 +283,10 @@
       "showFeaturesCategory": {
         "hint": "Mostrar la categoría Funciones en el HUD",
         "name": "Mostrar Funciones"
+      },
+      "showGearCategory": {
+        "hint": "Mostrar la categoría Equipo en el HUD",
+        "name": "Mostrar Equipo"
       },
       "showInventoryCategory": {
         "hint": "Mostrar la categoría de Inventario en el HUD",
@@ -299,9 +312,17 @@
         "hint": "Mostrar la categoría Habilidades en el HUD",
         "name": "Mostrar Habilidades"
       },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Muestra la categoría de Habilidades Especiales en el HUD",
+        "name": "Mostrar Habilidades Especiales"
+      },
       "showSpellsCategory": {
         "hint": "Mostrar la categoría Hechizos en el HUD",
         "name": "Mostrar Hechizos"
+      },
+      "showStatusCategory": {
+        "hint": "Mostrar la categoría de Estado en el HUD",
+        "name": "Mostrar Estado"
       },
       "showStrikesCategory": {
         "hint": "Mostrar la categoría Strikes en el HUD",
@@ -322,6 +343,10 @@
       "showWeaponsCategory": {
         "hint": "Mostrar la categoría Armas en el HUD",
         "name": "Mostrar Armas"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Mostrar la categoría Heridas/Fatiga en el HUD",
+        "name": "Mostrar Heridas/Fatiga"
       },
       "background": {
         "hint": "Establecer el color de fondo del HUD. Esta configuración se ignora con el Dorako UI",
@@ -491,7 +516,7 @@
       "sw5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -509,7 +534,7 @@
       "swade": {
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "allowGiveBennies" : {
           "name": "Allow Give Bennies",

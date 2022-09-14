@@ -171,6 +171,7 @@
     "skills": "Skills",
     "skilltriggers": "Skill Triggers",
     "special": "Special",
+    "specialAbilities": "Special Abilities",
     "specialActions": "Special Actions",
     "specialQualities": "Special Qualities",
     "spellbook": "Spellbook",
@@ -183,10 +184,6 @@
     "strikes": "Strikes",
     "subcategoryTagExplanation": "Add and remove subcategories: enter free-text for macro subcategories or select linked compendiums.",
     "subcategoryTagTitle": "Add/remove subcategories",
-    "swade": {
-      "abilities": "Abilities",
-      "specialAbilities": "Special Abilities"
-    },
     "systems": "Systems",
     "tags": "Tags",
     "talents": "Talents",
@@ -219,19 +216,19 @@
       },
       "alwaysShowAdditionalCategories": {
         "hint": "If enabled, custom categories will be shown even when no token is selected.",
-        "name": "Always show custom categories"
+        "name": "Always Show Custom Categories"
       },
       "alwaysShowHud": {
         "hint": "If the user has an assigned character, the HUD will default to this character when no token is selected.",
-        "name": "Always display HUD"
+        "name": "Always Display HUD"
       },
       "clickOpenCategory": {
         "hint": "If enabled, categories will open on click instead of hover.",
-        "name": "Click-to-open categories"
+        "name": "Click to Open Categories"
       },
       "debug": {
         "hint": "Enable debug logging. (This has sort of fallen by the wayside, don't expect it to be very useful)",
-        "name": "Enable debugging"
+        "name": "Enable Debugging"
       },
       "dropdown": {
         "hint": "If enabled, sets categories to drop down, otherwise uses a (warning!) half-assed drop-up implementation. Feel free to report any bugs.",
@@ -239,7 +236,7 @@
       },
       "enabledForUser": {
         "hint": "If enabled, the HUD is active for the user. Does not override the player permission setting.",
-        "name": "Enable HUD for current user"
+        "name": "Enable HUD for Current User"
       },
       "itemMacroReplace": {
         "showBoth": "Show both original item and item macro item",
@@ -248,23 +245,23 @@
       },
       "onTokenHover": {
         "hint": "If enabled, the HUD will appear when hovering over a controllable token.\nWarning: Due to the unpredictable position of a token on the canvas, some actions may fall off the screen.",
-        "name": "Enable hovering"
+        "name": "Enable Hovering"
       },
       "playerPermission": {
         "hint": "If enabled, players will be able to use the HUD.",
-        "name": "Enable HUD for players"
+        "name": "Enable HUD for Players"
       },
       "renderItemOnRightClick": {
         "hint": "If enabled, right-clicking on an item in the HUD will bring up the item's sheet (possibly conflicts with other settings that use right-click).",
-        "name": "Show Item Sheet on right-click"
+        "name": "Show Item Sheet on Right-Click"
       },
       "rollHandler": {
         "hint": "Choose which module will receive the HUD's actions.",
-        "name": "HUD roll handler"
+        "name": "HUD Roll Handler"
       },
       "scale": {
         "hint": "Adjust the scale of the HUD in percentage terms (100 being the default)",
-        "name": "HUD scale"
+        "name": "HUD Scale"
       },
       "showAbilitiesCategory": {
         "hint": "Show the Abilities category on the HUD",
@@ -281,6 +278,10 @@
       "showAttributesCategory": {
         "hint": "Show the Attributes category on the HUD",
         "name": "Show Attributes"
+      },
+      "showBenniesCategory": {
+        "hint": "Show the Bennies category on the HUD",
+        "name": "Show Bennies"
       },
       "showBuffsCategory": {
         "hint": "Show the Buffs category on the HUD",
@@ -302,6 +303,10 @@
         "hint": "Show the Consumables category on the HUD",
         "name": "Show Consumables"
       },
+      "showEdgesHindrancesCategory": {
+        "hint": "Show the Edges/Hindrances category on the HUD",
+        "name": "Show Edges/Hindrances"
+      },
       "showEffectsCategory": {
         "hint": "Show the Effects category on the HUD",
         "name": "Show Effects"
@@ -309,6 +314,10 @@
       "showFeaturesCategory": {
         "hint": "Show the Features category on the HUD",
         "name": "Show Features"
+      },
+      "showGearCategory": {
+        "hint": "Show the Gear category on the HUD",
+        "name": "Show Gear"
       },
       "showInventoryCategory": {
         "hint": "Show the Inventory category on the HUD",
@@ -334,9 +343,17 @@
         "hint": "Show the Skills category on the HUD",
         "name": "Show Skills"
       },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Show the Special Abilities category on the HUD",
+        "name": "Show Special Abilities"
+      },
       "showSpellsCategory": {
         "hint": "Show the Spells category on the HUD",
         "name": "Show Spells"
+      },
+      "showStatusCategory": {
+        "hint": "Show the Status category on the HUD",
+        "name": "Show Status"
       },
       "showStrikesCategory": {
         "hint": "Show the Strikes category on the HUD",
@@ -358,16 +375,20 @@
         "hint": "Show the Weapons category on the HUD",
         "name": "Show Weapons"
       },
+      "showWoundsFatigueCategory": {
+        "hint": "Show the Wounds/Fatigue category on the HUD",
+        "name": "Show Wounds/Fatigue"
+      },
       "background": {
-        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI",
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI style",
         "name": "HUD Background Color"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI",
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI style",
         "name": "Button Background Color"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons. This setting is ignored for with Dorako UI",
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI style",
         "name": "Button Border Color"
       },
       "showHudTitle": {
@@ -376,7 +397,7 @@
       },
       "showIcons": {
         "hint": "If enabled, the action image will be displayed on the HUD button where available.",
-        "name": "Show action icons"
+        "name": "Show Action Icons"
       },
       "style": {
         "hint": "Set the style of the HUD",
@@ -417,7 +438,7 @@
       "dnd5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -471,7 +492,7 @@
       "pf2e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "calculateAttackPenalty": {
           "hint": "If enabled, strikes will show their calculated attack bonus (attack bonus - MAP) instead of the flat MAP.",
@@ -515,7 +536,7 @@
       "sw5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -561,7 +582,7 @@
       "swade": {
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "allowGiveBennies" : {
           "name": "Allow Give Bennies",

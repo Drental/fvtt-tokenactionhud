@@ -135,6 +135,7 @@
     "skills": "Pericias",
     "skilltriggers": "Skill Triggers",
     "special": "Especial",
+    "specialAbilities": "Habilidades Especiais",
     "specialQualities": "Qualidades Especiais",
     "spellbook": "Spellbook",
     "spells": "Magias",
@@ -238,6 +239,10 @@
         "hint": "Mostrar a categoria Atributos no HUD",
         "name": "Mostrar Atributos"
       },
+      "showBenniesCategory": {
+        "hint": "Mostrar a categoria Bennies no HUD",
+        "name": "Mostrar Bennies"
+      },
       "showBuffsCategory": {
         "hint": "Mostrar a categoria Buffs no HUD",
         "name": "Mostrar Buffs"
@@ -258,6 +263,10 @@
         "hint": "Mostrar a categoria de Consumíveis no HUD",
         "name": "Mostrar Consumíveis"
       },
+      "showEdgesHindrancesCategory": {
+        "hint": "Mostrar a categoria Edges/Hindrances no HUD",
+        "name": "Mostrar Edges/Hindrances"
+      },
       "showEffectsCategory": {
         "hint": "Mostrar a categoria Efeitos no HUD",
         "name": "Mostrar Efeitos"
@@ -265,6 +274,10 @@
       "showFeaturesCategory": {
         "hint": "Mostrar a categoria Recursos no HUD",
         "name": "Mostrar Recursos"
+      },
+      "showGearCategory": {
+        "hint": "Mostrar a categoria Gear no HUD",
+        "name": "Mostrar Gear"
       },
       "showInventoryCategory": {
         "hint": "Mostrar a categoria de Inventário no HUD",
@@ -290,9 +303,17 @@
         "hint": "Mostrar a categoria Habilidades no HUD",
         "name": "Mostrar Habilidades"
       },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Mostrar a categoria de Habilidades Especiais no HUD",
+        "name": "Mostrar Habilidades Especiais"
+      },
       "showSpellsCategory": {
         "hint": "Mostrar a categoria Feitiços no HUD",
         "name": "Mostrar Feitiços"
+      },
+      "showStatusCategory": {
+        "hint": "Mostrar a categoria Status no HUD",
+        "name": "Mostrar Status"
       },
       "showStrikesCategory": {
         "hint": "Mostrar a categoria Strikes no HUD",
@@ -313,6 +334,10 @@
       "showWeaponsCategory": {
         "hint": "Mostrar a categoria Armas no HUD",
         "name": "Mostrar Armas"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Mostrar a categoria  Wounds/Fatigueno HUD",
+        "name": "Mostrar Wounds/Fatigue"
       },
       "background": {
         "hint": "Defina a cor de fundo do HUD. Esta configuração é ignorada com o Dorako UI",
@@ -439,7 +464,7 @@
       "sw5e": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -457,7 +482,7 @@
       "swade": {
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate skill and ability names"
+          "name": "Abbreviate Skill and Ability Names"
         },
         "allowGiveBennies" : {
           "name": "Allow Give Bennies",

@@ -41,10 +41,39 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     }
   });
 
+  game.settings.register(appName, "scale", {
+    name: game.i18n.localize("tokenactionhud.settings.scale.name"),
+    hint: game.i18n.localize("tokenactionhud.settings.scale.hint"),
+    scope: "client",
+    config: true,
+    type: Number,
+    range: {
+      min: 0.5,
+      max: 2,
+      step: 0.05,
+    },
+    default: 1,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
   game.settings.register(appName, "enabledForUser", {
     name: game.i18n.localize("tokenactionhud.settings.enabledForUser.name"),
     hint: game.i18n.localize("tokenactionhud.settings.enabledForUser.hint"),
     scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
+  game.settings.register(appName, "playerPermission", {
+    name: game.i18n.localize("tokenactionhud.settings.playerPermission.name"),
+    hint: game.i18n.localize("tokenactionhud.settings.playerPermission.hint"),
+    scope: "world",
     config: true,
     type: Boolean,
     default: true,
@@ -105,18 +134,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
-  game.settings.register(appName, "onTokenHover", {
-    name: game.i18n.localize("tokenactionhud.settings.onTokenHover.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.onTokenHover.hint"),
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: false,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
   game.settings.register(appName, "clickOpenCategory", {
     name: game.i18n.localize("tokenactionhud.settings.clickOpenCategory.name"),
     hint: game.i18n.localize("tokenactionhud.settings.clickOpenCategory.hint"),
@@ -129,7 +146,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
-  systemManager.doRegisterSettings(appName, updateFunc);
 
   if (game.modules.get("itemacro")?.active) {
     game.settings.register(appName, "itemMacroReplace", {
@@ -154,18 +170,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     });
   }
 
-  game.settings.register(appName, "playerPermission", {
-    name: game.i18n.localize("tokenactionhud.settings.playerPermission.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.playerPermission.hint"),
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
   game.settings.register(appName, "renderItemOnRightClick", {
     name: game.i18n.localize(
       "tokenactionhud.settings.renderItemOnRightClick.name"
@@ -177,23 +181,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     config: true,
     type: Boolean,
     default: true,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
-  game.settings.register(appName, "scale", {
-    name: game.i18n.localize("tokenactionhud.settings.scale.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.scale.hint"),
-    scope: "client",
-    config: true,
-    type: Number,
-    range: {
-      min: 0.5,
-      max: 2,
-      step: 0.05,
-    },
-    default: 1,
     onChange: (value) => {
       updateFunc(value);
     },
@@ -223,6 +210,18 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
+  game.settings.register(appName, "onTokenHover", {
+    name: game.i18n.localize("tokenactionhud.settings.onTokenHover.name"),
+    hint: game.i18n.localize("tokenactionhud.settings.onTokenHover.hint"),
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
   game.settings.register(appName, "debug", {
     name: game.i18n.localize("tokenactionhud.settings.debug.name"),
     hint: game.i18n.localize("tokenactionhud.settings.debug.hint"),
@@ -234,6 +233,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
       updateFunc(value);
     },
   });
+
+  systemManager.doRegisterSettings(appName, updateFunc);
 
   Logger.debug("available rollHandlers: ", rollHandlers);
 };

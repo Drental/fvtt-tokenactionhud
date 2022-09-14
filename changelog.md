@@ -1,7 +1,14 @@
 # Changelog
 
-## [3.0.5] 2022-09-13
+## [3.0.6] 2022-09-14
+- Core - Fix Dorako UI stylesheet (#264). **NB. The Dorako UI module setting has been replaced by the Style setting.**
+- Pathfinder 2e - Fix Strikes not displaying for NPCs.
+- Space: 1889 - Fixes provided by Scepfari (#265 & #266)
+- SWADE - Add setting to allow (or disallow) roles to give bennies from the HUD (#179).
+- SWADE - Add HUD for Vehicle actors (#245).
+- SWADE - General update for Foundry VTT v10.
 
+## [3.0.5] 2022-09-13
 - Core - Rework default CSS.
 - Core - Add module settings for the button background color and button border color. The Color Picker module is required for these settings (#261).
 - Core - Rename 'Toggle Combat State' and 'Toggle Visibility' buttons to show the current state on the button (#157).
@@ -1079,7 +1086,7 @@
 
 ### Added
 
-- DND5e - Adds support for Obsidian 5e thanks to Avelyne#3141 (select Obsidian Character Sheets in the setting's HUD roll handler)
+- DND5e - Adds support for Obsidian 5e thanks to Avelyne#3141 (select Obsidian Character Sheets in the setting's HUD Roll Handler)
 
 ## [0.10.19] 2021-01-01
 
