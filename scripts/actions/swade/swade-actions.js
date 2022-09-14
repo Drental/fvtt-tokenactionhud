@@ -22,15 +22,15 @@ export class ActionHandlerSwade extends ActionHandler {
 
     result.actorId = actor.id;
 
+    this._addWoundsAndFatigue(result, tokenId, actor);
+    this._addStatuses(result, tokenId, actor);
+    this._addBennies(result, tokenId, actor);
     this._addAttributes(result, tokenId, actor);
     this._addSkills(result, tokenId, actor);
-    this._addStatuses(result, tokenId, actor);
-    this._addWoundsAndFatigue(result, tokenId, actor);
-    this._addBennies(result, tokenId, actor);
-    this._addPowers(result, tokenId, actor);
-    this._addInventory(result, tokenId, actor);
     this._addEdgesAndHinderances(result, tokenId, actor);
     this._addSpecialAbilities(result, tokenId, actor);
+    this._addPowers(result, tokenId, actor);
+    this._addGear(result, tokenId, actor);
     this._addUtilities(result, tokenId, actor);
 
     if (settings.get("showHudTitle")) result.hudTitle = token.name;
@@ -100,17 +100,21 @@ export class ActionHandlerSwade extends ActionHandler {
     const macroType = "powerPoints";
     const cat = this.initializeEmptyCategory(macroType);
 
-    const pp = actor.system.powerPoints;
-    if (pp) cat.info1 = `${pp.value}/${pp.max}`;
+    if (!settings.get("noPowerPoints")) {
+      const pp = actor.system.powerPoints;
+      pp.value = pp.value ?? 0;
+      pp.max = pp.max ?? 0;
+      cat.info1 = `${pp.value}/${pp.max}`;
 
-    this._addCounterSubcategory(
-      cat,
-      tokenId,
-      pp,
-      this.i18n("tokenactionhud.points"),
-      macroType
-    );
-
+      this._addCounterSubcategory(
+        cat,
+        tokenId,
+        pp,
+        this.i18n("tokenactionhud.points"),
+        macroType
+      );
+    }
+  
     const powersName = this.i18n("tokenactionhud.powers");
 
     const groupedPowers = this._groupPowers(powers);
@@ -140,13 +144,13 @@ export class ActionHandlerSwade extends ActionHandler {
   }
 
   /** @private */
-  _addInventory(list, tokenId, actor) {
-    const cat = this.initializeEmptyCategory("inventory");
+  _addGear(list, tokenId, actor) {
+    const cat = this.initializeEmptyCategory("gear");
 
     let items = actor.items;
 
     if (actor.type === "character")
-      items = items.filter((i) => i.system.equipped);
+      items = items.filter((i) => ![0, 1].includes(i.system.equipStatus));
 
     const weapons = items.filter((i) => i.type === "weapon");
     const weaponsName = this.i18n("tokenactionhud.weapons");
@@ -166,7 +170,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenactionhud.gear"),
       cat
     );
   }
@@ -348,7 +352,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._combineSubcategoryWithCategory(cat, benniesName, tokenSubcat);
 
     if (game.user.isGM) {
-      const gmBennies = game.user.getFlag("swade", "bennies");
+      const gmBennies = game.user.getFlag("swade", "bennies") ?? 0;
       if (gmBennies !== null) {
         const gmMacroType = "gmBenny";
         const gmSpend = [gmMacroType, tokenId, "spend"].join(this.delimiter);
@@ -381,12 +385,27 @@ export class ActionHandlerSwade extends ActionHandler {
   /** @private */
   _addUtilities(list, tokenId, actor) {
     let cat = this.initializeEmptyCategory("utility");
+    let macroType = "utility";
 
-    this._combineCategoryWithList(
-      list,
-      this.i18n("tokenactionhud.utility"),
-      cat
-    );
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenactionhud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    const utilityName = this.i18n("tokenactionhud.utility");
+    const combatName = this.i18n("tokenactionhud.combat");
+    this._combineSubcategoryWithCategory(cat, combatName, combatSubcategory);
+    this._combineCategoryWithList(list, utilityName, cat);
   }
 
   /** @private */

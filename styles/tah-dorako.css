@@ -301,14 +301,13 @@
 }
 
 .tah-actions .shrink {
+  display: flex;
   font-size: small;
   font-weight: bold;
-  height: 20px;
+  justify-content: center;
   line-height: 0px;
-  margin: 0px 0px 0px 3px;
-  min-width: 20px;
+  min-width: 25px;
   padding: 0px;
-  text-align: center;
   width: auto;
 }
 
