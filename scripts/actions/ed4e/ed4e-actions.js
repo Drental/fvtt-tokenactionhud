@@ -137,12 +137,12 @@ export class ActionHandlerED4e extends ActionHandler {
         systemCat.actions = systemActions;
 
         let result = this.initializeEmptyCategory('general');
-        result.name = this.i18n("tokenactionhud.general");
+        result.name = this.i18n("tokenActionHud.general");
 
         this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.a.attributes"), attributeCat);
         this._combineSubcategoryWithCategory(result, this.i18n("earthdawn.o.other"), otherCat);
         if (!isCreature) {
-            this._combineSubcategoryWithCategory(result, this.i18n("tokenactionhud.systems"), systemCat);
+            this._combineSubcategoryWithCategory(result, this.i18n("tokenActionHud.ed4e.systems"), systemCat);
         }
 
         return result;

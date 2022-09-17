@@ -56,8 +56,8 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     this._addMultiSkills(list, tokenId);
 
-    let savesTitle = this.i18n("tokenactionhud.saves");
-    let checksTitle = this.i18n("tokenactionhud.checks");
+    let savesTitle = this.i18n("tokenActionHud.saves");
+    let checksTitle = this.i18n("tokenActionHud.checks");
 
     this._addMultiSaves(list, tokenId, "saves", savesTitle, "abilitySave");
     this._addMultiAbilities(
@@ -74,20 +74,20 @@ export class ActionHandlerPf1 extends ActionHandler {
   _addAttacksList(result, actor, tokenId) {
     if (settings.get("showAttacksCategory") === false) return;
     let attacks = this._getAttacksList(actor, tokenId);
-    let attackTitle = this.i18n("tokenactionhud.attack");
+    let attackTitle = this.i18n("tokenActionHud.attack");
     this._combineCategoryWithList(result, attackTitle, attacks);
   }
 
   _addBuffsList(result, actor, tokenId) {
     if (settings.get("showBuffsCategory") === false) return;
     let buffs = this._getBuffsList(actor, tokenId);
-    let buffsTitle = this.i18n("tokenactionhud.buffs");
+    let buffsTitle = this.i18n("tokenActionHud.pf1.buffs");
     this._combineCategoryWithList(result, buffsTitle, buffs);
   }
 
   _addConditionsList(result, actor, tokenId) {
     if (settings.get("showConditionsCategory") === false) return;
-    let conditionsTitle = this.i18n("tokenactionhud.conditions");
+    let conditionsTitle = this.i18n("tokenActionHud.conditions");
     let conditionsCategory = this._getConditionsList(
       tokenId,
       actor.system.attributes.conditions,
@@ -101,7 +101,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _addItemsList(result, actor, tokenId) {
     if (settings.get("showInventoryCategory") === false) return;
     let items = this._getItemList(actor, tokenId);
-    let itemsTitle = this.i18n("tokenactionhud.inventory");
+    let itemsTitle = this.i18n("tokenActionHud.inventory");
     this._combineCategoryWithList(result, itemsTitle, items);
   }
 
@@ -116,20 +116,20 @@ export class ActionHandlerPf1 extends ActionHandler {
   _addFeaturesList(result, actor, tokenId) {
     if (settings.get("showFeaturesCategory") === false) return;
     let feats = this._getFeaturesList(actor, tokenId);
-    let featsTitle = this.i18n("tokenactionhud.features");
+    let featsTitle = this.i18n("tokenActionHud.features");
     this._combineCategoryWithList(result, featsTitle, feats);
   }
 
   _addSkillsList(result, actor, tokenId) {
     if (settings.get("showSkillsCategory") === false) return;
     let skills = this._getSkillsList(actor.system.skills, tokenId);
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.skills");
     this._combineCategoryWithList(result, skillsTitle, skills);
   }
 
   _addSavesList(result, actor, tokenId) {
     if (settings.get("showSavesCategory") === false) return;
-    let savesTitle = this.i18n("tokenactionhud.saves");
+    let savesTitle = this.i18n("tokenActionHud.saves");
     let saves = this._getSavesList(
       tokenId,
       actor,
@@ -142,7 +142,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
   _addChecksList(result, actor, tokenId) {
     if (settings.get("showChecksCategory") === false) return;
-    let checksTitle = this.i18n("tokenactionhud.checks");
+    let checksTitle = this.i18n("tokenActionHud.checks");
     let checks = this._getAbilityList(
       tokenId,
       actor.system.abilities,
@@ -156,7 +156,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _addUtilityList(result, actor, tokenId) {
     if (settings.get("showUtilityCategory") === false) return;
     let utility = this._getUtilityList(actor, tokenId);
-    let utilityTitle = this.i18n("tokenactionhud.utility");
+    let utilityTitle = this.i18n("tokenActionHud.utility");
     this._combineCategoryWithList(result, utilityTitle, utility);
   }
 
@@ -169,12 +169,12 @@ export class ActionHandlerPf1 extends ActionHandler {
     let result = this.initializeEmptyCategory("attacks");
 
     let cmbMacro = "cmb";
-    let cmbName = this.i18n("tokenactionhud.cmb");
+    let cmbName = this.i18n("tokenActionHud.cmb");
     let cmbValue = [cmbMacro, tokenId, cmbMacro].join(this.delimiter);
     let cmbAction = { name: cmbName, encodedValue: cmbValue, id: cmbMacro };
 
     let babMacro = "bab";
-    let babName = this.i18n("tokenactionhud.bab");
+    let babName = this.i18n("tokenActionHud.bab");
     let babValue = [babMacro, tokenId, babMacro].join(this.delimiter);
     let babAction = { name: babName, encodedValue: babValue, id: babMacro };
 
@@ -182,12 +182,12 @@ export class ActionHandlerPf1 extends ActionHandler {
     bonusCat.actions = Array.of(cmbAction, babAction);
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.bonuses"),
+      this.i18n("tokenActionHud.pf1.bonuses"),
       bonusCat
     );
 
     let meleeMacro = "melee";
-    let meleeName = this.i18n("tokenactionhud.melee");
+    let meleeName = this.i18n("tokenActionHud.melee");
     let meleeValue = [meleeMacro, tokenId, meleeMacro].join(this.delimiter);
     let meleeAction = {
       name: meleeName,
@@ -196,7 +196,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     };
 
     let rangedMacro = "ranged";
-    let rangedName = this.i18n("tokenactionhud.ranged");
+    let rangedName = this.i18n("tokenActionHud.ranged");
     let rangedValue = [rangedMacro, tokenId, rangedMacro].join(this.delimiter);
     let rangedAction = {
       name: rangedName,
@@ -213,7 +213,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     weaponActions.unshift(meleeAction);
 
     weaponsCat.actions = weaponActions;
-    let weaponsTitle = this.i18n("tokenactionhud.attack");
+    let weaponsTitle = this.i18n("tokenActionHud.attack");
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
@@ -234,7 +234,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     });
     let buffCat = this.initializeEmptySubcategory();
     buffCat.actions = buffActions;
-    let buffTitle = this.i18n("tokenactionhud.buffs");
+    let buffTitle = this.i18n("tokenActionHud.pf1.buffs");
 
     let result = this.initializeEmptyCategory("buffs");
     this._combineSubcategoryWithCategory(result, buffTitle, buffCat);
@@ -310,12 +310,12 @@ export class ActionHandlerPf1 extends ActionHandler {
     let toolsCat = this.initializeEmptySubcategory();
     toolsCat.actions = toolsActions;
 
-    let weaponsTitle = this.i18n("tokenactionhud.weapons");
-    let equipmentTitle = this.i18n("tokenactionhud.equipment");
-    let otherTitle = this.i18n("tokenactionhud.other");
-    let consumablesTitle = this.i18n("tokenactionhud.consumables");
-    let incomsumablesTitle = this.i18n("tokenactionhud.inconsumables");
-    let toolsTitle = this.i18n("tokenactionhud.tools");
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
+    let equipmentTitle = this.i18n("tokenActionHud.equipment");
+    let otherTitle = this.i18n("tokenActionHud.other");
+    let consumablesTitle = this.i18n("tokenActionHud.consumables");
+    let incomsumablesTitle = this.i18n("tokenActionHud.pf1.inconsumables");
+    let toolsTitle = this.i18n("tokenActionHud.tools");
 
     let result = this.initializeEmptyCategory("inventory");
 
@@ -359,7 +359,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     spellbookIds.forEach((sbId) => {
       const currentSpellbookCategory = this.initializeEmptySubcategory(`spells-${sbId}`);
-      const checksCategory = this.initializeEmptySubcategory("concentration", "tokenactionhud.checks");
+      const checksCategory = this.initializeEmptySubcategory("concentration", "tokenActionHud.checks");
 
       const spellbook = actor.system.attributes.spells.spellbooks[sbId];
       const isSpontaneous = spellbook.spontaneous;
@@ -370,10 +370,10 @@ export class ActionHandlerPf1 extends ActionHandler {
       let spellbookName = spellbook.altName || toUpperFirstChar(spellbook.class) || toUpperFirstChar(sbId);
 
       checksCategory.actions.push(
-        this._createConcentrationAction(tokenId, sbId, this.i18n("tokenactionhud.concentration"))
+        this._createConcentrationAction(tokenId, sbId, this.i18n("tokenActionHud.pf1.concentration"))
       );
       checksCategory.actions.push(
-        this._createCasterlevelCheckAction(tokenId, sbId, this.i18n("tokenactionhud.casterlevel"))
+        this._createCasterlevelCheckAction(tokenId, sbId, this.i18n("tokenActionHud.pf1.casterlevel"))
       );
 
       const sbSpells = spells
@@ -398,8 +398,8 @@ export class ActionHandlerPf1 extends ActionHandler {
 
         var categoryName =
           level[0] > 0
-            ? `${this.i18n("tokenactionhud.level")} ${level[0]}`
-            : this.i18n("tokenactionhud.cantrips");
+            ? `${this.i18n("tokenActionHud.level")} ${level[0]}`
+            : this.i18n("tokenActionHud.cantrips");
         var spellInfo =
           actor.system.attributes?.spells?.spellbooks[sbId]["spells"][
           "spell" + level[0]
@@ -558,16 +558,16 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let result = this.initializeEmptyCategory("feats");
 
-    let activeTitle = this.i18n("tokenactionhud.active");
+    let activeTitle = this.i18n("tokenActionHud.active");
     this._combineSubcategoryWithCategory(result, activeTitle, active);
 
     if (!settings.get("ignorePassiveFeats")) {
-      let passiveTitle = this.i18n("tokenactionhud.passive");
+      let passiveTitle = this.i18n("tokenActionHud.passive");
       this._combineSubcategoryWithCategory(result, passiveTitle, passive);
     }
 
     if (!settings.get("ignoreDisabledFeats")) {
-      let disabledTitle = this.i18n("tokenactionhud.pf1.disabled");
+      let disabledTitle = this.i18n("tokenActionHud.pf1.disabled");
       this._combineSubcategoryWithCategory(result, disabledTitle, disabled);
     }
 
@@ -624,7 +624,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
 
     return result;
@@ -651,7 +651,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
     this._combineCategoryWithList(list, skillsTitle, result, true);
   }
@@ -702,7 +702,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let defensesCat = this.initializeEmptySubcategory();
     let defensesMacro = "defenses";
-    let defensesName = this.i18n("tokenactionhud.defenses");
+    let defensesName = this.i18n("tokenActionHud.defenses");
     let defensesValue = [defensesMacro, tokenId, defensesMacro].join(
       this.delimiter
     );
@@ -712,7 +712,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     defensesCat.actions = defensesAction;
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.defenses"),
+      this.i18n("tokenActionHud.defenses"),
       defensesCat
     );
 
@@ -815,7 +815,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: this.i18n("tokenactionhud.rollInitiative"),
+      name: this.i18n("tokenActionHud.rollInitiative"),
     };
 
     if (currentInitiative) initiativeAction.info1 = currentInitiative;
@@ -829,7 +829,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
 
       combatSubcategory.actions.push(endTurnAction);
@@ -837,7 +837,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.combat"),
+      this.i18n("tokenActionHud.combat"),
       combatSubcategory
     );
   }
@@ -852,7 +852,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: this.i18n("tokenactionhud.rollInitiative"),
+      name: this.i18n("tokenActionHud.rollInitiative"),
     };
     let isActive;
     if (combat) {
@@ -867,7 +867,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.combat"),
+      this.i18n("tokenActionHud.combat"),
       combatSubcategory
     );
   }
@@ -886,13 +886,13 @@ export class ActionHandlerPf1 extends ActionHandler {
       rests.actions.push({
         id: "rest",
         encodedValue: longRestValue,
-        name: this.i18n("tokenactionhud.rest"),
+        name: this.i18n("tokenActionHud.rest"),
       });
     }
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rests"),
+      this.i18n("tokenActionHud.rests"),
       rests
     );
 
@@ -913,18 +913,18 @@ export class ActionHandlerPf1 extends ActionHandler {
       rests.actions.push({
         id: "rest",
         encodedValue: longRestValue,
-        name: this.i18n("tokenactionhud.rest"),
+        name: this.i18n("tokenActionHud.rest"),
       });
     }
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.rests"),
+      this.i18n("tokenActionHud.rests"),
       rests
     );
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       category
     );
   }
@@ -948,7 +948,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       !item.system.recharge.charged &&
       item.system.recharge.value
     ) {
-      result.name += ` (${this.i18n("tokenactionhud.recharge")})`;
+      result.name += ` (${this.i18n("tokenActionHud.recharge")})`;
     }
 
     result.info1 = this._getQuantityData(item);

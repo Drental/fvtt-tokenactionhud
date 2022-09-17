@@ -1,5 +1,5 @@
 {
-  "tokenactionhud": {
+  "tokenActionHud": {
     "abilities": "Abilités",
     "accept": "Accepter",
     "actions": "Actions",
@@ -9,7 +9,6 @@
     "advanced": "Avancé",
     "allowlist": "Liste autorisée",
     "armour": "Armure",
-    "atk": "Atk",
     "attack": "Attaque",
     "attacks": "Attaques",
     "attribute": {
@@ -21,122 +20,55 @@
     },
     "attributes": "Attributs",
     "at-will": "A volonté",
-    "bab": "BAB",
-    "basic": "Basique",
-    "bennies": "Bennies",
-    "blessing": "Bénédiction",
-    "blocklist": "Liste bloquée",
-    "blocklistLabel": "liste bloquée : caché / liste autorisée: affiché",
+    "blockList": "Liste bloquée",
+    "blockListLabel": "liste bloquée : caché / liste autorisée: affiché",
     "bonusActions": "Actions Bonus",
-    "bonuses": "Bonus",
     "book": "Livre",
     "books": "Livres",
-    "buffs": "Buffs",
     "cancel": "Annuler",
     "cantrips": "Tours de magie",
-    "casterlevel": "Caster Level",
     "categoryTagExplanation": "Ajoutez et supprimez des catégories supplémentaires personnalisables.",
     "categoryTagTitle": "Ajouter/Supprimer des catégories",
     "characteristics": "Caractéristiques",
-    "charts": "Statistiques",
     "checks": "Tests",
-    "classFeatures": "Capacités de classe",
     "clearButton": "Clear",
-    "cmb": "CMB",
     "combat": "Combat",
-    "commonSkills": "Compétences communes",
-    "concentration": "Concentration",
     "conditions": "Conditions",
     "consumables": "Consommables",
     "coreBonus": "Core Bonus",
-    "crewActions": "Crew Actions",
     "critical": "Critique",
-    "d35e": {
-      "grapple": "Agripper"
-    },
     "damage": "Dommages",
-    "dc": "DC",
-    "deathSave": "Sauvegarde contre la mort",
     "defenses": "Défenses",
-    "destructionSave": "Destruction Save",
-    "dmg": "Dmg",
-    "dodge": "Dodge",
-    "doomed": "Doomed",
-    "downtime": "Downtime",
-    "dying": "Dying",
-    "edges": "Edges",
-    "edgesAndHindrances": "Edges/Hindrances",
     "effects": "Effets",
-    "engineering": "Engineering",
+    "endTurn": "End Turn",
     "equipment": "Equipement",
     "experimental": "Experimental",
-    "exploration": "Exploration",
-    "fatigue": "Fatigue",
     "feats": "Dons",
     "features": "Capacités",
     "filterPlaceholder": "Choix (séparation avec point-virgule)",
     "filterTagExplanation": "Ajoutez des entrées ici pour afficher ou masquer des entrées de catégories spécifiques.",
     "filterTitle": "Filtre",
-    "free": "Libre",
-    "fullAttack": "Attaque totale",
-    "gear": "Équipement",
-    "get": "Obtenir",
-    "give": "Donner",
-    "gm": "MJ",
     "general": "Général",
-    "grit": "Grit",
     "handlerNotFound": "non trouvé, retour au gestionnaire par défaut.",
-    "hase": "HASE",
     "healing": "Soigner",
-    "heroPoints": "Points de Heros",
-    "hindrances": "Hindrances",
-    "hull": "Hull",
-    "improvisedWeapon": "Arme Improvisée",
-    "inconsumables": "Non consommables",
     "initiative": "Initiative",
     "inspiration": "Inspiration",
-    "instinct": "Instinct",
     "inventory": "Inventaire",
-    "lair": "Antre",
-    "lairActions": "Lair Actions",
-    "legendary": "Légendaire",
-    "legendaryActions": "Legendary Actions",
     "level": "Niveau",
     "levelAbbreviation": "Niv",
     "longRest": "Repos Long",
-    "lore": "Savoir",
     "magic": "Magie",
     "magicItems": "Objets magiques",
     "makeInvisible": "Rendre Invisible",
     "makeVisible": "Rendre Visible",
-    "mech": "Mech",
     "melee": "Mêlée",
-    "misc": "Divers",
-    "mods": "Mods",
-    "monsterMoves": "Déplacements Créature",
-    "moves": "Déplacements",
-    "msa": "Sort de Combat",
-    "mwa": "Attaque à l'arme de mêlée",
-    "natPowers": "Pouvoirs naturels",
-    "noammo": "Pas de munitions",
     "other": "Autre",
     "passive": "Passif",
-    "petty": "Mineur",
-    "pf1": {
-      "disabled": "Désactivé"
-    },
-    "pf2e": {
-      "useTwoHandedLabel": "Utiliser une arme à deux mains",
-      "recoveryCheck": "Test de récupération"
-    },
-    "pilot": "Pilote",
-    "points": "Points",
     "powers": "Pouvoirs",
     "profession": "Profession",
     "push": "Right",
     "pushLabelExplanation": "Montrer les catégories de quel côté?",
     "ranged": "Projectile",
-    "rank": "Rang",
     "reactions": "Réactions",
     "recharge": "Recharger",
     "rechargeRepair": "Recharge",
@@ -145,41 +77,19 @@
     "religion": "Religion",
     "removeFromCombat": "Retirer du Combat",
     "repair": "Réparer",
-    "resistance": "Résistance",
     "rest": "Repos",
-    "restNight": "Se reposer pour la nuit",
-    "takeBreather": "Reprendre son souffle",
     "rests": "Repos",
     "repairs": "Repairs",
     "roll": "Lancer Dés",
-    "rollable": "Lançable",
     "rollInitiative": "Lancer l'initiative",
-    "rsa": "Sort de Missile",
-    "rwa": "Attaque à l'arme à distance",
     "saves": "Sauvegardes",
-    "shields": "Boucliers",
     "shortRest": "Repos rapide",
     "skills": "Compétences",
-    "skilltriggers": "Déclancheurs de compétences",
-    "special": "Spécial",
     "specialActions": "Actions spéciales",
-    "specialAbilities": "Capacités spéciales",
-    "specialQualities": "Qualités spéciales",
-    "spellbook": "Grimoire",
     "spells": "Sorts",
-    "spend": "Spend",
-    "starting": "Démarre",
-    "stat": "Stat",
-    "stats": "Stats",
-    "status": "Statut",
-    "strikes": "Frappes",
     "subcategoryTagExplanation": "Ajoutez et supprimez des sous-catégories : saisissez du texte libre pour les sous-catégories ou sélectionnez des compendiums liés..",
     "subcategoryTagTitle": "Ajouter/supprimer des sous-catégories",
-    "systems": "Systèmes",
-    "tags": "Tags",
     "talents": "Talents",
-    "techattack": "Attaque Tech",
-    "techs": "Techs",
     "temporary": "Temporaire",
     "title": "Token Action HUD",
     "toggleCombatState": "Basculer l'état de Combat",
@@ -188,17 +98,9 @@
     "token": "Token",
     "tools": "Outils",
     "traits": "Traits",
-    "treasure": "Trésor",
-    "treatWounds": "Traiter les blessures",
-    "unarmed": "Non armé",
-    "stomp": "Stomp!",
-    "unrollable": "Non testable",
     "unshift": "Gauche",
     "utility": "Utilitaire",
     "weapons": "Armes",
-    "wounded": "Blessé",
-    "wounds": "Blessures",
-    "woundsAndFatigue": "Blessures/Fatigue",
     "settings": {
       "activeCssAsText": {
         "name": "Marquer le CSS actif avec du texte",
@@ -286,8 +188,8 @@
         "name": "Afficher les caractéristiques"
       },
       "showChecksCategory": {
-        "hint": "Afficher la catégorie chèques sur le HUD",
-        "name": "Afficher les chèques"
+        "hint": "Afficher la catégorie tests sur le HUD",
+        "name": "Afficher les tests"
       },
       "showConditionsCategory": {
         "hint": "Afficher la catégorie conditions sur le HUD",
@@ -400,14 +302,72 @@
       "useActionList": {
         "name": "Groupe par Type d'Action",
         "hint": "Dépend du module 'Character Actions 5e'. Si elle est activée, les boutons seront regroupés par type d'action."
-      },
-      "demonlord": {
-        "attackoptions": "Attack Options",
-        "challenge": "Challenge Roll",
-        "rest": "Rest",
-        "specialattacks": "Special Attacks"
-      },
-      "dnd4e": {
+      }
+    },
+    "alienRpg": {
+      "acidSplash": "Jet d'Acide",
+      "air": "Air",
+      "agenda": "Objectif/Cartes d'histoire",
+      "agility": "Agilité",
+      "armorRating": "Protection",
+      "armorVersusFire": "Protection V Feu",
+      "closeCombat": "Comb. Rapproché",
+      "command": "Commandement",
+      "comtech": "Comtech",
+      "conditions": "États",
+      "consumables": "Consommables",
+      "creatureAttack": "Test d'attaque",
+      "dehydrated": "Déshydraté",
+      "empathy": "Empathie",
+      "exhausted": "Epuisé",
+      "food": "Nourriture",
+      "freezing": "Gelé",
+      "health": "Santé",
+      "heavyMachinery": "Machine Lourde",
+      "manipulation": "Manipulation",
+      "medicalAid": "Soins Médicaux",
+      "mobility": "Mobilité",
+      "observation": "Observation",
+      "panic": "Panique",
+      "piloting": "Pilotage",
+      "power": "Énergie",
+      "rangedCombat": "Comb. à Distance",
+      "rollCrit": "Jet Crit",
+      "rollStress": "Jet de Stress",
+      "skill": "Compétences",
+      "speed": "Vitesse",
+      "stamina": "Endurance",
+      "starving": "Affamé",
+      "strength": "Force",
+      "stressPoints": "Points de Stress",
+      "survival": "Survie",
+      "water": "Eau",
+      "wits": "Esprit"
+    },
+    "bitd": {
+      "resistance": "Résistance"
+    },
+    "co": {
+      "attacks": "Attaques",
+      "capacities": "Capacités",
+      "combat": "Combat",
+      "protections": "Protections"
+    },
+    "d35e": {
+      "buffs": "Buffs",
+      "concentration": "Concentration",
+      "fullAttack": "Attaque totale",
+      "grapple": "Agripper",
+      "inconsumables": "Non consommables"
+    },
+    "demonLord": {
+      "attackoptions": "Attack Options",
+      "challenge": "Challenge Roll",
+      "rest": "Rest",
+      "specialattacks": "Special Attacks"
+    },
+    "dnd4e": {
+      "settings": {
         "hideUsedPowers": {
           "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
           "name": "Hide used powers"
@@ -428,8 +388,20 @@
           "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
           "name": "Visible Inventory Categories"
         }
-      },
-      "dnd5e": {
+      }
+    },
+    "dnd5e": {
+      "abilities": "Abilités",
+      "attributes": "Attributs", 
+      "checks": "Tests",
+      "deathSave": "Sauvegarde contre la mort",
+      "lair": "Antre",
+      "lairActions": "Actions de antre ",
+      "legendary": "Légendaire",
+      "legendaryActions": "Legendary Actions",
+      "saves": "Sauvegardes",
+      "skills": "Compétences",
+      "settings": {
         "abbreviateSkills": {
           "hint": "Si activée les caractéristiques et les compétences utiliserons une abréviation de 3 caractères.",
           "name": "Abréger les noms des caractéristiques et des compétences"
@@ -474,20 +446,149 @@
           "hint": "Si activée, les caractéristiques seront séparées en tests et sauvegardes.",
           "name": "Afficher séparément les catégories de tests de caractéristique et de compétence"
         }
-      },
-      "dungeonworld": {
+      }
+    },
+    "ds4": {
+      "settings": {
+        "displayCheckTargetNumbers": {
+          "name": "Afficher des exemples de valeurs",
+          "hint": "Si ce paramètre est activé, les valeurs des échantillons individuels sont affichées."
+        }
+      }
+    },
+    "dungeonWorld": {
+      "basic": "Basique",
+      "charts": "Statistiques",
+      "gm": "MJ",
+      "instinct": "Instinct",
+      "monsterMoves": "Déplacements Créature",
+      "moves": "Déplacements",
+      "special": "Spécial",
+      "specialQualities": "Qualités spéciales",
+      "starting": "Démarre",
+      "tags": "Tags",
+      "treasure": "Trésor",
+      "settings": {
         "showGmCompendiums": {
           "name": "Afficher les compendiums du MJ",
           "hint": "Si activée, et que l'utilisateur est MJ, la barre HUD inclura les actions de MJ, les tables aléatoires et les graphiques."
         }
-      },
-      "pf1": {
+      } 
+    },
+    "ed4e": {
+      "systems": "Systèmes"
+    },
+    "forbiddenlands": {
+      "agility": "Agilité",
+      "animalHandling": "Dressage",
+      "arrows": "Flèches",
+      "cold": "Glacé",
+      "conditions": "Conditions",
+      "consumables": "Consommables",
+      "crafting": "Artisanat",
+      "empathy": "Empathie",
+      "endurance": "Endurance",
+      "food": "Nourriture",
+      "healing": "Soins",
+      "hungry": "Affamé",
+      "insight": "Intuition",
+      "manipulation": "Manipulation",
+      "melee": "Mêlée",
+      "might": "Vigueur",
+      "monsterAttack": "Attaque de monstre",
+      "move": "Souplesse",
+      "performance": "Représentation",
+      "sleepy": "Épuisé",
+      "sleightOfHand": "Survie",
+      "stealth": "Furtivité",
+      "strength": "Force",
+      "thirsty": "Assoiffé",
+      "torches": "Torches",
+      "water": "Eau",
+      "wits": "Esprit"
+    },
+    "gurps": {
+      "addAcc": "Add Acc",
+      "blindRoll": "Blind Roll",
+      "retreatBlock": "Retreating Block",
+      "retreatDodge": "Retreating Dodge",
+      "retreatParry": "Retreating Parry",
+      "retreatParryFencing": "Retreating Parry (Fencing)"
+    },
+    "kamigakari": {
+      "attack": "Attack",
+      "conceptDestruction": "Concept Destruction",
+      "constant": "Constant",
+      "consumables": "Consumables",
+      "defense": "Defense",
+      "end": "End",
+      "free": "Free",
+      "items": "items",
+      "mainStats": "Main Stats",
+      "prep": "Prep",
+      "sacraments": "Sacraments",
+      "spiritBurn": "Spirit Burn",
+      "start": "Start",
+      "subStats": "Sub Stats",
+      "transcend": "Transcend",
+      "vitalIgnition": "Vital Ignition"
+    },
+    "lancer": {
+      "engineering": "Ingénierie",
+      "gear": "Équipement",
+      "grit": "Grit",
+      "hase": "HASE",
+      "hull": "Hull",
+      "mech": "Mech",
+      "pilot": "Pilote",
+      "rank": "Rang",
+      "skillTriggers": "Déclancheurs de compétences",
+      "stat": "Stat",
+      "stats": "Stats",
+      "systems": "Systèmes",
+      "techAttack": "Attaque Tech",
+      "techs": "Techs"
+    },
+    "pf1": {
+      "bab": "BAB",
+      "bonuses": "Bonus",
+      "buffs": "Buffs",
+      "casterlevel": "Caster Level",
+      "cmb": "CMB",
+      "concentration": "Concentration",
+      "disabled": "Désactivé",
+      "inconsumables": "Non consommables",
+      "settings": {
         "showDisabled": {
           "hint": "Si activée, les fonctionnalités désactivées ne seront pas affichées.",
           "name": "Masquer les fonctionnalités désactivées"
         }
-      },
-      "pf2e": {
+      }
+    },
+    "pf2e": {
+      "atk": "Atk",
+      "bonusFeats": "Bonus Feats",
+      "classFeats": "Class Feats",
+      "classFeatures": "Capacités de classe",
+      "commonSkills": "Compétences communes",
+      "dc": "DC",
+      "doomed": "Doomed",
+      "downtime": "Downtime",
+      "dying": "Dying",
+      "exploration": "Exploration",
+      "free": "Libre",
+      "generalFeats": "General Feats",
+      "heroPoints": "Points de Heros",
+      "lore": "Savoir",
+      "noAmmo": "Pas de munitions",
+      "recoveryCheck": "Test de récupération",
+      "restNight": "Se reposer pour la nuit",
+      "strikes": "Frappes",
+      "takeBreather": "Reprendre son souffle",
+      "treatWounds": "Traiter les blessures",
+      "useTwoHandedLabel": "Utiliser une arme à deux mains",
+      "wounded": "Blessé",
+      "settings": {
         "abbreviateSkills": {
           "hint": "Si cette option est activée, les caractéristiques et compétences seront abrégées en 3 caractères.",
           "name": "Abréger les noms des caractéristiques et des compétences"
@@ -520,8 +621,18 @@
           "hint": "Si cette option est activée, les caractéristiques des PJs seront affichées.",
           "name": "Afficher les caractéristiques des PJs"
         }
-      },
-      "sfrpg": {
+      }  
+    },
+    "sfrpg": {
+      "crewActions": "Crew Actions",
+      "misc": "Divers",
+      "msa": "Sort de Combat",
+      "mwa": "Attaque à l'arme de mêlée",
+      "rsa": "Sort de Missile",
+      "rwa": "Attaque à l'arme à distance",
+      "shields": "Boucliers",
+      "spellbook": "Grimoire",
+      "settings": {
         "showMiscFeats": {
           "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
           "name": "Display miscellaneous feats"
@@ -530,8 +641,13 @@
           "hint": "If enabled, spell resistance, dismissible, concentration and save information noted next to the spell name.",
           "name": "Display spell information"
         }
-      },
-      "sw5e": {
+      }
+    },
+    "sw5e": {
+      "deathSave": "Sauvegarde contre la mort",
+      "destructionSave": "Destruction Save",
+      "naturalPowers": "Pouvoirs naturels",
+      "settings": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate Skill and Ability Names"
@@ -564,6 +680,10 @@
           "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
           "name": "Show empty items (includes items and powers)"
         },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
         "showPowerInfo": {
           "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
           "name": "Display power information"
@@ -572,8 +692,27 @@
           "hint": "If enabled, abilities will be separated into checks and saves.",
           "name": "Show separate ability check and save categories"
         }
-      },
-      "swade": {
+      }  
+    },
+    "swade": {
+      "bennies": "Bennies",
+      "edges": "Edges",
+      "edgesAndHindrances": "Edges/Hindrances",
+      "fatigue": "Fatigue",
+      "gear": "Équipement",
+      "give": "Donner",
+      "gm": "MJ",
+      "hindrances": "Hindrances",
+      "misc": "Divers",
+      "mods": "Mods",
+      "points": "Points",
+      "shields": "Boucliers",
+      "specialAbilities": "Capacités spéciales",
+      "spend": "Spend",
+      "status": "Statut",
+      "wounds": "Blessures",
+      "woundsAndFatigue": "Blessures/Fatigue",
+      "settings": {
         "abbreviateAttributes": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate Skill and Ability Names"
@@ -588,129 +727,24 @@
             "1": "Player"
           }
         }
-      },
-      "wfrp": {
-        "meleeSkillPrefix": "Melee",
-        "rangedSkillPrefix": "Ranged"
-      },
-      "alienrpg": {
-        "consumables": "Consommables",
-        "conditions": "États",
-        "skill": "Compétences",
-        "stresspoints": "Points de Stress",
-        "rollStress": "Jet de Stress",
-        "starving": "Affamé",
-        "dehydrated": "Déshydraté",
-        "exhausted": "Epuisé",
-        "freezing": "Gelé",
-        "panic": "Panique",
-        "attributestr": "Force",
-        "attributewit": "Esprit",
-        "attributeagl": "Agilité",
-        "attributeemp": "Empathie",
-        "skillheavyMach": "Machine Lourde",
-        "skillcloseCbt": "Comb. Rapproché",
-        "skillstamina": "Endurance",
-        "skillrangedCbt": "Comb. à Distance",
-        "skillmobility": "Mobilité",
-        "skillpiloting": "Pilotage",
-        "skillcommand": "Commandement",
-        "skillmanipulation": "Manipulation",
-        "skillmedicalAid": "Soins Médicaux",
-        "skillobservation": "Observation",
-        "skillsurvival": "Survie",
-        "skillcomtech": "Comtech",
-        "consumablesair": "Air",
-        "consumablespower": "Énergie",
-        "consumablesfood": "Nourriture",
-        "consumableswater": "Eau",
-        "agenda": "Objectif/Cartes d'histoire",
-        "power": "Énergie",
-        "attributespeed": "Vitesse",
-        "attributearmorvfire": "Protection V Feu",
-        "attributearmorrating": "Protection",
-        "attributeacidSplash": "Jet d'Acide",
-        "attributemobility": "Mobilité",
-        "attributeobservation": "Observation",
-        "creatureAttack": "Test d'attaque",
-        "health": "Santé",
-        "rollCrit": "Jet Crit"
-      },
-      "ds4": {
-        "displayCheckTargetNumbers": {
-          "name": "Afficher des exemples de valeurs",
-          "hint": "Si ce paramètre est activé, les valeurs des échantillons individuels sont affichées."
-        }
-      },
-      "forbiddenlands": {
-        "consumables": "Consommables",
-        "attributestrength": "Force",
-        "attributewits": "Esprit",
-        "attributeagility": "Agilité",
-        "attributeempathy": "Empathie",
-        "conditions": "Conditions",
-        "skillmelee": "Mêlée",
-        "skillendurance": "Endurance",
-        "skillmight": "Vigueur",
-        "skillcrafting": "Artisanat",
-        "skillstealth": "Furtivité",
-        "skillmove": "Souplesse",
-        "skillsleight-of-hand": "Dextérité",
-        "skillmarksmanship": "Tir",
-        "skillscouting": "Perception",
-        "skilllore": "Érudition",
-        "skillsurvival": "Survie",
-        "skillinsight": "Intuition",
-        "skillmanipulation": "Manipulation",
-        "skillhealing": "Soins",
-        "skillperformance": "Représentation",
-        "skillanimal-handling": "Dressage",
-        "monsterAttack": "Attaque de monstre",
-        "consumablesfood": "Nourriture",
-        "consumableswater": "Eau",
-        "consumablesarrows": "Flèches",
-        "consumablestorches": "Torches",
-        "hungry": "Affamé",
-        "thirsty": "Assoiffé",
-        "sleepy": "Épuisé",
-        "cold": "Glacé"
       }
     },
     "symbaroum": {
       "abilities": "Talents",
       "mysticalPowers": "Pouvoirs"
     },
-    "kamigakari": {
-      "mainStats": "Main Stats",
-      "subStats": "Sub Stats",
-      "start": "Start",
-      "prep": "Prep",
-      "attack": "Attack",
-      "defense": "Defense",
-      "end": "End",
-      "constant": "Constant",
-      "free": "Free",
-      "spiritBurn": "Spirit Burn",
-      "transcend": "Transcend",
-      "vitalIgnition": "Vital Ignition",
-      "conceptDestruction": "Concept Destruction",
-      "items": "items",
-      "sacraments": "Sacraments",
-      "consumables": "Consumables"
-    },
-    "gurps": {
-      "blindroll": "Blind Roll",
-      "addacc": "Add Acc",
-      "retreatdodge": "Retreating Dodge",
-      "retreatparry": "Retreating Parry",
-      "retreatparryfence": "Retreating Parry (Fencing)",
-      "retreatblock": "Retreating Block"
-    },
-    "co": {
-      "combat": "Combat",
-      "attacks": "Attaques",
-      "protections": "Protections",
-      "capacities": "Capacités"
+    "wfrp": {
+      "basic": "Basique",
+      "blessing": "Bénédiction",
+      "dodge": "Esquive",
+      "improvisedWeapon": "Arme Improvisée",
+      "melee": "Mêlée",
+      "petty": "Mineur",
+      "ranged": "À distance",
+      "rollable": "Lançable",
+      "stomp": "Stomp!",
+      "unarmed": "Non armé",
+      "unrollable": "Non testable"
     }
   }
 }

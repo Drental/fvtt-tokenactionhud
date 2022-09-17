@@ -32,7 +32,7 @@ export class RollHandlerBaseLancer extends RollHandler {
         this._rollHaseMacro(actorID, actionId);
         break;
       case "stat":
-        if (actionId == "TechAttack") this._rollTechMacro(actorID, null);
+        if (actionId == "techattack") this._rollTechMacro(actorID, null);
         else this._rollStatMacro(actorID, actionId);
         break;
       case "item":

@@ -32,22 +32,22 @@ export class ActionHandlerCthack extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       items
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.features"),
+      this.i18n("tokenActionHud.features"),
       abilities
     );
 
@@ -72,7 +72,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       attributesCategory
     );
     return result;
@@ -106,7 +106,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributesCategory
     );
     return result;
@@ -128,8 +128,8 @@ export class ActionHandlerCthack extends ActionHandler {
     let equipmentCat = this.initializeEmptySubcategory();
     equipmentCat.actions = equipmentActions;
 
-    let weaponsTitle = this.i18n("tokenactionhud.weapons");
-    let equipmentTitle = this.i18n("tokenactionhud.equipment");
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
+    let equipmentTitle = this.i18n("tokenActionHud.equipment");
 
     let result = this.initializeEmptyCategory("inventory");
 
@@ -148,7 +148,7 @@ export class ActionHandlerCthack extends ActionHandler {
     let abilitiesCat = this.initializeEmptySubcategory();
     abilitiesCat.actions = abilitiesActions;
 
-    let abilitiesTitle = this.i18n("tokenactionhud.features");
+    let abilitiesTitle = this.i18n("tokenActionHud.features");
 
     let result = this.initializeEmptyCategory("inventory");
 

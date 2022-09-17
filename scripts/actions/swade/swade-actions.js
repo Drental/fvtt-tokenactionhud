@@ -71,7 +71,7 @@ export class ActionHandlerSwade extends ActionHandler {
       subcat.actions.push(action);
     });
 
-    const catName = this.i18n("tokenactionhud.attributes");
+    const catName = this.i18n("tokenActionHud.attributes");
     let cat = this.initializeEmptyCategory("attributes");
     this._combineSubcategoryWithCategory(cat, catName, subcat);
     this._combineCategoryWithList(list, catName, cat);
@@ -95,7 +95,7 @@ export class ActionHandlerSwade extends ActionHandler {
       subcat.actions.push(action);
     });
 
-    const skillName = this.i18n("tokenactionhud.skills");
+    const skillName = this.i18n("tokenActionHud.skills");
     this._combineSubcategoryWithCategory(cat, skillName, subcat);
     this._combineCategoryWithList(list, skillName, cat);
   }
@@ -119,12 +119,12 @@ export class ActionHandlerSwade extends ActionHandler {
         cat,
         tokenId,
         pp,
-        this.i18n("tokenactionhud.points"),
+        this.i18n("tokenActionHud.swade.points"),
         macroType
       );
     }
   
-    const powersName = this.i18n("tokenactionhud.powers");
+    const powersName = this.i18n("tokenActionHud.powers");
 
     const groupedPowers = this._groupPowers(powers);
     Object.entries(groupedPowers).forEach((g) => {
@@ -164,28 +164,28 @@ export class ActionHandlerSwade extends ActionHandler {
     }
     
     const weapons = items.filter((i) => i.type === "weapon");
-    const weaponsName = this.i18n("tokenactionhud.weapons");
+    const weaponsName = this.i18n("tokenActionHud.weapons");
     this._addItemSubcategory(tokenId, weaponsName, weapons, "weapons", cat);
 
     const armour = items.filter((i) => i.type === "armor");
-    const armourName = this.i18n("tokenactionhud.armour");
+    const armourName = this.i18n("tokenActionHud.armour");
     this._addItemSubcategory(tokenId, armourName, armour, "armour", cat);
 
     const shields = items.filter((i) => i.type === "shield");
-    const shieldsName = this.i18n("tokenactionhud.shields");
+    const shieldsName = this.i18n("tokenActionHud.swade.shields");
     this._addItemSubcategory(tokenId, shieldsName, shields, "shields", cat);
 
     const misc = items.filter((i) => i.type === "misc" || (actor.type !== "vehicle" && i.type === "gear"));
-    const miscName = this.i18n("tokenactionhud.misc");
+    const miscName = this.i18n("tokenActionHud.swade.misc");
     this._addItemSubcategory(tokenId, miscName, misc, "misc", cat);
 
     const mods = items.filter((i) => actor.type === "vehicle" && i.type === "gear");
-    const modsName = this.i18n("tokenactionhud.mods");
+    const modsName = this.i18n("tokenActionHud.swade.mods");
     this._addItemSubcategory(tokenId, modsName, mods, "mods", cat);
 
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.gear"),
+      this.i18n("tokenActionHud.swade.gear"),
       cat
     );
   }
@@ -196,7 +196,7 @@ export class ActionHandlerSwade extends ActionHandler {
     let woundsCategory = this.initializeEmptyCategory("wounds");
 
     // Wounds Subcategory
-    const woundsName = this.i18n("tokenactionhud.wounds");
+    const woundsName = this.i18n("tokenActionHud.swade.wounds");
     this._addCounterSubcategory(
       woundsCategory,
       tokenId,
@@ -207,7 +207,7 @@ export class ActionHandlerSwade extends ActionHandler {
     
     // Fatigue Subcategory
     if (actor.type !== "vehicle") {
-      const fatigueName = this.i18n("tokenactionhud.fatigue");
+      const fatigueName = this.i18n("tokenActionHud.swade.fatigue");
       this._addCounterSubcategory(
         woundsCategory,
         tokenId,
@@ -218,8 +218,8 @@ export class ActionHandlerSwade extends ActionHandler {
     }
     
     const woundsAndFatigueName = (actor.type === "vehicle")
-      ? this.i18n("tokenactionhud.wounds") 
-      : this.i18n("tokenactionhud.woundsAndFatigue");
+      ? this.i18n("tokenActionHud.swade.wounds") 
+      : this.i18n("tokenActionHud.swade.woundsAndFatigue");
     this._combineCategoryWithList(
       list,
       woundsAndFatigueName,
@@ -261,16 +261,16 @@ export class ActionHandlerSwade extends ActionHandler {
     const cat = this.initializeEmptyCategory("edges");
 
     const edges = actor.items.filter((i) => i.type === "edge");
-    const edgesName = this.i18n("tokenactionhud.edges");
+    const edgesName = this.i18n("tokenActionHud.swade.edges");
     this._addItemSubcategory(tokenId, edgesName, edges, "edges", cat);
 
     const hindrances = actor.items.filter((i) => i.type === "hindrance");
-    const hindName = this.i18n("tokenactionhud.hindrances");
+    const hindName = this.i18n("tokenActionHud.swade.hindrances");
     this._addItemSubcategory(tokenId, hindName, hindrances, "hindrances", cat);
 
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.edgesAndHindrances"),
+      this.i18n("tokenActionHud.swade.edgesAndHindrances"),
       cat
     );
   }
@@ -280,12 +280,12 @@ export class ActionHandlerSwade extends ActionHandler {
     const cat = this.initializeEmptyCategory("abilities");
 
     const specialAbilities = actor.items.filter((i) => i.type === "ability");
-    const abilityName = this.i18n("tokenactionhud.abilities");
+    const abilityName = this.i18n("tokenActionHud.abilities");
     this._addItemSubcategory(tokenId, abilityName, specialAbilities, "abilities", cat);
 
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.specialAbilities"),
+      this.i18n("tokenActionHud.swade.specialAbilities"),
       cat
     );
   }
@@ -341,7 +341,7 @@ export class ActionHandlerSwade extends ActionHandler {
       subcat.actions.push(action);
     });
 
-    const statusesName = this.i18n("tokenactionhud.status");
+    const statusesName = this.i18n("tokenActionHud.swade.status");
     this._combineSubcategoryWithCategory(cat, statusesName, subcat);
     this._combineCategoryWithList(list, statusesName, cat);
   }
@@ -354,10 +354,10 @@ export class ActionHandlerSwade extends ActionHandler {
 
     const cat = this.initializeEmptyCategory("bennies");
     const macroType = "benny";
-    const benniesName = this.i18n("tokenactionhud.bennies");
+    const benniesName = this.i18n("tokenActionHud.swade.bennies");
 
     // Spend Bennies
-    const spendName = this.i18n("tokenactionhud.spend");
+    const spendName = this.i18n("tokenActionHud.swade.spend");
     const spendValue = [macroType, tokenId, "spend"].join(this.delimiter);
     const spendAction = {
       name: spendName,
@@ -373,7 +373,7 @@ export class ActionHandlerSwade extends ActionHandler {
     tokenSubcat.actions.push(spendAction);
 
     // Give Bennies
-    const giveName = this.i18n("tokenactionhud.give");
+    const giveName = this.i18n("tokenActionHud.swade.give");
     if (this._checkGiveBennies(game.user.role)) {
       const giveValue = [macroType, tokenId, "give"].join(this.delimiter);
       const giveAction = { name: giveName, encodedValue: giveValue, id: `bennyGive` };
@@ -403,7 +403,7 @@ export class ActionHandlerSwade extends ActionHandler {
         const gmSubcat = this.initializeEmptySubcategory(gmMacroType);
         gmSubcat.actions.push(gmSpendAction);
         gmSubcat.actions.push(gmGiveAction);
-        const gmName = `${this.i18n("tokenactionhud.gm")} ${benniesName}`;
+        const gmName = `${this.i18n("tokenActionHud.swade.gm")} ${benniesName}`;
         gmSubcat.info2 = gmBennies.toString();
         cat.info2 = gmBennies.toString();
         this._combineSubcategoryWithCategory(cat, gmName, gmSubcat);
@@ -435,14 +435,14 @@ export class ActionHandlerSwade extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
 
       combatSubcategory.actions.push(endTurnAction);
     }
 
-    const utilityName = this.i18n("tokenactionhud.utility");
-    const combatName = this.i18n("tokenactionhud.combat");
+    const utilityName = this.i18n("tokenActionHud.utility");
+    const combatName = this.i18n("tokenActionHud.combat");
     this._combineSubcategoryWithCategory(cat, combatName, combatSubcategory);
     this._combineCategoryWithList(list, utilityName, cat);
   }

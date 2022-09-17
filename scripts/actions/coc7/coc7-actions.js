@@ -31,13 +31,13 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
 

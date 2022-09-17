@@ -28,12 +28,12 @@ export class ActionHandlerBitD extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.resistance"),
+      this.i18n("tokenActionHud.bitd.resistance"),
       resistances
     );
 
@@ -84,7 +84,7 @@ export class ActionHandlerBitD extends ActionHandler {
       });
     }
 
-    let resistanceTitle = this.i18n("tokenactionhud.resistance");
+    let resistanceTitle = this.i18n("tokenActionHud.bitd.resistance");
     this._combineSubcategoryWithCategory(
       result,
       resistanceTitle,

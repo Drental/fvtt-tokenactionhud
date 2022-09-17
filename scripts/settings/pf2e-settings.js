@@ -14,8 +14,8 @@ export function register(app, updateSettings) {
 
   for (const category of showCategorySettings) {
     game.settings.register(app, `show${category}Category`, {
-      name: game.i18n.localize(`tokenactionhud.settings.show${category}Category.name`),
-      hint: game.i18n.localize(`tokenactionhud.settings.show${category}Category.hint`),
+      name: game.i18n.localize(`tokenActionHud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenActionHud.settings.show${category}Category.hint`),
       scope: "client",
       config: true,
       type: Boolean,
@@ -28,10 +28,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "ignorePassiveActions", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.ignorePassiveActions.name"
+      "tokenActionHud.pf2e.settings.ignorePassiveActions.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.ignorePassiveActions.hint"
+      "tokenActionHud.pf2e.settings.ignorePassiveActions.hint"
     ),
     scope: "client",
     config: true,
@@ -44,10 +44,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "separateTogglesCategory", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.separateTogglesCategory.name"
+      "tokenActionHud.pf2e.settings.separateTogglesCategory.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.separateTogglesCategory.hint"
+      "tokenActionHud.pf2e.settings.separateTogglesCategory.hint"
     ),
     scope: "client",
     config: true,
@@ -60,10 +60,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "calculateAttackPenalty", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.calculateAttackPenalty.name"
+      "tokenActionHud.pf2e.settings.calculateAttackPenalty.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.calculateAttackPenalty.hint"
+      "tokenActionHud.pf2e.settings.calculateAttackPenalty.hint"
     ),
     scope: "client",
     config: true,
@@ -76,10 +76,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "abbreviateSkills", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.abbreviateSkills.name"
+      "tokenActionHud.pf2e.settings.abbreviateSkills.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.pf2e.abbreviateSkills.hint"
+      "tokenActionHud.pf2e.settings.abbreviateSkills.hint"
     ),
     scope: "client",
     config: true,

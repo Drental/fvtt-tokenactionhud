@@ -1,5 +1,5 @@
 {
-  "tokenactionhud": {
+  "tokenActionHud": {
     "abilities": "能力値",
     "accept": "適用",
     "actions": "アクション",
@@ -9,7 +9,6 @@
     "advanced": "専門",
     "allowlist": "許可リスト",
     "armour": "鎧",
-    "atk": "攻撃",
     "attack": "攻撃",
     "attacks": "攻撃",
     "attribute": {
@@ -21,165 +20,75 @@
     },
     "attributes": "能力",
     "at-will": "無限回",
-    "bab": "BAB",
-    "basic": "基本",
-    "bennies": "支給",
-    "blessing": "祝福",
-    "blocklist": "ブロックリスト",
-    "blocklistLabel": "ブロックリスト: 非表示 / 許可リスト: 表示",
+    "blockList": "ブロックリスト",
+    "blockListLabel": "ブロックリスト: 非表示 / 許可リスト: 表示",
     "bonusActions": " ボーナス･アクション",
-    "bonuses": "ボーナス",
     "book": "本",
     "books": "本",
-    "buffs": "付与",
     "cancel": "キャンセル",
     "cantrips": "初級呪文",
-    "casterlevel": "術者レベル",
     "categoryTagExplanation": "カスタマイズ可能なカテゴリの追加と削除",
     "categoryTagTitle": "カテゴリーの追加と削除",
     "characteristics": "能力値",
-    "charts": "チャート",
     "checks": "判定",
-    "classFeatures": "クラスの特徴",
     "clearButton": "消去",
-    "cmb": "CMB",
     "combat": "戦闘",
-    "commonSkills": "一般技能",
-    "concentration": "集中",
     "conditions": "状態",
     "consumables": "消耗品",
     "coreBonus": "コア･ボーナス",
-    "crewActions": "乗員アクション",
     "critical": "クリティカル",
-    "d35e": {
-      "grapple": "組み付き"
-    },
     "damage": "ダメージ",
-    "dc": "難易度",
-    "deathSave": "死亡セーヴ",
     "defenses": "防御",
-    "destructionSave": "破壊セーヴ",
-    "dmg": "ダメージ",
-    "dodge": "回避",
-    "doomed": "破滅",
-    "downtime": "ダウンタイム",
-    "dying": "死亡",
-    "edges": "エッジ",
-    "edgesAndHindrances": "エッジ/障害",
     "effects": "効果",
-    "engineering": "エンジニアリング",
+    "endTurn": "End Turn",
     "equipment": "装備品",
     "experimental": "実験",
-    "exploration": "探索",
-    "fatigue": "疲労",
     "feats": "特技",
     "features": "特徴",
     "filterPlaceholder": "選択（セミコロンで区切る)",
     "filterTagExplanation": "ここにエントリを追加して、特定のカテゴリのエントリを表示または非表示にします。",
     "filterTitle": "フィルタ",
-    "free": "無料",
-    "fullAttack": "全力攻撃",
-    "gear": "装備",
-    "get": "入手",
-    "give": "与える",
-    "gm": "GM",
     "general": "一般",
-    "grit": "勇気",
     "handlerNotFound": "操作が見つかりません、標準のローラーを使用します。",
-    "hase": "HASE",
     "healing": "回復",
-    "heroPoints": "ヒーローポイント",
-    "hindrances": "障害",
-    "hull": "船体",
-    "improvisedWeapon": "代用武器",
-    "inconsumables": "非消耗品",
     "initiative": "イニシアチブ",
     "inspiration": "インスピレーション",
-    "instinct": "直感",
     "inventory": "所持品",
-    "lair": "住処",
-    "lairActions": "住処アクション",
-    "legendary": "伝説",
-    "legendaryActions": "伝説的アクション",
     "level": "レベル",
     "levelAbbreviation": "レベル",
     "longRest": "大休憩",
-    "lore": "ロア",
     "magic": "呪文",
     "magicItems": "魔法アイテム",
     "makeInvisible": "非表示にする",
     "makeVisible": "見えるようにする",
-    "mech": "メック",
     "melee": "近接",
-    "misc": "その他",
-    "mods": "Mods",
-    "monsterMoves": "モンスター行動",
-    "moves": "行動",
-    "msa": "近接呪文攻撃",
-    "mwa": "近接武器攻撃",
-    "natPowers": "自然の力",
-    "noammo": "残弾なし",
     "other": "その他",
     "passive": "受動",
-    "petty": "些細",
-    "pf1": {
-      "disabled": "使用不可"
-    },
-    "pf2e": {
-      "useTwoHandedLabel": "両手武器を使用",
-      "recoveryCheck": "回復チェック"
-    },
-    "pilot": "パイロット",
-    "points": "ポイント",
     "powers": "パワー",
     "profession": "専門",
     "push": "右",
     "pushLabelExplanation": "どちら側にカテゴリを表示しますか？",
     "ranged": "遠隔",
-    "rank": "ランク",
     "reactions": "リアクション",
     "recharge": "リチャージ",
     "rechargeRepair": "リチャージ",
     "refittingRepair": "再補充",
     "regenRepair": "再生",
-    "religion": "宗教",
     "removeFromCombat": "戦闘から外す",
     "repair": "修理",
-    "resistance": "抵抗",
     "rest": "休憩",
-    "restNight": "一晩の休憩",
-    "takeBreather": "一息入れる",
     "rests": "休憩",
     "repairs": "修理",
     "roll": "ロール",
-    "rollable": "ローラブル",
     "rollInitiative": "イニシアチブロール",
-    "rsa": "遠隔呪文攻撃",
-    "rwa": "遠隔武器攻撃",
     "saves": "セーヴ",
-    "shields": "シールド",
     "shortRest": "小休憩",
     "skills": "技能",
-    "skilltriggers": "技能トリガー",
-    "special": "特殊",
     "specialActions": "特殊アクション",
-    "specialAbilities": "特殊能力",
-    "specialQualities": "特徴",
-    "spellbook": "呪文書",
     "spells": "呪文",
-    "spend": "消費",
-    "starting": "開始",
-    "stat": "ステータス",
-    "stats": "ステータス",
-    "status": "ステータス",
-    "strikes": "ストライク",
     "subcategoryTagExplanation": "サブカテゴリの追加と削除：マクロサブカテゴリにフリーテキストを入力するか、リンクされた辞典を選択します。",
     "subcategoryTagTitle": "サブカテゴリーの追加と削除",
-    "systems": "システム",
-    "tags": "タグ",
     "talents": "異能",
-    "techattack": "テック･アタック",
-    "techs": "テック",
     "temporary": "一時的",
     "title": "トークン･アクションHUD",
     "toggleCombatState": "戦闘に参加",
@@ -188,17 +97,9 @@
     "token": "トークン",
     "tools": "道具",
     "traits": "特徴",
-    "treasure": "財宝",
-    "treatWounds": "傷の手当",
-    "unarmed": "素手",
-    "stomp": "踏みつけ！",
-    "unrollable": "ロール不可",
     "unshift": "左",
     "utility": "他",
     "weapons": "武器",
-    "wounded": "負傷",
-    "wounds": "怪我",
-    "woundsAndFatigue": "怪我 / 疲労",
     "settings": {
       "activeCssAsText": {
         "name": "有効化されたCSSをテキストでマーク",
@@ -400,14 +301,72 @@
       "useActionList": {
         "name": "アクションタイプ別グループ",
         "hint": "｢Character Actions 5e｣モジュールに依存します。有効な場合、ボタンはアクションの種類によってグループ化されます。"
-      },
-      "demonlord": {
-        "attackoptions": "攻撃オプション",
-        "challenge": "チャレンジ･ロール",
-        "rest": "休憩",
-        "specialattacks": "特殊攻撃"
-      },
-      "dnd4e": {
+      }
+    },
+    "alienRpg": {
+      "acidSplash": "酸の飛沫",
+      "agenda": "アジェンダ/ストーリーカード",
+      "agility": "敏捷性",
+      "air": "空気",
+      "armorRating": "アーマー",
+      "armorVersusFire": "アーマー V 銃撃",
+      "closeCombat": "接近戦",
+      "command": "指揮",
+      "comtech": "コムテック",
+      "conditions": "状態",
+      "consumables": "消耗品",
+      "creatureAttack": "クリーチャー攻撃",
+      "dehydrated": "脱水",
+      "empathy": "共感",
+      "exhausted": "消耗",
+      "food": "食料",
+      "freezing": "凍結",
+      "health": "状態",
+      "heavyMachinery": "重機",
+      "manipulation": "操作",
+      "medicalAid": "医療支援",
+      "mobility": "機動力",
+      "observation": "観察",
+      "panic": "パニック",
+      "piloting": "操縦",
+      "power": "パワー",
+      "rangedCombat": "遠距離戦",
+      "rollCrit": "クリティカル･ロール",
+      "rollStress": "ストレス･ロール",
+      "skill": "技能",
+      "speed": "スピード",
+      "stamina": "スタミナ",
+      "starving": "飢餓",
+      "strength": "筋力",
+      "stressPoints": "ストレス･ポイント",
+      "survival": "サバイバル",
+      "water": "水",
+      "wits": "知恵"
+    },
+    "bitd": {
+      "resistance": "抵抗"
+    },
+    "co": {
+      "attacks": "攻撃",
+      "capacities": "容量",
+      "combat": "戦闘",
+      "protections": "保護"
+    },
+    "d35e": {
+      "buffs": "付与",
+      "concentration": "集中",
+      "fullAttack": "全力攻撃",
+      "grapple": "組み付き",
+      "inconsumables": "非消耗品"
+    },
+    "demonLord": {
+      "attackoptions": "攻撃オプション",
+      "challenge": "チャレンジ･ロール",
+      "rest": "休憩",
+      "specialattacks": "特殊攻撃"
+    },
+    "dnd4e": {
+      "settings": {
         "hideUsedPowers": {
           "hint": "有効にすると、使用できないパワーは非表示になります（ただし、再チャージパワーはロールして再チャージする）",
           "name": "使用済みパワーの非表示"
@@ -428,11 +387,32 @@
           "hint": "表示する装備品の種類をカンマで区切った一覧。 デフォルトでは、アクションのないものは非表示になります。 完全な一覧は '武器, 装備, 消耗品, 道具, バックパック, 戦利品, 錬金術, 弾薬, ポーション, 毒, 食べ物, 巻物, 装身具'",
           "name": "可視化された装備品カテゴリ"
         }
-      },
-      "dnd5e": {
+      }
+    },
+    "dnd5e": {
+      "abilities": "能力値",
+      "attributes": "能力", 
+      "checks": "判定",
+      "deathSave": "死亡セーヴ",
+      "lair": "住処",
+      "lairActions": "住処アクション",
+      "legendary": "伝説",
+      "legendaryActions": "伝説的アクション",
+      "saves": "セーヴ",
+      "skills": "技能",
+      "settings": {
         "abbreviateSkills": {
           "hint": "技能や能力名をすべて３文字に省略します",
           "name": "特技や能力名を省略する"
+        },
+        "categoriseAttributes": {
+          "hint": "Categorise abilities and skills into Attributes, Abilities/Skills or Checks/Saves/Skills",
+          "name": "属性を分類する",
+          "choices": {
+            "attributes": "能力",
+            "abilitiesSkills": "能力値・技能",
+            "checksSavesSkills": "判定・セーヴ・技能"
+          }
         },
         "hideLongerActions": {
           "hint": "分、時間、日等が発動条件として設定されているアクションは表示されなくなります。",
@@ -474,20 +454,153 @@
           "hint": "能力値を判定とセーヴに分けます。",
           "name": "能力値判定とセーヴのカテゴリを分ける"
         }
-      },
-      "dungeonworld": {
+      }
+    },
+    "ds4": {
+      "settings": {
+        "displayCheckTargetNumbers": {
+          "name": "チェック･ターゲット番号の表示",
+          "hint": "有効にすると、各チェックに対してチェックターゲット番号が表示されます。"
+        }
+      }
+    },
+    "dungeonWorld": {
+      "basic": "基本",
+      "charts": "チャート",
+      "gm": "GM",
+      "instinct": "直感",
+      "monsterMoves": "モンスター行動",
+      "moves": "行動",
+      "special": "特殊",
+      "specialQualities": "特徴",
+      "starting": "開始",
+      "tags": "タグ",
+      "treasure": "財宝",
+      "settings": {
         "showGmCompendiums": {
           "hint": "この機能を有効にすると、ユーザーがGMの場合、HUDバーにはGMのアクション、財宝のロールテーブル、チャートが表示されます。",
           "name": "GM辞典を表示"
         }
-      },
-      "pf1": {
+      }
+    },
+    "ed4e": {
+      "systems": "システム"
+    },
+    "forbiddenlands": {
+      "agility": "Agility",
+      "animalHandling": "Animal Handling",
+      "arrows": "Arrows",
+      "cold": "Cold",
+      "conditions": "Conditions",
+      "consumables": "Consumables",
+      "crafting": "Crafting",
+      "empathy": "Empathy",
+      "endurance": "Endurance",
+      "food": "Food",
+      "healing": "Healing",
+      "hungry": "Hungry",
+      "insight": "Insight",
+      "lore": "Lore",
+      "manipulation": "Manipulation",
+      "marksmanship": "Marksmanship",
+      "melee": "Melee",
+      "might": "Might",
+      "monsterAttack": "Monster Attack",
+      "move": "Move",
+      "performance": "Performance",
+      "scouting": "Scouting",
+      "sleightOfHand": "Sleight of Hand",
+      "sleepy": "Sleepy",
+      "stealth": "Stealth",
+      "strength": "Strength",
+      "survival": "Survival",
+      "thirsty": "Thirsty",
+      "torches": "Torches",
+      "water": "Water",
+      "wits": "Wits"
+    },
+    "gurps": {
+      "addAcc": "Acc追加",
+      "blindRoll": "非公開ロール",
+      "retreatBlock": "後退防御",
+      "retreatDodge": "後退回避",
+      "retreatParry": "後退受け流し",
+      "retreatParryFencing": "後退受け流し (ﾌｪﾝｼﾝｸﾞ)"
+    },
+    "kamigakari": {
+      "attack": "攻撃",
+      "conceptDestruction": "概念破壊",
+      "constant": "一定",
+      "consumables": "消耗",
+      "defense": "防御",
+      "end": "終了",
+      "free": "フリー",
+      "items": "アイテム",
+      "mainStats": "主能力値",
+      "prep": "準備",
+      "sacraments": "常備",
+      "spiritBurn": "霊紋燃焼",
+      "start": "開始",
+      "subStats": "副能力値",
+      "transcend": "物理超越",
+      "vitalIgnition": "生命燃焼"
+    },
+    "lancer": {
+      "engineering": "エンジニアリング",
+      "gear": "装備",
+      "grit": "勇気",
+      "hase": "HASE",
+      "hull": "船体",
+      "mech": "メック",
+      "pilot": "パイロット",
+      "rank": "ランク",
+      "skillTriggers": "技能トリガー",
+      "stat": "ステータス",
+      "stats": "ステータス",
+      "systems": "システム",
+      "techAttack": "テック･アタック",
+      "techs": "テック"
+    },
+    "pf1": {
+      "bab": "BAB",
+      "bonuses": "ボーナス",
+      "buffs": "付与",
+      "casterlevel": "術者レベル",
+      "cmb": "CMB",
+      "concentration": "集中",
+      "disabled": "使用不可",
+      "inconsumables": "非消耗品",
+      "settings": {
         "showDisabled": {
           "hint": "有効にすると、無効な機能は表示されなくなります。",
           "name": "無効化された機能を非表示"
         }
-      },
-      "pf2e": {
+      }  
+    },
+    "pf2e": {
+      "atk": "攻撃",
+      "bonusFeats": "Bonus Feats",
+      "classFeats": "Class Feats",
+      "classFeatures": "クラスの特徴",
+      "commonSkills": "一般技能",
+      "dc": "難易度",
+      "doomed": "破滅",
+      "downtime": "ダウンタイム",
+      "dying": "死亡",
+      "exploration": "探索",
+      "free": "無料",
+      "generalFeats": "General Feats",
+      "heroPoints": "ヒーローポイント",
+      "lore": "ロア",
+      "noAmmo": "残弾なし",
+      "recoveryCheck": "回復チェック",
+      "restNight": "一晩の休憩",
+      "strikes": "ストライク",
+      "takeBreather": "一息入れる",
+      "treatWounds": "傷の手当",
+      "useTwoHandedLabel": "両手武器を使用",
+      "wounded": "負傷",
+      "settings": {
         "abbreviateSkills": {
           "hint": "有効にすると、技能や能力値は略語が使用されます。",
           "name": "技能名、能力値名の略称"
@@ -520,18 +633,33 @@
           "hint": "有効にすると、PCのHUDに｢能力値｣カテゴリが表示されます。",
           "name": "PCの能力を表示"
         }
-      },
-      "sfrpg": {
+      }
+    },
+    "sfrpg": {
+      "crewActions": "乗員アクション",
+      "misc": "その他",
+      "msa": "近接呪文攻撃",
+      "mwa": "近接武器攻撃",
+      "rsa": "遠隔呪文攻撃",
+      "rwa": "遠隔武器攻撃",
+      "shields": "シールド",
+      "spellbook": "呪文書",
+      "settings": {
         "showMiscFeats": {
-          "hint": "有効にすると、アクションタイプが割り当てられていない機能は、雑多なカテゴリにまとめて表示されます。",
-          "name": "雑多なカテゴリの表示"
+          "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
+          "name": "Display miscellaneous feats"
         },
         "showSpellInfo": {
-          "hint": "有効な場合、呪文名の横に記載されている呪文耐性、解除の可否、精神集中、セーヴ情報を表示します。",
-          "name": "呪文情報を表示"
+          "hint": "If enabled, spell resistance, dismissible, concentration and save information noted next to the spell name.",
+          "name": "Display spell information"
         }
-      },
-      "sw5e": {
+      }
+    },
+    "sw5e": {
+      "deathSave": "死亡セーヴ",
+      "destructionSave": "破壊セーヴ",
+      "naturalPowers": "自然の力",
+      "settings": {
         "abbreviateSkills": {
           "hint": "有効にすると、技能や能力値は略語が使用されます。",
           "name": "技能名、能力値名の略称"
@@ -572,8 +700,27 @@
           "hint": "有効にすると、能力判定とセーヴに分離されます。",
           "name": "能力判定とセーヴを分けて表示"
         }
-      },
-      "swade": {
+      }
+    },
+    "swade": {
+      "bennies": "支給",
+      "edges": "エッジ",
+      "edgesAndHindrances": "エッジ/障害",
+      "fatigue": "疲労",
+      "gear": "装備",
+      "give": "与える",
+      "gm": "GM",
+      "hindrances": "障害",
+      "misc": "その他",
+      "mods": "Mods",
+      "points": "ポイント",
+      "shields": "シールド",
+      "specialAbilities": "特殊能力",
+      "spend": "消費",
+      "status": "ステータス",
+      "wounds": "怪我",
+      "woundsAndFatigue": "怪我 / 疲労",
+      "settings": {
         "abbreviateAttributes": {
           "hint": "有効にすると、技能や能力値は略語が使用されます。",
           "name": "技能名、能力値名の略称"
@@ -588,129 +735,25 @@
             "1": "Player"
           }
         }
-      },
-      "wfrp": {
-        "meleeSkillPrefix": "近接攻撃",
-        "rangedSkillPrefix": "遠隔攻撃"
-      },
-      "alienrpg": {
-        "consumables": "消耗品",
-        "conditions": "状態",
-        "skill": "技能",
-        "stresspoints": "ストレス･ポイント",
-        "rollStress": "ストレス･ロール",
-        "starving": "飢餓",
-        "dehydrated": "脱水",
-        "exhausted": "消耗",
-        "freezing": "凍結",
-        "panic": "パニック",
-        "attributestr": "筋力",
-        "attributewit": "知恵",
-        "attributeagl": "敏捷性",
-        "attributeemp": "共感",
-        "skillheavyMach": "重機",
-        "skillcloseCbt": "接近戦",
-        "skillstamina": "スタミナ",
-        "skillrangedCbt": "遠距離戦",
-        "skillmobility": "機動力",
-        "skillpiloting": "操縦",
-        "skillcommand": "指揮",
-        "skillmanipulation": "操作",
-        "skillmedicalAid": "医療支援",
-        "skillobservation": "観察",
-        "skillsurvival": "サバイバル",
-        "skillcomtech": "コムテック",
-        "consumablesair": "空気",
-        "consumablespower": "パワー",
-        "consumablesfood": "食料",
-        "consumableswater": "水",
-        "agenda": "アジェンダ/ストーリーカード",
-        "power": "パワー",
-        "attributespeed": "スピード",
-        "attributearmorvfire": "アーマー V 銃撃",
-        "attributearmorrating": "アーマー",
-        "attributeacidSplash": "酸の飛沫",
-        "attributemobility": "機動力",
-        "attributeobservation": "観察",
-        "creatureAttack": "クリーチャー攻撃",
-        "health": "状態",
-        "rollCrit": "クリティカル･ロール"
-      },
-      "ds4": {
-        "displayCheckTargetNumbers": {
-          "name": "チェック･ターゲット番号の表示",
-          "hint": "有効にすると、各チェックに対してチェックターゲット番号が表示されます。"
-        }
-      },
-      "forbiddenlands": {
-        "consumables": "消耗品",
-        "attributestrength": "筋力",
-        "attributewits": "知恵",
-        "attributeagility": "敏捷性",
-        "attributeempathy": "共感",
-        "conditions": "状態",
-        "skillmelee": "近接戦",
-        "skillendurance": "耐久性",
-        "skillmight": "腕力",
-        "skillcrafting": "工芸",
-        "skillstealth": "隠密",
-        "skillmove": "移動",
-        "skillsleight-of-hand": "手先の早業",
-        "skillmarksmanship": "射撃技術",
-        "skillscouting": "偵察",
-        "skilllore": "伝承",
-        "skillsurvival": "サバイバル",
-        "skillinsight": "洞察",
-        "skillmanipulation": "操作",
-        "skillhealing": "治癒",
-        "skillperformance": "芸能",
-        "skillanimal-handling": "動物使い",
-        "monsterAttack": "モンスター攻撃",
-        "consumablesfood": "食料",
-        "consumableswater": "水",
-        "consumablesarrows": "矢",
-        "consumablestorches": "たいまつ",
-        "hungry": "空腹",
-        "thirsty": "喉の渇き",
-        "sleepy": "眠い",
-        "cold": "寒い"
       }
     },
     "symbaroum": {
       "abilities": "能力値",
       "mysticalPowers": "神秘の力"
     },
-    "kamigakari": {
-      "mainStats": "主能力値",
-      "subStats": "副能力値",
-      "start": "開始",
-      "prep": "準備",
-      "attack": "攻撃",
-      "defense": "防御",
-      "end": "終了",
-      "constant": "一定",
-      "free": "フリー",
-      "spiritBurn": "霊紋燃焼",
-      "transcend": "物理超越",
-      "vitalIgnition": "生命燃焼",
-      "conceptDestruction": "概念破壊",
-      "items": "アイテム",
-      "sacraments": "常備",
-      "consumables": "消耗"
-    },
-    "gurps": {
-      "blindroll": "非公開ロール",
-      "addacc": "Acc追加",
-      "retreatdodge": "後退回避",
-      "retreatparry": "後退受け流し",
-      "retreatparryfence": "後退受け流し (ﾌｪﾝｼﾝｸﾞ)",
-      "retreatblock": "後退防御"
-    },
-    "co": {
-      "combat": "戦闘",
-      "attacks": "攻撃",
-      "protections": "保護",
-      "capacities": "容量"
+    "wfrp": {
+      "basic": "基本",
+      "blessing": "祝福",
+      "dodge": "回避",
+      "improvisedWeapon": "代用武器",
+      "melee": "近接攻撃",
+      "petty": "些細",
+      "ranged": "遠隔攻撃",
+      "religion": "宗教",
+      "rollable": "ローラブル",
+      "stomp": "踏みつけ！",
+      "unarmed": "素手",
+      "unrollable": "ロール不可"
     }
   }
 }

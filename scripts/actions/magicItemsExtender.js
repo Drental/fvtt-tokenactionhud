@@ -27,7 +27,7 @@ export class MagicItemActionListExtender extends ActionListExtender {
     if (magicItems.length === 0) return;
 
     let magicItemsCategory = this.initializeEmptyCategory("magicItemsModule");
-    magicItemsCategory.name = this.i18n("tokenactionhud.magicItems");
+    magicItemsCategory.name = this.i18n("tokenActionHud.magicItems");
 
     let magicItemsIds = magicItems.map((item) => item.id);
 
@@ -61,7 +61,7 @@ export class MagicItemActionListExtender extends ActionListExtender {
           magicItemAction.info1 = effect.consumption;
           if (effect.baseLevel)
             magicItemAction.info2 = `${this.i18n(
-              "tokenactionhud.levelAbbreviation"
+              "tokenActionHud.levelAbbreviation"
             )} ${effect.baseLevel}`;
           subcategory.actions.push(magicItemAction);
         });

@@ -33,34 +33,34 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.symbaroum.mysticalPowers"),
+      this.i18n("tokenActionHud.symbaroum.mysticalPowers"),
       mysticalPowers
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.traits"),
+      this.i18n("tokenActionHud.traits"),
       traits
     );
     if (!game.settings.get("symbaroum", "combatAutomation")) {
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.armour"),
+        this.i18n("tokenActionHud.armour"),
         armors
       );
     }
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.symbaroum.abilities"),
+      this.i18n("tokenActionHud.symbaroum.abilities"),
       abilities
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
 
@@ -82,7 +82,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       powersCategory
     );
     return result;
@@ -98,7 +98,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       traitsCategory
     );
     return result;
@@ -119,7 +119,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       weaponsCategory
     );
     return result;
@@ -140,7 +140,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     armorsCategory.actions = [item];
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       armorsCategory
     );
     return result;
@@ -159,7 +159,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       abilitiesCategory
     );
     return result;
@@ -179,7 +179,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributesCategory
     );
     return result;

@@ -60,29 +60,29 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     // // console.log('ActionHandlerForbiddenLands -> doBuildActionList -> utility', utility);
     switch (actor.type) {
       case 'character':
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.skills'), skills);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.weapons'), weapons);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.inventory'), inventory);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.spells'), spells);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.consumables'), consumables);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.settings.forbiddenlands.conditions'), conditions);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.attributes'), attributes);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.skills'), skills);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.weapons'), weapons);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.inventory'), inventory);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.talents'), talents);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.spells'), spells);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.forbiddenLands.consumables'), consumables);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.forbiddenLands.conditions'), conditions);
         this._setFilterSuggestions(actor);
         if (settings.get('showHudTitle')) result.hudTitle = token.name;
         break;
       case 'monster':
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.attributes'), attributes);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.skills'), skills);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.talents'), talents);
-        this._combineCategoryWithList(result, this.i18n('tokenactionhud.attack'), attack);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.attributes'), attributes);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.skills'), skills);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.talents'), talents);
+        this._combineCategoryWithList(result, this.i18n('tokenActionHud.attack'), attack);
         this._setFilterSuggestions(actor);
         if (settings.get('showHudTitle')) result.hudTitle = token.name;
         break;
       default:
         break;
     }
-    this._combineCategoryWithList(result, this.i18n('tokenactionhud.utility'), utility);
+    this._combineCategoryWithList(result, this.i18n('tokenActionHud.utility'), utility);
 
     return result;
   }
@@ -99,7 +99,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       macroType
     );
 
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.weapons'), subcategory);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.weapons'), subcategory);
 
     return result;
   }
@@ -121,8 +121,8 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let item = this.initializeEmptySubcategory();
     item.actions = itemActions;
 
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.armour'), armour);
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.equipment'), item);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.armour'), armour);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.equipment'), item);
 
     return result;
   }
@@ -138,7 +138,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let talentActions = this._buildItemActions(tokenId, macroType, talentList);
     let talent = this.initializeEmptySubcategory();
     talent.actions = talentActions;
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.talents'), talent);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.talents'), talent);
 
     return result;
   }
@@ -154,7 +154,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let spellActions = this._buildItemActions(tokenId, macroType, spellList);
     let spell = this.initializeEmptySubcategory();
     spell.actions = spellActions;
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.spells'), spell);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.spells'), spell);
 
     return result;
   }
@@ -168,13 +168,13 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     let rollableConsumables = Object.entries(actor.system.consumable);
     let consumablesMap = rollableConsumables.map((c) => {
-      let name = this.i18n('tokenactionhud.settings.forbiddenlands.consumables' + c[0]);
+      let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id, name].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
     });
     consumables.actions = this._produceMap(tokenId, consumablesMap, macroType);
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.settings.forbiddenlands.consumables'), consumables);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.forbiddenLands.consumables'), consumables);
 
     return result;
   }
@@ -217,7 +217,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     
     let rollableSkills = Object.entries(actor.system.skill);
     let skillMap = rollableSkills.map((c) => {
-      let name = this.i18n('tokenactionhud.settings.forbiddenlands.skill' + c[0]);
+      let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
@@ -225,7 +225,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     
     attributes.actions = this._produceMap(tokenId, skillMap, macroType);
     
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.skills'), attributes);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.skills'), attributes);
     
     return result;
 }
@@ -238,7 +238,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     let rollableAttributes = Object.entries(actor.system.attribute);
     let attributesMap = rollableAttributes.map((c) => {
-      let name = this.i18n('tokenactionhud.settings.forbiddenlands.attribute' + c[0]);
+      let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
@@ -246,7 +246,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     attributes.actions = this._produceMap(tokenId, attributesMap, macroType);
 
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.attributes'), attributes);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.attributes'), attributes);
 
     return result;
   }
@@ -261,7 +261,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let talentActions = this._buildItemActions(tokenId, macroType, talentList);
     let talent = this.initializeEmptySubcategory();
     talent.actions = talentActions;
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.talents'), talent);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.talents'), talent);
 
     return result;
   }
@@ -279,7 +279,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let attacksActions = this._buildItemActions(tokenId, macroType, attacksList);
     attacks.actions = attacksActions;
 
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.attacks'), attacks);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.attacks'), attacks);
 
     return result;
   }
@@ -322,9 +322,9 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       generalActions.cssClass = actor.system.condition.sleepy.value ? 'active' : '';
       general.actions.push(generalActions);
 
-      this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.settings.forbiddenlands.conditions'), general);
+      this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.forbiddenLands.conditions'), general);
     }
-    this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.utility'), conditions);
+    this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.utility'), conditions);
 
     return result;
   }
@@ -343,7 +343,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
 
       combatSubcategory.actions.push(endTurnAction);
@@ -351,7 +351,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.combat"),
+      this.i18n("tokenActionHud.combat"),
       combatSubcategory
     );
 

@@ -34,42 +34,42 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.characteristics"),
+      this.i18n("tokenActionHud.characteristics"),
       characteristics
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.talents"),
+      this.i18n("tokenActionHud.talents"),
       talents
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.magic"),
+      this.i18n("tokenActionHud.magic"),
       magic
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.religion"),
+      this.i18n("tokenActionHud.wfrp.religion"),
       prayers
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.traits"),
+      this.i18n("tokenActionHud.traits"),
       traits
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utility
     );
 
@@ -88,7 +88,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let basicSubcategory = this._getBasicActions(actor, tokenId);
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.basic"),
+      this.i18n("tokenActionHud.wfrp.basic"),
       basicSubcategory
     );
 
@@ -111,7 +111,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let unarmed = ["unarmed", tokenId, "unarmed"].join(this.delimiter);
     const unarmedAction = {
       id: "unarmed",
-      name: this.i18n("tokenactionhud.unarmed"),
+      name: this.i18n("tokenActionHud.wfrp.unarmed"),
       encodedValue: unarmed,
     };
     basicActions.actions.push(unarmedAction);
@@ -119,7 +119,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let stompValue = ["stomp", tokenId, "stomp"].join(this.delimiter);
     const stompAction = {
       id: "stomp",
-      name: this.i18n("tokenactionhud.stomp"),
+      name: this.i18n("tokenActionHud.wfrp.stomp"),
       encodedValue: stompValue,
     };
     basicActions.actions.push(stompAction);
@@ -129,7 +129,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     );
     const improvisedAction = {
       id: "improvise",
-      name: this.i18n("tokenactionhud.improvisedWeapon"),
+      name: this.i18n("tokenActionHud.wfrp.improvisedWeapon"),
       encodedValue: improvisedValue,
     };
     basicActions.actions.push(improvisedAction);
@@ -137,7 +137,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let dodgeValue = ["dodge", tokenId, "dodge"].join(this.delimiter);
     const dodgeAction = {
       id: "dodge",
-      name: this.i18n("tokenactionhud.dodge"),
+      name: this.i18n("tokenActionHud.wfrp.dodge"),
       encodedValue: dodgeValue,
     };
     basicActions.actions.push(dodgeAction);
@@ -163,7 +163,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.characteristics"),
+      this.i18n("tokenActionHud.characteristics"),
       characteristicsCategory
     );
 
@@ -180,9 +180,9 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     result.choices = skills.length;
 
-    let transMelee = game.i18n.localize("tokenactionhud.wfrp.meleeSkillPrefix");
+    let transMelee = game.i18n.localize("tokenActionHud.wfrp.melee");
     let transRanged = game.i18n.localize(
-      "tokenactionhud.wfrp.rangedSkillPrefix"
+      "tokenActionHud.wfrp.ranged"
     );
 
     let meleeSkills = skills.filter((s) => s.name.startsWith(transMelee));
@@ -252,22 +252,22 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.melee"),
+      this.i18n("tokenActionHud.melee"),
       meleeCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.ranged"),
+      this.i18n("tokenActionHud.ranged"),
       rangedCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.basic"),
+      this.i18n("tokenActionHud.wfrp.basic"),
       basicSkillsCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.advanced"),
+      this.i18n("tokenActionHud.advanced"),
       advancedSkillsCat
     );
 
@@ -310,7 +310,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.petty"),
+      this.i18n("tokenActionHud.wfrp.petty"),
       pettyCategory
     );
 
@@ -356,7 +356,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.blessing"),
+      this.i18n("tokenActionHud.wfrp.blessing"),
       blessingCategory
     );
 
@@ -414,12 +414,12 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rollable"),
+      this.i18n("tokenActionHud.wfrp.rollable"),
       rollableCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.unrollable"),
+      this.i18n("tokenActionHud.wfrp.unrollable"),
       unrollableCategory
     );
 
@@ -451,12 +451,12 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rollable"),
+      this.i18n("tokenActionHud.wfrp.rollable"),
       rollableCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.unrollable"),
+      this.i18n("tokenActionHud.wfrp.unrollable"),
       unrollableCategory
     );
 
@@ -477,13 +477,13 @@ export class ActionHandlerWfrp extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
 
       combatSubcategory.actions.push(endTurnAction);
     }
 
-    const combatTitle = this.i18n("tokenactionhud.combat")
+    const combatTitle = this.i18n("tokenActionHud.combat")
     this._combineSubcategoryWithCategory(
       result,
       combatTitle,

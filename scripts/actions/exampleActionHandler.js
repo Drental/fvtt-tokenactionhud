@@ -25,7 +25,7 @@ export class ExampleActionHandler extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenActionHud.inventory"),
       inventoryCategory
     ); // combines the inventory category with the list with the title given by the second argument.
 

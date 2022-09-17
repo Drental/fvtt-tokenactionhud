@@ -39,17 +39,17 @@ export class ActionHandlerDw extends ActionHandler {
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.damage"),
+        this.i18n("tokenActionHud.damage"),
         damage
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.tags"),
+        this.i18n("tokenActionHud.dungeonWorld.tags"),
         tags
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.specialQualities"),
+        this.i18n("tokenActionHud.dungeonWorld.specialQualities"),
         specialQualities
       );
     } else if (actorType === "character") {
@@ -63,61 +63,61 @@ export class ActionHandlerDw extends ActionHandler {
         actor,
         tokenId,
         "spells",
-        this.i18n("tokenactionhud.spells"),
+        this.i18n("tokenActionHud.spells"),
         "spell"
       );
       let equipment = this._getSubcategoryByType(
         actor,
         tokenId,
         "equipment",
-        this.i18n("tokenactionhud.equipment"),
+        this.i18n("tokenActionHud.equipment"),
         "equipment"
       );
       let abilities = this._getAbilities(actor, tokenId);
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.damage"),
+        this.i18n("tokenActionHud.damage"),
         damage
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.starting"),
+        this.i18n("tokenActionHud.dungeonWorld.starting"),
         startingMoves
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.advanced"),
+        this.i18n("tokenActionHud.advanced"),
         advancedMoves
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.special"),
+        this.i18n("tokenActionHud.dungeonWorld.special"),
         specialMoves
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.basic"),
+        this.i18n("tokenActionHud.dungeonWorld.basic"),
         basicMoves
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.other"),
+        this.i18n("tokenActionHud.other"),
         otherMoves
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.spells"),
+        this.i18n("tokenActionHud.spells"),
         spells
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.equipment"),
+        this.i18n("tokenActionHud.equipment"),
         equipment
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.abilities"),
+        this.i18n("tokenActionHud.abilities"),
         abilities
       );
     }
@@ -135,7 +135,7 @@ export class ActionHandlerDw extends ActionHandler {
       "dungeonworld.gm-movesprincipals",
       this.delimiter
     );
-    let movesName = this.i18n("tokenactionhud.moves");
+    let movesName = this.i18n("tokenActionHud.dungeonWorld.moves");
     this._combineSubcategoryWithCategory(category, movesName, movesSubcategory);
 
     let chartsSubcategory = this.initializeEmptySubcategory();
@@ -143,7 +143,7 @@ export class ActionHandlerDw extends ActionHandler {
       "dungeonworld.charts",
       this.delimiter
     );
-    let chartsName = this.i18n("tokenactionhud.charts");
+    let chartsName = this.i18n("tokenActionHud.dungeonWorld.charts");
     this._combineSubcategoryWithCategory(
       category,
       chartsName,
@@ -155,14 +155,14 @@ export class ActionHandlerDw extends ActionHandler {
       "dungeonworld.rollable-tables",
       this.delimiter
     );
-    let treasureName = this.i18n("tokenactionhud.treasure");
+    let treasureName = this.i18n("tokenActionHud.dungeonWorld.treasure");
     this._combineSubcategoryWithCategory(
       category,
       treasureName,
       treasureSubcategory
     );
 
-    let categoryName = this.i18n("tokenactionhud.gm");
+    let categoryName = this.i18n("tokenActionHud.dungeonWorld.gm");
     this._combineCategoryWithList(actionList, categoryName, category);
   }
 
@@ -196,12 +196,12 @@ export class ActionHandlerDw extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       rollCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.book"),
+      this.i18n("tokenActionHud.book"),
       bookCategory
     );
 
@@ -259,7 +259,7 @@ export class ActionHandlerDw extends ActionHandler {
       let levelName =
         spellLevel == 0
           ? "Rotes"
-          : `${this.i18n("tokenactionhud.level")} ${spellLevel}`;
+          : `${this.i18n("tokenActionHud.level")} ${spellLevel}`;
       let levelCategory;
       if (!acc.some((l) => l.name === levelName)) {
         levelCategory = this.initializeEmptySubcategory();
@@ -298,7 +298,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.abilities"),
+      this.i18n("tokenActionHud.abilities"),
       abilitiesCategory
     );
 
@@ -334,12 +334,12 @@ export class ActionHandlerDw extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.instinct"),
+      this.i18n("tokenActionHud.dungeonWorld.instinct"),
       instinctsCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.monsterMoves"),
+      this.i18n("tokenActionHud.dungeonWorld.monsterMoves"),
       movesCategory
     );
 
@@ -361,7 +361,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.tags"),
+      this.i18n("tokenActionHud.dungeonWorld.tags"),
       tagCategory
     );
     return result;
@@ -384,7 +384,7 @@ export class ActionHandlerDw extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.specialQualities"),
+      this.i18n("tokenActionHud.dungeonWorld.specialQualities"),
       qualityCategory
     );
     return result;

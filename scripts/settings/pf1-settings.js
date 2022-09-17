@@ -14,8 +14,8 @@ export function register(app, updateSettings) {
 
   for (const category of showCategorySettings) {
     game.settings.register(app, `show${category}Category`, {
-      name: game.i18n.localize(`tokenactionhud.settings.show${category}Category.name`),
-      hint: game.i18n.localize(`tokenactionhud.settings.show${category}Category.hint`),
+      name: game.i18n.localize(`tokenActionHud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenActionHud.settings.show${category}Category.hint`),
       scope: "client",
       config: true,
       type: Boolean,
@@ -28,10 +28,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "ignorePassiveFeats", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.ignorePassiveFeats.name"
+      "tokenActionHud.dnd5e.settings.ignorePassiveFeats.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.ignorePassiveFeats.hint"
+      "tokenActionHud.dnd5e.settings.ignorePassiveFeats.hint"
     ),
     scope: "client",
     config: true,
@@ -44,10 +44,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "abbreviateSkills", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.abbreviateSkills.name"
+      "tokenActionHud.dnd5e.settings.abbreviateSkills.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.abbreviateSkills.hint"
+      "tokenActionHud.dnd5e.settings.abbreviateSkills.hint"
     ),
     scope: "client",
     config: true,
@@ -60,10 +60,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "showEmptyItems", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.showEmptyItems.name"
+      "tokenActionHud.dnd5e.settings.showEmptyItems.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.showEmptyItems.hint"
+      "tokenActionHud.dnd5e.settings.showEmptyItems.hint"
     ),
     scope: "client",
     config: true,
@@ -75,8 +75,8 @@ export function register(app, updateSettings) {
   });
 
   game.settings.register(app, "ignoreDisabledFeats", {
-    name: game.i18n.localize("tokenactionhud.settings.pf1.showDisabled.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.pf1.showDisabled.hint"),
+    name: game.i18n.localize("tokenActionHud.pf1.settings.showDisabled.name"),
+    hint: game.i18n.localize("tokenActionHud.pf1.settings.showDisabled.hint"),
     scope: "client",
     config: true,
     type: Boolean,

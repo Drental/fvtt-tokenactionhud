@@ -29,12 +29,12 @@ export class ActionHandlerCleenmain extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
 
@@ -54,7 +54,7 @@ export class ActionHandlerCleenmain extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       skillsCategory
     );
     return result;
@@ -72,7 +72,7 @@ export class ActionHandlerCleenmain extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       weaponsCategory
     );
     return result;

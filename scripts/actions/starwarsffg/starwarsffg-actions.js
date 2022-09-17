@@ -25,7 +25,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
     let weapons = this._getItemsList(actor, tokenId, "weapon");
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
 
