@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.7] 2022-09-19
+- Core - Fix issue with loading styles on the Forge and some modules
+- SPACE 1889 - Entry "Active Defense" is missing for creatures - Fixes provided by Scepfari (#274) 
+
 ## [3.0.6] 2022-09-14
 - Core - Fix Dorako UI stylesheet (#264). **NB. The Dorako UI module setting has been replaced by the Style setting.**
 - Pathfinder 2e - Fix Strikes not displaying for NPCs.
