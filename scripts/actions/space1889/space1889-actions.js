@@ -26,13 +26,13 @@ export class ActionHandlerSpace1889 extends ActionHandler
 
 		this._combineCategoryWithList(
 			result,
-			this.i18n("tokenactionhud.attributes"),
+			this.i18n("tokenActionHud.attributes"),
 			this._abilities(actor, tokenId)
 		);
 
 		this._combineCategoryWithList(
 			result,
-			this.i18n("tokenactionhud.skills"),
+			this.i18n("tokenActionHud.skills"),
 			this._skills(actor, tokenId)
 		);
 
@@ -40,7 +40,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		{
 			this._combineCategoryWithList(
 				result,
-				this.i18n("tokenactionhud.talents"),
+				this.i18n("tokenActionHud.talents"),
 				this._talants(actor, tokenId)
 			)
 		}
@@ -56,20 +56,20 @@ export class ActionHandlerSpace1889 extends ActionHandler
 
 		this._combineCategoryWithList(
 			result,
-			this.i18n("tokenactionhud.attack"),
+			this.i18n("tokenActionHud.attack"),
 			this._attacks(actor, tokenId)
 		);
 
 
 		this._combineCategoryWithList(
 			result,
-			this.i18n("tokenactionhud.defenses"),
+			this.i18n("tokenActionHud.defenses"),
 			this._defenses(actor, tokenId)
 		);
 
 		this._combineCategoryWithList(
 			result,
-			this.i18n("tokenactionhud.damage"),
+			this.i18n("tokenActionHud.damage"),
 			this._damage(actor, tokenId)
 		)
 
@@ -131,7 +131,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			}
 		}
 
-		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.skills'), category);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.skills'), category);
 
 		return result;
 	}
@@ -147,7 +147,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._addEntry(tokenId, weapon.name + ' (' + weapon.system.attack.toString() + ')', weapon.system.id, 'weapon', category);
 		}
 
-		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.attack'), category);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.attack'), category);
 
 		return result;
 	}
@@ -164,7 +164,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 				this._addEntry(tokenId, talent.system.label, talent.system.id, 'talent', category);
 		}
 
-		this._combineSubcategoryWithCategory(result, this.i18n('tokenactionhud.talents'), category);
+		this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.talents'), category);
 
 		return result;
 	}

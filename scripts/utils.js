@@ -5,11 +5,11 @@ export function switchCSS(settingValue) {
     ];
     
     for (const style of styles) {
-      const href = ["modules/token-action-hud/",`styles/${style.file}`]
+      const href = `.*modules\/token-action-hud.*styles/${style.file}.*`
       if (style.setting === settingValue) {
-        Object.values(document.styleSheets).find(ss => ss.href?.includes(href[0]) && ss.href?.includes(href[1])).disabled = false;
+        Object.values(document.styleSheets).find(ss => (ss?.href ?? "").match(href)).disabled = false;
       } else {
-        Object.values(document.styleSheets).find(ss => ss.href?.includes(href[0]) && ss.href?.includes(href[1])).disabled = true;
+        Object.values(document.styleSheets).find(ss => (ss?.href ?? "").match(href)).disabled = true;
       }
     }
   }

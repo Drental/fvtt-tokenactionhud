@@ -47,12 +47,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
     var itemList = token.actor.items;
     let tokenId = token.id;
 
-    var itemsCategoryName = this.i18n("tokenactionhud.equipment");
+    var itemsCategoryName = this.i18n("tokenActionHud.equipment");
     var itemsMacroType = "item";
     let itemsCategory = this.initializeEmptyCategory("equipment");
 
     itemsCategory = this._addSubcategoryByType(
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       "weapon",
       itemsMacroType,
       itemList,
@@ -60,7 +60,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     itemsCategory = this._addSubcategoryByType(
-      this.i18n("tokenactionhud.consumables"),
+      this.i18n("tokenActionHud.consumables"),
       "consumable",
       itemsMacroType,
       itemList,
@@ -75,12 +75,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
     var itemList = token.actor.items.filter((item) => item.type == "feat");
     let tokenId = token.id;
 
-    var itemsCategoryName = this.i18n("tokenactionhud.features");
+    var itemsCategoryName = this.i18n("tokenActionHud.features");
     var itemsMacroType = "feat";
     let itemsCategory = this.initializeEmptyCategory(itemsCategoryName);
 
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.mwa"),
+      this.i18n("tokenActionHud.sfrpg.mwa"),
       "mwak",
       itemsMacroType,
       itemList,
@@ -88,7 +88,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.rwa"),
+      this.i18n("tokenActionHud.sfrpg.rwa"),
       "rwak",
       itemsMacroType,
       itemList,
@@ -96,7 +96,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.msa"),
+      this.i18n("tokenActionHud.sfrpg.msa"),
       "msak",
       itemsMacroType,
       itemList,
@@ -104,7 +104,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.rsa"),
+      this.i18n("tokenActionHud.sfrpg.rsa"),
       "rsak",
       itemsMacroType,
       itemList,
@@ -112,7 +112,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.healing"),
+      this.i18n("tokenActionHud.healing"),
       "heal",
       itemsMacroType,
       itemList,
@@ -126,7 +126,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.system.actionType)
       );
       this._addSubcategoryByItemList(
-        this.i18n("tokenactionhud.misc"),
+        this.i18n("tokenActionHud.sfrpg.misc"),
         itemsMacroType,
         miscFeats,
         tokenId,
@@ -143,7 +143,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     );
     let tokenId = token.id;
 
-    var categoryName = this.i18n("tokenactionhud.spellbook");
+    var categoryName = this.i18n("tokenActionHud.sfrpg.spellbook");
     var macroType = "spell";
     let category = this.initializeEmptyCategory(categoryName);
 
@@ -151,7 +151,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     for (let level = 0; level < maxLevel; level++) {
       category = this._addSubcategoryByLevel(
-        `${this.i18n("tokenactionhud.level")} ` + level,
+        `${this.i18n("tokenActionHud.level")} ` + level,
         level,
         macroType,
         itemList,
@@ -202,7 +202,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.skills");
     this._combineSubcategoryWithCategory(category, skillsTitle, skillsCategory);
     this._combineCategoryWithList(actionList, skillsTitle, category);
   }
@@ -220,7 +220,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let abilitiesCategory = this.initializeEmptySubcategory();
     abilitiesCategory.actions = abilitiesActions;
 
-    let abilitiesTitle = this.i18n("tokenactionhud.abilities");
+    let abilitiesTitle = this.i18n("tokenActionHud.abilities");
     this._combineSubcategoryWithCategory(
       category,
       abilitiesTitle,
@@ -242,7 +242,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let savesCategory = this.initializeEmptySubcategory();
     savesCategory.actions = saveActions;
 
-    let savesTitle = this.i18n("tokenactionhud.saves");
+    let savesTitle = this.i18n("tokenActionHud.saves");
     this._combineSubcategoryWithCategory(category, savesTitle, savesCategory);
     this._combineCategoryWithList(actionList, savesTitle, category);
   }
@@ -250,7 +250,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _buildUtilityCategory(token, actionList) {
     let category = this.initializeEmptyCategory("utility");
     let macroType = "utility";
-    const utilityTitle = this.i18n("tokenactionhud.utility");
+    const utilityTitle = this.i18n("tokenActionHud.utility");
     const tokenId = token.id;
 
     // Combat Subcategory
@@ -262,12 +262,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
       combatSubcategory.actions.push(endTurnAction);
     }
 
-    const combatTitle = this.i18n("tokenactionhud.combat");
+    const combatTitle = this.i18n("tokenActionHud.combat");
     this._combineSubcategoryWithCategory(category, combatTitle, combatSubcategory);
     this._combineCategoryWithList(actionList, utilityTitle, category);
   }
@@ -534,7 +534,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    var categoryName = this.i18n("tokenactionhud.weapons");
+    var categoryName = this.i18n("tokenActionHud.weapons");
     this._combineCategoryWithList(actionList, categoryName, category);
   }
 
@@ -609,7 +609,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    const catName = this.i18n("tokenactionhud.crewActions");
+    const catName = this.i18n("tokenActionHud.sfrpg.crewActions");
     this._combineCategoryWithList(actionList, catName, category);
   }
 
@@ -671,7 +671,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    const catName = this.i18n("tokenactionhud.shields");
+    const catName = this.i18n("tokenActionHud.sfrpg.shields");
     this._combineCategoryWithList(actionList, catName, category);
   }
 }

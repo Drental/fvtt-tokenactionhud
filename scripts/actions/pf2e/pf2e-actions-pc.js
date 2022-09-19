@@ -28,37 +28,37 @@ export class PcActionHandlerPf2e {
 
    this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attack"),
+      this.i18n("tokenActionHud.attack"),
       attack
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenActionHud.inventory"),
       items
     );
    this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.effects"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utilities
     );
   }
@@ -79,62 +79,62 @@ export class PcActionHandlerPf2e {
     
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.toggles"),
+      this.i18n("tokenActionHud.toggles"),
       toggles
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.strikes"),
+      this.i18n("tokenActionHud.pf2e.strikes"),
       strikes
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenActionHud.inventory"),
       items
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.spells"),
+      this.i18n("tokenActionHud.spells"),
       spells
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.features"),
+      this.i18n("tokenActionHud.features"),
       feats
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.effects"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utilities
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.effects"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
   }
@@ -185,7 +185,7 @@ export class PcActionHandlerPf2e {
 
     this.baseHandler._combineSubcategoryWithCategory(
       category,
-      this.baseHandler.i18n("tokenactionhud.toggles"),
+      this.baseHandler.i18n("tokenActionHud.toggles"),
       subcategory
     );
   }
@@ -220,7 +220,7 @@ export class PcActionHandlerPf2e {
 
     this.baseHandler._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attack"),
+      this.i18n("tokenActionHud.attack"),
       subcategory
     );
 
@@ -254,7 +254,7 @@ export class PcActionHandlerPf2e {
 
     this.baseHandler._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
 

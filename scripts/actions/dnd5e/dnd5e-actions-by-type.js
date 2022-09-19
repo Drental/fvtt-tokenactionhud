@@ -29,7 +29,7 @@ export class ActionHandler5eGroupByType extends ActionHandler5e {
 
   _buildActionCategory(token, title, actions) {
     const category = this.initializeEmptyCategory(title);
-    category.name = this.i18n(`tokenactionhud.${title}`);
+    category.name = this.i18n(`tokenActionHud.${title}`);
 
     let spells = [];
     for (const a of actions) {
@@ -51,35 +51,35 @@ export class ActionHandler5eGroupByType extends ActionHandler5e {
       token,
       category,
       actions,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       (i) => i.type == "weapon"
     );
     this._subCategorizeEquipment(
       token,
       category,
       actions,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       (i) => i.type == "equipment"
     );
     this._subCategorizeEquipment(
       token,
       category,
       actions,
-      this.i18n("tokenactionhud.consumables"),
+      this.i18n("tokenActionHud.consumables"),
       (i) => i.type == "consumable"
     );
     this._subCategorizeEquipment(
       token,
       category,
       actions,
-      this.i18n("tokenactionhud.tools"),
+      this.i18n("tokenActionHud.tools"),
       (i) => i.type == "tool"
     );
     this._subCategorizeEquipment(
       token,
       category,
       actions,
-      this.i18n("tokenactionhud.other"),
+      this.i18n("tokenActionHud.other"),
       (i) => true
     );
 

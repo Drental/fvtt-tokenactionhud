@@ -28,7 +28,7 @@ export class TagDialog extends Dialog {
       buttons: {
         accept: {
           icon: '<i class="fas fa-check"></i>',
-          label: game.i18n.localize("tokenactionhud.accept"),
+          label: game.i18n.localize("tokenActionHud.accept"),
           callback: async (html) => {
             let selection = TagDialog.tagify.value.map((c) => {
               return { id: c.id, value: c.value, type: c.type };
@@ -41,7 +41,7 @@ export class TagDialog extends Dialog {
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
-          label: game.i18n.localize("tokenactionhud.cancel"),
+          label: game.i18n.localize("tokenActionHud.cancel"),
         },
       },
       default: "accept",

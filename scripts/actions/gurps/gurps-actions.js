@@ -20,27 +20,27 @@ export class ActionHandlerGURPS extends ActionHandler {
         
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.attributes"),
+        this.i18n("tokenActionHud.attributes"),
         this._attributes(actor, tokenId)
       );
       
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.defenses"),
+        this.i18n("tokenActionHud.defenses"),
         this._defenses(actor, tokenId)
       );
       
       if (Object.keys(actor.system.melee).length > 0)
-        this._melee(result, this.i18n("tokenactionhud.melee"), actor, tokenId)
+        this._melee(result, this.i18n("tokenActionHud.melee"), actor, tokenId)
      
       if (Object.keys(actor.system.ranged).length > 0)
-        this._ranged(result, this.i18n("tokenactionhud.ranged"), actor, tokenId)
+        this._ranged(result, this.i18n("tokenActionHud.ranged"), actor, tokenId)
      
       if (Object.keys(actor.system.skills).length > 0)
-        this._addToList(result, this.i18n("tokenactionhud.skills"), actor, tokenId, 'skills', 'Sk')
+        this._addToList(result, this.i18n("tokenActionHud.skills"), actor, tokenId, 'skills', 'Sk')
         
       if (Object.keys(actor.system.spells).length > 0)
-        this._addToList(result, this.i18n("tokenactionhud.spells"), actor, tokenId, 'spells', 'Sp')
+        this._addToList(result, this.i18n("tokenActionHud.spells"), actor, tokenId, 'spells', 'Sp')
       
       this._advantages(result, actor, tokenId)
       this._addQuickNotes(result, actor, tokenId)
@@ -97,18 +97,18 @@ export class ActionHandlerGURPS extends ActionHandler {
       let usage = !!e.mode ? ' (' + e.mode + ')' : ''
       let name = e.name + usage
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
+        name: this.i18n("tokenActionHud.attack") + ' (' + e.level + ')',
         encodedValue: ["otf", tokenId, 'R:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.acc))) {
         let acc = (e.acc >= 0 ? '+':'') + e.acc
         attributeCategory.actions.push({
-          name: this.i18n("tokenactionhud.gurps.addacc") + ' (' + acc +')',
+          name: this.i18n("tokenActionHud.gurps.addAcc") + ' (' + acc +')',
           encodedValue: ["otf", tokenId, acc + ' ' + name + ' ' + this.i18n('GURPS.acc')].join(this.delimiter),
         }); 
       }
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
+        name: this.i18n("tokenActionHud.damage") + ' (' + e.damage + ')',
         encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
@@ -187,7 +187,7 @@ export class ActionHandlerGURPS extends ActionHandler {
       let usage = !!e.mode ? ' (' + e.mode + ')' : ''
       let name = e.name + usage
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
+        name: this.i18n("tokenActionHud.attack") + ' (' + e.level + ')',
         encodedValue: ["otf", tokenId, 'M:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.parry)))
@@ -201,7 +201,7 @@ export class ActionHandlerGURPS extends ActionHandler {
           encodedValue: ["otf", tokenId, 'B:' + q + name + q].join(this.delimiter),
         }); 
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
+        name: this.i18n("tokenActionHud.damage") + ' (' + e.damage + ')',
         encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
@@ -239,20 +239,20 @@ export class ActionHandlerGURPS extends ActionHandler {
     let result = this.initializeEmptyCategory("defenses");
 
     let cat = this._addDefense(tokenId, this.i18n('GURPS.dodge') + ' (' + actor.system.currentdodge + ')', 'DODGE')
-    this._addDefense(tokenId, this.i18n('tokenactionhud.gurps.retreatdodge') + ' (' + (actor.system.currentdodge + 3) + ')', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat'), cat)
+    this._addDefense(tokenId, this.i18n('tokenActionHud.gurps.retreatDodge') + ' (' + (actor.system.currentdodge + 3) + ')', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat'), cat)
     this._combineSubcategoryWithCategory(result, '', cat);
     
     if (!!actor.system.equippedparry) {
       cat = this._addDefense(tokenId, this.i18n('GURPS.parry') + ' (' + actor.system.equippedparry + ')', 'PARRY')
       if (!!actor.system.equippedparryisfencing)
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparryfence") + ' (' + (actor.system.equippedparry + 3) + ')', 'PARRY +3 fencing retreat', cat)
+        this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatParryFencing") + ' (' + (actor.system.equippedparry + 3) + ')', 'PARRY +3 fencing retreat', cat)
       else
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparry") + ' (' + (actor.system.equippedparry + 1) + ')', 'PARRY +1 retreating', cat)
+        this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatParry") + ' (' + (actor.system.equippedparry + 1) + ')', 'PARRY +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
     if (!!actor.system.equippedblock) {
       cat = this._addDefense(tokenId, this.i18n('GURPS.block') + ' (' + actor.system.equippedblock + ')', 'BLOCK')
-      this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatblock") + ' (' + (actor.system.equippedblock + 1) + ')', 'BLOCK +1 retreating', cat)
+      this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatBlock") + ' (' + (actor.system.equippedblock + 1) + ')', 'BLOCK +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
     return result;
@@ -282,7 +282,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         encodedValue: ["otf", tokenId, attribute].join(this.delimiter),
       });
       attributeCategory.actions.push({
-        name: this.i18n('tokenactionhud.gurps.blindroll') + ' ' + name,
+        name: this.i18n('tokenActionHud.gurps.blindRoll') + ' ' + name,
         encodedValue: ["otf", tokenId, '!' + attribute].join(this.delimiter),
       });
      

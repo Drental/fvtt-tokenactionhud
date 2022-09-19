@@ -13,8 +13,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   appName = app;
 
   game.settings.register(appName, "rollHandler", {
-    name: game.i18n.localize("tokenactionhud.settings.rollHandler.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.rollHandler.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.rollHandler.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.rollHandler.hint"),
     scope: "world",
     config: true,
     type: String,
@@ -26,8 +26,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "style", {
-    name: game.i18n.localize("tokenactionhud.settings.style.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.style.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.style.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.style.hint"),
     scope: "client",
     config: true,
     type: String,
@@ -42,8 +42,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "scale", {
-    name: game.i18n.localize("tokenactionhud.settings.scale.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.scale.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.scale.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.scale.hint"),
     scope: "client",
     config: true,
     type: Number,
@@ -59,8 +59,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "enabledForUser", {
-    name: game.i18n.localize("tokenactionhud.settings.enabledForUser.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.enabledForUser.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.enabledForUser.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.enabledForUser.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -71,8 +71,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "playerPermission", {
-    name: game.i18n.localize("tokenactionhud.settings.playerPermission.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.playerPermission.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.playerPermission.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.playerPermission.hint"),
     scope: "world",
     config: true,
     type: Boolean,
@@ -83,8 +83,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "alwaysShowHud", {
-    name: game.i18n.localize("tokenactionhud.settings.alwaysShowHud.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.alwaysShowHud.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.alwaysShowHud.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.alwaysShowHud.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -95,8 +95,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "showHudTitle", {
-    name: game.i18n.localize("tokenactionhud.settings.showHudTitle.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.showHudTitle.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.showHudTitle.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.showHudTitle.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -107,8 +107,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "showIcons", {
-    name: game.i18n.localize("tokenactionhud.settings.showIcons.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.showIcons.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.showIcons.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.showIcons.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -120,10 +120,10 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
 
   game.settings.register(appName, "alwaysShowAdditionalCategories", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.alwaysShowAdditionalCategories.name"
+      "tokenActionHud.settings.alwaysShowAdditionalCategories.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.alwaysShowAdditionalCategories.hint"
+      "tokenActionHud.settings.alwaysShowAdditionalCategories.hint"
     ),
     scope: "client",
     config: true,
@@ -135,8 +135,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "clickOpenCategory", {
-    name: game.i18n.localize("tokenactionhud.settings.clickOpenCategory.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.clickOpenCategory.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.clickOpenCategory.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.clickOpenCategory.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -150,10 +150,10 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   if (game.modules.get("itemacro")?.active) {
     game.settings.register(appName, "itemMacroReplace", {
       name: game.i18n.localize(
-        "tokenactionhud.settings.dnd5e.itemMacroReplace.name"
+        "tokenActionHud.dnd5e.settings.itemMacroReplace.name"
       ),
       hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd5e.itemMacroReplace.hint"
+        "tokenActionHud.dnd5e.settings.itemMacroReplace.hint"
       ),
       scope: "client",
       config: true,
@@ -172,10 +172,10 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
 
   game.settings.register(appName, "renderItemOnRightClick", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.renderItemOnRightClick.name"
+      "tokenActionHud.settings.renderItemOnRightClick.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.renderItemOnRightClick.hint"
+      "tokenActionHud.settings.renderItemOnRightClick.hint"
     ),
     scope: "client",
     config: true,
@@ -187,8 +187,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "activeCssAsText", {
-    name: game.i18n.localize("tokenactionhud.settings.activeCssAsText.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.activeCssAsText.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.activeCssAsText.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.activeCssAsText.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -199,8 +199,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "dropdown", {
-    name: game.i18n.localize("tokenactionhud.settings.dropdown.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.dropdown.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.dropdown.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.dropdown.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -211,8 +211,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "onTokenHover", {
-    name: game.i18n.localize("tokenactionhud.settings.onTokenHover.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.onTokenHover.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.onTokenHover.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.onTokenHover.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -223,8 +223,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
   });
 
   game.settings.register(appName, "debug", {
-    name: game.i18n.localize("tokenactionhud.settings.debug.name"),
-    hint: game.i18n.localize("tokenactionhud.settings.debug.hint"),
+    name: game.i18n.localize("tokenActionHud.settings.debug.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.debug.hint"),
     scope: "client",
     config: true,
     type: Boolean,
@@ -264,8 +264,8 @@ function registerColorSettings(appName) {
     appName,
     "background",
     {
-      name: game.i18n.localize("tokenactionhud.settings.background.name"),
-      hint: game.i18n.localize("tokenactionhud.settings.background.hint"),
+      name: game.i18n.localize("tokenActionHud.settings.background.name"),
+      hint: game.i18n.localize("tokenActionHud.settings.background.hint"),
       scope: "client",
       restricted: true,
       default: "#00000000",
@@ -283,8 +283,8 @@ function registerColorSettings(appName) {
     appName,
     "buttonBackgroundColor",
     {
-      name: game.i18n.localize("tokenactionhud.settings.buttonBackgroundColor.name"),
-      hint: game.i18n.localize("tokenactionhud.settings.buttonBackgroundColor.hint"),
+      name: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.name"),
+      hint: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.hint"),
       scope: "client",
       restricted: true,
       default: "#00000080",
@@ -302,8 +302,8 @@ function registerColorSettings(appName) {
     appName,
     "buttonBorderColor",
     {
-      name: game.i18n.localize("tokenactionhud.settings.buttonBorderColor.name"),
-      hint: game.i18n.localize("tokenactionhud.settings.buttonBorderColor.hint"),
+      name: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.name"),
+      hint: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.hint"),
       scope: "client",
       restricted: true,
       default: "#000000ff",

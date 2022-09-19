@@ -2,7 +2,7 @@ import { RollHandler } from "../rollHandler.js";
 import * as settings from "../../settings.js";
 
 export class RollHandlerBasePf2e extends RollHandler {
-  BLIND_ROLL_MODE = "blindroll";
+  BLIND_ROLL_MODE = "blindRoll";
 
   constructor() {
     super();

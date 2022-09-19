@@ -24,7 +24,7 @@ export class ActionHandlerKg extends ActionHandler {
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.attack"),
+        this.i18n("tokenActionHud.attack"),
         attack
       );
     } else if (actorType === "character") {
@@ -36,27 +36,27 @@ export class ActionHandlerKg extends ActionHandler {
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.mainStats"),
+        this.i18n("tokenActionHud.kamigakari.mainStats"),
         mainStat
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.subStats"),
+        this.i18n("tokenActionHud.kamigakari.subStats"),
         subStat
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.spiritBurn"),
+        this.i18n("tokenActionHud.kamigakari.spiritBurn"),
         spiritBurn
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.talents"),
+        this.i18n("tokenActionHud.talents"),
         talents
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.items"),
+        this.i18n("tokenActionHud.kamigakari.items"),
         items
       );
     }
@@ -79,7 +79,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.mainStats"),
+      this.i18n("tokenActionHud.kamigakari.mainStats"),
       mainStatCategory
     );
 
@@ -101,7 +101,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.subStats"),
+      this.i18n("tokenActionHud.kamigakari.subStats"),
       subStatCategory
     );
 
@@ -114,15 +114,15 @@ export class ActionHandlerKg extends ActionHandler {
     let burns = [
       {
         id: "transcend",
-        name: this.i18n("tokenactionhud.kamigakari.transcend"),
+        name: this.i18n("tokenActionHud.kamigakari.transcend"),
       },
       {
         id: "vitalIgnition",
-        name: this.i18n("tokenactionhud.kamigakari.vitalIgnition"),
+        name: this.i18n("tokenActionHud.kamigakari.vitalIgnition"),
       },
       {
         id: "conceptDestruction",
-        name: this.i18n("tokenactionhud.kamigakari.conceptDestruction"),
+        name: this.i18n("tokenActionHud.kamigakari.conceptDestruction"),
       },
     ];
     let actions = this._produceMap(tokenId, burns, "burn");
@@ -131,7 +131,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.spiritBurn"),
+      this.i18n("tokenActionHud.kamigakari.spiritBurn"),
       burnCategory
     );
 
@@ -151,37 +151,37 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.start"),
+      this.i18n("tokenActionHud.kamigakari.start"),
       start
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.prep"),
+      this.i18n("tokenActionHud.kamigakari.prep"),
       prep
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.attack"),
+      this.i18n("tokenActionHud.kamigakari.attack"),
       attack
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.free"),
+      this.i18n("tokenActionHud.kamigakari.free"),
       free
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.defense"),
+      this.i18n("tokenActionHud.kamigakari.defense"),
       defense
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.end"),
+      this.i18n("tokenActionHud.kamigakari.end"),
       end
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.constant"),
+      this.i18n("tokenActionHud.kamigakari.constant"),
       constant
     );
 
@@ -207,37 +207,37 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.start"),
+      this.i18n("tokenActionHud.kamigakari.start"),
       start
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.prep"),
+      this.i18n("tokenActionHud.kamigakari.prep"),
       prep
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.attack"),
+      this.i18n("tokenActionHud.kamigakari.attack"),
       attack
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.free"),
+      this.i18n("tokenActionHud.kamigakari.free"),
       free
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.defense"),
+      this.i18n("tokenActionHud.kamigakari.defense"),
       defense
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.end"),
+      this.i18n("tokenActionHud.kamigakari.end"),
       end
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.constant"),
+      this.i18n("tokenActionHud.kamigakari.constant"),
       constant
     );
 
@@ -275,17 +275,17 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       equipment
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.sacraments"),
+      this.i18n("tokenActionHud.kamigakari.sacraments"),
       sacraments
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.consumables"),
+      this.i18n("tokenActionHud.kamigakari.consumables"),
       consumables
     );
 

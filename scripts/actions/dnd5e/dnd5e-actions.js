@@ -72,7 +72,7 @@ export class ActionHandler5e extends ActionHandler {
     const abilities = actor.system.abilities;
 
     if (settings.get("splitAbilities")) {
-      const savesTitle = this.i18n("tokenactionhud.saves");
+      const savesTitle = this.i18n("tokenActionHud.dnd5e.saves");
       const savesCat = this._getAbilityList(
         token.id,
         abilities,
@@ -82,12 +82,12 @@ export class ActionHandler5e extends ActionHandler {
       );
       savesCat.name = savesTitle;
 
-      const checksTitle = this.i18n("tokenactionhud.checks");
+      const checksTitle = this.i18n("tokenActionHud.dnd5e.checks");
       const checksCat = this._getAbilityList(
         token.id,
         abilities,
         "checks",
-        this.i18n("tokenactionhud.checks"),
+        this.i18n("tokenActionHud.dnd5e.checks"),
         "abilityCheck"
       );
       checksCat.name = checksTitle;
@@ -99,7 +99,7 @@ export class ActionHandler5e extends ActionHandler {
       token.id,
       abilities,
       "abilities",
-      this.i18n("tokenactionhud.abilities"),
+      this.i18n("tokenActionHud.dnd5e.abilities"),
       "ability"
     );
   }
@@ -119,8 +119,8 @@ export class ActionHandler5e extends ActionHandler {
     this._addMultiSkills(list, tokenId);
 
     if (settings.get("splitAbilities")) {
-      let savesTitle = this.i18n("tokenactionhud.saves");
-      let checksTitle = this.i18n("tokenactionhud.checks");
+      let savesTitle = this.i18n("tokenActionHud.dnd5e.saves");
+      let checksTitle = this.i18n("tokenActionHud.dnd5e.checks");
       this._addMultiAbilities(
         list,
         tokenId,
@@ -136,7 +136,7 @@ export class ActionHandler5e extends ActionHandler {
         "abilityCheck"
       );
     } else {
-      let abilitiesTitle = this.i18n("tokenactionhud.abilities");
+      let abilitiesTitle = this.i18n("tokenActionHud.dnd5e.abilities");
       this._addMultiAbilities(
         list,
         tokenId,
@@ -223,14 +223,14 @@ export class ActionHandler5e extends ActionHandler {
     let toolsCat = this.initializeEmptySubcategory();
     toolsCat.actions = toolsActions;
 
-    let weaponsTitle = this.i18n("tokenactionhud.weapons");
-    let equipmentTitle = this.i18n("tokenactionhud.equipment");
-    let otherTitle = this.i18n("tokenactionhud.other");
-    let consumablesTitle = this.i18n("tokenactionhud.consumables");
-    let toolsTitle = this.i18n("tokenactionhud.tools");
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
+    let equipmentTitle = this.i18n("tokenActionHud.equipment");
+    let otherTitle = this.i18n("tokenActionHud.other");
+    let consumablesTitle = this.i18n("tokenActionHud.consumables");
+    let toolsTitle = this.i18n("tokenActionHud.tools");
 
     let result = this.initializeEmptyCategory("inventory");
-    result.name = this.i18n("tokenactionhud.inventory");
+    result.name = this.i18n("tokenActionHud.inventory");
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
     this._combineSubcategoryWithCategory(result, equipmentTitle, equipmentCat);
@@ -268,10 +268,10 @@ export class ActionHandler5e extends ActionHandler {
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
 
-    let weaponsTitle = this.i18n("tokenactionhud.weapons");
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
 
     let result = this.initializeEmptyCategory("weapons");
-    result.name = this.i18n("tokenactionhud.weapons");
+    result.name = this.i18n("tokenActionHud.weapons");
 
     this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
 
@@ -398,8 +398,8 @@ export class ActionHandler5e extends ActionHandler {
         } else {
           levelKey = "spell" + level;
           levelName = level
-            ? `${this.i18n("tokenactionhud.level")} ${level}`
-            : this.i18n("tokenactionhud.cantrips");
+            ? `${this.i18n("tokenActionHud.level")} ${level}`
+            : this.i18n("tokenActionHud.cantrips");
         }
 
         levelInfo = spellSlotInfo.find((lvl) => lvl[0] === levelKey)?.[1];
@@ -445,10 +445,10 @@ export class ActionHandler5e extends ActionHandler {
     );
 
     let result = this.initializeEmptyCategory("spells");
-    result.name = this.i18n("tokenactionhud.spells");
+    result.name = this.i18n("tokenActionHud.spells");
 
-    let powersTitle = this.i18n("tokenactionhud.powers");
-    let booksTitle = this.i18n("tokenactionhud.books");
+    let powersTitle = this.i18n("tokenActionHud.powers");
+    let booksTitle = this.i18n("tokenActionHud.books");
 
     this._combineSubcategoryWithCategory(result, powersTitle, powers);
     this._combineSubcategoryWithCategory(result, booksTitle, book);
@@ -556,14 +556,14 @@ export class ActionHandler5e extends ActionHandler {
     );
 
     let result = this.initializeEmptyCategory("feats");
-    result.name = this.i18n("tokenactionhud.features");
+    result.name = this.i18n("tokenActionHud.features");
 
-    let activeTitle = this.i18n("tokenactionhud.active");
-    let legendaryTitle = this.i18n("tokenactionhud.legendary");
-    let lairTitle = this.i18n("tokenactionhud.lair");
-    let actionsTitle = this.i18n("tokenactionhud.actions");
-    let featuresTitle = this.i18n("tokenactionhud.features");
-    let reactionsTitle = this.i18n("tokenactionhud.reactions");
+    let activeTitle = this.i18n("tokenActionHud.active");
+    let legendaryTitle = this.i18n("tokenActionHud.dnd5e.legendary");
+    let lairTitle = this.i18n("tokenActionHud.dnd5e.lair");
+    let actionsTitle = this.i18n("tokenActionHud.actions");
+    let featuresTitle = this.i18n("tokenActionHud.features");
+    let reactionsTitle = this.i18n("tokenActionHud.reactions");
   
     this._combineSubcategoryWithCategory(result, activeTitle, active);
     this._combineSubcategoryWithCategory(result, legendaryTitle, legendary);
@@ -573,7 +573,7 @@ export class ActionHandler5e extends ActionHandler {
     this._combineSubcategoryWithCategory(result, reactionsTitle, reactions);
     
     if (!settings.get("ignorePassiveFeats")) {
-      let passiveTitle = this.i18n("tokenactionhud.passive");
+      let passiveTitle = this.i18n("tokenActionHud.passive");
       this._combineSubcategoryWithCategory(result, passiveTitle, passive);
     }
 
@@ -587,7 +587,7 @@ export class ActionHandler5e extends ActionHandler {
     const skills = actor.system.skills;
 
     let result = this.initializeEmptyCategory("skills");
-    result.name = this.i18n("tokenactionhud.skills");
+    result.name = this.i18n("tokenActionHud.dnd5e.skills");
     let macroType = "skill";
 
     let abbr = settings.get("abbreviateSkills");
@@ -615,7 +615,7 @@ export class ActionHandler5e extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.dnd5e.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
 
     return result;
@@ -636,7 +636,7 @@ export class ActionHandler5e extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.dnd5e.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
     this._combineCategoryWithList(list, skillsTitle, result, true);
   }
@@ -693,7 +693,7 @@ export class ActionHandler5e extends ActionHandler {
     const actor = token.actor;
 
     let result = this.initializeEmptyCategory("utility");
-    result.name = this.i18n("tokenactionhud.utility");
+    result.name = this.i18n("tokenActionHud.utility");
     let macroType = "utility";
 
     let rests = this.initializeEmptySubcategory();
@@ -708,7 +708,7 @@ export class ActionHandler5e extends ActionHandler {
       rests.actions.push({
         id: "shortRest",
         encodedValue: shortRestValue,
-        name: this.i18n("tokenactionhud.shortRest"),
+        name: this.i18n("tokenActionHud.shortRest"),
       });
       let longRestValue = [macroType, token.id, "longRest"].join(
         this.delimiter
@@ -716,7 +716,7 @@ export class ActionHandler5e extends ActionHandler {
       rests.actions.push({
         id: "longRest",
         encodedValue: longRestValue,
-        name: this.i18n("tokenactionhud.longRest"),
+        name: this.i18n("tokenActionHud.longRest"),
       });
 
       if (actor.system.attributes.hp.value <= 0) {
@@ -726,7 +726,7 @@ export class ActionHandler5e extends ActionHandler {
         let deathSaveAction = {
           id: "deathSave",
           encodedValue: deathSaveValue,
-          name: this.i18n("tokenactionhud.deathSave"),
+          name: this.i18n("tokenActionHud.dnd5e.deathSave"),
         };
         utility.actions.push(deathSaveAction);
       }
@@ -737,7 +737,7 @@ export class ActionHandler5e extends ActionHandler {
       let inspirationAction = {
         id: "inspiration",
         encodedValue: inspirationValue,
-        name: this.i18n("tokenactionhud.inspiration"),
+        name: this.i18n("tokenActionHud.inspiration"),
       };
       inspirationAction.cssClass = actor.system.attributes?.inspiration
         ? "active"
@@ -747,12 +747,12 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rests"),
+      this.i18n("tokenActionHud.rests"),
       rests
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utility
     );
 
@@ -763,7 +763,7 @@ export class ActionHandler5e extends ActionHandler {
   _buildEffectsCategory(token) {
     if (settings.get("showEffectsCategory") === false) return;
     let result = this.initializeEmptyCategory("effects");
-    result.name = this.i18n("tokenactionhud.effects");
+    result.name = this.i18n("tokenActionHud.effects");
     this._addEffectsSubcategories(token.actor, token.id, result);
     return result;
   }
@@ -772,7 +772,7 @@ export class ActionHandler5e extends ActionHandler {
   _buildConditionsCategory(token) {
     if (settings.get("showConditionsCategory") === false) return;
     let result = this.initializeEmptyCategory("conditions");
-    result.name = this.i18n("tokenactionhud.conditions");
+    result.name = this.i18n("tokenActionHud.conditions");
     this._addConditionsSubcategory(token.actor, token.id, result);
     return result;
   }
@@ -807,12 +807,12 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.temporary"),
+      this.i18n("tokenActionHud.temporary"),
       tempCategory
     );
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.passive"),
+      this.i18n("tokenActionHud.passive"),
       passiveCategory
     );
   }
@@ -857,7 +857,7 @@ export class ActionHandler5e extends ActionHandler {
       conditions.actions.push(action);
     });
 
-    const conName = this.i18n("tokenactionhud.conditions");
+    const conName = this.i18n("tokenActionHud.conditions");
     this._combineSubcategoryWithCategory(category, conName, conditions);
     this._combineCategoryWithList(list, conName, category);
   }
@@ -896,7 +896,7 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.conditions"),
+      this.i18n("tokenActionHud.conditions"),
       conditions
     );
   }
@@ -916,7 +916,7 @@ export class ActionHandler5e extends ActionHandler {
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: this.i18n("tokenactionhud.rollInitiative"),
+      name: this.i18n("tokenActionHud.rollInitiative"),
     };
 
     if (currentInitiative) initiativeAction.info1 = currentInitiative;
@@ -930,7 +930,7 @@ export class ActionHandler5e extends ActionHandler {
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
-        name: this.i18n("tokenactionhud.endTurn"),
+        name: this.i18n("tokenActionHud.endTurn"),
       };
 
       combatSubcategory.actions.push(endTurnAction);
@@ -938,7 +938,7 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.combat"),
+      this.i18n("tokenActionHud.combat"),
       combatSubcategory
     );
   }
@@ -953,7 +953,7 @@ export class ActionHandler5e extends ActionHandler {
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
-      name: this.i18n("tokenactionhud.rollInitiative"),
+      name: this.i18n("tokenActionHud.rollInitiative"),
     };
 
     let isActive;
@@ -971,7 +971,7 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.combat"),
+      this.i18n("tokenActionHud.combat"),
       combatSubcategory
     );
   }
@@ -993,13 +993,13 @@ export class ActionHandler5e extends ActionHandler {
       rests.actions.push({
         id: "shortRest",
         encodedValue: shortRestValue,
-        name: this.i18n("tokenactionhud.shortRest"),
+        name: this.i18n("tokenActionHud.shortRest"),
       });
       let longRestValue = [macroType, tokenId, "longRest"].join(this.delimiter);
       rests.actions.push({
         id: "longRest",
         encodedValue: longRestValue,
-        name: this.i18n("tokenactionhud.longRest"),
+        name: this.i18n("tokenActionHud.longRest"),
       });
 
       let inspirationValue = [macroType, tokenId, "inspiration"].join(
@@ -1008,7 +1008,7 @@ export class ActionHandler5e extends ActionHandler {
       let inspirationAction = {
         id: "inspiration",
         encodedValue: inspirationValue,
-        name: this.i18n("tokenactionhud.inspiration"),
+        name: this.i18n("tokenActionHud.inspiration"),
       };
       inspirationAction.cssClass = actors.every(
         (a) => a.system.attributes?.inspiration
@@ -1020,17 +1020,17 @@ export class ActionHandler5e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.rests"),
+      this.i18n("tokenActionHud.rests"),
       rests
     );
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utility
     );
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       category
     );
   }
@@ -1061,7 +1061,7 @@ export class ActionHandler5e extends ActionHandler {
       !item.system.recharge.charged &&
       item.system.recharge.value
     ) {
-      result.name += ` (${this.i18n("tokenactionhud.recharge")})`;
+      result.name += ` (${this.i18n("tokenActionHud.recharge")})`;
     }
 
     return result;

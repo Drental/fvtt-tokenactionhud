@@ -58,7 +58,7 @@ export class RollHandlerBaseDw extends RollHandler {
     let flavour = damage.piercing;
 
     let formula = damageMod > 0 ? `${damageDie}+${damageMod}` : damageDie;
-    let title = this.i18n("tokenactionhud.damage");
+    let title = this.i18n("tokenActionHud.damage");
 
     let templateData = {
       title: title,
@@ -84,7 +84,7 @@ export class RollHandlerBaseDw extends RollHandler {
     let mod = ability.mod;
     let formula = `2d6+${mod}`;
 
-    let title = `${ability.label} ${game.i18n.localize("tokenactionhud.roll")}`;
+    let title = `${ability.label} ${game.i18n.localize("tokenActionHud.roll")}`;
     let abilityText = ability.label.toLowerCase();
 
     let templateData = {
