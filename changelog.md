@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.8] 2022-09-21
+- Core - refactore language files - thanks Larkinabout!
+- pf2e - allow actors to strike again in 4.1.0 - handiwork.
+
 ## [3.0.7] 2022-09-19
 - Core - Fix issue with loading styles on the Forge and some modules
 - SPACE 1889 - Entry "Active Defense" is missing for creatures - Fixes provided by Scepfari (#274) 
