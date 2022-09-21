@@ -24,23 +24,6 @@ export function register(appName, updateFunc) {
     })
   }
 
-  game.settings.register(appName, "categoriseAttributes", {
-    name: game.i18n.localize("tokenActionHud.dnd5e.settings.categoriseAttributes.name"),
-    hint: game.i18n.localize("tokenActionHud.dnd5e.settings.categoriseAttributes.hint"),
-    scope: "client",
-    config: true,
-    type: String,
-    default: "attributes",
-    choices: {
-      attributes: game.i18n.localize("tokenActionHud.dnd5e.settings.categoriseAttributes.choices.attributes"),
-      abilitiesSkills: game.i18n.localize("tokenActionHud.dnd5e.settings.categoriseAttributes.choices.abilitiesSkills"),
-      checksSavesSkills: game.i18n.localize("tokenActionHud.dnd5e.settings.categoriseAttributes.choices.checksSavesSkills")
-    },
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
   game.settings.register(appName, "ignorePassiveFeats", {
     name: game.i18n.localize(
       "tokenActionHud.dnd5e.settings.ignorePassiveFeats.name"
