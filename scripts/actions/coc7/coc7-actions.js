@@ -7,7 +7,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActionList(token, multipleTokens) {
+  async doBuildActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;

@@ -1,6 +1,7 @@
 export class TagDialog extends Dialog {
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
   tagify = null;
+  dragSort = null;
 
   constructor(dialogData, options) {
     super(options);
@@ -10,12 +11,11 @@ export class TagDialog extends Dialog {
   static showDialog(
     suggestions,
     selected,
-    indexChoice,
     title,
     hbsData,
     submitFunc
   ) {
-    TagDialog._prepareHook(suggestions, selected, indexChoice);
+    TagDialog._prepareHook(suggestions, selected);
 
     let template = Handlebars.compile(
       "{{> modules/token-action-hud/templates/tagdialog.hbs}}"
@@ -31,12 +31,14 @@ export class TagDialog extends Dialog {
           label: game.i18n.localize("tokenActionHud.accept"),
           callback: async (html) => {
             let selection = TagDialog.tagify.value.map((c) => {
-              return { id: c.id, value: c.value, type: c.type };
+              c.id = c.id ?? 
+              c.value.slugify({
+                replacement: "_",
+                strict: true,
+              });
+              return { id: c.id, title: c.value, type: c.type };
             });
-            let index = html.find('select[id="token-action-hud-index"]');
-            let indexValue;
-            if (index.length > 0) indexValue = index[0]?.value;
-            await submitFunc(selection, indexValue, html);
+            await submitFunc(selection, html);
           },
         },
         cancel: {
@@ -50,14 +52,13 @@ export class TagDialog extends Dialog {
     d.render(true);
   }
 
-  static _prepareHook(choices, selection, indexChoice) {
+  static _prepareHook(choices, selection) {
     Hooks.once("renderTagDialog", (app, html, options) => {
       html.css("height", "auto");
 
       var $index = html.find('select[id="token-action-hud-index"]');
       if ($index.length > 0) {
-        if (indexChoice) $index.val(indexChoice);
-
+      
         $index.css("background", "#fff");
         $index.css("color", "#000");
       }
@@ -79,6 +80,17 @@ export class TagDialog extends Dialog {
         if (choices) options.whitelist = choices;
 
         TagDialog.tagify = new Tagify($tagFilter[0], options);
+
+        TagDialog.dragSort = new DragSort(TagDialog.tagify.DOM.scope, {
+          selector: '.' + TagDialog.tagify.settings.classNames.tag,
+          callbacks: {
+              dragEnd: onDragEnd
+          }
+        })
+      
+        function onDragEnd(elm){
+          TagDialog.tagify.updateValueByDOMTags()
+        }
 
         var $tagifyBox = $(document).find(".tagify");
 

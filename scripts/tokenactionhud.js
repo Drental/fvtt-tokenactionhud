@@ -18,11 +18,10 @@ export class TokenActionHUD extends Application {
   }
 
   async init(user) {
+    await this.systemManager.registerDefaultFlags();
+    this.categoryManager = await this.systemManager.getCategoryManager(user);
     this.actions = await this.systemManager.getActionHandler(user);
-
-    this.rollHandler = this.systemManager.getRollHandler();
-    this.filterManager = this.systemManager.getFilterManager();
-    this.categoryManager = this.systemManager.getCategoryManager();
+    this.rollHandler = this.systemManager.getRollHandler(); 
   }
 
   updateSettings() {
@@ -89,7 +88,7 @@ export class TokenActionHUD extends Application {
       if (!advancedCategoryOptions?.compactView) continue;
 
       const characterCount = advancedCategoryOptions.characterCount ?? 2;
-      subcatRecursion(category);
+      if (category.subcategories) subcatRecursion(category);
 
       function subcatRecursion(category) {
         for (const subcategory of category.subcategories) {
@@ -163,14 +162,11 @@ export class TokenActionHUD extends Application {
       let id = target.value;
       let categoryTitle = target.innerText ?? target.outerText;
 
-      if (game.tokenActionHUD.categoryManager.isCompendiumCategory(id))
-        TagDialogHelper.showSubcategoryDialogue(
+      TagDialogHelper.showSubcategoryDialogue(
           game.tokenActionHUD.categoryManager,
           id,
           categoryTitle
         );
-      else
-        TagDialogHelper.showFilterDialog(game.tokenActionHUD.filterManager, id);
     }
 
     function handlePossibleFilterSubtitleClick(e) {

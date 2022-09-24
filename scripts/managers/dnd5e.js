@@ -1,6 +1,7 @@
 import { SystemManager } from "./manager.js";
 import { ActionHandler5e as ActionHandler } from "../actions/dnd5e/dnd5e-actions.js";
 import { ActionHandler5eGroupByType } from "../actions/dnd5e/dnd5e-actions-by-type.js";
+import { CategoryManager } from "../categories/categoryManager.js";
 import { MagicItemsPreRollHandler } from "../rollHandlers/dnd5e/pre-magicItems.js";
 import { MagicItemActionListExtender } from "../actions/magicItemsExtender.js";
 import { RollHandlerBase5e as Core } from "../rollHandlers/dnd5e/dnd5e-base.js";
@@ -12,6 +13,12 @@ import * as systemSettings from "../settings/dnd5e-settings.js";
 export class Dnd5eSystemManager extends SystemManager {
   constructor(appName) {
     super(appName);
+  }
+
+   /** @override */
+  doGetCategoryManager(user) {
+    const categoryManager = new CategoryManager(user);
+    return categoryManager;
   }
 
   /** @override */
@@ -74,5 +81,133 @@ export class Dnd5eSystemManager extends SystemManager {
   /** @override */
   doRegisterSettings(appName, updateFunc) {
     systemSettings.register(appName, updateFunc);
+  }
+
+  /** @override */
+  async doRegisterDefaultFlags() {
+    const defaultCategories = {
+      default: {
+        categories: {
+          inventory: { 
+            id: "inventory",
+            title: this.i18n("tokenActionHud.dnd5e.inventory"),
+            subcategories: {
+              inventory_weapons: { 
+                id: "weapons" ,
+                title: this.i18n("tokenActionHud.weapons"),
+                type: "core"
+              },
+              inventory_equipment: {
+                id: "equipment",
+                title: this.i18n("tokenActionHud.equipment"),
+                type: "core"
+              },
+              inventory_consumables: {
+                id: "consumables",
+                title: this.i18n("tokenActionHud.consumables"),
+                type: "core"
+              },
+              inventory_tools: {
+                id: "tools",
+                title: this.i18n("tokenActionHud.tools"),
+                type: "core"
+              }
+            }
+          },
+          features: { 
+            id: "features",   
+            title: this.i18n("tokenActionHud.features"),
+            subcategories: {
+              features_features: {
+                id: "features",
+                title: this.i18n("tokenActionHud.features"),
+                type: "core"
+              }
+            }
+          },
+          spells: { 
+            id: "spells",     
+            title: this.i18n("tokenActionHud.spells"), 
+            subcategories: {
+              spells_spells: {
+                id: "spells",
+                title: this.i18n("tokenActionHud.spells"),
+                type: "core"
+              }
+            }  
+          },
+          attributes: { 
+            id: "attributes", 
+            title: this.i18n("tokenActionHud.attributes"),
+            subcategories: {
+              attributes_checks: {
+                id: "checks",
+                title: this.i18n("tokenActionHud.checks"),
+                type: "core"
+              },
+              attributes_saves: {
+                id: "saves",
+                title: this.i18n("tokenActionHud.saves"),
+                type: "core"
+              },
+              attributes_skills: {
+                id: "skills",
+                title: this.i18n("tokenActionHud.skills"),
+                type: "core"
+              }
+            }  
+          },
+          effects: { 
+            id: "effects",    
+            title: this.i18n("tokenActionHud.effects"),
+            subcategories: {
+              effects_effects: {
+                id: "effects",
+                title: this.i18n("tokenActionHud.effects"),
+                type: "core"
+              }
+            }
+          },
+          conditions: { 
+            id: "conditions", 
+            title: this.i18n("tokenActionHud.conditions"),
+            subcategories: {
+              conditions_conditions: {
+                id: "conditions",
+                title: this.i18n("tokenActionHud.conditions"),
+                type: "core"
+              }
+            }
+          },
+          utility: { 
+            id: "utility", 
+            title: this.i18n("tokenActionHud.utility"),
+            subcategories: {
+              utility_combat: {
+                id: "combat",
+                title: this.i18n("tokenActionHud.combat"),
+                type: "core"
+              },
+              utility_token: {
+                id: "token",
+                title: this.i18n("tokenActionHud.token"),
+                type: "core"
+              },
+              utility_rests: {
+                id: "rests",
+                title: this.i18n("tokenActionHud.rests"),
+                type: "core"
+              },
+              utility_utility: {
+                id: "utility",
+                title: this.i18n("tokenActionHud.utility"),
+                type: "core"
+              }
+            }
+          }
+        }
+      } 
+    }
+    await game.user.update({flags: {"token-action-hud": defaultCategories}})
   }
 }

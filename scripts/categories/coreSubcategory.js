@@ -1,15 +1,15 @@
 import { MacroHelper } from "./macroHelper.js";
-import { SubcategoryType } from "../../enums/subcategoryType.js";
+import { SubcategoryType } from "../enums/subcategoryType.js";
 import { FilterSubcategory } from "./filterSubcategory.js";
 
-export class MacroSubcategory extends FilterSubcategory {
-  constructor(filterManager, categoryKey, title) {
+export class CoreSubcategory extends FilterSubcategory {
+  constructor(filterManager, categoryKey, subcategoryId, title) {
     super(filterManager, title);
-    this.id = `${categoryKey}_${title}`.slugify({
+    this.id = `${subcategoryId}`.slugify({
       replacement: "_",
       strict: true,
     });
-    this.type = SubcategoryType.MACRO;
+    this.type = SubcategoryType.CORE;
   }
 
   submitFilterSuggestions() {

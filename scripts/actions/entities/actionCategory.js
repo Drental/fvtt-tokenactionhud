@@ -1,7 +1,7 @@
 export class ActionCategory {
-  constructor() {
-    this.id = "";
-    this.name = "";
+  constructor(id = "", name = "") {
+    this.id = id;
+    this.name = name;
     this.cssClass = "";
     this.subcategories = [];
   }

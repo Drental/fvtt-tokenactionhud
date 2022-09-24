@@ -1,7 +1,6 @@
 import * as settings from "../settings.js";
 import { Logger } from "../logger.js";
-import { FilterManager } from "../actions/filter/filterManager.js";
-import { CategoryManager } from "../actions/categories/categoryManager.js";
+import { CategoryManager } from "../categories/categoryManager.js";
 import { ItemMacroActionListExtender } from "../actions/itemMacroExtender.js";
 import { CompendiumMacroPreHandler } from "../rollHandlers/compendiumMacroPreHandler.js";
 import { ItemMacroPreRollHandler } from "../rollHandlers/pre-itemMacro.js";
@@ -14,6 +13,8 @@ export class SystemManager {
     this.appName = appName;
   }
 
+  doGetCategoryManager() {}
+
   /** ACTION HANDLERS */
     /** OVERRIDDEN BY SYSTEM */
 
@@ -21,37 +22,30 @@ export class SystemManager {
     doGetRollHandler(handlerId) {}
     getAvailableRollHandlers() {}
     doRegisterSettings(appName, updateFunc) {}
+    async doRegisterDefaultFlags() {}
 
+  async registerDefaultFlags() {
+    await this.doRegisterDefaultFlags();
+  }
 
   async getActionHandler(user) {
-    this.filterManager = new FilterManager(user);
-    this.categoryManager = new CategoryManager(user, this.filterManager);
-
-    await this.categoryManager.init();
-
     let actionHandler = this.doGetActionHandler(
-      this.filterManager,
       this.categoryManager
     );
     this.addActionExtenders(actionHandler);
     return actionHandler;
   }
 
-  doGetActionHandler() {}
-
   addActionExtenders(actionHandler) {
     if (SystemManager.isModuleActive("itemacro"))
       actionHandler.addFurtherActionHandler(new ItemMacroActionListExtender());
   }
 
-  filterManager;
-  getFilterManager() {
-    return this.filterManager;
-  }
-
   categoryManager;
-  getCategoryManager() {
-    return this.categoryManager;
+  async getCategoryManager(user) {
+    let categoryManager = this.doGetCategoryManager(user);
+    await categoryManager.init();
+    return categoryManager
   }
 
   /** ROLL HANDLERS */

@@ -18,11 +18,16 @@
     "minimum": "10",
     "verified": "10.285"
   },
-  "scripts": ["./lib/tagify/tagify.min.js", "./scripts/bundle.min.js"],
+  "scripts": [
+    "./lib/tagify/tagify.min.js", 
+    "./lib/dragsort/dragsort.js", 
+    "./scripts/bundle.min.js"
+  ],
   "styles": [
     "./styles/token-action-hud.css", 
     "./styles/tah-dorako.css", 
-    "./styles/lib/tagify/tagify.css"
+    "./styles/lib/tagify/tagify.css",
+    "./styles/lib/dragsort/dragsort.css"
   ],
   "languages": [
     {

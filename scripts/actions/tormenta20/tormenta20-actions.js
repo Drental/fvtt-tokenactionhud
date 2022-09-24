@@ -8,7 +8,7 @@ export class ActionHandlerT20 extends ActionHandler {
   }
 
   /** @override */
-  doBuildActionList(token, multipleTokens) {
+  doBuildActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {

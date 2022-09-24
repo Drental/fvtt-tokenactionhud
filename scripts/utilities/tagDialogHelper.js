@@ -1,5 +1,5 @@
 import { TagDialog } from "../tagDialog.js";
-import { CompendiumHelper } from "../actions/categories/compendiumHelper.js";
+import { CompendiumHelper } from "../categories/compendiumHelper.js";
 
 export class TagDialogHelper {
   static showFilterDialog(filterManager, subcategoryId) {
@@ -18,8 +18,8 @@ export class TagDialogHelper {
     TagDialogHelper._showCategoryDialog(categoryManager);
   }
 
-  static async submitCategories(categoryManager, choices, push) {
-    await categoryManager.submitCategories(choices, push);
+  static async submitCategories(categoryManager, choices) {
+    await categoryManager.submitCategories(choices);
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
@@ -36,7 +36,6 @@ export class TagDialogHelper {
   static _showFilterDialog(filterManager, subcategoryId) {
     let suggestions = filterManager.getSuggestions(subcategoryId);
     let selected = filterManager.getFilteredElements(subcategoryId);
-    let indexChoice = filterManager.isBlocklist(subcategoryId) ? 1 : 0;
 
     let title = game.i18n.localize("tokenActionHud.filterTitle");
 
@@ -66,7 +65,6 @@ export class TagDialogHelper {
     TagDialog.showDialog(
       suggestions,
       selected,
-      indexChoice,
       title,
       hbsData,
       submitFunc
@@ -74,9 +72,13 @@ export class TagDialogHelper {
   }
 
   static _showSubcategoryDialogue(categoryManager, categoryId, categoryName) {
-    let suggestions = CompendiumHelper.getCompendiumChoicesAsTagifyEntries();
+    const defaultSubcategories = categoryManager.getDefaultSubcategoriesAsTagifyEntries();
+    let compendiumSuggestions = CompendiumHelper.getCompendiumChoicesAsTagifyEntries();
+    let suggestions = [];
+    suggestions.push(...defaultSubcategories, ...compendiumSuggestions);
+    
     let selected =
-      categoryManager.getCategorySubcategoriesAsTagifyEntries(categoryId);
+      categoryManager.getSubcategoriesAsTagifyEntries(categoryId);
 
     let title =
       game.i18n.localize("tokenActionHud.subcategoryTagTitle") +
@@ -89,14 +91,19 @@ export class TagDialogHelper {
       advancedCategoryOptions: game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`)
     };
 
-    let submitFunc = async (choices, indexValue, html) => {
-      let subcats = choices.map((c) => {
-        return { id: c.id, title: c.value, type: c.type };
+    let submitFunc = async (choices, html) => {
+      choices = choices.map((c) => {
+        c.id = c.id ?? 
+          c.title.slugify({
+            replacement: "_",
+            strict: true,
+          });
+        return { id: c.id, title: c.title, type: c.type };
       });
       await TagDialogHelper.submitSubcategories(
         categoryManager,
         categoryId,
-        subcats
+        choices
       );
       
       const customWidth = parseInt(html.find(`input[name="custom-width"]`).val());
@@ -109,7 +116,6 @@ export class TagDialogHelper {
     TagDialog.showDialog(
       suggestions,
       selected,
-      null,
       title,
       hbsData,
       submitFunc
@@ -117,8 +123,7 @@ export class TagDialogHelper {
   }
 
   static _showCategoryDialog(categoryManager) {
-    let selected = categoryManager.getExistingCategories();
-    let indexChoice = categoryManager.arePush() ? 1 : 0;
+    let selected = categoryManager.getCategoriesAsTagifyEntries();
     let title = game.i18n.localize("tokenActionHud.categoryTagTitle");
 
     let hbsData = {
@@ -134,15 +139,13 @@ export class TagDialogHelper {
       ],
     };
 
-    let submitFunc = async (choices, indexValue) => {
-      let push = parseInt(indexValue) != 0 ? true : false;
-      await TagDialogHelper.submitCategories(categoryManager, choices, push);
+    let submitFunc = async (choices) => {
+      await TagDialogHelper.submitCategories(categoryManager, choices);
     };
 
     TagDialog.showDialog(
       null,
       selected,
-      indexChoice,
       title,
       hbsData,
       submitFunc

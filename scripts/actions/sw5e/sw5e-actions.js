@@ -8,7 +8,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   }
 
   /** @override */
-  doBuildActionList(token, multipleTokens) {
+  doBuildActions(token, multipleTokens) {
     if (token) {
       return this._buildSingleTokenList(token);
     } else if (multipleTokens) {

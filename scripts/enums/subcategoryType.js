@@ -1,4 +1,5 @@
 export const SubcategoryType = {
+  CORE: "core",
   MACRO: "macro",
-  COMPENDIUM: "comp",
+  COMPENDIUM: "comp"
 };

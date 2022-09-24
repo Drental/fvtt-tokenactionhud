@@ -1,7 +1,8 @@
+import { CoreSubcategory } from "./coreSubcategory.js";
 import { CompendiumSubcategory } from "./compendiumSubcategory.js";
 import { MacroSubcategory } from "./macroSubcategory.js";
 import { CompendiumHelper } from "./compendiumHelper.js";
-import { SubcategoryType } from "../../enums/subcategoryType.js";
+import { SubcategoryType } from "../enums/subcategoryType.js";
 
 export class FilterCategory {
   subcategories = [];
@@ -58,9 +59,18 @@ export class FilterCategory {
 
   async selectSubcategories(selection) {
     for (let subcat of selection) {
-      if (subcat.type === SubcategoryType.COMPENDIUM)
-        await this.addCompendiumSubcategory(subcat);
-      else this.addMacroSubcategory(subcat);
+      switch (subcat.type) {
+        case SubcategoryType.CORE:
+          await this.addCoreSubcategory(subcat);
+          break;
+        case SubcategoryType.COMPENDIUM:
+          await this.addCompendiumSubcategory(subcat);
+          break;
+        case SubcategoryType.MACRO:  
+        default:
+          this.addMacroSubcategory(subcat);
+          break;
+      }
     }
 
     if (this.subcategories.length === 0) return;
@@ -72,6 +82,19 @@ export class FilterCategory {
     }
 
     await this.updateFlag();
+  }
+
+  async addCoreSubcategory(subcategory) {
+    let hudCore = new CoreSubcategory(
+      this.filterManager,
+      this.key,
+      subcategory.id,
+      subcategory.title
+    );
+    hudCore.createFilter();
+    hudCore.submitFilterSuggestions();
+
+    this.subcategories.push(hudCore);
   }
 
   async addCompendiumSubcategory(compendium) {

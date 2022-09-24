@@ -1,8 +1,8 @@
 export class ActionList {
-  constructor() {
-    this.hudTitle = "";
-    this.tokenId = "";
-    this.actorId = "";
+  constructor(hudTitle = "", tokenId = "", actorId = "") {
+    this.hudTitle = hudTitle;
+    this.tokenId = tokenId;
+    this.actorId = actorId;
     this.categories = [];
   }
 }

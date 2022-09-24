@@ -12,7 +12,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActionList(token, multipleTokens) {
+  async doBuildActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
@@ -389,22 +389,22 @@ export class ActionHandlerPf2e extends ActionHandler {
       let damageEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.label + ">damage>" + usage),
+        encodeURIComponent(s.name + ">damage>" + usage),
       ].join(this.delimiter);
       let critEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.label + ">critical>" + usage),
+        encodeURIComponent(s.name + ">critical>" + usage),
       ].join(this.delimiter);
       subcategory.actions.push({
         name: this.i18n("tokenActionHud.damage"),
         encodedValue: damageEncodedValue,
-        id: encodeURIComponent(s.label + ">damage>" + usage),
+        id: encodeURIComponent(s.name + ">damage>" + usage),
       });
       subcategory.actions.push({
         name: this.i18n("tokenActionHud.critical"),
         encodedValue: critEncodedValue,
-        id: encodeURIComponent(s.label + ">critical>" + usage),
+        id: encodeURIComponent(s.name + ">critical>" + usage),
       });
 
       let ammoAction = this._ammoInfo(tokenId, actor, s);
@@ -435,7 +435,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       });
     }
 
-    this._combineSubcategoryWithCategory(category, usage ? usage : s.label, subcategory);
+    this._combineSubcategoryWithCategory(category, usage ? usage : s.name, subcategory);
     if (!usage && s.altUsages) {
       for (const altUsage of s.altUsages) {
         this._buildStrikeSubcategory(altUsage, category, altUsage.item.isMelee ? "melee" : "thrown", tokenId, actor);

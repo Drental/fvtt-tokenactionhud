@@ -8,7 +8,7 @@ export class ActionHandlerGURPS extends ActionHandler {
     }
 
 
-    doBuildActionList(token, multipleTokens) {
+    doBuildActions(token, multipleTokens) {
       let result = this.initializeEmptyActionList();
       if (!GURPS) return result;  // If the GURPS Global is not defined, do nothing
       if (!token) return result;

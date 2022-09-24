@@ -7,7 +7,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActionList(token, multipleTokens) {
+  async doBuildActions(token, multipleTokens) {
     let attributes = {};
     let skills = {};
     let weapons = {};
@@ -57,7 +57,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     }
     utility = this._getUtilityList(tokenId);
 
-    // // console.log('ActionHandlerForbiddenLands -> doBuildActionList -> utility', utility);
+    // // console.log('ActionHandlerForbiddenLands -> doBuildActions -> utility', utility);
     switch (actor.type) {
       case 'character':
         this._combineCategoryWithList(result, this.i18n('tokenActionHud.attributes'), attributes);

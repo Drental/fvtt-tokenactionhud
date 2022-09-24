@@ -7,40 +7,30 @@ export class GenericActionHandler {
     this.baseHandler = baseHandler;
   }
 
-  addGenericCategories(token, actionList, isMultipleTokens) {
-    this._addConditions(token, actionList, isMultipleTokens);
-    this._addUtilities(token, actionList, isMultipleTokens);
+  addGenericCategories(actionList, token, isMultipleTokens) {
+    this._addConditions(actionList, token, isMultipleTokens);
+    this._addUtilities(actionList, token, isMultipleTokens);
   }
 
   /** @private */
-  _addConditions(token, actionList, isMultipleTokens) {}
+  _addConditions(actionList, token, isMultipleTokens) {}
 
   /** @private */
-  _addUtilities(token, actionList, isMultipleTokens) {
-    if (settings.get("showUtilityCategory") === false) return;
-    
-    let utilityCategory = actionList.categories.find((c) => c.id === "utility");
-    if (!utilityCategory) {
-      utilityCategory = this.baseHandler.initializeEmptyCategory("utility");
-      utilityCategory.name = this.baseHandler.i18n("tokenActionHud.utility");
-      actionList.categories.push(utilityCategory);
-    }
-
+  _addUtilities(actionList, token, isMultipleTokens) {
     if (isMultipleTokens) {
       const tokens = canvas.tokens.controlled;
-      this._addMultiUtilities(utilityCategory, tokens);
+      this._addMultiUtilities(actionList, tokens);
     } else {
-      this._getUtilityList(utilityCategory, token.id);
+      this._getUtilityList(actionList, token);
     }
   }
 
   /** @private */
-  _getUtilityList(utilityCategory, tokenId) {
+  _getUtilityList(actionList, token) {
+    const tokenId = token.id;
     let macroType = "utility";
 
-    // Token Subcategory
-    let tokenSubcategory = this.baseHandler.initializeEmptySubcategory();
-
+    let actions = [];
     // Toggle Combat
     const inCombat = canvas.tokens.placeables.find((t) => t.id === tokenId).inCombat
     const name = (inCombat) 
@@ -54,7 +44,7 @@ export class GenericActionHandler {
       encodedValue: combatStateValue,
       name: name,
     };
-    tokenSubcategory.actions.push(combatAction);
+    actions.push(combatAction);
 
     // Toggle Visibility
     if (game.user.isGM) {
@@ -70,11 +60,10 @@ export class GenericActionHandler {
         encodedValue: visbilityValue,
         name: name,
       };
-      tokenSubcategory.actions.push(visibilityAction);
+      actions.push(visibilityAction);
     }
 
-    const tokenTitle = this.baseHandler.i18n("tokenActionHud.token")
-    this.baseHandler._combineSubcategoryWithCategory(utilityCategory, tokenTitle, tokenSubcategory);
+    this.baseHandler._mapActions(actionList, actions, "token");
   }
 
   /** @private */

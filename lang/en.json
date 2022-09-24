@@ -401,6 +401,7 @@
       "attributes": "Attributes", 
       "checks": "Checks",
       "deathSave": "Death Save",
+      "inventory": "Inventory",
       "lair": "Lair",
       "lairActions": "Lair Actions",
       "legendary": "Legendary",

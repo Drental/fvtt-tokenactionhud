@@ -13,39 +13,75 @@ export class ActionHandler {
   linkedCompendiumsPlayer = [];
   furtherActionHandlers = [];
   delimiter = "|";
-
-  filterManager = null;
-
-  constructor(filterManager, categoryManager) {
-    this.filterManager = filterManager;
+  
+  constructor(categoryManager) {
     this.categoryManager = categoryManager;
     this.genericActionHandler = new GenericActionHandler(this);
   }
 
   /** @public */
-  async registerCoreCategories(categories) {
-    await this.categoryManager.addCoreCategories(categories);
-  }
-
-  /** @public */
   async buildActionList(token, multipleTokens) {
-    let actionList = await this.doBuildActionList(token, multipleTokens);
-    this._addGenericCategories(token, actionList, multipleTokens);
-    this._doBuildFurtherActions(token, actionList, multipleTokens);
-    await this.registerCoreCategories(actionList.categories);
-    await this.categoryManager.addCategoriesToActionList(this, actionList);
+    const emptyActionList = this._buildEmptyActionList(token, multipleTokens);
+    const actionList = await this.doBuildActions(emptyActionList, token, multipleTokens);
+    this._addGenericCategories(actionList, token, multipleTokens);
+    this._doBuildFurtherActions(actionList, token, multipleTokens);
     return actionList;
   }
 
+  _buildEmptyActionList(token, multipleTokens) {
+    let hudTitle = "";
+    if (settings.get("showHudTitle")) hudTitle = token?.name;
+    const tokenId = token?.id;
+    const actorId = token?.actor?.id;
+    let emptyActionList = new ActionList(hudTitle, tokenId, actorId);
+
+    const categories = game.user.flags["token-action-hud"]?.categories ?? 
+      game.user.flags["token-action-hud"]?.default.categories;
+    for (const category of Object.values(categories)) {
+      emptyActionList.categories.push(new ActionCategory(category.id, category.title));
+
+      const subcategories = category.subcategories;
+      if (subcategories) {
+        for (const subcategory of Object.values(subcategories)) {
+          emptyActionList.categories.find(c => c.id === category.id)
+            .subcategories.push(new ActionSubcategory(subcategory.id, subcategory.title));
+        }
+      }
+    }
+    return emptyActionList;
+  }
+
   /** @public */
-  doBuildActionList(token) { }
+  async registerDefaultCategories() {}
+
+  /** @public */
+  doBuildActions(emptyActionList, token, multipleTokens) {}
+  
+  /** @public */
+  _mapSubcategories(actionList, subcategories, subcategoryId) {
+    Object.values(actionList.categories)
+    .map(c => c.subcategories
+      .filter(sc => sc.id === subcategoryId)
+      .map(sc => sc.subcategories = subcategories)
+    );
+  }
+
+  /** @public */
+  _mapActions(actionList, actions, subcategoryId) {
+    Object.values(actionList.categories)
+    .filter(c => c.subcategories)
+    .map(c => Object.values(c.subcategories)
+      .filter(sc => sc.id === subcategoryId)
+      .map(sc => sc.actions = actions)
+    );
+  }
 
   /** @protected */
-  _addGenericCategories(token, actionList, multipleTokens) {
+  _addGenericCategories(actionList, token, multipleTokens) {
     if (token || multipleTokens)
       this.genericActionHandler.addGenericCategories(
-        token,
         actionList,
+        token,
         multipleTokens
       );
   }
@@ -87,24 +123,14 @@ export class ActionHandler {
     return category;
   }
 
-  initializeEmptySubcategory(id = "", i18nKey = null) {
-    let subcategory = new ActionSubcategory();
-    subcategory.id = id;
-    if (i18nKey) {
-      subcategory.name = this.i18n(i18nKey);
-    }
+  initializeEmptySubcategory(id = "", name = "") {
+    let subcategory = new ActionSubcategory(id, name);
     return subcategory;
   }
 
   /** @protected */
   _combineCategoryWithList(result, categoryName, category, push = true) {
     if (!category) return;
-
-    if (
-      category.subcategories.length === 0 &&
-      (category.core || category.core === undefined)
-    )
-      return;
 
     if (categoryName?.length > 0) category.name = categoryName;
 

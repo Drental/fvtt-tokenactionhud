@@ -1,5 +1,5 @@
 import { CompendiumHelper } from "./compendiumHelper.js";
-import { SubcategoryType } from "../../enums/subcategoryType.js";
+import { SubcategoryType } from "../enums/subcategoryType.js";
 import { FilterSubcategory } from "./filterSubcategory.js";
 
 export class CompendiumSubcategory extends FilterSubcategory {

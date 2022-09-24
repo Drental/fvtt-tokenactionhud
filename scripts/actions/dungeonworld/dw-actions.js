@@ -1,6 +1,6 @@
 import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
-import { CompendiumHelper } from "../categories/compendiumHelper.js";
+import { CompendiumHelper } from "../../categories/compendiumHelper.js";
 
 export class ActionHandlerDw extends ActionHandler {
   constructor(filterManager, categoryManager) {
@@ -8,7 +8,7 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActionList(token, multipleTokens) {
+  async doBuildActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (settings.get("showGmCompendiums")) {
