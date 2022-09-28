@@ -124,15 +124,15 @@ export class TokenActionHUD extends Application {
       const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
       const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
 
-    for (let categoryButton of html.find(".tah-category button")) {
-      categoryButton.style.backgroundColor = buttonBackgroundColor;
-      categoryButton.style.borderColor = buttonBorderColor;
-    }
+      /*for (let categoryButton of html.find(".tah-category button")) {
+        categoryButton.style.backgroundColor = buttonBackgroundColor;
+        categoryButton.style.borderColor = buttonBorderColor;
+      }
 
-    for (let actionButton of html.find(".tah-action button")) {
-      actionButton.style.backgroundColor = buttonBackgroundColor;
-      actionButton.style.borderColor = buttonBorderColor;
-    }
+      for (let actionButton of html.find(".tah-action button")) {
+        actionButton.style.backgroundColor = buttonBackgroundColor;
+        actionButton.style.borderColor = buttonBorderColor;
+      }*/
     }
     
     const handleClick = (e) => {
