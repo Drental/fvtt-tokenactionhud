@@ -452,6 +452,10 @@
         "showSpellInfo": {
           "hint": "If enabled, spell component information, concentration, and ritual status will be noted next to the spell name.",
           "name": "Display spell information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
         }
       }
     },
