@@ -137,8 +137,13 @@ export class RollHandlerBasePf1 extends RollHandler {
   rollItemMacro(event, tokenId, itemId) {
     const actor = super.getActor(tokenId);
     const item = super.getItem(actor, itemId);
+    const skipActionDialogs = (game.settings.settings.get("pf1.skipActionDialogs")) 
+      ? game.settings.get("pf1", "skipActionDialogs")
+      : false;
+    const shiftKey = event.shiftKey;
+    const skipDialog = (skipActionDialogs) ? !shiftKey : shiftKey;
 
-    item.use({ ev: event, skipDialog: false });
+    item.use({ ev: event, skipDialog: skipDialog });
   }
 
   rollDefenses(event, tokenId, itemId) {
