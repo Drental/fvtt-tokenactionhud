@@ -1,6 +1,12 @@
+:root {
+  --tah-background: #00000000;
+  --tah-button: #00000080;
+  --tah-button-outline: #000000ff;
+}
+
 #token-action-hud {
   align-items: center;
-  background: none;
+  background: var(--tah-background, #00000000) !important;
   border-radius: 3px;
   display: flex;
   flex-direction: row;
@@ -140,6 +146,7 @@
 
 /* Dropdown Content (Hidden by Default) */
 .tah-content {
+  background: var(--tah-background, #00000000) !important;
   border-radius: 3px;
   display: none;
   overflow-y: auto;
@@ -378,4 +385,37 @@
 
 .tah-action .activeText:after {
   content: "*";
+}
+
+#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu {
+  position: relative;
+}
+#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu button {
+  max-width: none !important;
+}
+#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu .picker_wrapper {
+  flex-basis: 100%;
+  margin-left: 50%;
+  position: absolute;
+  bottom: 100%;
+}
+
+.tah-category button,
+.tah-action button {
+	background-color: var(--tah-button, #00000080);
+	border-color: var(--tah-button-outline, #000000ff);
+	color: var(--tah-button-contrast, #ddd);
+	transition: all 0.1s ease-in-out;
+}
+.tah-category button:hover,
+.tah-action button:hover {
+	background-color: var(--tah-button-hover, #00000080) !important;
+	border-color: var(--tah-button-hover-outline, red) !important;
+	color: var(--tah-button-hover-contrast, #fff) !important;
+}
+.tah-category button:active,
+.tah-action button:hover {
+	background-color: var(--tah-button-active, #00000080) !important;
+	border-color: var(--tah-button-active-outline, red) !important;
+	color: var(--tah-button-active-contrast, #fff) !important;
 }

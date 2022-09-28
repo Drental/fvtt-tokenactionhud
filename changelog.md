@@ -1,5 +1,10 @@
 # Changelog
 
+# [3.0.9] 2022-09-27
+- adds support for libThemer ColorPicker and ColorSettings.
+- Moves ColorPicker and ColorSettings to `relationships.flags.optional` / `relationships.optional`
+- Adds changelog.md to package
+
 ## [3.0.8] 2022-09-21
 - Core - refactore language files - thanks Larkinabout!
 - pf2e - allow actors to strike again in 4.1.0 - handiwork.
