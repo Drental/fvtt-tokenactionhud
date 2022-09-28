@@ -93,7 +93,6 @@ export class NpcActionHandlerPf2e {
     if (!toggles.length) return;
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
-    subcategory.actionsClass = "excludeFromWidthCalculation";
 
     toggles.forEach((t) => {
       const id = [t.domain, t.option].join(".");
