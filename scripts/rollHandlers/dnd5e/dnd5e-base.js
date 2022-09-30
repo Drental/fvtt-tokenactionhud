@@ -164,30 +164,17 @@ export class RollHandlerBase5e extends RollHandler {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
     if (
-      game.cub &&
-      effectId.includes("combat-utility-belt.") &&
-      !isRightClick
-    ) {
-      const cubCondition = this.findCondition(effectId)?.label;
-      if (!cubCondition) return;
-
-      game.cub.hasCondition(cubCondition, token)
-        ? await game.cub.removeCondition(cubCondition, token)
-        : await game.cub.addCondition(cubCondition, token);
-    }
-    if (
          game.dfreds &&
          effect?.flags?.isConvenient
     ) {
       const effectLabel = effect.label;
       game.dfreds.effectInterface.toggleEffect(effectLabel);
-      
     } else {
       const condition = this.findCondition(effectId);
       if (!condition) return;
 
       isRightClick
-        ? await token.toggleOverlay(condition)
+        ? await token.toggleEffect(condition, { overlay: true })
         : await token.toggleEffect(condition);
     }
 
