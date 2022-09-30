@@ -77,16 +77,21 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
-    let item = actor.items.get(itemId);
+    const actor = super.getActor(tokenId);
+    const item = actor.items.get(itemId);
+    const shiftKey = event.shiftKey;
+    const ctrlKey = event.ctrlKey;
 
     if (this.needsRecharge(item)) {
       item.rollRecharge();
       return;
     }
-
-    if (item.type === "spell") return item.roll();
-
+    if (shiftKey && item.type === "weapon") {
+      return item.rollAttack();
+    }
+    if (ctrlKey && (item.type === "weapon" || item.type === "spell")) {
+      return item.rollDamage();
+    }
     return item.roll();
   }
 
