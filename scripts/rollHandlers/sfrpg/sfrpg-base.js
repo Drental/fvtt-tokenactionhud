@@ -85,9 +85,9 @@ export class RollHandlerBaseSfrpg extends RollHandler {
       return;
     }
 
-    if (item.type === "spell") return item.use();
+    if (item.type === "spell") return item.roll();
 
-    return item.use();
+    return item.roll();
   }
 
   needsRecharge(item) {
