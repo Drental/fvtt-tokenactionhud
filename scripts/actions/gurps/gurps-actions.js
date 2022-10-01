@@ -52,7 +52,13 @@ export class ActionHandlerGURPS extends ActionHandler {
           this._maneuvers(actor, tokenId)
         );
   
-      if (settings.get("showHudTitle")) result.hudTitle = token.name;
+     this._combineCategoryWithList(
+      result,
+      this.i18n("GURPS.modifierPosture"),
+      this._postures(actor, tokenId)
+    );
+
+     if (settings.get("showHudTitle")) result.hudTitle = token.name;
   
       return result;
     }
@@ -134,7 +140,7 @@ export class ActionHandlerGURPS extends ActionHandler {
     let cnt = 0
     let columns = 0
     let result = this.initializeEmptyCategory(key);
-    GURPS.recurselist(actor.data[key], (e, k, d) => {
+    GURPS.recurselist(actor.system[key], (e, k, d) => {
       if (e.level > 0) {
         let attributeCategory = this.initializeEmptySubcategory();
         let q = '"'
@@ -166,9 +172,9 @@ export class ActionHandlerGURPS extends ActionHandler {
       GURPS.gurpslink(notes, false, true).forEach(a => {
         any = true
         attributeCategory.actions.push({
-          name: a.text, // a.text.match(/<span.*>(.*)<\/span>/)[1],
+          name: a.text, 
+          useRawHtmlName: true,
           encodedValue: ["otf", tokenId, a.action.orig].join(this.delimiter),
-          //cssClass: 'standalonggurpslink'
         }); 
       })
     return any
@@ -228,6 +234,22 @@ export class ActionHandlerGURPS extends ActionHandler {
       attributeCategory.actions.push({
         name: t,
         encodedValue: ["otf", tokenId, '/man ' + t].join(this.delimiter),
+        img: m.icon
+      }); 
+    })   
+    this._combineSubcategoryWithCategory(result, '', attributeCategory);
+    return result
+  }
+  
+  _postures(actor, tokenId) {
+    let result = this.initializeEmptyCategory("postures");
+    let attributeCategory = this.initializeEmptySubcategory();
+    let postures = {...GURPS.StatusEffect.getAllPostures()}
+    postures[GURPS.StatusEffectStanding] = { id: GURPS.StatusEffectStanding, label: GURPS.StatusEffectStandingLabel, icon: 'icons/svg/invisible.svg' }
+    Object.values(postures).forEach(m => {
+      attributeCategory.actions.push({
+        name: this.i18n(m.label),
+        encodedValue: ["otf", tokenId, '/st + ' + m.id].join(this.delimiter),
         img: m.icon
       }); 
     })   
