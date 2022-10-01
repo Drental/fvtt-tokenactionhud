@@ -790,7 +790,8 @@ export class ActionHandler5e extends ActionHandler {
     effects.forEach((e) => {
       const name = e.label;
       const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
-      const cssClass = e.disabled ? "" : "active";
+      const active = e.disabled ? "" : " active";
+      const cssClass = `toggle${active}`;
       const image = e.icon;
       let action = {
         name: name,
@@ -836,15 +837,16 @@ export class ActionHandler5e extends ActionHandler {
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
-      const cssClass = actors.every((actor) => {
+      const active = actors.every((actor) => {
         const effects =
           "some" in actor.effects.entries
             ? actor.effects.entries
             : actor.effects;
         effects.some((e) => e.flags.core?.statusId === c.id);
       })
-        ? "active"
+        ? " active"
         : "";
+      const cssClass = `toggle${active}`
       const image = c.icon;
       const action = {
         name: name,
@@ -879,9 +881,10 @@ export class ActionHandler5e extends ActionHandler {
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const effects =
         "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-      const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
-        ? "active"
-        : "";
+        const active = effects.some((e) => e.flags.core?.statusId === c.id)
+          ? " active"
+          : "";
+      const cssClass = `toggle${active}`
       const image = c.icon;
       const action = {
         name: name,

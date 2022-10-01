@@ -2,16 +2,26 @@
   --tah-background: #00000000;
   --tah-button: #00000080;
   --tah-button-outline: #000000ff;
+  --tah-button-outline-hover: red;
+  --tah-button-outline-hover-glow: #ff6400;
+  --tah-button-toggle: #00000080;
+  --tah-button-toggle-active: #3c0078bf;
+  --tah-button-toggle-outline: #000000ff;
+  --tah-button-toggle-outline-active: #9b8dff;
+  --tah-button-toggle-outline-hover: #9b8dff;
+  --tah-button-toggle-outline-hover-glow: #9b8dff;
 }
 
 #token-action-hud {
   align-items: center;
-  background: var(--tah-background, #00000000) !important;
+  background: var(--tah-background, #00000000);
   border-radius: 3px;
   display: flex;
   flex-direction: row;
+  gap: 2px;
   height: auto;
   left: 150px;
+  margin-bottom: 1px;
   position: fixed;
   top: 80px;
   width: auto;
@@ -105,9 +115,6 @@
 }
 
 .tah-title-button {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid #000;
-  color: #ddd;
   height: auto;
   margin-right: 2px;
   padding: 3px;
@@ -116,15 +123,6 @@
     0px 0px 2px rgb(0 0 0 / 50%),
     0px 0px 5px rgb(0 0 0 / 25%);
   width: auto;
-}
-
-.tah-title-button:hover {
-  border: 1px solid red !important;
-  border-bottom: 1px solid #ff6400 !important;
-  box-shadow: 0 0 10px #ff6400;
-  color: #fff;
-  cursor: pointer;
-  font-weight: normal;
 }
 
 .tah-title-button > .fa,
@@ -146,11 +144,12 @@
 
 /* Dropdown Content (Hidden by Default) */
 .tah-content {
-  background: var(--tah-background, #00000000) !important;
+  background: var(--tah-background, #00000000);
   border-radius: 3px;
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-top: 2px;
 }
 
 /* Show the dropdown menu on hover */
@@ -166,7 +165,7 @@
 .tah-subcategory {
   cursor: default;
   display: flex;
-  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 .tah-subtitle {
@@ -218,8 +217,9 @@
   align-items: center;
   display: flex;
   flex-flow: row wrap;
-  gap: 3px;
+  gap: 5px;
   grid-column: 2;
+  margin-bottom: 2px;
   width: 400px;
 }
 
@@ -261,7 +261,8 @@
 }
 
 .tah-action-name {
-  margin: 0 5px 0 5px;
+  margin: auto;
+  padding: 0 5px 0 5px;
 }
 
 .tah-info1,
@@ -307,8 +308,8 @@
 .tah-img {
   border-radius: 3px 0 0 3px;
   display: inline-flex;
-  height: 30px;
-  width: 30px;
+  height: 32px;
+  width: 32px;
 }
 
 .tah-icon > .fa,
@@ -352,9 +353,7 @@
 }
 
 .tah-action button {
-  align-items: center;
   background: rgba(0, 0, 0, 0.7);
-  border: 1px solid #000;
   color: #ddd;
   display: flex;
   margin: 0;
@@ -370,17 +369,32 @@
 
 /* Change color of dropdown links on hover */
 .tah-action button:hover {
-  border: 1px solid red !important;
-  border-bottom: 1px solid #ff6400 !important;
-  box-shadow: 0 0 10px #ff6400;
-  box-shadow: 0 0 10px #ff6400;
+  border: 0;
+  box-shadow: 0 0 10px #ff6400, 0 2px 0 -1px #ff6400, 0 0 0 1px red;
   color: #fff;
   cursor: pointer;
   font-weight: inherit;
 }
 
+.tah-action .toggle {
+  background: var(--tah-button-toggle, #00000080);
+  box-shadow:
+    0 0 0 1px var(--tah-button-toggle-outline, #000000ff),
+    inset 0 0 10px #ffffff1a;
+}
+
 .tah-action .active {
-  background: rgba(85, 17, 0, 0.7) !important;
+  background: var(--tah-button-toggle-active, #3c0078bf);
+  box-shadow:
+    0 0 0 1px var(--tah-button-toggle-outline-active, #9b8dff),
+    inset 0 0 10px #ffffff1a;
+}
+
+.tah-action .toggle:hover {
+  background: var(--tah-button-toggle-hover, #3c0078bf);
+  box-shadow: 
+    0 0 0 1px var(--tah-button-toggle-outline-hover, 9b8dff),
+    0 0 10px var(--tah-button-toggle-outline-hover-glow, #9b8dff)
 }
 
 .tah-action .activeText:after {
@@ -403,19 +417,31 @@
 .tah-category button,
 .tah-action button {
 	background-color: var(--tah-button, #00000080);
-	border-color: var(--tah-button-outline, #000000ff);
+  border: 0;
+  box-shadow: 
+    0 0 0 1px var(--tah-button-outline, #000000ff),
+    0 0 10px var(--tah-button-outline, #000000ff),
+    inset 0 0 10px #ffffff1a;
 	color: var(--tah-button-contrast, #ddd);
 	transition: all 0.1s ease-in-out;
 }
 .tah-category button:hover,
+.tah-category.hover > button,
 .tah-action button:hover {
-	background-color: var(--tah-button-hover, #00000080) !important;
-	border-color: var(--tah-button-hover-outline, red) !important;
-	color: var(--tah-button-hover-contrast, #fff) !important;
+	background-color: var(--tah-button-hover, #00000080);
+  border: 0;
+  box-shadow: 
+    0 2px 0 -1px var(--tah-button-outline-hover-glow, #ff6400),
+    0 0 0 1px var(--tah-button-outline-hover, red),
+    0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
+	color: var(--tah-button-hover-contrast, #fff);
 }
-.tah-category button:active,
-.tah-action button:hover {
-	background-color: var(--tah-button-active, #00000080) !important;
-	border-color: var(--tah-button-active-outline, red) !important;
-	color: var(--tah-button-active-contrast, #fff) !important;
+.tah-category button:active {
+	background-color: var(--tah-button-active, #00000080);
+  border: 0;
+  box-shadow: 
+    0 2px 0 -1px var(--tah-button-outline-hover-glow, #ff6400),
+    0 0 0 1px var(--tah-button-outline-hover, red),
+    0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
+	color: var(--tah-button-active-contrast, #fff);
 }
