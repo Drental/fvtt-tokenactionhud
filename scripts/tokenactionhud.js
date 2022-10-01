@@ -134,11 +134,14 @@ export class TokenActionHUD extends Application {
     };
 
     html.find(titleButton).on("click", (e) => {
+      const element = this.element[0];
+      let zIndex = parseInt(document.defaultView.getComputedStyle(element).zIndex) ?? 100;
+      if (zIndex && zIndex >= _maxZ) _maxZ = ++zIndex;
       this.bringToTop();
     });
 
     html.find(action).on("click", (e) => {
-      handleClick(e);
+      handleClick(e);s
     });
 
     html.find(action).contextmenu((e) => {
@@ -269,7 +272,7 @@ export class TokenActionHUD extends Application {
       element.style.top = elementTop + "px";
       element.style.left = elementLeft + "px";
       element.style.position = "fixed";
-      element.style.zIndex = 101;
+      element.style.zIndex = 100;
     }
 
     function mouseUpEvent () {
@@ -345,7 +348,6 @@ export class TokenActionHUD extends Application {
               ? defaultLeftPos + "px"
               : pos.left + "px";
           elmnt.style.position = "fixed";
-          elmnt.style.zIndex = 101;
           resolve();
         } else {
           setTimeout(check, 30);
@@ -371,7 +373,6 @@ export class TokenActionHUD extends Application {
           );
           elmnt.css("top", token.worldTransform.ty + 0 + "px");
           elmnt.css("position", "fixed");
-          elmnt.css("zIndex", 101);
           resolve();
         } else {
           setTimeout(check, 30);
