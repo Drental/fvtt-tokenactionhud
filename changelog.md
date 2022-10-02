@@ -1,7 +1,7 @@
 # Changelog
 
 # [3.0.10] 2022-10-02
-- Core - Improve Foundry VTT style to better match core style, espcieally around toggleable buttons. 
+- Core - Improve Foundry VTT style to better match core style, especially around toggleable buttons. 
 - Core - Center align names on buttons (#286).
 - Core - Bring HUD to top by clicking on the category buttons (#284).
 - D&D 5e - Fix Effects/Conditions for Combat Utility Belt's Enhanced Conditions (#291).
