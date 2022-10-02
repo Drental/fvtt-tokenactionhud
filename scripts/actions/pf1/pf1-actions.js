@@ -169,12 +169,12 @@ export class ActionHandlerPf1 extends ActionHandler {
     let result = this.initializeEmptyCategory("attacks");
 
     let cmbMacro = "cmb";
-    let cmbName = this.i18n("tokenActionHud.cmb");
+    let cmbName = this.i18n("tokenActionHud.pf1e.cmb");
     let cmbValue = [cmbMacro, tokenId, cmbMacro].join(this.delimiter);
     let cmbAction = { name: cmbName, encodedValue: cmbValue, id: cmbMacro };
 
     let babMacro = "bab";
-    let babName = this.i18n("tokenActionHud.bab");
+    let babName = this.i18n("tokenActionHud.pf1e.bab");
     let babValue = [babMacro, tokenId, babMacro].join(this.delimiter);
     let babAction = { name: babName, encodedValue: babValue, id: babMacro };
 

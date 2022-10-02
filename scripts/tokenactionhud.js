@@ -118,21 +118,6 @@ export class TokenActionHUD extends Application {
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
-
-    if (settings.get("style") === "foundryVTT") {
-      const buttonBackgroundColor = this.getSetting("buttonBackgroundColor") ?? "#000000b3";
-      const buttonBorderColor = this.getSetting("buttonBorderColor") ?? "#000000ff";
-
-    for (let categoryButton of html.find(".tah-category button")) {
-      categoryButton.style.backgroundColor = buttonBackgroundColor;
-      categoryButton.style.borderColor = buttonBorderColor;
-    }
-
-    for (let actionButton of html.find(".tah-action button")) {
-      actionButton.style.backgroundColor = buttonBackgroundColor;
-      actionButton.style.borderColor = buttonBorderColor;
-    }
-    }
     
     const handleClick = (e) => {
       let target = e.target;
@@ -147,8 +132,15 @@ export class TokenActionHUD extends Application {
       }
     };
 
+    html.find(titleButton).on("click", (e) => {
+      const element = this.element[0];
+      let zIndex = parseInt(document.defaultView.getComputedStyle(element).zIndex) ?? 100;
+      if (zIndex && zIndex >= _maxZ) _maxZ = ++zIndex;
+      this.bringToTop();
+    });
+
     html.find(action).on("click", (e) => {
-      handleClick(e);
+      handleClick(e);s
     });
 
     html.find(action).contextmenu((e) => {
@@ -352,7 +344,6 @@ export class TokenActionHUD extends Application {
               ? defaultLeftPos + "px"
               : pos.left + "px";
           elmnt.style.position = "fixed";
-          elmnt.style.zIndex = 100;
           resolve();
         } else {
           setTimeout(check, 30);
@@ -378,7 +369,6 @@ export class TokenActionHUD extends Application {
           );
           elmnt.css("top", token.worldTransform.ty + 0 + "px");
           elmnt.css("position", "fixed");
-          elmnt.css("zIndex", 100);
           resolve();
         } else {
           setTimeout(check, 30);

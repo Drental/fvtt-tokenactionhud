@@ -171,14 +171,14 @@ export class PcActionHandlerPf2e {
     if (!toggles.length) return;
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
-    subcategory.actionsClass = "excludeFromWidthCalculation";
 
     toggles.forEach((t) => {
       const id = [t.domain, t.option].join(".");
       const { delimiter } = this.baseHandler;
       const encodedValue = [macroType, tokenId, JSON.stringify(t)].join(delimiter);
       const name = game.i18n.localize(t.label);
-      const cssClass = t.checked ? "active" : "";
+      const active = t.checked ? " active" : "";
+      const cssClass = `toggle${active}`
 
       subcategory.actions.push({ id, encodedValue, name, cssClass });
     });

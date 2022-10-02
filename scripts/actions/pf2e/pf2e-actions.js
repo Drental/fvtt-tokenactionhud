@@ -373,7 +373,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           currentMap -= map;
           currentBonus -= map;
           return {
-            id: encodeURIComponent(`${this.name}>${this.variants.indexOf(v)}>` + usage),
+            id: encodeURIComponent(`${this.label}>${this.variants.indexOf(v)}>` + usage),
             name: name,
           };
         }.bind(s)
@@ -460,7 +460,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let encodedValue = ["ammo", tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
     let action = {
-      name: item.name,
+      name: item.label,
       encodedValue: encodedValue,
       id: item.id,
       img: img,

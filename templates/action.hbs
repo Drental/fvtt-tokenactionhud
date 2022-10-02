@@ -6,7 +6,11 @@
         {{~#if img~}}<div class="tah-img" style="background: url({{img}}) no-repeat center center; background-size:contain"></div>{{~/if~}}
         <span class="tah-action-name">
             {{~#if icon~}}<div class="tah-icon">{{{icon}}}</div>{{~/if~}}
-            {{name}}
+            {{~#if useRawHtmlName}}
+              {{{name}}}
+            {{~else~}}
+              {{name}}
+            {{~/if~}}
             {{~#if info1~}}<div class="tah-info1">{{info1}}</div>{{~/if~}}
             {{~#if info2~}}<div class="tah-info2">{{info2}}</div>{{~/if~}}
             {{~#if info3~}}<div class="tah-info3">{{info3}}</div>{{~/if~}}

@@ -250,70 +250,120 @@ export function set(setting, value) {
 }
 
 export function initColorSettings(appName) {
-  if (typeof ColorPicker === 'object') {
-    registerColorSettings(appName);
-  } else {
-    Hooks.once("colorPickerReady", () => {
-      registerColorSettings(appName);
-    }); 
+  console.info('AAAAAAAAAAAAAAAAAAAAAA', appName);
+
+  // Determine ColorPicker
+  if (game.modules.get('lib-themer')?.active ?? false) {
+    Hooks.once('lib-themer.Ready', (API) => {
+      API.register({
+        id: appName,
+        title: game.modules.get(appName).title,
+        '--tah-background': {
+          "name": `tokenActionHud.settings.background.name`,
+          "hint": `tokenActionHud.settings.background.hint`,
+          "type": "color",
+          "default": "#00000000"
+        },
+        '--tah-button': {
+          "name": `tokenActionHud.settings.buttonBackgroundColor.name`,
+          "hint": `tokenActionHud.settings.buttonBackgroundColor.hint`,
+          "type": "color",
+          "default": "#00000080",
+          "colors": {
+            "buttons": true
+          }
+        }
+      });
+    });
+  }else if (game.modules.get('color-picker')?.active ?? false) {
+    if (typeof ColorPicker === 'object') registerColorSettings(appName);
+    else Hooks.once("colorPickerReady", () => { registerColorSettings(appName); });
+  }else if (game.modules.get('colorsettings')?.active ?? false) {
+    Hooks.once('ready', () => {
+      try{
+        window.Ardittristan.ColorSetting.tester;
+        registerColorSettings(appName);
+      }catch {}
+    });
   }
 }
 
 function registerColorSettings(appName) {
-  ColorPicker.register(
-    appName,
-    "background",
-    {
+  const colorRegister = (color) =>  { 
+    try {
+      ColorPicker.register(appName, color.key, color.setting, color.options);
+    }catch{ 
+      try {
+        new window.Ardittristan.ColorSetting(appName, color.key, color.setting);
+      }catch{
+        //ui.notifications.notify('Token Action HUD failed to register color settings', "error");
+      }
+    }
+  };
+
+  colorRegister({
+    key: 'background',
+    setting:{
       name: game.i18n.localize("tokenActionHud.settings.background.name"),
       hint: game.i18n.localize("tokenActionHud.settings.background.hint"),
       scope: "client",
-      restricted: true,
+      restricted: false,
       default: "#00000000",
       onChange: (value) => {
+        document.querySelector(":root").style.setProperty('--tah-background', value);
         updateFunc(value);
       },
+      insertAfter: `${appName}.showItemsWithoutAction`
     },
-    {
+    options: {
       format: "hexa",
       alphaChannel: true
-    }
-  );
+    } 
+  })
 
-  ColorPicker.register(
-    appName,
-    "buttonBackgroundColor",
-    {
+  colorRegister({
+    key: 'buttonBackgroundColor',
+    setting: {
       name: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.name"),
       hint: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.hint"),
       scope: "client",
       restricted: true,
       default: "#00000080",
       onChange: (value) => {
+        document.querySelector(":root").style.setProperty('--tah-button', value);
         updateFunc(value);
       },
-    },
-    {
+      insertAfter: `${appName}.background`
+    }, 
+    options: {
       format: "hexa",
       alphaChannel: true
     }
-  );
+  });
 
-  ColorPicker.register(
-    appName,
-    "buttonBorderColor",
-    {
+  colorRegister({
+    key: "buttonBorderColor", 
+    setting: {
       name: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.name"),
       hint: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.hint"),
       scope: "client",
       restricted: true,
       default: "#000000ff",
       onChange: (value) => {
+        document.querySelector(":root").style.setProperty('--tah-button-outline', value);
         updateFunc(value);
       },
-    },
-    {
+      insertAfter: `${appName}.buttonBackgroundColor`
+    }, 
+    options: {
       format: "hexa",
       alphaChannel: true
     }
-  );
+  });
+  
+  Hooks.once('ready', () => {
+      document.querySelector(":root").style.setProperty('--tah-background', game.settings.get(appName, 'background') ?? '#00000000');
+      document.querySelector(":root").style.setProperty('--tah-button', game.settings.get(appName, 'buttonBackgroundColor') ?? '#00000080');
+      document.querySelector(":root").style.setProperty('--tah-button-outline', game.settings.get(appName, 'buttonBorderColor') ?? '#000000ff');
+  });
 }

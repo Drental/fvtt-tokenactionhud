@@ -325,7 +325,8 @@
 }
 
 .tah-action-name {
-  margin: 0 5px 0 5px;
+  margin: auto;
+  padding: 0 5px 0 5px;
 }
 
 .tah-info1,

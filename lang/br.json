@@ -433,6 +433,10 @@
         "showSpellInfo": {
           "hint": "As informações do componente de magia, a concentração e o estatus ritual serão anotados ao lado do nome do feitiço.",
           "name": "Exibir informação de magias"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
         }
       }
     },

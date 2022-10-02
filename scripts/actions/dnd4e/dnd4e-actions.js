@@ -180,7 +180,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
             }
           }
         }
-        items[item.type].items.push(item);
+        menuItem.items.push(item);
       }
     })
     const filterOff = Object.keys(filterObject).length === 0
@@ -227,7 +227,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     }
     return result;
   }
-  
+
   /** @private */
   _buildPowersCategory(token) {
     if (settings.get("showPowersCategory") === false) return;
@@ -237,7 +237,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     let result = this.initializeEmptyCategory("Powers");
     result.name = this.i18n("DND4EBETA.Powers");
     // powerGroupType is not initalised by default
-    let groupType = actor.powerGroupTypes
+    let groupType = actor.system.powerGroupTypes
     if (!groupType) {
       actor.system.powerGroupTypes = "usage"
       groupType = "usage"
@@ -510,7 +510,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       passiveCategory
     );
   }
- 
+
   /** @private */
   _addMultiConditions(list, tokenId) {
     const category = this.initializeEmptyCategory("conditions");

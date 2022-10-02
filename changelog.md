@@ -1,7 +1,16 @@
 # Changelog
 
+# [3.0.9] 2022-09-28
+- Core: Add support for libThemer, ColorPicker, or ColorSettings libraries for color pickers (#278) - Provided by mouse0270.
+- Core: Move ColorPicker and ColorSettings to `relationships.flags.optional` / `relationships.optional` (#278) - Provided by mouse0270.
+- D&D 4e: Fix power grouping overriding sheet with default value - Fix provided by draconas1.
+- Earthdawn: Fix equipped weapons not appearing in the Combat category (#283).
+- Pathfinder 1e: Add handling for skipping action dialogs while holding down the shift key (#138).
+- Pathfinder 2e: Remove width limit on the Strikes category (#286).
+- Misc: Add changelog.md to package.
+
 ## [3.0.8] 2022-09-21
-- Core - refactore language files - thanks Larkinabout!
+- Core - Refactor language files - thanks Larkinabout!
 - pf2e - allow actors to strike again in 4.1.0 - handiwork.
 
 ## [3.0.7] 2022-09-19

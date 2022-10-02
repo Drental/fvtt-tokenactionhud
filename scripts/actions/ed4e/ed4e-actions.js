@@ -390,7 +390,7 @@ export class ActionHandlerED4e extends ActionHandler {
         result.name = this.i18n("earthdawn.c.combat")
 
         // weapons
-        let weapons = actor.items.filter(i => ['weapon', 'equipment'].indexOf(i.type) > -1).filter(i => (i.type === 'weapon') && this._getEntityData(i).worn);
+        let weapons = actor.items.filter(i => i.type === "weapon" && i.system.worn);
         let weaponActions = weapons.map(w => this._buildItem(token.id, actor, "weaponAttack", w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let weaponsCat = this.initializeEmptySubcategory();
