@@ -9,10 +9,10 @@ export class CoreSubcategory extends FilterSubcategory {
       replacement: "_",
       strict: true,
     });
-    this.type = SubcategoryType.CORE;
+    this.type = SubcategoryType.SYSTEM;
   }
 
-  submitFilterSuggestions() {
+  saveActionsSuggestions() {
     let suggestions = MacroHelper.getMacrosForFilter();
     this.filterManager.setSuggestions(this.id, suggestions);
   }

@@ -13,32 +13,16 @@ export class CompendiumSubcategory extends FilterSubcategory {
     this.type = SubcategoryType.COMPENDIUM;
   }
 
-  async submitFilterSuggestions() {
+  
+
+  async saveActionsSuggestions() {
     let suggestions = await CompendiumHelper.getCompendiumEntriesForFilter(
       this.compendiumId
     );
     this.filterManager.setSuggestions(this.id, suggestions);
   }
 
-  /** @override */
-  async _getActions(delimiter) {
-    let packEntries = await CompendiumHelper.getEntriesForActions(
-      this.compendiumId,
-      delimiter
-    );
-
-    let filters = this.filterManager.getFilteredIds(this.id);
-    let isBlocklist = this.filterManager.isBlocklist(this.id);
-
-    let actions = packEntries;
-
-    if (filters.length > 0)
-      actions = packEntries.filter(
-        (p) => filters.includes(p.id) !== isBlocklist
-      );
-
-    return actions;
-  }
+  
 
   /** @override */
   getFlagContents() {

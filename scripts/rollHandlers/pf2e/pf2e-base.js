@@ -16,16 +16,16 @@ export class RollHandlerBasePf2e extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
     let renderable = ["item", "feat", "action", "lore", "ammo"];
     if (renderable.includes(macroType) && this.isRenderItem())
-      return this.doRenderItem(tokenId, actionId);
+      return this.doRenderItem(actorId, tokenId, actionId);
 
     try {
       const knownCharacters = ["character", "familiar", "npc"];
-      if (tokenId === "multi") {
+      if (characterId === "multi") {
         const controlled = canvas.tokens.controlled.filter((t) =>
           knownCharacters.includes(t.actor?.type)
         );
@@ -34,15 +34,15 @@ export class RollHandlerBasePf2e extends RollHandler {
           await this._handleMacros(event, macroType, idToken, actionId);
         }
       } else {
-        await this._handleMacros(event, macroType, tokenId, actionId);
+        await this._handleMacros(event, macroType, actorId, tokenId, actionId);
       }
     } catch (e) {
       throw e;
     }
   }
 
-  async _handleMacros(event, macroType, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let charType;
     if (actor) charType = actor.type;
 
@@ -96,10 +96,10 @@ export class RollHandlerBasePf2e extends RollHandler {
         await this._rollSpell(event, tokenId, actor, actionId);
         break;
       case "utility":
-        this._performUtilityMacro(event, tokenId, actionId);
+        this._performUtilityMacro(event, actorId, tokenId, actionId);
         break;
       case "toggle":
-        await this._performToggleMacro(event, tokenId, actionId);
+        await this._performToggleMacro(event, actorId, tokenId, actionId);
         break;
       case "strike":
         this._rollStrikeChar(event, tokenId, actor, actionId);
@@ -391,8 +391,8 @@ export class RollHandlerBasePf2e extends RollHandler {
     return;
   }
 
-  async _performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async _performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -458,8 +458,8 @@ export class RollHandlerBasePf2e extends RollHandler {
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  async _performToggleMacro(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId);
+  async _performToggleMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(characterId);
     const toggle = JSON.parse(actionId);
     if (!(toggle.domain && toggle.option)) return;
 

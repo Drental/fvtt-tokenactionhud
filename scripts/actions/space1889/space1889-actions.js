@@ -10,7 +10,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 	}
 
 
-	doBuildActions(token, multipleTokens)
+	buildSystemActions(token, multipleTokens)
 	{
 		let result = this.initializeEmptyActionList();
 		if (!token)

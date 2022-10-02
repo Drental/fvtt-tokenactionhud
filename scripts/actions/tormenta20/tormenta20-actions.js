@@ -8,7 +8,7 @@ export class ActionHandlerT20 extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(token, multipleTokens) {
+  buildSystemActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
@@ -292,13 +292,13 @@ export class ActionHandlerT20 extends ActionHandler {
       actor.items.filter((i) => i.type == "poder")
     );
     let sortedFeats = this._sortByItemSort(validFeats);
-    let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
+    let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
   }
 
   /** @private */
-  _categoriseFeats(tokenId, actor, feats) {
+  _categoriseFeatures(tokenId, actor, feats) {
     let active = this.initializeEmptySubcategory();
     let passive = this.initializeEmptySubcategory();
     let lair = this.initializeEmptySubcategory();

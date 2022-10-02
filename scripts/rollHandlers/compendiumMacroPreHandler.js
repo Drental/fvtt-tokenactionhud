@@ -7,7 +7,7 @@ export class CompendiumMacroPreHandler extends PreRollHandler {
 
   /** @override */
   prehandleActionEvent(event, encodedValue) {
-    let delimiter = game.tokenActionHUD.actions.delimiter;
+    let delimiter = game.tokenActionHUD.actionHandler.delimiter;
 
     let payload = encodedValue.split(delimiter);
 

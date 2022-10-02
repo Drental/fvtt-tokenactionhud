@@ -6,32 +6,23 @@ export function registerHandlerbars() {
     return string[0].toUpperCase() + string.slice(1);
   });
 
-  Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
-    switch (operator) {
-      case "==":
-        return v1 == v2 ? options.fn(this) : options.inverse(this);
-      case "===":
-        return v1 === v2 ? options.fn(this) : options.inverse(this);
-      case "!=":
-        return v1 != v2 ? options.fn(this) : options.inverse(this);
-      case "!==":
-        return v1 !== v2 ? options.fn(this) : options.inverse(this);
-      case "<":
-        return v1 < v2 ? options.fn(this) : options.inverse(this);
-      case "<=":
-        return v1 <= v2 ? options.fn(this) : options.inverse(this);
-      case ">":
-        return v1 > v2 ? options.fn(this) : options.inverse(this);
-      case ">=":
-        return v1 >= v2 ? options.fn(this) : options.inverse(this);
-      case "&&":
-        return v1 && v2 ? options.fn(this) : options.inverse(this);
-      case "||":
-        return v1 || v2 ? options.fn(this) : options.inverse(this);
-      default:
-        return options.inverse(this);
-    }
-  });
+  const reduceOp = function(args, reducer){
+    args = Array.from(args);
+    args.pop(); // => options
+    var first = args.shift();
+    return args.reduce(reducer, first);
+  };
+  
+  Handlebars.registerHelper({
+    eq  : function(){ return reduceOp(arguments, (a,b) => a === b); },
+    ne  : function(){ return reduceOp(arguments, (a,b) => a !== b); },
+    lt  : function(){ return reduceOp(arguments, (a,b) => a  <  b); },
+    gt  : function(){ return reduceOp(arguments, (a,b) => a  >  b); },
+    lte : function(){ return reduceOp(arguments, (a,b) => a  <= b); },
+    gte : function(){ return reduceOp(arguments, (a,b) => a  >= b); },
+    and : function(){ return reduceOp(arguments, (a,b) => a  && b); },
+    or  : function(){ return reduceOp(arguments, (a,b) => a  || b); },
+  }); 
 
   Handlebars.registerHelper("activeText", function (block) {
     if (settings.get("activeCssAsText")) {

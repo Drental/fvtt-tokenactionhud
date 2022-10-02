@@ -5,5 +5,5 @@ export class ActionListExtender extends ActionHandler {
     super();
   }
 
-  extendActionList(actionList, multipleTokens) {}
+  extendActionList(actionList, character) {}
 }

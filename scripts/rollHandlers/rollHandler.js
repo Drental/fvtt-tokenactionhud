@@ -7,8 +7,9 @@ export class RollHandler {
 
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
 
-  getActor(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.id === tokenId)?.actor;
+  getActor(actorId) {
+    const actor = game.actors.get(actorId);
+    return actor;
   }
 
   getItem(actor, itemId) {
@@ -16,7 +17,7 @@ export class RollHandler {
   }
 
   getToken(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.id === tokenId);
+    return canvas.tokens.placeables.find(token => token.id === tokenId);
   }
 
   throwInvalidValueErr(err) {
@@ -63,8 +64,8 @@ export class RollHandler {
     this.shift = this.isShift(event);
   }
 
-  doRenderItem(tokenId, itemId) {
-    let actor = this.getActor(tokenId);
+  doRenderItem(actorId, itemId) {
+    let actor = this.getActor(actorId);
     let item = this.getItem(actor, itemId);
 
     item.sheet.render(true);

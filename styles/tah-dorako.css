@@ -74,7 +74,7 @@
   position: fixed;
   top: 80px;
   width: auto;
-  z-index: 99;
+  z-index: 100;
 }
 
 #token-action-hud [class*="icon-"] {
@@ -474,4 +474,10 @@
 
 .tah-action .activeText:after {
   content: "*";
+}
+
+.token-action-hud-taginput {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

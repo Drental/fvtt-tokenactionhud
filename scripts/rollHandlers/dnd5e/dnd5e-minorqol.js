@@ -6,8 +6,8 @@ export class RollHandlerMinorQol5e extends RollHandlerBase5e {
   }
 
   /** @override */
-  rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = actor.items.get(itemId);
 
     if (this.needsRecharge(item)) {

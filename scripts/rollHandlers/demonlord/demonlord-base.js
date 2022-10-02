@@ -13,21 +13,21 @@ export class RollHandlerBaseDemonlord extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
         let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {
-      this._handleMacros(event, macroType, tokenId, actionId);
+      this._handleMacros(event, macroType, actorId, tokenId, actionId);
     }
   }
 
-  _handleMacros(event, macroType, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  _handleMacros(event, macroType, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let item = null;
     if (["weapon", "specialaction", "spell", "talent"].includes(macroType)) {
       item = actor.items.get(actionId);
@@ -49,14 +49,14 @@ export class RollHandlerBaseDemonlord extends RollHandler {
         actor.rollSpell(item.id, null);
         break;
       case "utility":
-        this.performUtilityMacro(event, tokenId, actionId);
+        this.performUtilityMacro(event, actorId, tokenId, actionId);
       default:
         break;
     }
   }
 
-  async performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {

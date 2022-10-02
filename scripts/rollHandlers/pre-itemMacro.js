@@ -15,21 +15,21 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
     if (payload.length != 3) return false;
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
     if (macroType != "itemMacro") return false;
 
     if (this.isRenderItem()) {
-      this.doRenderItem(tokenId, actionId);
+      this.doRenderItem(actorId, tokenId, actionId);
       return true;
     }
 
-    return this._tryExecuteItemMacro(event, tokenId, actionId);
+    return this._tryExecuteItemMacro(event, actorId, tokenId, actionId);
   }
 
-  _tryExecuteItemMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  _tryExecuteItemMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let item = super.getItem(actor, actionId);
 
     try {

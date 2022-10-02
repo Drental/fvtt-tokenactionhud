@@ -12,15 +12,15 @@ export class ItemMacroActionListExtender extends ActionListExtender {
   }
 
   /** @override */
-  extendActionList(actionList, multipleTokens) {
-    if (multipleTokens) return;
+  extendActionList(actionList, character) {
+    if (!character) return;
 
     let tokenId = actionList.tokenId;
     let actorId = actionList.actorId;
 
     if (!actorId) return;
 
-    let actor = this.getActor(tokenId);
+    let actor = this.getActor(characterId);
     let items = actor.items.filter((item) => item.hasMacro());
 
     let itemIds;
@@ -102,7 +102,9 @@ export class ItemMacroActionListExtender extends ActionListExtender {
     return !flag;
   }
 
-  getActor(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.id === tokenId)?.actor;
+  getActor(characterId) {
+    let actor = canvas.tokens.placeables.find(token => token.id === characterId)?.actor;
+    if (!actor) actor = game.actors.get(characterId);
+    return actor;
   }
 }

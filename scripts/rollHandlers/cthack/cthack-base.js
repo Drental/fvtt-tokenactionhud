@@ -13,10 +13,10 @@ export class RollHandlerBaseCthack extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let itemId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     switch (macroType) {
       case "save":
         this._handleSaves(macroType, event, actor, itemId);

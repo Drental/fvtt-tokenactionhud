@@ -4,6 +4,7 @@ import { CategoryManager } from "../categories/categoryManager.js";
 import { ItemMacroActionListExtender } from "../actions/itemMacroExtender.js";
 import { CompendiumMacroPreHandler } from "../rollHandlers/compendiumMacroPreHandler.js";
 import { ItemMacroPreRollHandler } from "../rollHandlers/pre-itemMacro.js";
+import { CompendiumActionHandler } from "../actions/compendiumActionHandler.js";
 
 export class SystemManager {
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
@@ -34,6 +35,11 @@ export class SystemManager {
     );
     this.addActionExtenders(actionHandler);
     return actionHandler;
+  }
+
+  async getCompendiumActionHandler(user) {
+    const compendiumActionHandler = new CompendiumActionHandler(this.categoryManager);
+    return compendiumActionHandler;
   }
 
   addActionExtenders(actionHandler) {

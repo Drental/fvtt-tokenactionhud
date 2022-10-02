@@ -11,13 +11,13 @@ export class CategoryManager {
     this.user = user;
   }
 
-  // RESET
+  // RESET CATEGORIES
   async reset() {
     await game.user.unsetFlag("token-action-hud", "categories");
     this._registerDefaultCategories();
   }
 
-  // INITIALISE
+  // INITIALISE CATEGORIES
   async init() {
     let savedCategories = this.user.getFlag("token-action-hud", "categories");
     if (savedCategories) {
@@ -57,7 +57,7 @@ export class CategoryManager {
 
   async submitSubcategories(categoryId, choices) {
     const categories = this.user.getFlag("token-action-hud", "categories");
-    const category = Object.values(categories).find((c) => c.id === categoryId);
+    const category = Object.values(categories).find(category => category.id === categoryId);
     if (!category) return;
 
     const categoryKey = categoryId;
@@ -67,8 +67,8 @@ export class CategoryManager {
    
     const chosenSubcategories = {};
     for (const choice of choices) {
-      const subcategoryKey = `${categoryId}_${choice.id}`
-      chosenSubcategories[subcategoryKey] = choice
+      const subcategoryKey = `${categoryId}_${choice.id}`;
+      chosenSubcategories[subcategoryKey] = choice;
     }
     const data = chosenSubcategories;
     await this.updateSubcategoriesFlag(categoryKey, data);
@@ -152,30 +152,39 @@ export class CategoryManager {
   }
 
   // GET CATEGORIES/SUBCATEGORIES
-  getCategoriesAsTagifyEntries() {
+  // GET SELECTED SUBCATEGORIES
+  getSelectedCategoriesAsTagifyEntries() {
     const categories = this.user.getFlag("token-action-hud", "categories");
-    return Object.values(categories).filter((c) => !c.core).map(c => this.asTagifyEntry(c));
+    return Object.values(categories).map(category => this.asTagifyEntry(category));
   }
 
-  getSubcategoriesAsTagifyEntries(categoryId) {
+  getSelectedSubcategoriesAsTagifyEntries(categoryId) {
     const categories = this.user.getFlag("token-action-hud", "categories");
-    let category = Object.values(categories).find((c) => c.id === categoryId);
+    let category = Object.values(categories).find(category => category.id === categoryId);
     if (!category.subcategories) return;
-    return Object.values(category.subcategories).map(sc => this.asTagifyEntry(sc));
+    const subcategories = Object.values(category.subcategories).map(subcategory => this.asTagifyEntry(subcategory));
+    return subcategories;
   }
 
-  getDefaultSubcategoriesAsTagifyEntries(categoryId = null) {
-    const defaultCategories = this.user.getFlag("token-action-hud", "default.categories");
-    if (categoryId) {
-      let category = Object.values(defaultCategories).find((c) => c.id === categoryId);
-      if (!category.subcategories) return;
-      return Object.values(category.subcategories).map(sc => this.asTagifyEntry(sc));
-    } else {
-      return Object.values(defaultCategories)
-      .map(c => Object.values(c.subcategories))
-      .flat()
-      .map(sc => this.asTagifyEntry(sc));
-    }
+  // GET SUGGESTED SUBCATEGORIES
+  getSuggestedSystemSubcategoriesAsTagifyEntries() {
+    const defaultSubcategories = this.user.getFlag("token-action-hud", "default.subcategories");
+    return defaultSubcategories.map(sc => this.asTagifyEntry(sc));
+  }
+
+  getSuggestedCompendiumSubcategoriesAsTagifyEntries() {
+    const packs = game.packs;
+    return packs
+      .filter(pack => {
+        const packTypes = ["JournalEntry", "Macro", "RollTable", "Playlist"];
+        return packTypes.includes(pack.documentName);
+      })
+      .filter(pack => game.user.isGM || !pack.private)
+      .map(pack => {
+        const id = pack.metadata.id.replace(".", "-");
+        const value = pack.metadata.label;
+        return { id: id, value: value, type: "compendium" };
+      });
   }
 
   // OTHER
@@ -190,6 +199,6 @@ export class CategoryManager {
   }
 
   asTagifyEntry(data) {
-    return { id: data.id, value: data.title };
+    return { id: data.id, value: data.title, type: data.type };
   }
 }

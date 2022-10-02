@@ -15,50 +15,50 @@ export class RollHandlerBasePf1 extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
         let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {
-      await this._handleMacros(event, macroType, tokenId, actionId);
+      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, tokenId, actionId) {
+  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
     switch (macroType) {
       case "ability":
-        this.rollAbilityMacro(event, tokenId, actionId);
+        this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "casterLevel":
-        this.rollcasterLevelMacro(event, tokenId, actionId);
+        this.rollcasterLevelMacro(event, actorId, tokenId, actionId);
         break;
       case "concentration":
-        this.rollConcentrationMacro(event, tokenId, actionId);
+        this.rollConcentrationMacro(event, actorId, tokenId, actionId);
         break;
       case "cmb":
-        this.rollCmbMacro(event, tokenId, actionId);
+        this.rollCmbMacro(event, actorId, tokenId, actionId);
         break;
       case "melee":
-        this.rollMeleeAttackMacro(event, tokenId, actionId);
+        this.rollMeleeAttackMacro(event, actorId, tokenId, actionId);
         break;
       case "ranged":
-        this.rollRangedAttackMacro(event, tokenId, actionId);
+        this.rollRangedAttackMacro(event, actorId, tokenId, actionId);
         break;
       case "bab":
         this.rollBAB(event, tokenId, actionId);
         break;
       case "skill":
-        this.rollSkillMacro(event, tokenId, actionId);
+        this.rollSkillMacro(event, actorId, tokenId, actionId);
         break;
       case "abilitySave":
-        this.rollAbilitySaveMacro(event, tokenId, actionId);
+        this.rollAbilitySaveMacro(event, actorId, tokenId, actionId);
         break;
       case "abilityCheck":
-        this.rollAbilityCheckMacro(event, tokenId, actionId);
+        this.rollAbilityCheckMacro(event, actorId, tokenId, actionId);
         break;
       case "buff":
         await this.adjustBuff(event, tokenId, actionId);
@@ -70,84 +70,84 @@ export class RollHandlerBasePf1 extends RollHandler {
       case "spell":
       case "feat":
       case "attack":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       case "defenses":
         this.rollDefenses(event, tokenId, actionId);
         break;
       case "utility":
-        await this.performUtilityMacro(event, tokenId, actionId);
+        await this.performUtilityMacro(event, actorId, tokenId, actionId);
         break;
       default:
         break;
     }
   }
 
-  rollCmbMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollCmbMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollCMB(event);
   }
 
-  rollMeleeAttackMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollMeleeAttackMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAttack({ event: event, melee: true });
   }
 
-  rollRangedAttackMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollRangedAttackMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAttack({ event: event, melee: false });
   }
 
   rollBAB(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     actor.rollBAB({ event: event });
   }
 
-  rollcasterLevelMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollcasterLevelMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollCL(checkId);
   }
 
-  rollConcentrationMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollConcentrationMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollConcentration(checkId);
   }
 
-  rollAbilityMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAbility(checkId, { event: event });
   }
 
-  rollAbilityCheckMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAbilityTest(checkId, { event: event });
   }
 
-  rollAbilitySaveMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollSavingThrow(checkId, { event: event });
   }
 
-  rollSkillMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollSkillMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollSkill(checkId, { event: event });
   }
 
-  rollItemMacro(event, tokenId, itemId) {
-    const actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    const actor = super.getActor(characterId);
     const item = super.getItem(actor, itemId);
 
     item.use({ ev: event, skipDialog: false });
   }
 
   rollDefenses(event, tokenId, itemId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     actor.rollDefenses();
   }
 
   async adjustBuff(event, tokenId, buffId) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     let buff = super.getItem(actor, buffId);
 
     let update = { data: { active: !buff.system.active } };
@@ -156,7 +156,7 @@ export class RollHandlerBasePf1 extends RollHandler {
   }
 
   async adjustCondition(event, tokenId, conditionKey) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     const value = actor.system.attributes.conditions[conditionKey];
 
@@ -166,8 +166,8 @@ export class RollHandlerBasePf1 extends RollHandler {
     await actor.update(update);
   }
 
-  async performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -191,7 +191,7 @@ export class RollHandlerBasePf1 extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     await actor.rollInitiative({ createCombatants: true });
 

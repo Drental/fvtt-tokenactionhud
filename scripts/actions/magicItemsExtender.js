@@ -7,8 +7,8 @@ export class MagicItemActionListExtender extends ActionListExtender {
   }
 
   /** @override */
-  extendActionList(actionList, multipleTokens) {
-    if (multipleTokens) return;
+  extendActionList(actionList, character) {
+    if (!character) return;
 
     let tokenId = actionList.tokenId;
     let actorId = actionList.actorId;

@@ -60,7 +60,7 @@ export class FilterCategory {
   async selectSubcategories(selection) {
     for (let subcat of selection) {
       switch (subcat.type) {
-        case SubcategoryType.CORE:
+        case SubcategoryType.SYSTEM:
           await this.addCoreSubcategory(subcat);
           break;
         case SubcategoryType.COMPENDIUM:
@@ -92,7 +92,7 @@ export class FilterCategory {
       subcategory.title
     );
     hudCore.createFilter();
-    hudCore.submitFilterSuggestions();
+    hudCore.saveActionsSuggestions();
 
     this.subcategories.push(hudCore);
   }
@@ -110,7 +110,7 @@ export class FilterCategory {
       compendium.title
     );
     hudCompendium.createFilter();
-    await hudCompendium.submitFilterSuggestions();
+    await hudCompendium.saveActionsSuggestions();
 
     this.subcategories.push(hudCompendium);
   }
@@ -124,7 +124,7 @@ export class FilterCategory {
       choice.title
     );
     subcategory.createFilter();
-    subcategory.submitFilterSuggestions();
+    subcategory.saveActionsSuggestions();
 
     this.subcategories.push(subcategory);
   }
@@ -175,7 +175,7 @@ export class FilterCategory {
     return { id: this.id, value: this.title };
   }
 
-  getSubcategoriesAsTagifyEntries() {
+  getSelectedSubcategoriesAsTagifyEntries() {
     return this.subcategories.map((c) => c.asTagifyEntry());
   }
 }

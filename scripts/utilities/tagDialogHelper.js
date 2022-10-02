@@ -1,69 +1,32 @@
 import { TagDialog } from "../tagDialog.js";
-import { CompendiumHelper } from "../categories/compendiumHelper.js";
 
 export class TagDialogHelper {
-  static showFilterDialog(filterManager, subcategoryId) {
-    TagDialogHelper._showFilterDialog(filterManager, subcategoryId);
-  }
-
-  static showSubcategoryDialogue(categoryManager, categoryId, categoryName) {
-    TagDialogHelper._showSubcategoryDialogue(
-      categoryManager,
-      categoryId,
-      categoryName
-    );
-  }
-
+  /** SHOW CATEGORY/SUBCATEGORY/ACTION DIALOGS */
   static showCategoryDialog(categoryManager) {
     TagDialogHelper._showCategoryDialog(categoryManager);
   }
 
-  static async submitCategories(categoryManager, choices) {
-    await categoryManager.submitCategories(choices);
-    Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
-  static async submitSubcategories(categoryManager, categoryId, choices) {
-    await categoryManager.submitSubcategories(categoryId, choices);
-    Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
-  static async submitFilter(filterManager, categoryId, elements, isBlocklist) {
-    await filterManager.setFilteredElements(categoryId, elements, isBlocklist);
-    Hooks.callAll("forceUpdateTokenActionHUD");
-  }
-
-  static _showFilterDialog(filterManager, subcategoryId) {
-    let suggestions = filterManager.getSuggestions(subcategoryId);
-    let selected = filterManager.getFilteredElements(subcategoryId);
-
-    let title = game.i18n.localize("tokenActionHud.filterTitle");
+  static _showCategoryDialog(categoryManager) {
+    let selected = categoryManager.getSelectedCategoriesAsTagifyEntries();
+    let title = game.i18n.localize("tokenActionHud.categoryTagTitle");
 
     let hbsData = {
-      topLabel: game.i18n.localize("tokenActionHud.filterTagExplanation"),
+      topLabel: game.i18n.localize("tokenActionHud.categoryTagExplanation"),
       placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
       clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
-        "tokenActionHud.blockListLabel"
-      ),
-      index: [
-        { value: 0, text: game.i18n.localize("tokenActionHud.allowlist") },
-        { value: 1, text: game.i18n.localize("tokenActionHud.blockList") },
-      ],
+        "tokenActionHud.pushLabelExplanation"
+      )
     };
 
-    let submitFunc = async (choices, indexValue) => {
-      let isBlocklist = parseInt(indexValue) != 0 ? true : false;
-      await TagDialogHelper.submitFilter(
-        filterManager,
-        subcategoryId,
-        choices,
-        isBlocklist
-      );
+    let submitFunc = async (choices) => {
+      await TagDialogHelper.submitCategories(categoryManager, choices);
     };
 
     TagDialog.showDialog(
-      suggestions,
+      null,
+      null,
+      null,
       selected,
       title,
       hbsData,
@@ -71,14 +34,22 @@ export class TagDialogHelper {
     );
   }
 
-  static _showSubcategoryDialogue(categoryManager, categoryId, categoryName) {
-    const defaultSubcategories = categoryManager.getDefaultSubcategoriesAsTagifyEntries();
-    let compendiumSuggestions = CompendiumHelper.getCompendiumChoicesAsTagifyEntries();
+  static showSubcategoryDialog(categoryManager, categoryId, categoryName) {
+    TagDialogHelper._showSubcategoryDialog(
+      categoryManager,
+      categoryId,
+      categoryName
+    );
+  }
+
+  static _showSubcategoryDialog(categoryManager, categoryId, categoryName) {
+    const defaultSubcategories = categoryManager.getSuggestedSystemSubcategoriesAsTagifyEntries();
+    let compendiumSubcategories = categoryManager.getSuggestedCompendiumSubcategoriesAsTagifyEntries();
     let suggestions = [];
-    suggestions.push(...defaultSubcategories, ...compendiumSuggestions);
+    suggestions.push(...defaultSubcategories, ...compendiumSubcategories);
     
     let selected =
-      categoryManager.getSubcategoriesAsTagifyEntries(categoryId);
+      categoryManager.getSelectedSubcategoriesAsTagifyEntries(categoryId);
 
     let title =
       game.i18n.localize("tokenActionHud.subcategoryTagTitle") +
@@ -92,13 +63,14 @@ export class TagDialogHelper {
     };
 
     let submitFunc = async (choices, html) => {
-      choices = choices.map((c) => {
-        c.id = c.id ?? 
-          c.title.slugify({
+      choices = choices.map(choice => {
+        choice.id = choice.id ?? 
+          choice.title.slugify({
             replacement: "_",
             strict: true,
           });
-        return { id: c.id, title: c.title, type: c.type };
+        choice.type = choice.type ?? "custom";
+        return { id: choice.id, title: choice.title, type: choice.type };
       });
       await TagDialogHelper.submitSubcategories(
         categoryManager,
@@ -114,6 +86,8 @@ export class TagDialogHelper {
     };
 
     TagDialog.showDialog(
+      categoryId,
+      null,
       suggestions,
       selected,
       title,
@@ -122,33 +96,58 @@ export class TagDialogHelper {
     );
   }
 
-  static _showCategoryDialog(categoryManager) {
-    let selected = categoryManager.getCategoriesAsTagifyEntries();
-    let title = game.i18n.localize("tokenActionHud.categoryTagTitle");
+  static showActionDialog(actionHandler, categoryId, subcategoryId) {
+    TagDialogHelper._showActionDialog(actionHandler, categoryId, subcategoryId);
+  }
+
+  static _showActionDialog(actionHandler, categoryId, subcategoryId) {
+    let suggestions = actionHandler.getSuggestedActionsAsTagifyEntries(categoryId, subcategoryId);
+    let selected = actionHandler.getSelectedActionsAsTagifyEntries(categoryId, subcategoryId);
+
+    let title = game.i18n.localize("tokenActionHud.filterTitle");
 
     let hbsData = {
-      topLabel: game.i18n.localize("tokenActionHud.categoryTagExplanation"),
+      topLabel: game.i18n.localize("tokenActionHud.filterTagExplanation"),
       placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
       clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
-        "tokenActionHud.pushLabelExplanation"
-      ),
-      index: [
-        { value: 0, text: game.i18n.localize("tokenActionHud.unshift") },
-        { value: 1, text: game.i18n.localize("tokenActionHud.push") },
-      ],
+        "tokenActionHud.blockListLabel"
+      )
     };
 
     let submitFunc = async (choices) => {
-      await TagDialogHelper.submitCategories(categoryManager, choices);
+      await TagDialogHelper.saveActions(
+        actionHandler,
+        categoryId,
+        subcategoryId,
+        choices
+      );
     };
 
     TagDialog.showDialog(
-      null,
+      categoryId,
+      subcategoryId,
+      suggestions,
       selected,
       title,
       hbsData,
       submitFunc
     );
+  }
+
+  // SUBMIT CATEGORIES/SUBCATEGORIES/ACTIONS
+  static async submitCategories(categoryManager, choices) {
+    await categoryManager.submitCategories(choices);
+    Hooks.callAll("forceUpdateTokenActionHUD");
+  }
+
+  static async submitSubcategories(categoryManager, categoryId, choices) {
+    await categoryManager.submitSubcategories(categoryId, choices);
+    Hooks.callAll("forceUpdateTokenActionHUD");
+  }
+
+  static async saveActions(actionHandler, categoryId, subcategoryId, choices) {
+    await actionHandler.saveActions(categoryId, subcategoryId, choices);
+    Hooks.callAll("forceUpdateTokenActionHUD");
   }
 }

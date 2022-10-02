@@ -15,41 +15,41 @@ export class RollHandlerBaseSW5e extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       for (let t of canvas.tokens.controlled) {
         let idToken = t.id;
         await this._handleMacros(event, macroType, idToken, actionId);
       }
     } else {
-      await this._handleMacros(event, macroType, tokenId, actionId);
+      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, tokenId, actionId) {
+  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
     switch (macroType) {
       case "ability":
-        this.rollAbilityMacro(event, tokenId, actionId);
+        this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "skill":
-        this.rollSkillMacro(event, tokenId, actionId);
+        this.rollSkillMacro(event, actorId, tokenId, actionId);
         break;
       case "abilitySave":
-        this.rollAbilitySaveMacro(event, tokenId, actionId);
+        this.rollAbilitySaveMacro(event, actorId, tokenId, actionId);
         break;
       case "abilityCheck":
-        this.rollAbilityCheckMacro(event, tokenId, actionId);
+        this.rollAbilityCheckMacro(event, actorId, tokenId, actionId);
         break;
       case "item":
       case "power":
       case "feat":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       case "utility":
-        await this.performUtilityMacro(event, tokenId, actionId);
+        await this.performUtilityMacro(event, actorId, tokenId, actionId);
         break;
       case "effect":
         await this.toggleEffect(event, tokenId, actionId);
@@ -61,28 +61,28 @@ export class RollHandlerBaseSW5e extends RollHandler {
     }
   }
 
-  rollAbilityMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAbility(checkId, { event: event });
   }
 
-  rollAbilityCheckMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAbilityTest(checkId, { event: event });
   }
 
-  rollAbilitySaveMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAbilitySave(checkId, { event: event });
   }
 
-  rollSkillMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollSkillMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollSkill(checkId, { event: event });
   }
 
-  rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = super.getItem(actor, itemId);
 
     if (this.needsRecharge(item)) {
@@ -101,8 +101,8 @@ export class RollHandlerBaseSW5e extends RollHandler {
     );
   }
 
-  async performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -148,7 +148,7 @@ export class RollHandlerBaseSW5e extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     await actor.rollInitiative({ createCombatants: true });
 
@@ -156,7 +156,7 @@ export class RollHandlerBaseSW5e extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     const effects =
       "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
     const effect = effects.find((e) => e.id === effectId);

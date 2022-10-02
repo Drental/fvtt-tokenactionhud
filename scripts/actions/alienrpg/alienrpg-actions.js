@@ -7,7 +7,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActions(token, multipleTokens) {
+  async buildSystemActions(token, multipleTokens) {
     let attributes = {};
     let skills = {};
     let weapons = {};
@@ -57,7 +57,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       attack = this._getAttackList(actor, tokenId);
       utility = this._getUtilityList(actor, tokenId);
     }
-    // // console.log('ActionHandlerAlienRPG -> doBuildActions -> utility', utility);
+    // // console.log('ActionHandlerAlienRPG -> buildSystemActions -> utility', utility);
     switch (actor.type) {
       case "character":
         this._combineCategoryWithList(

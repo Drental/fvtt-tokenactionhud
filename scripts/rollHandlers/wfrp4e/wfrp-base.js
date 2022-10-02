@@ -13,10 +13,10 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     let bypassData = { bypass: !!event.shiftKey };
 
     if (macroType === "characteristic")
@@ -24,7 +24,7 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
         .setupCharacteristic(actionId, bypassData)
         .then((setupData) => actor.basicTest(setupData));
 
-    if (this.isRenderItem()) return this.doRenderItem(tokenId, actionId);
+    if (this.isRenderItem()) return this.doRenderItem(actorId, tokenId, actionId);
 
     let item = actor.items.get(actionId);
     let itemData;

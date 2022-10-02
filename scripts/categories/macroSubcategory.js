@@ -12,7 +12,7 @@ export class MacroSubcategory extends FilterSubcategory {
     this.type = SubcategoryType.MACRO;
   }
 
-  submitFilterSuggestions() {
+  saveActionsSuggestions() {
     let suggestions = MacroHelper.getMacrosForFilter();
     this.filterManager.setSuggestions(this.id, suggestions);
   }

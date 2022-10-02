@@ -13,19 +13,19 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
     let attributename = payload[3];
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     let charType;
     if (actor) charType = actor.type;
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ["item", "armor"];
     if (renderable.includes(macroType) && this.isRenderItem())
-      return this.doRenderItem(tokenId, actionId);
+      return this.doRenderItem(actorId, tokenId, actionId);
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       if (macroType === "utility" && actionId.includes("toggle")) {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
@@ -143,11 +143,11 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           actor.consumablesCheck(actor, macroType, plabel, actionId);
           break;
         case "conditions":
-          this.performConditionMacro(event, tokenId, actionId);
+          this.performConditionMacro(event, actorId, tokenId, actionId);
           break;
 
         case "utility":
-          this.performUtilityMacro(event, tokenId, actionId);
+          this.performUtilityMacro(event, actorId, tokenId, actionId);
         default:
           break;
       }
@@ -232,8 +232,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     await actor.update(update);
   }
 
-  async performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -271,8 +271,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     }
   }
 
-  performConditionMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  performConditionMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -299,7 +299,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let item = actor.items.get(actionId);
     let renderable = ["item"];
     if (renderable.includes(macroType)) {
-      return this.doRenderItem(tokenId, actionId);
+      return this.doRenderItem(actorId, tokenId, actionId);
     } else {
       console.warn("armor roll");
     }

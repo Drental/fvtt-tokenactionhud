@@ -13,10 +13,10 @@ export class RollHandlerBaseDw extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     let charType = actor.type;
 
     if (charType === "character") {
@@ -71,7 +71,7 @@ export class RollHandlerBaseDw extends RollHandler {
     let move = actor.items.get(actionId);
 
     if (this.isRenderItem()) {
-      this.doRenderItem(tokenId, actionId);
+      this.doRenderItem(actorId, tokenId, actionId);
       return;
     }
 

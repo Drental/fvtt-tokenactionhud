@@ -8,7 +8,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(token, multipleTokens) {
+  buildSystemActions(token, multipleTokens) {
     if (token) {
       return this._buildSingleTokenList(token);
     } else if (multipleTokens) {

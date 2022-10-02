@@ -8,7 +8,7 @@ export class ActionHandlerED4e extends ActionHandler {
     }
 
 
-    doBuildActions(token, multipleTokens) {
+    buildSystemActions(token, multipleTokens) {
         if (token) {
             return this._buildSingleTokenList(token);
         } else if (multipleTokens) {

@@ -15,31 +15,31 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
     switch (macroType) {
       case "ability":
-        this.rollAbilityMacro(event, tokenId, actionId);
+        this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "skill":
-        this.rollSkillMacro(event, tokenId, actionId);
+        this.rollSkillMacro(event, actorId, tokenId, actionId);
         break;
       case "save":
-        this.rollSaveMacro(event, tokenId, actionId);
+        this.rollSaveMacro(event, actorId, tokenId, actionId);
         break;
       case "abilitySave":
-        this.rollAbilitySaveMacro(event, tokenId, actionId);
+        this.rollAbilitySaveMacro(event, actorId, tokenId, actionId);
         break;
       case "abilityCheck":
-        this.rollAbilityCheckMacro(event, tokenId, actionId);
+        this.rollAbilityCheckMacro(event, actorId, tokenId, actionId);
         break;
       case "item":
       case "spell":
       case "feat":
       case "starshipWeapon":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       case "shields":
         this._handleShields(event, tokenId, actionId);
@@ -56,28 +56,28 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     }
   }
 
-  rollAbilityMacro(event, tokenId, checkId) {
-    super.getActor(tokenId).rollAbility(checkId, { event: event });
+  rollAbilityMacro(event, actorId, tokenId, checkId) {
+    super.getActor(characterId).rollAbility(checkId, { event: event });
   }
 
-  rollAbilityCheckMacro(event, tokenId, checkId) {
-    super.getActor(tokenId).rollAbilityTest(checkId, { event: event });
+  rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
+    super.getActor(characterId).rollAbilityTest(checkId, { event: event });
   }
 
-  rollAbilitySaveMacro(event, tokenId, checkId) {
-    super.getActor(tokenId).rollAbilitySave(checkId, { event: event });
+  rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
+    super.getActor(characterId).rollAbilitySave(checkId, { event: event });
   }
 
-  rollSaveMacro(event, tokenId, checkId) {
-    super.getActor(tokenId).rollSave(checkId, { event: event });
+  rollSaveMacro(event, actorId, tokenId, checkId) {
+    super.getActor(characterId).rollSave(checkId, { event: event });
   }
 
-  rollSkillMacro(event, tokenId, checkId) {
-    super.getActor(tokenId).rollSkill(checkId, { event: event });
+  rollSkillMacro(event, actorId, tokenId, checkId) {
+    super.getActor(characterId).rollSkill(checkId, { event: event });
   }
 
-  rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = actor.items.get(itemId);
 
     if (this.needsRecharge(item)) {
@@ -99,7 +99,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   async _handleShields(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     let payload = actionId.split(".");
 
     const side = payload[0];
@@ -140,7 +140,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   _handleCrewAction(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     actor.useStarshipAction(actionId);
   }
 }

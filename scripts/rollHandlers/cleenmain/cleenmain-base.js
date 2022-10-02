@@ -12,10 +12,10 @@ export class RollHandlerBaseCleenmain extends RollHandler {
       super.throwInvalidValueErr();
     }
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let itemId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     switch (macroType) {
       case "weapon":
         this._handleWeapon(macroType, event, actor, itemId);

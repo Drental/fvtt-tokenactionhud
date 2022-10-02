@@ -8,7 +8,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(token, multipleTokens) {
+  buildSystemActions(token, multipleTokens) {
     if (token) {
       return this._buildSingleTokenList(token);
     } else if (multipleTokens) {
@@ -433,11 +433,11 @@ export class ActionHandlerSW5e extends ActionHandler {
       token.actor.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
     );
     let sortedFeats = this._sortByItemSort(validFeats);
-    return this._categoriseFeats(token.id, token.actor, sortedFeats);
+    return this._categoriseFeatures(token.id, token.actor, sortedFeats);
   }
 
   /** @private */
-  _categoriseFeats(tokenId, actor, feats) {
+  _categoriseFeatures(tokenId, actor, feats) {
     let active = this.initializeEmptySubcategory();
     let passive = this.initializeEmptySubcategory();
     let lair = this.initializeEmptySubcategory();

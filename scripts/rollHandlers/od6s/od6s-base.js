@@ -14,10 +14,10 @@ export class RollHandlerCoreOD6S extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
     let actor;
-    if(macroType !== 'crew') actor = super.getActor(tokenId);
+    if(macroType !== 'crew') actor = super.getActor(characterId);
     switch (macroType) {
       case "action":
         actor.rollAction(actionId);

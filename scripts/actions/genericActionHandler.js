@@ -7,36 +7,38 @@ export class GenericActionHandler {
     this.baseHandler = baseHandler;
   }
 
-  addGenericCategories(actionList, token, isMultipleTokens) {
-    this._addConditions(actionList, token, isMultipleTokens);
-    this._addUtilities(actionList, token, isMultipleTokens);
+  buildGenericActions(actionList, character) {
+    this._addConditions(actionList, character);
+    this._addUtilities(actionList, character);
   }
 
   /** @private */
-  _addConditions(actionList, token, isMultipleTokens) {}
+  _addConditions(actionList, character) {}
 
   /** @private */
-  _addUtilities(actionList, token, isMultipleTokens) {
-    if (isMultipleTokens) {
+  _addUtilities(actionList, character) {
+    if (!character) {
       const tokens = canvas.tokens.controlled;
       this._addMultiUtilities(actionList, tokens);
     } else {
-      this._getUtilityList(actionList, token);
+      this._getUtilityList(actionList, character);
     }
   }
 
   /** @private */
-  _getUtilityList(actionList, token) {
-    const tokenId = token.id;
+  _getUtilityList(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    if (!tokenId) return;
     let macroType = "utility";
 
     let actions = [];
     // Toggle Combat
-    const inCombat = canvas.tokens.placeables.find((t) => t.id === tokenId).inCombat
+    const inCombat = canvas.tokens.placeables.find(token => token.id === tokenId).inCombat
     const name = (inCombat) 
       ? this.baseHandler.i18n("tokenActionHud.removeFromCombat")
       : this.baseHandler.i18n("tokenActionHud.addToCombat");
-    let combatStateValue = [macroType, tokenId, "toggleCombat"].join(
+    let combatStateValue = [macroType, actorId, tokenId, "toggleCombat"].join(
       this.baseHandler.delimiter
     );
     let combatAction = {
@@ -48,11 +50,11 @@ export class GenericActionHandler {
 
     // Toggle Visibility
     if (game.user.isGM) {
-      const hidden = canvas.tokens.placeables.find((t) => t.id === tokenId).document.hidden
+      const hidden = canvas.tokens.placeables.find(token => token.id === tokenId).document.hidden
       const name = (hidden)
         ? this.baseHandler.i18n("tokenActionHud.makeVisible")
         : this.baseHandler.i18n("tokenActionHud.makeInvisible");
-      let visbilityValue = [macroType, tokenId, "toggleVisibility"].join(
+      let visbilityValue = [macroType, actorId, tokenId, "toggleVisibility"].join(
         this.baseHandler.delimiter
       );
       let visibilityAction = {
@@ -68,18 +70,19 @@ export class GenericActionHandler {
 
   /** @private */
   _addMultiUtilities(utilityCategory, tokens) {
-    let macroType = "utility";
-    let tokenId = "multi";
+    const macroType = "utility";
+    const actorId = "multi";
+    const tokenId = "multi";
 
     // Token Subcategory
     let tokenSubcategory = this.baseHandler.initializeEmptySubcategory();
 
     // Toggle Combat
-    const inCombat = tokens.every((t) => t.inCombat);
+    const inCombat = tokens.every(token => token.inCombat);
     const name = (inCombat) 
       ? this.baseHandler.i18n("tokenActionHud.removeFromCombat")
       : this.baseHandler.i18n("tokenActionHud.addToCombat");
-    let combatStateValue = [macroType, tokenId, "toggleCombat"].join(
+    let combatStateValue = [macroType, actorId, tokenId, "toggleCombat"].join(
       this.baseHandler.delimiter
     );
     let combatAction = {
@@ -91,11 +94,11 @@ export class GenericActionHandler {
 
     // Toggle Visibility
     if (game.user.isGM) {
-      const hidden = tokens.every((t) => !t.document.hidden);
+      const hidden = tokens.every(token => !token.document.hidden);
       const name = (hidden)
       ? this.baseHandler.i18n("tokenActionHud.makeVisible")
       : this.baseHandler.i18n("tokenActionHud.makeInvisible");
-      let visbilityValue = [macroType, tokenId, "toggleVisibility"].join(
+      let visbilityValue = [macroType, actorId, tokenId, "toggleVisibility"].join(
         this.baseHandler.delimiter
       );
       let visibilityAction = {

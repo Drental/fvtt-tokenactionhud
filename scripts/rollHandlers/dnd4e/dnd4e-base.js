@@ -15,38 +15,38 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       for (let t of canvas.tokens.controlled) {
         let idToken = t.id;
         await this._handleMacros(event, macroType, idToken, actionId);
       }
     } else {
-      await this._handleMacros(event, macroType, tokenId, actionId);
+      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, tokenId, actionId) {
+  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
     switch (macroType) {
       case "ability":
-        this.rollAbilityMacro(event, tokenId, actionId);
+        this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "skill":
-        this.rollSkillMacro(event, tokenId, actionId);
+        this.rollSkillMacro(event, actorId, tokenId, actionId);
         break;
       case "feature":
       case "inventory":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       case "power":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollPowerMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollPowerMacro(event, actorId, tokenId, actionId);
         break;
       case "utility":
-        await this.performUtilityMacro(event, tokenId, actionId);
+        await this.performUtilityMacro(event, actorId, tokenId, actionId);
         break;
       case "effect":
         await this.toggleEffect(event, tokenId, actionId);
@@ -58,24 +58,24 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     }
   }
 
-  rollAbilityMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     return game.dnd4eBeta.tokenBarHooks.rollAbility(actor, checkId, event);
   }
 
-  rollSkillMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollSkillMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     return game.dnd4eBeta.tokenBarHooks.rollSkill(actor, checkId, event);
   }
 
-  rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = super.getItem(actor, itemId);
     return game.dnd4eBeta.tokenBarHooks.rollItem(actor, item, event);
   }
 
-  rollPowerMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollPowerMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = super.getItem(actor, itemId);
 
     if (this.needsRecharge(actor, item)) {
@@ -93,8 +93,8 @@ export class RollHandlerBaseDnD4e extends RollHandler {
     );
   }
 
-  async performUtilityMacro(event, tokenId, actionId) {
-    let actor = super.getActor(tokenId);
+  async performUtilityMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(characterId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -133,7 +133,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId, event) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     await actor.rollInitiative({ createCombatants: true, event });
 
@@ -141,7 +141,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     const effects =
       "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
     const effect = effects.find((e) => e.id === effectId);

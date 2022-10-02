@@ -8,222 +8,136 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(emptyActionList, token, multipleTokens) {
-
-    if (token) {
-      return this._buildSingleTokenList(emptyActionList, token);
-    }
-    if (multipleTokens) {
-      return this._buildMultipleTokenList(emptyActionList);
-    }
-    return emptyActionList;
-  }
-  
-  async _buildSingleTokenList(emptyActionList, token) {
+  async buildSystemActions(emptyActionList, character) {
     const actionList = emptyActionList;
-    await this._buildActions(actionList, token);
+    await this._buildActions(actionList, character);
     return actionList;
   }
 
-  _buildActions(actionList, token) {
-    const actor = token.actor;
+  async _buildActions(actionList, character) {
+    const actor = character?.actor;
     const subcategories = Object.values(actionList.categories)
     .filter(c => c.subcategories)
       .flatMap(c => Object.values(c.subcategories)
-         .filter(sc => sc)
-         .flatMap(sc => [{ 
-            categoryId: c.id,
-            categoryTitle: c.title,
-            subcategoryId: sc.id,
-            subcategoryTitle: sc.title
-      }]))
-    
-    if (actor.type === "character" || actor.type === "npc") {
-        this._buildAllItems(actionList, token);
-        this._buildSpells(actionList, token);
-        this._buildFeatures(actionList, token);
-        this._buildAbilities(actionList, token);
-        this._buildSkills(actionList, token);
-        this._buildChecks(actionList, token);
-        this._buildSaves(actionList, token);
-        this._buildEffects(actionList, token);
-        this._buildConditions(actionList, token);
-        this._buildCombat(actionList, token);
-        this._buildRests(actionList, token);
-        //this._buildToken(actionList, token);
-        this._buildUtility(actionList, token);
+         .filter(sc => sc.type === "system")
+         .flatMap(sc => sc.id)
+      );
+    const inventorySubcategories = subcategories
+      .filter(sc => sc === "weapons" || sc === "equipment" || sc === "consumables" || sc === "tools");
+      
+    if (actor?.type === "character" || actor?.type === "npc") {
+        if (inventorySubcategories) this._buildInventory(actionList, character, inventorySubcategories);
+        if (subcategories.some(sc => sc === "spells")) this._buildSpells(actionList, character);
+        if (subcategories.some(sc => sc === "features")) this._buildFeatures(actionList, character);
+        if (subcategories.some(sc => sc === "abilities")) this._buildAbilities(actionList, character, "abilities", "ability");
+        if (subcategories.some(sc => sc === "checks")) this._buildAbilities(actionList, character, "checks", "abilityCheck");
+        if (subcategories.some(sc => sc === "saves")) this._buildAbilities(actionList, character, "saves", "abilitySaves");
+        if (subcategories.some(sc => sc === "skills")) this._buildSkills(actionList, character);
+        if (subcategories.some(sc => sc === "effects")) this._buildEffects(actionList, character);
+        if (subcategories.some(sc => sc === "conditions")) this._buildConditions(actionList, character);
+        if (subcategories.some(sc => sc === "combat")) this._buildCombat(actionList, character);
+        if (subcategories.some(sc => sc === "rests")) this._buildRests(actionList, character);
+        if (subcategories.some(sc => sc === "utility")) this._buildUtility(actionList, character);
     }
-    if (actor.type === "vehicle") {
-        this._buildAllItems(actionList, token);
-        this._buildFeatures(actionList, token);
-        this._buildAbilities(actionList, token);
-        this._buildChecks(actionList, token);
-        this._buildSaves(actionList, token);
-        this._buildEffects(actionList, token);
-        this._buildConditions(actionList, token);
-        this._buildCombat(actionList, token);
-        this._buildUtility(actionList, token);
+    if (actor?.type === "vehicle") {
+      if (inventorySubcategories) this._buildInventory(actionList, character, inventorySubcategories);
+      if (subcategories.some(sc => sc === "features")) this._buildFeatures(actionList, character);
+      if (subcategories.some(sc => sc === "abilities")) this._buildAbilities(actionList, character, "abilities", "ability");
+      if (subcategories.some(sc => sc === "checks")) this._buildAbilities(actionList, character, "checks", "abilityCheck");
+      if (subcategories.some(sc => sc === "saves")) this._buildAbilities(actionList, character, "saves", "abilitySave");
+      if (subcategories.some(sc => sc === "effects")) this._buildEffects(actionList, character);
+      if (subcategories.some(sc => sc === "conditions")) this._buildConditions(actionList, character);
+      if (subcategories.some(sc => sc === "combat")) this._buildCombat(actionList, character);
+      if (subcategories.some(sc => sc === "utility")) this._buildUtility(actionList, character);
+    }
+    if (!actor) {
+      const tokenId = "multi";
+      actionList.tokenId = tokenId;
+      actionList.actorId = "multi";
+      const allowedTypes = ["npc", "character"];
+      const actors = canvas.tokens.controlled
+        .map(token => token.actor)
+        .filter(actor => allowedTypes.includes(actor.type));
+      if (subcategories.some(sc => sc === "abilities")) this._buildMultiAbilities(actionList, tokenId, "abilities", "ability");
+      if (subcategories.some(sc => sc === "checks")) this._buildMultiAbilities(actionList, tokenId, "checks", "abilityCheck");
+      if (subcategories.some(sc => sc === "saves")) this._buildMultiAbilities(actionList, tokenId, "saves", "abilitySave");
+      if (subcategories.some(sc => sc === "skills")) this._buildMultiSkills(actionList, tokenId);
+      if (subcategories.some(sc => sc === "conditions")) this._buildMultiConditions(actionList, tokenId, actors);
+      if (subcategories.some(sc => sc === "combat")) this._buildMultiCombat(actionList, tokenId);
+      if (subcategories.some(sc => sc === "rests")) this._buildMultiRests(actionList, tokenId, actors)
+      if (subcategories.some(sc => sc === "utility")) this._buildMultiUtility(actionList, tokenId, actors);
     }
     
     return actionList
   }
 
-  _buildAbilities(actionList, token) {
-    const actor = token.actor;
-    const abilities = actor.system.abilities;
-    let actions = this._getAbilityList(
-      token.id,
-      abilities,
-      "abilities",
-      this.i18n("tokenActionHud.dnd5e.abilities"),
-      "ability"
-    );
-    this._mapActions(actionList, actions, "abilities");
-  }
-
-  _buildChecks(actionList, token) {
-    const actor = token.actor;
-    const abilities = actor.system.abilities;
-    let actions = this._getAbilityList(
-      token.id,
-      abilities,
-      "checks",
-      this.i18n("tokenActionHud.dnd5e.checks"),
-      "abilityCheck"
-    );
-    this._mapActions(actionList, actions, "checks");
-  }
-
-  _buildSaves(actionList, token) {
-    const actor = token.actor;
-    const abilities = actor.system.abilities;
-    let actions = this._getAbilityList(
-      token.id,
-      abilities,
-      "saves",
-      this.i18n("tokenActionHud.dnd5e.saves"),
-      "abilitySave"
-    );
-    this._mapActions(actionList, actions, "saves");
-  }
-
-  _buildMultipleTokenList() {
-    const list = this.initializeEmptyActionList();
-    list.tokenId = "multi";
-    list.actorId = "multi";
-
-    const allowedTypes = ["npc", "character"];
-    let actors = canvas.tokens.controlled
-      .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.type));
-
-    const tokenId = list.tokenId;
-
-    this._addMultiSkills(list, tokenId);
-
-    if (settings.get("splitAbilities")) {
-      let savesTitle = this.i18n("tokenActionHud.dnd5e.saves");
-      let checksTitle = this.i18n("tokenActionHud.dnd5e.checks");
-      this._addMultiAbilities(
-        list,
-        tokenId,
-        "saves",
-        savesTitle,
-        "abilitySave"
-      );
-      this._addMultiAbilities(
-        list,
-        tokenId,
-        "checks",
-        checksTitle,
-        "abilityCheck"
-      );
-    } else {
-      let abilitiesTitle = this.i18n("tokenActionHud.dnd5e.abilities");
-      this._addMultiAbilities(
-        list,
-        tokenId,
-        "abilities",
-        abilitiesTitle,
-        "ability"
-      );
-    }
-
-    if (settings.get("showConditionsCategory"))
-      this._addMultiConditions(list, tokenId);
-
-    this._addMultiUtilities(list, tokenId, actors);
-
-    return list;
-  }
-
-  /** ITEMS **/
+  /** INVENTORY **/
 
   /** @private */
-  _buildAllItems(actionList, token) {
-    const actor = token.actor;
-
+  _buildInventory(actionList, character, inventorySubcategories) {
+    const actor = character.actor;
     const validItems = this._filterLongerActions(
-      actor.items.filter((i) => i.system.quantity > 0)
+      actor.items.filter(item => item.system.quantity > 0)
     );
     const sortedItems = this._sortByItemSort(validItems);
 
+    // EQUIPPED INVENTORY
     let equipped;
-    if (actor.type === "npc" && settings.get("showAllNpcItems")) {
-      equipped = sortedItems.filter(
-        (i) =>
-          i.type !== "consumable" && i.type !== "spell" && i.type !== "feat"
+    if (actor?.type === "npc" && settings.get("showAllNpcItems")) {
+      equipped = sortedItems.filter(item =>
+          item.type !== "consumable" && item.type !== "spell" && item.type !== "feat"
       );
     } else {
-      equipped = sortedItems.filter(
-        (i) => i.type !== "consumable" && i.system.equipped
+      equipped = sortedItems.filter(item =>
+        item.type !== "consumable" && item.system.equipped
       );
     }
-    let activeEquipped = this._getActiveEquipment(equipped);
+    const activeEquipped = this._getActiveEquipment(equipped);
 
-    // Weapons
-    let weapons = activeEquipped.filter((i) => i.type == "weapon");
-    this._buildItems(actionList, token, weapons, "weapons");
+    // WEAPONS
+    if (inventorySubcategories.some(sc => sc === "weapons")) {
+      const weapons = activeEquipped.filter(item => item.type == "weapon");
+      this._buildItems(actionList, character, weapons, "weapons");
+    }
+  
+    // EQUIPMENT
+    if (inventorySubcategories.some(sc => sc === "equipment")) {
+      const equipment = activeEquipped.filter(item => item.type == "equipment");
+      this._buildItems(actionList, character, equipment, "equipment");
+    }
 
-    // Equipment
-    let equipment = activeEquipped.filter((i) => i.type == "equipment");
-    this._buildItems(actionList, token, equipment, "equipment");
+    // CONSUMABLES
+    if (inventorySubcategories.some(sc => sc === "consumables")) {
+      const allConsumables = this._getActiveEquipment(
+        sortedItems.filter(item => item.type == "consumable")
+      );
+      const expendedFiltered = this._filterExpendedItems(allConsumables);
+      const consumables = expendedFiltered;
+      this._buildItems(actionList, character, consumables, "consumables");
+    }
 
-    // Other Items
-    let other = activeEquipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment" && i.type != "tool" 
-    );
-    this._buildItems(actionList, token, other, "other-items");
-
-    // Consumables
-    let allConsumables = this._getActiveEquipment(
-      sortedItems.filter((i) => i.type == "consumable")
-    );
-    let expendedFiltered = this._filterExpendedItems(allConsumables);
-    let consumables = expendedFiltered;
-    this._buildItems(actionList, token, consumables, "consumables");
-
-    // Tools
-    let tools = validItems.filter((t) => t.type === "tool");
-    this._buildItems(actionList, token, tools, "tools");
+    // TOOLS
+    if (inventorySubcategories.some(subcategory => subcategory === "tools")) {
+      let tools = validItems.filter(item => item.type === "tool");
+      this._buildItems(actionList, character, tools, "tools");
+    }
   }
 
-  /** ITEMS **/
-
   /** @private */
-  _buildItems(actionList, token, items, subcategoryId) {
-    const actor = token.actor;
-    const tokenId = token.id;
+  _buildItems(actionList, character, items, subcategoryId) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
     const macroType = "item";
-    let actions = items.map((item) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, item)
+    const actions = items.map(item =>
+      this._buildEquipmentItem(actorId, tokenId, actor, macroType, item)
     );
     this._mapActions(actionList, actions, subcategoryId);
   }
 
   /** @private */
   _getActiveEquipment(equipment) {
-    let activeEquipment = []
+    let activeEquipment = [];
     if (!settings.get("showItemsWithoutAction")) {
       const activationTypes = Object.keys(
         game.dnd5e.config.abilityActivationTypes
@@ -243,30 +157,66 @@ export class ActionHandler5e extends ActionHandler {
     return activeEquipment;
   }
 
+  /** @private */
+  _buildEquipmentItem(actorId, tokenId, actor, macroType, item) {
+    let action = this._buildItem(actorId, tokenId, macroType, item);
+    this._addItemInfo(actor, item, action);
+    return action;
+  }
+
+  /** @private */
+  _buildItem(actorId, tokenId, macroType, item) {
+    const itemId = item.id;
+    let encodedValue = [macroType, actorId, tokenId, itemId].join(this.delimiter);
+    let img = this._getImage(item);
+    let icon = this._getActionIcon(item.system.activation?.type);
+    let result = {
+      name: item.name,
+      id: itemId,
+      encodedValue: encodedValue,
+      img: img,
+      icon: icon
+    };
+
+    if (
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
+    ) {
+      result.name += ` (${this.i18n("tokenActionHud.recharge")})`;
+    }
+
+    return result;
+  }
+
+  /** @private */
+  _addItemInfo(actor, item, action) {
+    action.info1 = this._getQuantityData(item);
+    action.info2 = this._getUsesData(item);
+    action.info3 = this._getConsumeData(item, actor);
+  }
+
   /** SPELLS **/
 
   /** @private */
-  _buildSpells(actionList, token) {
-    const actor = token.actor;
-    if (actor.type === "vehicle") return;
-  
+  _buildSpells(actionList, character) {
+    const actor = character.actor;
     let validSpells = this._filterLongerActions(
-      actor.items.filter((i) => i.type === "spell")
+      actor.items.filter(item => item.type === "spell")
     );
     validSpells = this._filterExpendedItems(validSpells);
 
     if (actor.type === "character" || !settings.get("showAllNpcItems"))
       validSpells = this._filterNonpreparedSpells(validSpells);
 
-    let spellsSorted = this._sortSpellsByLevel(validSpells);
+    const spellsSorted = this._sortSpellsByLevel(validSpells);
 
-    this._categoriseSpells(actionList, token, spellsSorted);
+    this._categoriseSpells(actionList, character, spellsSorted);
   }
 
   /** @private */
   _sortSpellsByLevel(spells) {
     let result = Object.values(spells);
-
     result.sort((a, b) => {
       if (a.system.level === b.system.level)
         return a.name
@@ -281,9 +231,10 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   /** @private */
-  _categoriseSpells(actionList, token, spells) {
-    const tokenId = token.id;
-    const actor = token.actor;
+  _categoriseSpells(actionList, character, spells) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
     const macroType = "spell";
 
     // Reverse sort spells by level
@@ -327,10 +278,10 @@ export class ActionHandler5e extends ActionHandler {
     }
 
     // GET DISTINCT MODES/LEVELS
-    const spellLevelIds = [...new Set(spells.map(s => 
+    const spellLevelIds = [...new Set(spells.map(spell => 
       {
-        const prepId = s.system.preparation.mode;
-        const levelId = s.system.level;
+        const prepId = spell.system.preparation.mode;
+        const levelId = spell.system.level;
         const isPrep = (prepId === "pact" || prepId === "atwill" || prepId === "innate") ? true : false;
         if (isPrep) {
           return prepId
@@ -341,13 +292,13 @@ export class ActionHandler5e extends ActionHandler {
     ))]
 
     // GET SPELL LEVELS
-    const spellLevels = spellLevelIds.map(sl =>
+    const spellLevels = spellLevelIds.map(spellLevel =>
       {
-        const isPrep = (sl === "pact" || sl === "atwill" || sl === "innate") ? true : false;
-        const id = (isPrep) ? sl : `spell${sl}`;
+        const isPrep = (spellLevel === "pact" || spellLevel === "atwill" || spellLevel === "innate") ? true : false;
+        const id = (isPrep) ? spellLevel : `spell${spellLevel}`;
         const name = (isPrep) ? 
-          game.dnd5e.config.spellPreparationModes[sl] :
-          sl === 0 ? this.i18n("tokenActionHud.cantrips") : `${this.i18n("tokenActionHud.level")} ${sl}`;
+          game.dnd5e.config.spellPreparationModes[spellLevel] :
+          spellLevel === 0 ? this.i18n("tokenActionHud.cantrips") : `${this.i18n("tokenActionHud.level")} ${spellLevel}`;
         return [id, name]
       }
     )
@@ -373,7 +324,7 @@ export class ActionHandler5e extends ActionHandler {
           const spellSpellLevelId = (isPrep) ? spell.system.preparation.mode : `spell${spell.system.level}`;
 
           if (spellSpellLevelId === spellLevelId) {
-            let spellItem = this._buildItem(tokenId, actor, macroType, spell);
+            let spellItem = this._buildItem(actorId, tokenId, macroType, spell);
             if (settings.get("showSpellInfo")) this._addSpellInfo(spell, spellItem);
             subcategory.actions.push(spellItem);
           }
@@ -411,21 +362,23 @@ export class ActionHandler5e extends ActionHandler {
       spell.info3 += this.i18n("DND5E.Ritual").charAt(0).toUpperCase();
   }
 
-  /** FEATS **/
+  /** FEATURES **/
 
   /** @private */
-  _buildFeatures(actionList, token) {
+  _buildFeatures(actionList, character) {
+    const actor = character.actor;
     let validFeats = this._filterLongerActions(
-      token.actor.items.filter((i) => i.type == "feat")
+      actor.items.filter(item => item.type == "feat")
     );
     let sortedFeats = this._sortByItemSort(validFeats);
-    this._categoriseFeats(actionList, token, sortedFeats);
+    this._categoriseFeatures(actionList, character, sortedFeats);
   }
 
   /** @private */
-  _categoriseFeats(actionList, token, feats) {
-    const tokenId = token.id;
-    const actor = token.actor;
+  _categoriseFeatures(actionList, character, feats) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
 
     let subcategories = [];
     let activeId = this.i18n("tokenActionHud.active");
@@ -455,7 +408,7 @@ export class ActionHandler5e extends ActionHandler {
         const activationType = f.system.activation.type;
         const macroType = "feat";
 
-        let feat = this._buildEquipmentItem(tokenId, actor, macroType, f);
+        let feat = this._buildEquipmentItem(actorId, tokenId, actor, macroType, f);
 
         if (actor.type === "vehicle") {
           if (activationType && activationType !== "none" && activationType !== "reaction") {
@@ -511,114 +464,329 @@ export class ActionHandler5e extends ActionHandler {
     this._mapSubcategories(actionList, subcategories, "features");
   }
 
+  /** ATTRIBUTES */
+
   /** @private */
-  _buildSkills(actionList, token) {
-    const actor = token.actor;
+  _buildAbilities(actionList, character, subcategoryId, macroType) {
+    const actor = character.actor;
+    const abilities = actor.system.abilities;
+    let actions = this._getAbilityList(
+      character,
+      abilities,
+      subcategoryId,
+      macroType
+    );
+    this._mapActions(actionList, actions, subcategoryId);
+  }
+
+  /** @private */
+  _getAbilityList(character, abilities, subcategoryId, macroType) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const abbr = settings.get("abbreviateSkills");
+    let actions = Object.entries(game.dnd5e.config.abilities)
+      .map(ability => {
+        const abilityId = ability[0];
+        if (abilities[abilityId].value === 0) return;
+        let name = abbr ? abilityId : ability[1];
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        let encodedValue = [macroType, actorId, tokenId, abilityId].join(this.delimiter);
+        let icon;
+        if (subcategoryId === "checks") icon = "";
+        else icon = this._getProficiencyIcon(abilities[abilityId].proficient);
+  
+        return { name: name, id: abilityId, encodedValue: encodedValue, icon: icon };
+      });
+
+    return actions;
+  }
+
+  _buildMultiAbilities(actionList, tokenId, subcategoryId, macroType) {
+    const abilities = game.dnd5e.config.abilities;
+    const abbr = settings.get("abbreviateSkills");
+
+    const actions = Object.entries(abilities)
+      .map(ability => {
+        const abilityId = ability[0];
+        let name = abbr ? abilityId : ability[1];
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        const encodedValue = [macroType, tokenId, abilityId].join(this.delimiter);
+
+        return { name: name, id: abilityId, encodedValue: encodedValue };
+      });
+    
+    this._mapActions(actionList, actions, subcategoryId);
+  }
+
+  /** SKILLS */
+
+  /** @private */
+  _buildSkills(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
     const skills = actor.system.skills;
     let macroType = "skill";
 
     let abbr = settings.get("abbreviateSkills");
 
     let actions = Object.entries(skills)
-      .map((e) => {
+      .map(skill => {
         try {
-          let skillId = e[0];
+          let skillId = skill[0];
           let name = abbr ? skillId : game.dnd5e.config.skills[skillId].label;
           name = name.charAt(0).toUpperCase() + name.slice(1);
-          let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
+          let encodedValue = [macroType, actorId, tokenId, skillId].join(this.delimiter);
           let icon = this._getProficiencyIcon(skills[skillId].value);
           return {
             name: name,
-            id: e[0],
+            id: skillId,
             encodedValue: encodedValue,
             icon: icon,
           };
         } catch (error) {
-          Logger.error(e);
+          Logger.error(skill);
           return null;
         }
       })
-      .filter((s) => !!s);
+      .filter((skill) => !!skill);
     
     this._mapActions(actionList, actions, "skills");
   }
 
-  _addMultiSkills(list, tokenId) {
-    let result = this.initializeEmptyCategory("skills");
-    let macroType = "skill";
+  _buildMultiSkills(actionList, tokenId) {
+    const skills = game.dnd5e.config.skills;
+    const macroType = "skill";
+    const abbr = settings.get("abbreviateSkills");
+    const actions = Object.entries(skills)
+      .map(skill => {
+        const skillId = skill[0];
+        let name = abbr ? skillId : skill[1].label;
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        const encodedValue = [macroType, tokenId, skillId].join(this.delimiter);
+        
+        return { name: name, id: skillId, encodedValue: encodedValue };
+      });
 
-    let abbr = settings.get("abbreviateSkills");
-    let skillsActions = Object.entries(game.dnd5e.config.skills).map((e) => {
-      let name = abbr ? e[0] : e[1].label;
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
-      return { name: name, id: e[0], encodedValue: encodedValue };
-    });
-    let skillsCategory = this.initializeEmptySubcategory();
-    skillsCategory.actions = skillsActions;
+    this._mapActions(actionList, actions, "skills");
+  }
 
-    let skillsTitle = this.i18n("tokenActionHud.dnd5e.skills");
-    this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
-    this._combineCategoryWithList(list, skillsTitle, result, true);
+  /** EFFECTS */
+
+  /** @private */
+  _buildEffects(actionList, character) {
+    this._getEffects(actionList, character);
   }
 
   /** @private */
-  _getAbilityList(tokenId, abilities, categoryId, categoryName, macroType) {
-    let abbr = settings.get("abbreviateSkills");
-
-    let actions = Object.entries(game.dnd5e.config.abilities).map((e) => {
-      if (abilities[e[0]].value === 0) return;
-
-      let name = abbr ? e[0] : e[1];
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
-      let icon;
-      if (categoryId === "checks") icon = "";
-      else icon = this._getProficiencyIcon(abilities[e[0]].proficient);
-
-      return { name: name, id: e[0], encodedValue: encodedValue, icon: icon };
+  _getEffects(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const macroType = "effect";
+    let subcategories = [];
+    const temporaryId = "temporary-effects";
+    const passiveId = "passive-effects";
+    const temporaryTitle = this.i18n("tokenActionHud.temporary");
+    const passiveTitle = this.i18n("tokenActionHud.passive");
+    let temporarySubcategory = this.initializeEmptySubcategory(temporaryId, temporaryTitle);
+    let passiveSubcategory = this.initializeEmptySubcategory(passiveId, passiveTitle);
+  
+    const effects =
+      "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
+  
+    effects.forEach(effect => {
+      const effectId = effect.id;
+      const name = effect.label;
+      const encodedValue = [macroType, actorId, tokenId, effectId].join(this.delimiter);
+      const cssClass = effect.disabled ? "" : "active";
+      const image = effect.icon;
+      let action = {
+        name: name,
+        id: effectId,
+        encodedValue: encodedValue,
+        img: image,
+        cssClass: cssClass,
+      };
+  
+      effect.isTemporary
+        ? temporarySubcategory.actions.push(action)
+        : passiveSubcategory.actions.push(action);
     });
-
-    return actions;
+  
+    subcategories.push(temporarySubcategory);
+    subcategories.push(passiveSubcategory);
+  
+    this._mapSubcategories(actionList, subcategories, "effects");
   }
+  
+  /** CONDITIONS */
 
-  _addMultiAbilities(list, tokenId, categoryId, categoryName, macroType) {
-    let cat = this.initializeEmptyCategory(categoryId);
-
-    let abbr = settings.get("abbreviateSkills");
-
-    let actions = Object.entries(game.dnd5e.config.abilities).map((e) => {
-      let name = abbr ? e[0] : e[1];
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
-
-      return { name: name, id: e[0], encodedValue: encodedValue };
-    });
-    let abilityCategory = this.initializeEmptySubcategory();
-    abilityCategory.actions = actions;
-
-    this._combineSubcategoryWithCategory(cat, categoryName, abilityCategory);
-    this._combineCategoryWithList(list, categoryName, cat, true);
-  }
-
-  _buildRests(actionList, token) {
-    const actor = token.actor;
-
-    let macroType = "rests";
-
+  /** @private */
+  _buildConditions(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const macroType = "condition";
+  
+    const availableConditions = CONFIG.statusEffects.filter(
+      (condition) => condition.id !== ""
+    );
+  
+    if (!availableConditions) return;
+  
     let actions = [];
-    if (actor.type === "character") {
-      let shortRestValue = [macroType, token.id, "shortRest"].join(
-        this.delimiter
+    availableConditions.forEach(condition => {
+      const conditionId = condition.id;
+      const name = this.i18n(condition.label);
+      const encodedValue = [macroType, actorId, tokenId, conditionId].join(this.delimiter);
+      const effects =
+        "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
+      const cssClass = effects.some(effect => effect.flags.core?.statusId === conditionId)
+        ? "active"
+        : "";
+      const image = condition.icon;
+      const action = {
+        name: name,
+        id: conditionId,
+        encodedValue: encodedValue,
+        img: image,
+        cssClass: cssClass,
+      };
+  
+      actions.push(action);
+    });
+  
+    this._mapActions(actionList, actions, "conditions");
+  }
+  
+  /** @private */
+  _buildMultiConditions(actionList, tokenId, actors) {
+    const macroType = "condition";
+    let actions = [];
+    const availableConditions = CONFIG.statusEffects.filter(
+      condition => condition.id !== ""
+    );
+    if (!availableConditions) return;
+    
+    availableConditions.forEach(condition => {
+      const conditionId = condition.id;
+      const name = this.i18n(condition.label);
+      const encodedValue = [macroType, tokenId, conditionId].join(this.delimiter);
+      const cssClass = actors.every((actor) => {
+        const effects =
+          "some" in actor.effects.entries
+            ? actor.effects.entries
+            : actor.effects;
+        effects.some(effect => effect.flags.core?.statusId === conditionId);
+      })
+        ? "active"
+        : "";
+      const image = condition.icon;
+      const action = {
+        name: name,
+        id: conditionId,
+        encodedValue: encodedValue,
+        img: image,
+        cssClass: cssClass,
+      };
+  
+      actions.push(action);
+    });
+  
+    this._mapActions(actionList, actions, "conditions");
+  }
+
+  /** COMBAT */
+
+  /** @private */
+  _buildCombat(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    if (!tokenId) return;
+    let macroType = "utility";
+    let actions = [];
+    
+    // Roll Initiative
+    const combat = game.combat;
+    let combatant, currentInitiative;
+    if (combat) {
+      combatant = combat.combatants.find(combatant => combatant.tokenId === tokenId);
+      currentInitiative = combatant?.initiative;
+    }
+    let initiativeValue = [macroType, actorId, tokenId, "initiative"].join(this.delimiter);
+    let initiativeAction = {
+      id: "rollInitiative",
+      encodedValue: initiativeValue,
+      name: this.i18n("tokenActionHud.rollInitiative"),
+    };
+
+    if (currentInitiative) initiativeAction.info1 = currentInitiative;
+    initiativeAction.cssClass = currentInitiative ? "active" : "";
+
+    actions.push(initiativeAction);
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, actorId, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenActionHud.endTurn"),
+      };
+
+      actions.push(endTurnAction);
+    }
+
+    this._mapActions(actionList, actions, "combat");
+  }
+
+  /** @private */
+  _buildMultiCombat(actionList, tokenId) {
+    let macroType = "utility";
+    let actions = [];
+
+    // Roll Initiative
+    const combat = game.combat;
+    const initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
+    let initiativeAction = {
+      id: "rollInitiative",
+      encodedValue: initiativeValue,
+      name: this.i18n("tokenActionHud.rollInitiative"),
+    };
+
+    let isActive;
+    if (combat) {
+      const tokenIds = canvas.tokens.controlled.map(token => token.id);
+      const tokenCombatants = tokenIds.map(id =>
+        combat.combatants.find(combatant => combatant.tokenId === id)
       );
+      isActive = tokenCombatants.every(combatant => !!combatant?.initiative);
+    }
+    initiativeAction.cssClass = isActive ? "active" : "";
+    actions.push(initiativeAction);
+
+    this._mapActions(actionList, actions, "combat");
+  }
+
+  /** RESTS */
+
+  /** @private */
+  _buildRests(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const macroType = "utility";
+    let actions = [];
+
+    if (actor.type === "character") {
+      let shortRestValue = [macroType, actorId, tokenId, "shortRest"].join(this.delimiter);
       actions.push({
         id: "shortRest",
         encodedValue: shortRestValue,
         name: this.i18n("tokenActionHud.shortRest"),
       });
-      let longRestValue = [macroType, token.id, "longRest"].join(
-        this.delimiter
-      );
+      let longRestValue = [macroType, actorId, tokenId, "longRest"].join(this.delimiter);
       actions.push({
         id: "longRest",
         encodedValue: longRestValue,
@@ -630,15 +798,41 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   /** @private */
-  _buildUtility(actionList, token) {
-    const actor = token.actor;
+  _buildMultiRests(actionList, tokenId, actors) {
+    const macroType = "utility";
+    let actions = [];
 
-    let macroType = "utility";
+    if (actors.every(actor => actor.type === "character")) {
+      const shortRestValue = [macroType, tokenId, "shortRest"].join(this.delimiter);
+      actions.push({
+        id: "shortRest",
+        encodedValue: shortRestValue,
+        name: this.i18n("tokenActionHud.shortRest"),
+      });
+      const longRestValue = [macroType, tokenId, "longRest"].join(this.delimiter);
+      actions.push({
+        id: "longRest",
+        encodedValue: longRestValue,
+        name: this.i18n("tokenActionHud.longRest"),
+      });
+    }
+
+    this._mapActions(actionList, actions, "rests");
+  }
+
+  /** UTILITY */
+
+  /** @private */
+  _buildUtility(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const macroType = "utility";
 
     let actions = [];
     if (actor.type === "character") {
       if (actor.system.attributes.hp.value <= 0) {
-        let deathSaveValue = [macroType, token.id, "deathSave"].join(
+        let deathSaveValue = [macroType, actorId, tokenId, "deathSave"].join(
           this.delimiter
         );
         let deathSaveAction = {
@@ -649,7 +843,7 @@ export class ActionHandler5e extends ActionHandler {
         actions.push(deathSaveAction);
       }
 
-      let inspirationValue = [macroType, token.id, "inspiration"].join(
+      let inspirationValue = [macroType, actorId, tokenId, "inspiration"].join(
         this.delimiter
       );
       let inspirationAction = {
@@ -667,303 +861,29 @@ export class ActionHandler5e extends ActionHandler {
   }
 
   /** @private */
-  _buildCombat(actionList, token) {
-    const tokenId = token.id;
+  _buildMultiUtility(actionList, tokenId, actors) {
+    const macroType = "utility";
     let actions = [];
-    let macroType = "utility";
-    // Roll Initiative
-    const combat = game.combat;
-    let combatant, currentInitiative;
-    if (combat) {
-      combatant = combat.combatants.find((c) => c.tokenId === tokenId);
-      currentInitiative = combatant?.initiative;
-    }
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
-    let initiativeAction = {
-      id: "rollInitiative",
-      encodedValue: initiativeValue,
-      name: this.i18n("tokenActionHud.rollInitiative"),
-    };
 
-    if (currentInitiative) initiativeAction.info1 = currentInitiative;
-    initiativeAction.cssClass = currentInitiative ? "active" : "";
-
-    actions.push(initiativeAction);
-
-    // End Turn
-    if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
-      let endTurnAction = {
-        id: "endTurn",
-        encodedValue: endTurnValue,
-        name: this.i18n("tokenActionHud.endTurn"),
-      };
-
-      actions.push(endTurnAction);
-    }
-
-    this._mapActions(actionList, actions, "combat");
-  }
-
-  /** @private */
-  _addMultiCombatSubcategory(macroType, tokenId, category) {
-    let combatSubcategory = this.initializeEmptySubcategory();
-
-    // Roll Initiative
-    const combat = game.combat;
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
-    let initiativeAction = {
-      id: "rollInitiative",
-      encodedValue: initiativeValue,
-      name: this.i18n("tokenActionHud.rollInitiative"),
-    };
-
-    let isActive;
-    if (combat) {
-      let tokenIds = canvas.tokens.controlled.map((t) => t.id);
-      let tokenCombatants = tokenIds.map((id) =>
-        combat.combatants.find((c) => c.tokenId === id)
-      );
-      isActive = tokenCombatants.every((c) => !!c?.initiative);
-    }
-
-    initiativeAction.cssClass = isActive ? "active" : "";
-
-    combatSubcategory.actions.push(initiativeAction);
-
-    this._combineSubcategoryWithCategory(
-      category,
-      this.i18n("tokenActionHud.combat"),
-      combatSubcategory
-    );
-  }
-
-  /** @private */
-  _buildEffects(actionList, token) {
-    this._getEffects(actionList, token);
-  }
-
-  /** @private */
-  _getEffects(actionList, token) {
-    const tokenId = token.id;
-    const actor = token.actor;
-    const macroType = "effect";
-    let subcategories = [];
-    const temporaryId = "temporary-effects";
-    const passiveId = "passive-effects";
-    const temporaryTitle = this.i18n("tokenActionHud.temporary");
-    const passiveTitle = this.i18n("tokenActionHud.passive");
-    let temporarySubcategory = this.initializeEmptySubcategory(temporaryId, temporaryTitle);
-    let passiveSubcategory = this.initializeEmptySubcategory(passiveId, passiveTitle);
-
-    const effects =
-      "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
-
-    effects.forEach(e => {
-      const name = e.label;
-      const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
-      const cssClass = e.disabled ? "" : "active";
-      const image = e.icon;
-      let action = {
-        name: name,
-        id: e.id,
-        encodedValue: encodedValue,
-        img: image,
-        cssClass: cssClass,
-      };
-
-      e.isTemporary
-        ? temporarySubcategory.actions.push(action)
-        : passiveSubcategory.actions.push(action);
-    });
-
-    subcategories.push(temporarySubcategory);
-    subcategories.push(passiveSubcategory);
-
-    this._mapSubcategories(actionList, subcategories, "effects");
-  }
-
-  /** @private */
-  _buildConditions(actionList, token) {
-    const tokenId = token.id;
-    const actor = token.actor;
-    const macroType = "condition";
-
-    const availableConditions = CONFIG.statusEffects.filter(
-      (condition) => condition.id !== ""
-    );
-
-    if (!availableConditions) return;
-
-    let actions = [];
-    availableConditions.forEach((c) => {
-      const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
-      const effects =
-        "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-      const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
-        ? "active"
-        : "";
-      const image = c.icon;
-      const action = {
-        name: name,
-        id: c.id,
-        encodedValue: encodedValue,
-        img: image,
-        cssClass: cssClass,
-      };
-
-      actions.push(action);
-    });
-
-    this._mapActions(actionList, actions, "conditions");
-  }
-
-  /** @private */
-  _addMultiConditions(list, tokenId) {
-    const category = this.initializeEmptyCategory("conditions");
-    const macroType = "condition";
-
-    const availableConditions = CONFIG.statusEffects.filter(
-      (condition) => condition.id !== ""
-    );
-    const actors = canvas.tokens.controlled
-      .filter((t) => !!t.actor)
-      .map((t) => t.actor);
-
-    if (!availableConditions) return;
-
-    let conditions = this.initializeEmptySubcategory();
-
-    availableConditions.forEach((c) => {
-      const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
-      const cssClass = actors.every((actor) => {
-        const effects =
-          "some" in actor.effects.entries
-            ? actor.effects.entries
-            : actor.effects;
-        effects.some((e) => e.flags.core?.statusId === c.id);
-      })
-        ? "active"
-        : "";
-      const image = c.icon;
-      const action = {
-        name: name,
-        id: c.id,
-        encodedValue: encodedValue,
-        img: image,
-        cssClass: cssClass,
-      };
-
-      conditions.actions.push(action);
-    });
-
-    const conName = this.i18n("tokenActionHud.conditions");
-    this._combineSubcategoryWithCategory(category, conName, conditions);
-    this._combineCategoryWithList(list, conName, category);
-  }
-
-  /** @private */
-  _addMultiUtilities(list, tokenId, actors) {
-    let category = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
-
-    this._addMultiCombatSubcategory(macroType, tokenId, category);
-
-    let rests = this.initializeEmptySubcategory();
-    let utility = this.initializeEmptySubcategory();
-
-    if (actors.every((a) => a.type === "character")) {
-      let shortRestValue = [macroType, tokenId, "shortRest"].join(
-        this.delimiter
-      );
-      rests.actions.push({
-        id: "shortRest",
-        encodedValue: shortRestValue,
-        name: this.i18n("tokenActionHud.shortRest"),
-      });
-      let longRestValue = [macroType, tokenId, "longRest"].join(this.delimiter);
-      rests.actions.push({
-        id: "longRest",
-        encodedValue: longRestValue,
-        name: this.i18n("tokenActionHud.longRest"),
-      });
-
-      let inspirationValue = [macroType, tokenId, "inspiration"].join(
-        this.delimiter
-      );
+    if (actors.every(actor => actor.type === "character")) {
+      let inspirationValue = [macroType, tokenId, "inspiration"].join(this.delimiter);
       let inspirationAction = {
         id: "inspiration",
         encodedValue: inspirationValue,
         name: this.i18n("tokenActionHud.inspiration"),
       };
       inspirationAction.cssClass = actors.every(
-        (a) => a.system.attributes?.inspiration
+        actor => actor.system.attributes?.inspiration
       )
         ? "active"
         : "";
-      utility.actions.push(inspirationAction);
+      actions.push(inspirationAction);
     }
 
-    this._combineSubcategoryWithCategory(
-      category,
-      this.i18n("tokenActionHud.rests"),
-      rests
-    );
-    this._combineSubcategoryWithCategory(
-      category,
-      this.i18n("tokenActionHud.utility"),
-      utility
-    );
-    this._combineCategoryWithList(
-      list,
-      this.i18n("tokenActionHud.utility"),
-      category
-    );
+    this._mapActions(actionList, actions, "utility");
   }
 
   /** @private */
-  _buildEquipmentItem(tokenId, actor, macroType, item) {
-    let action = this._buildItem(tokenId, actor, macroType, item);
-    this._addItemInfo(actor, item, action);
-    return action;
-  }
-
-  /** @private */
-  _buildItem(tokenId, actor, macroType, item) {
-    const itemId = item.id;
-    let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
-    let img = this._getImage(item);
-    let icon = this._getActionIcon(item.system.activation?.type);
-    let result = {
-      name: item.name,
-      id: itemId,
-      encodedValue: encodedValue,
-      img: img,
-      icon: icon,
-    };
-
-    if (
-      item.system.recharge &&
-      !item.system.recharge.charged &&
-      item.system.recharge.value
-    ) {
-      result.name += ` (${this.i18n("tokenActionHud.recharge")})`;
-    }
-
-    return result;
-  }
-
-  /** @private */
-  _addItemInfo(actor, item, action) {
-    action.info1 = this._getQuantityData(item);
-
-    action.info2 = this._getUsesData(item);
-
-    action.info3 = this._getConsumeData(item, actor);
-  }
-
   _getImage(item) {
     let result = "";
     if (settings.get("showIcons")) result = item.img ?? "";
@@ -1081,6 +1001,7 @@ export class ActionHandler5e extends ActionHandler {
     return result;
   }
 
+  /** @private */
   _filterExpendedItems(items) {
     if (settings.get("showEmptyItems")) return items;
 
@@ -1116,6 +1037,7 @@ export class ActionHandler5e extends ActionHandler {
     return icons[level];
   }
 
+  /** @private */
   _getActionIcon(action) {
     const img = {
       //action: `<i class="fas fa-fist-raised"></i>`,

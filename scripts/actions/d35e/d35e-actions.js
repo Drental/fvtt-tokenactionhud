@@ -7,7 +7,7 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(token, multipleTokens) {
+  buildSystemActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
@@ -460,13 +460,13 @@ export class ActionHandlerD35E extends ActionHandler {
   _getFeatsList(actor, tokenId) {
     let validFeats = actor.items.filter((i) => i.type == "feat");
     let sortedFeats = this._sortByItemSort(validFeats);
-    let feats = this._categoriseFeats(tokenId, actor, sortedFeats);
+    let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
   }
 
   /** @private */
-  _categoriseFeats(tokenId, actor, feats) {
+  _categoriseFeatures(tokenId, actor, feats) {
     let active = this.initializeEmptySubcategory();
     let passive = this.initializeEmptySubcategory();
 

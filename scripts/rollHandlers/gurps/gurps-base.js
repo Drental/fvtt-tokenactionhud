@@ -14,9 +14,9 @@ export class RollHandlerBaseGURPS extends RollHandler {
       }
 
       let macroType = payload[0];
-      let tokenId = payload[1];
+      let characterId = payload[1];
       let actionId = payload[2];
-      let actor = super.getActor(tokenId);
+      let actor = super.getActor(characterId);
 
       if (tokenId === 'multi') {
           for (let t of canvas.tokens.controlled) {

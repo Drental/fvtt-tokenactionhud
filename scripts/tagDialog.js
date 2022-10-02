@@ -6,15 +6,21 @@ export class TagDialog extends Dialog {
   constructor(dialogData, options) {
     super(options);
     this.data = dialogData;
+    this.categoryId = null;
+    this.subcategoryId = null;
   }
 
   static showDialog(
+    categoryId,
+    subcategoryId,
     suggestions,
     selected,
     title,
     hbsData,
     submitFunc
   ) {
+    this.categoryId = categoryId;
+    this.subcategoryId = subcategoryId;
     TagDialog._prepareHook(suggestions, selected);
 
     let template = Handlebars.compile(

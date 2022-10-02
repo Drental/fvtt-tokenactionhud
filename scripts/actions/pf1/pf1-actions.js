@@ -7,7 +7,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   }
 
   /** @override */
-  doBuildActions(token, multipleTokens) {
+  buildSystemActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {

@@ -12,7 +12,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActions(token, multipleTokens) {
+  async buildSystemActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {

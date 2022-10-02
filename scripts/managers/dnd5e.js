@@ -22,18 +22,18 @@ export class Dnd5eSystemManager extends SystemManager {
   }
 
   /** @override */
-  doGetActionHandler(filterManager, categoryManager) {
+  doGetActionHandler(character, categoryManager) {
     let actionHandler;
     if (
       SystemManager.isModuleActive("character-actions-list-5e") &&
       settings.get("useActionList")
     ) {
       actionHandler = new ActionHandler5eGroupByType(
-        filterManager,
+        character,
         categoryManager
       );
     } else {
-      actionHandler = new ActionHandler(filterManager, categoryManager);
+      actionHandler = new ActionHandler(character, categoryManager);
     }
 
     if (SystemManager.isModuleActive("magicitems"))
@@ -85,7 +85,7 @@ export class Dnd5eSystemManager extends SystemManager {
 
   /** @override */
   async doRegisterDefaultFlags() {
-    const defaultCategories = {
+    const defaults = {
       default: {
         categories: {
           inventory: { 
@@ -95,22 +95,22 @@ export class Dnd5eSystemManager extends SystemManager {
               inventory_weapons: { 
                 id: "weapons" ,
                 title: this.i18n("tokenActionHud.weapons"),
-                type: "core"
+                type: "system"
               },
               inventory_equipment: {
                 id: "equipment",
                 title: this.i18n("tokenActionHud.equipment"),
-                type: "core"
+                type: "system"
               },
               inventory_consumables: {
                 id: "consumables",
                 title: this.i18n("tokenActionHud.consumables"),
-                type: "core"
+                type: "system"
               },
               inventory_tools: {
                 id: "tools",
                 title: this.i18n("tokenActionHud.tools"),
-                type: "core"
+                type: "system"
               }
             }
           },
@@ -121,7 +121,7 @@ export class Dnd5eSystemManager extends SystemManager {
               features_features: {
                 id: "features",
                 title: this.i18n("tokenActionHud.features"),
-                type: "core"
+                type: "system"
               }
             }
           },
@@ -132,7 +132,7 @@ export class Dnd5eSystemManager extends SystemManager {
               spells_spells: {
                 id: "spells",
                 title: this.i18n("tokenActionHud.spells"),
-                type: "core"
+                type: "system"
               }
             }  
           },
@@ -143,17 +143,12 @@ export class Dnd5eSystemManager extends SystemManager {
               attributes_checks: {
                 id: "checks",
                 title: this.i18n("tokenActionHud.checks"),
-                type: "core"
-              },
-              attributes_saves: {
-                id: "saves",
-                title: this.i18n("tokenActionHud.saves"),
-                type: "core"
+                type: "system"
               },
               attributes_skills: {
                 id: "skills",
                 title: this.i18n("tokenActionHud.skills"),
-                type: "core"
+                type: "system"
               }
             }  
           },
@@ -164,7 +159,7 @@ export class Dnd5eSystemManager extends SystemManager {
               effects_effects: {
                 id: "effects",
                 title: this.i18n("tokenActionHud.effects"),
-                type: "core"
+                type: "system"
               }
             }
           },
@@ -175,7 +170,7 @@ export class Dnd5eSystemManager extends SystemManager {
               conditions_conditions: {
                 id: "conditions",
                 title: this.i18n("tokenActionHud.conditions"),
-                type: "core"
+                type: "system"
               }
             }
           },
@@ -186,28 +181,46 @@ export class Dnd5eSystemManager extends SystemManager {
               utility_combat: {
                 id: "combat",
                 title: this.i18n("tokenActionHud.combat"),
-                type: "core"
+                type: "system"
               },
               utility_token: {
                 id: "token",
                 title: this.i18n("tokenActionHud.token"),
-                type: "core"
+                type: "system"
               },
               utility_rests: {
                 id: "rests",
                 title: this.i18n("tokenActionHud.rests"),
-                type: "core"
+                type: "system"
               },
               utility_utility: {
                 id: "utility",
                 title: this.i18n("tokenActionHud.utility"),
-                type: "core"
+                type: "system"
               }
             }
           }
-        }
+        },
+        subcategories: [
+          { id: "abilities", title: this.i18n("tokenActionHud.abilities"), type: "system" },
+          { id: "checks", title: this.i18n("tokenActionHud.checks"), type: "system" },
+          { id: "combat", title: this.i18n("tokenActionHud.combat"), type: "system" },
+          { id: "conditions", title: this.i18n("tokenActionHud.conditions"), type: "system" },
+          { id: "consumables", title: this.i18n("tokenActionHud.consumables"), type: "system" },
+          { id: "effects", title: this.i18n("tokenActionHud.effects"),vtype: "system" },
+          { id: "equipment", title: this.i18n("tokenActionHud.equipment"), type: "system" },
+          { id: "features", title: this.i18n("tokenActionHud.features"), type: "system" },
+          { id: "rests", title: this.i18n("tokenActionHud.rests"), type: "system" },
+          { id: "saves", title: this.i18n("tokenActionHud.saves"), type: "system" },
+          { id: "skills", title: this.i18n("tokenActionHud.skills"), type: "system" },
+          { id: "spells", title: this.i18n("tokenActionHud.spells"), type: "system" },
+          { id: "token", title: this.i18n("tokenActionHud.token"), type: "system" },
+          { id: "tools", title: this.i18n("tokenActionHud.tools"), type: "system" },
+          { id: "weapons", title: this.i18n("tokenActionHud.weapons"), type: "system" },
+          { id: "utility", title: this.i18n("tokenActionHud.utility"), type: "system" }
+        ]
       } 
     }
-    await game.user.update({flags: {"token-action-hud": defaultCategories}})
+    await game.user.update({flags: {"token-action-hud": defaults}})
   }
 }

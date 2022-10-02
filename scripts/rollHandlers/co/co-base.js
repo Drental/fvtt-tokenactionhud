@@ -13,10 +13,10 @@ export class RollHandlerBaseCo extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let itemId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
     switch (macroType) {
       case "stat":
         this._handleStats(macroType, event, actor, itemId);

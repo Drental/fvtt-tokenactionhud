@@ -8,7 +8,7 @@ export class ActionHandlerBitD extends ActionHandler {
   }
 
   /** @override */
-  async doBuildActions(token, multipleTokens) {
+  async buildSystemActions(token, multipleTokens) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;

@@ -14,14 +14,14 @@ export class RollHandlerBaseSwade extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     let hasSheet = ["item"];
     if (this.isRenderItem() && hasSheet.includes(macroType))
-      return this.doRenderItem(tokenId, actionId);
+      return this.doRenderItem(actorId, tokenId, actionId);
 
     switch (macroType) {
       case "item":

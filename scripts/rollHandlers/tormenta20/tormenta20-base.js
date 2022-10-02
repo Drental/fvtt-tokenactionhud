@@ -15,32 +15,32 @@ export class RollHandlerBaseT20 extends RollHandler {
     }
 
     let macroType = payload[0];
-    let tokenId = payload[1];
+    let characterId = payload[1];
     let actionId = payload[2];
 
-    if (tokenId === "multi") {
+    if (characterId === "multi") {
       for (let t of canvas.tokens.controlled) {
         let idToken = t.id;
         await this._handleMacros(event, macroType, idToken, actionId);
       }
     } else {
-      await this._handleMacros(event, macroType, tokenId, actionId);
+      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, tokenId, actionId) {
+  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
     switch (macroType) {
       case "atributo":
-        this.rollAbilityMacro(event, tokenId, actionId);
+        this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "pericia":
-        this.rollSkillMacro(event, tokenId, actionId);
+        this.rollSkillMacro(event, actorId, tokenId, actionId);
         break;
       case "item":
       case "magia":
       case "poder":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this.rollItemMacro(event, tokenId, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       // case 'effect':
       // await this.toggleEffect(event, tokenId, actionId);
@@ -52,13 +52,13 @@ export class RollHandlerBaseT20 extends RollHandler {
     }
   }
 
-  rollAbilityMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollAbilityMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     actor.rollAtributo(checkId);
   }
 
-  rollSkillMacro(event, tokenId, checkId) {
-    const actor = super.getActor(tokenId);
+  rollSkillMacro(event, actorId, tokenId, checkId) {
+    const actor = super.getActor(characterId);
     const skillData = {
       actor: actor,
       type: "perícia",
@@ -69,8 +69,8 @@ export class RollHandlerBaseT20 extends RollHandler {
     actor.rollPericia(skillData);
   }
 
-  rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
+  rollItemMacro(event, actorId, tokenId, itemId) {
+    let actor = super.getActor(characterId);
     let item = super.getItem(actor, itemId);
 
     // if (item.type === 'magia')
@@ -81,7 +81,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId) {
-    let actor = super.getActor(tokenId);
+    let actor = super.getActor(characterId);
 
     await actor.rollInitiative({ createCombatants: true });
 
@@ -89,7 +89,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId);
+    const actor = super.getActor(characterId);
     const effect = actor.effects.entries.find((e) => e.id === effectId);
 
     if (!effect) return;

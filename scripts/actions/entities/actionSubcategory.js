@@ -1,10 +1,11 @@
 export class ActionSubcategory {
-  constructor(id = "", name = "") {
+  constructor(id = "", name = "", type = "") {
     this.id = id;
     this.name = name;
+    this.type = type;
     this.info1 = "";
-    this.canFilter = false;
     this.actions = [];
     this.subcategories = [];
+    this.selected = true;
   }
 }

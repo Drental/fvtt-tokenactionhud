@@ -1,3 +1,6 @@
+{{~#if
+  (ne this.selected false)
+~}}
 <div class="tah-action{{~#if cssClass}} {{cssClass}}{{~/if~}}" {{~#if spellLevel~}}data-spell-lvl="{{spellLevel}}"{{~/if~}} {{~#if title~}} title="{{title}}"{{~/if~}}>
     <button value="{{encodedValue}}" {{~#if cssClass~}}class="{{cssClass}}{{#activeText}} activeText{{/activeText}}"{{~/if~}}>
         {{~#if img~}}<div class="tah-img" style="background: url({{img}}) no-repeat center center; background-size:contain"></div>{{~/if~}}
@@ -10,3 +13,4 @@
         </span>
     </button>
 </div>
+{{~/if~}}
