@@ -14,6 +14,14 @@ Hooks.on("init", () => {
     /* put all the relevant classes that systems and modules might need to access here */
   }
 
+  game.settings.register(appName, "startup", {
+    name: "One-Time Startup Prompt",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
   const systemManagers = {
     "dnd5e": "dnd5e",
     "dungeonworld": "dungeonworld",
@@ -73,7 +81,11 @@ Hooks.on("init", () => {
 Hooks.once('ready', async () => {
   if (game.user.isGM) {
     if (!(game.modules.get('lib-themer')?.active ?? false) && !(game.modules.get('color-picker')?.active ?? false) && !(game.modules.get('colorsettings')?.active ?? false)) {
-      ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules.")
+      const firstStartup = game.settings.get(appName, "startup") === false;
+      if ( firstStartup ) {
+        ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules.")
+        game.settings.set(appName, "startup", true);
+      }
     }
   }
 });
