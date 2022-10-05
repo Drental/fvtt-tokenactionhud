@@ -125,10 +125,25 @@ export class ActionHandlerSfrpg extends ActionHandler {
         (i) =>
           !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.system.actionType)
       );
+      
+      const activeFeats = miscFeats.filter(
+        feat => feat.system.activation.type !== ""
+      );
       this._addSubcategoryByItemList(
-        this.i18n("tokenActionHud.sfrpg.misc"),
+        this.i18n("tokenActionHud.sfrpg.activeFeats"),
         itemsMacroType,
-        miscFeats,
+        activeFeats,
+        tokenId,
+        itemsCategory
+      );
+
+      const passiveFeats = miscFeats.filter(
+        feat => feat.system.activation.type === ""
+      );
+      this._addSubcategoryByItemList(
+        this.i18n("tokenActionHud.sfrpg.passiveFeats"),
+        itemsMacroType,
+        passiveFeats,
         tokenId,
         itemsCategory
       );

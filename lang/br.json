@@ -620,10 +620,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Talentos ativos",
       "crewActions": "Crew Actions",
       "misc": "Misc",
       "msa": "Melee Spell Attacks",
       "mwa": "Melee Weapon Attacks",
+      "passiveFeats": "Talentos passivos",
       "rsa": "Ranged Spell Attacks",
       "rwa": "Ranged Weapon Attacks",
       "shields": "Escudos",

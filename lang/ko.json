@@ -622,10 +622,12 @@
       } 
     },
     "sfrpg": {
+      "activeFeats": "활성 위업",
       "crewActions": "승무원 액션",
       "misc": "Misc",
       "msa": "근거리 주문 공격",
       "mwa": "근거리 무기 공격",
+      "passiveFeats": "패시브 피트",
       "rsa": "원거리 주문 공격",
       "rwa": "원거리 무기 공격",
       "shields": "방패",

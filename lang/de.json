@@ -621,10 +621,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Aktive Leistungen",
       "crewActions": "Crew Actions",
       "misc": "Misc",
       "msa": "Melee Spell Attacks",
       "mwa": "Nahkampfwaffenangriff",
+      "passiveFeats": "Passive Leistungen",
       "rsa": "Ranged Spell Attacks",
       "rwa": "Nahkampfangriffe",
       "shields": "Schilde",

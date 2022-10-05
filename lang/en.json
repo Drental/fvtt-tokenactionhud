@@ -639,10 +639,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Active Feats",
       "crewActions": "Crew Actions",
       "misc": "Misc",
       "msa": "Melee Spell Attacks",
       "mwa": "Melee Weapon Attacks",
+      "passiveFeats": "Passive Feats",
       "rsa": "Ranged Spell Attacks",
       "rwa": "Ranged Weapon Attacks",
       "shields": "Shields",
