@@ -18,6 +18,7 @@ export class TokenActionHUD extends Application {
   }
 
   async init(user) {
+    ui.windows[this.appId] = this;
     this.actions = await this.systemManager.getActionHandler(user);
 
     this.rollHandler = this.systemManager.getRollHandler();
@@ -119,7 +120,7 @@ export class TokenActionHUD extends Application {
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
-    
+  
     const handleClick = (e) => {
       let target = e.target;
 
@@ -134,14 +135,11 @@ export class TokenActionHUD extends Application {
     };
 
     html.find(titleButton).on("click", (e) => {
-      const element = this.element[0];
-      let zIndex = parseInt(document.defaultView.getComputedStyle(element).zIndex) ?? 100;
-      if (zIndex && zIndex >= _maxZ) _maxZ = ++zIndex;
       this.bringToTop();
     });
 
     html.find(action).on("click", (e) => {
-      handleClick(e);s
+      handleClick(e);
     });
 
     html.find(action).contextmenu((e) => {
@@ -272,7 +270,6 @@ export class TokenActionHUD extends Application {
       element.style.top = elementTop + "px";
       element.style.left = elementLeft + "px";
       element.style.position = "fixed";
-      element.style.zIndex = 100;
     }
 
     function mouseUpEvent () {
