@@ -221,7 +221,7 @@
   background: none;
   display: flex;
   flex-direction: column;
-  left: -152px;
+  left: -177px;
   padding: 3px;
   position: absolute;
 }
@@ -232,12 +232,15 @@
   padding-bottom: 5px;
 }
 
-.tah-subtitle {
-  align-items: center;
-  color: #fff;
+.tah-subtitle-wrapper {
   display: flex;
+  align-items: center;
   height: 32px;
-  justify-content: flex-end;
+}
+
+.tah-subtitle {
+  color: #fff;
+  line-height: 1.1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -246,7 +249,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-  width: 150px;
+    width: 175px;
 }
 
 .tah-filterholder {

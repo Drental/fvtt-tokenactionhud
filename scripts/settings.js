@@ -58,6 +58,8 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
+  initColorSettings(appName);
+
   game.settings.register(appName, "enabledForUser", {
     name: game.i18n.localize("tokenActionHud.settings.enabledForUser.name"),
     hint: game.i18n.localize("tokenActionHud.settings.enabledForUser.hint"),
@@ -250,116 +252,194 @@ export function set(setting, value) {
 }
 
 export function initColorSettings(appName) {
-  console.info('AAAAAAAAAAAAAAAAAAAAAA', appName);
+  // Determine color picker module
+  let module = null;
+  if (game.modules.get('lib-themer')?.active) {
+    module = 'lib-themer';
+  } else if (game.modules.get('color-picker')?.active) {
+    module = 'color-picker';
+  } else if (game.modules.get('colorsettings')?.active) {
+    module = 'colorsettings';
+  }
 
-  // Determine ColorPicker
-  if (game.modules.get('lib-themer')?.active ?? false) {
-    Hooks.once('lib-themer.Ready', (API) => {
-      API.register({
-        id: appName,
-        title: game.modules.get(appName).title,
-        '--tah-background': {
-          "name": `tokenActionHud.settings.background.name`,
-          "hint": `tokenActionHud.settings.background.hint`,
-          "type": "color",
-          "default": "#00000000"
-        },
-        '--tah-button': {
-          "name": `tokenActionHud.settings.buttonBackgroundColor.name`,
-          "hint": `tokenActionHud.settings.buttonBackgroundColor.hint`,
-          "type": "color",
-          "default": "#00000080",
-          "colors": {
-            "buttons": true
+  // Register settings based on module
+  switch (module) {
+    case 'lib-themer':
+      Hooks.once('lib-themer.Ready', (API) => {
+        API.register({
+          id: appName,
+          title: game.modules.get(appName).title,
+          '--tah-background': {
+            "name": `tokenActionHud.settings.background.name`,
+            "hint": `tokenActionHud.settings.background.hint`,
+            "type": "color",
+            "default": "#00000000"
+          },
+          '--tah-button': {
+            "name": `tokenActionHud.settings.buttonBackgroundColor.name`,
+            "hint": `tokenActionHud.settings.buttonBackgroundColor.hint`,
+            "type": "color",
+            "default": "#00000080",
+            "colors": {
+              "buttons": true
+            }
           }
-        }
+        });
       });
-    });
-  }else if (game.modules.get('color-picker')?.active ?? false) {
-    if (typeof ColorPicker === 'object') registerColorSettings(appName);
-    else Hooks.once("colorPickerReady", () => { registerColorSettings(appName); });
-  }else if (game.modules.get('colorsettings')?.active ?? false) {
-    Hooks.once('ready', () => {
-      try{
-        window.Ardittristan.ColorSetting.tester;
-        registerColorSettings(appName);
-      }catch {}
-    });
+      break;
+    case 'color-picker':
+      if (typeof ColorPicker === 'object') {
+        registerColorSettings(appName, module);
+      } else {
+        Hooks.once("colorPickerReady", () => { registerColorSettings(appName, module); });
+      }
+      break;
+    case 'colorsettings':
+      Hooks.once('ready', () => {
+        try {
+          window.Ardittristan.ColorSetting.tester;
+          registerColorSettings(appName, module);
+        } catch {}
+      });
+      break;
   }
 }
 
-function registerColorSettings(appName) {
-  const colorRegister = (color) =>  { 
-    try {
-      ColorPicker.register(appName, color.key, color.setting, color.options);
-    }catch{ 
-      try {
-        new window.Ardittristan.ColorSetting(appName, color.key, color.setting);
-      }catch{
-        //ui.notifications.notify('Token Action HUD failed to register color settings', "error");
+function registerColorSettings(appName, module) {
+  const backgroundColor = {
+    key: "background",
+    name: game.i18n.localize("tokenActionHud.settings.background.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.background.hint"),
+    scope: "client",
+    restricted: false,
+    default: "#00000000",
+    onChange: (value) => {
+      document.querySelector(":root").style.setProperty('--tah-background', value);
+      updateFunc(value);
+    }
+  }
+
+  const buttonBackgroundColor = {
+    key: "buttonBackgroundColor",
+    name: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.hint"),
+    scope: "client",
+    restricted: true,
+    default: "#00000080",
+    onChange: (value) => {
+      document.querySelector(":root").style.setProperty('--tah-button', value);
+      updateFunc(value);
+    }
+  }
+
+  const buttonBorderColor = {
+    key: "buttonBorderColor",
+    name: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.hint"),
+    scope: "client",
+    restricted: true,
+    default: "#000000ff",
+    onChange: (value) => {
+      document.querySelector(":root").style.setProperty('--tah-button-outline', value);
+      updateFunc(value);
+    }
+  }
+
+  // Color Picker module
+  if (module === 'color-picker') {
+
+    const pickerOptions = {
+      format: "hexa",
+      alphaChannel: true
+    }
+
+    ColorPicker.register(
+      appName, 
+      backgroundColor.key,
+      {
+        name: backgroundColor.name,
+        hint: backgroundColor.hint,
+        scope: backgroundColor.scope,
+        restricted: backgroundColor.restricted,
+        default: backgroundColor.default,
+        onChange: backgroundColor.onChange
+      },
+      pickerOptions
+    );
+
+    ColorPicker.register(
+      appName, 
+      buttonBackgroundColor.key,
+      {
+        name: buttonBackgroundColor.name,
+        hint: buttonBackgroundColor.hint,
+        scope: buttonBackgroundColor.scope,
+        restricted: buttonBackgroundColor.restricted,
+        default: buttonBackgroundColor.default,
+        onChange: buttonBackgroundColor.onChange
+      },
+      pickerOptions
+    );
+    
+    ColorPicker.register(
+      appName, 
+      buttonBorderColor.key,
+      {
+        name: buttonBorderColor.name,
+        hint: buttonBorderColor.hint,
+        scope: buttonBorderColor.scope,
+        restricted: buttonBorderColor.restricted,
+        default: buttonBorderColor.default,
+        onChange: buttonBorderColor.onChange
+      },
+      pickerOptions
+    );
+
+  // Color Settings module
+  } else if (module === 'colorsettings') {
+
+    new window.Ardittristan.ColorSetting(
+      appName, 
+      backgroundColor.key,
+      {
+        name: backgroundColor.name,
+        hint: backgroundColor.hint,
+        scope: backgroundColor.scope,
+        restricted: backgroundColor.restricted,
+        defaultColor: backgroundColor.default,
+        onChange: backgroundColor.onChange,
+        insertAfter: `${appName}.scale`
       }
-    }
-  };
+    );
 
-  colorRegister({
-    key: 'background',
-    setting:{
-      name: game.i18n.localize("tokenActionHud.settings.background.name"),
-      hint: game.i18n.localize("tokenActionHud.settings.background.hint"),
-      scope: "client",
-      restricted: false,
-      default: "#00000000",
-      onChange: (value) => {
-        document.querySelector(":root").style.setProperty('--tah-background', value);
-        updateFunc(value);
-      },
-      insertAfter: `${appName}.showItemsWithoutAction`
-    },
-    options: {
-      format: "hexa",
-      alphaChannel: true
-    } 
-  })
+    new window.Ardittristan.ColorSetting(
+      appName, 
+      buttonBackgroundColor.key,
+      {
+        name: buttonBackgroundColor.name,
+        hint: buttonBackgroundColor.hint,
+        scope: buttonBackgroundColor.scope,
+        restricted: buttonBackgroundColor.restricted,
+        defaultColor: buttonBackgroundColor.default,
+        onChange: buttonBackgroundColor.onChange,
+        insertAfter: `${appName}.${backgroundColor.key}`
+      }
+    );
 
-  colorRegister({
-    key: 'buttonBackgroundColor',
-    setting: {
-      name: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.name"),
-      hint: game.i18n.localize("tokenActionHud.settings.buttonBackgroundColor.hint"),
-      scope: "client",
-      restricted: true,
-      default: "#00000080",
-      onChange: (value) => {
-        document.querySelector(":root").style.setProperty('--tah-button', value);
-        updateFunc(value);
-      },
-      insertAfter: `${appName}.background`
-    }, 
-    options: {
-      format: "hexa",
-      alphaChannel: true
-    }
-  });
-
-  colorRegister({
-    key: "buttonBorderColor", 
-    setting: {
-      name: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.name"),
-      hint: game.i18n.localize("tokenActionHud.settings.buttonBorderColor.hint"),
-      scope: "client",
-      restricted: true,
-      default: "#000000ff",
-      onChange: (value) => {
-        document.querySelector(":root").style.setProperty('--tah-button-outline', value);
-        updateFunc(value);
-      },
-      insertAfter: `${appName}.buttonBackgroundColor`
-    }, 
-    options: {
-      format: "hexa",
-      alphaChannel: true
-    }
-  });
+    new window.Ardittristan.ColorSetting(
+      appName, 
+      buttonBorderColor.key,
+      {
+        name: buttonBorderColor.name,
+        hint: buttonBorderColor.hint,
+        scope: buttonBorderColor.scope,
+        restricted: buttonBorderColor.restricted,
+        defaultColor: buttonBorderColor.default,
+        onChange: buttonBorderColor.onChange,
+        insertAfter: `${appName}.${buttonBackgroundColor.key}`
+      }
+    );
+  }
   
   Hooks.once('ready', () => {
       document.querySelector(":root").style.setProperty('--tah-background', game.settings.get(appName, 'background') ?? '#00000000');

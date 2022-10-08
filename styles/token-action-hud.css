@@ -157,7 +157,7 @@
   background: none;
   display: flex;
   flex-direction: column;
-  left: -152px;
+  left: -177px;
   padding: 3px;
   position: absolute;
 }
@@ -168,12 +168,15 @@
   padding-top: 3px;
 }
 
-.tah-subtitle {
-  align-items: center;
-  color: #fff;
+.tah-subtitle-wrapper {
   display: flex;
+  align-items: center;
   height: 32px;
-  justify-content: flex-end;
+}
+
+.tah-subtitle {
+  color: #fff;
+  line-height: 1.1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -182,7 +185,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 150px;
+    width: 175px;
 }
 
 .tah-filterholder {
@@ -399,19 +402,6 @@
 
 .tah-action .activeText:after {
   content: "*";
-}
-
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu {
-  position: relative;
-}
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu button {
-  max-width: none !important;
-}
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu .picker_wrapper {
-  flex-basis: 100%;
-  margin-left: 50%;
-  position: absolute;
-  bottom: 100%;
 }
 
 .tah-category button,
