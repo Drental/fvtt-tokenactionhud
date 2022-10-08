@@ -67,7 +67,6 @@ export class RollHandler {
   doRenderItem(actorId, itemId) {
     let actor = this.getActor(actorId);
     let item = this.getItem(actor, itemId);
-    game.tokenActionHUD.element[0].style.zIndex = 100;
     item.sheet.render(true);
   }
 

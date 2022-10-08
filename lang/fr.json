@@ -624,10 +624,12 @@
       }  
     },
     "sfrpg": {
+      "activeFeats": "Dons actifs",
       "crewActions": "Crew Actions",
       "misc": "Divers",
       "msa": "Sort de Combat",
       "mwa": "Attaque à l'arme de mêlée",
+      "passiveFeats": "Dons passifs",
       "rsa": "Sort de Missile",
       "rwa": "Attaque à l'arme à distance",
       "shields": "Boucliers",

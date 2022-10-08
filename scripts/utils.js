@@ -1,5 +1,6 @@
 export function switchCSS(settingValue) {
     const styles = [
+      { setting: "compact", file: "tah-compact" },
       { setting: "foundryVTT", file: "token-action-hud" },
       { setting: "dorakoUI", file: "tah-dorako" }
     ];

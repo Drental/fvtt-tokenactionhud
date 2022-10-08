@@ -474,10 +474,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "主動專長",
       "crewActions": "Crew Actions",
       "misc": "杂项",
       "msa": "近战法术攻击",
       "mwa": "近战武器攻击",
+      "passiveFeats": "被動專長",
       "rsa": "远程法术攻击",
       "rwa": "远程武器攻击",
       "shields": "Shields",

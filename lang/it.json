@@ -621,10 +621,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Talenti attivi",
       "crewActions": "Azioni dell'Equipaggio",
       "misc": "Varie",
       "msa": "Attacchi Magici in Mischia",
       "mwa": "Attacchi Fisici in Mischia",
+      "passiveFeats": "Talenti passivi",
       "rsa": "Attacchi Magici a Distanza",
       "rwa": "Attacchi Fisici a Distanza",
       "shields": "Scudi",

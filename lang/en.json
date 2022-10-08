@@ -282,15 +282,15 @@
         "name": "Show Wounds/Fatigue"
       },
       "background": {
-        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI style",
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
         "name": "HUD Background Color"
       },
       "buttonBackgroundColor": {
-        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI style",
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
         "name": "Button Background Color"
       },
       "buttonBorderColor": {
-        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI style",
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
         "name": "Button Border Color"
       },
       "showHudTitle": {
@@ -640,10 +640,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Active Feats",
       "crewActions": "Crew Actions",
       "misc": "Misc",
       "msa": "Melee Spell Attacks",
       "mwa": "Melee Weapon Attacks",
+      "passiveFeats": "Passive Feats",
       "rsa": "Ranged Spell Attacks",
       "rwa": "Ranged Weapon Attacks",
       "shields": "Shields",

@@ -89,15 +89,14 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
     } else if (!event.ctrlKey && event.shiftKey) {
       difficulty = 1;
     }
-    const actorSheet = actor.sheet.getData();
     const skill = actor.system.skills[skillname];
     const characteristic =
-      actorSheet.system.characteristics[skill.characteristic];
+      actor.system.characteristics[skill.characteristic];
     game.ffg.DiceHelpers.rollSkillDirect(
       skill,
       characteristic,
       difficulty,
-      actorSheet
+      actor
     );
   }
 }

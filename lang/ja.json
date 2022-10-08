@@ -636,10 +636,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "アクティブな特殊スキル",
       "crewActions": "乗員アクション",
       "misc": "その他",
       "msa": "近接呪文攻撃",
       "mwa": "近接武器攻撃",
+      "passiveFeats": "パッシブ特殊スキル",
       "rsa": "遠隔呪文攻撃",
       "rwa": "遠隔武器攻撃",
       "shields": "シールド",

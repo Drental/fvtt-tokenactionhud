@@ -157,7 +157,7 @@
   background: none;
   display: flex;
   flex-direction: column;
-  left: -152px;
+  left: -177px;
   padding: 3px;
   position: absolute;
 }
@@ -168,12 +168,15 @@
   padding-top: 3px;
 }
 
-.tah-subtitle {
-  align-items: center;
-  color: #fff;
+.tah-subtitle-wrapper {
   display: flex;
+  align-items: center;
   height: 32px;
-  justify-content: flex-end;
+}
+
+.tah-subtitle {
+  color: #fff;
+  line-height: 1.1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -182,7 +185,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 150px;
+    width: 175px;
 }
 
 .tah-filterholder {
@@ -353,7 +356,6 @@
 }
 
 .tah-action button {
-  background: rgba(0, 0, 0, 0.7);
   color: #ddd;
   display: flex;
   margin: 0;
@@ -377,9 +379,9 @@
 }
 
 .tah-action .toggle {
-  background: var(--tah-button-toggle, #00000080);
+  background: var(--tah-button, #00000080);
   box-shadow:
-    0 0 0 1px var(--tah-button-toggle-outline, #000000ff),
+    0 0 0 1px var(--tah-button-outline, #000000ff),
     inset 0 0 10px #ffffff1a;
 }
 
@@ -401,19 +403,6 @@
   content: "*";
 }
 
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu {
-  position: relative;
-}
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu button {
-  max-width: none !important;
-}
-#client-settings section.tab[data-tab="token-action-hud"] .form-group.submenu .picker_wrapper {
-  flex-basis: 100%;
-  margin-left: 50%;
-  position: absolute;
-  bottom: 100%;
-}
-
 .tah-category button,
 .tah-action button {
 	background-color: var(--tah-button, #00000080);
@@ -429,7 +418,7 @@
 .tah-category button:hover,
 .tah-category.hover > button,
 .tah-action button:hover {
-	background-color: var(--tah-button-hover, #00000080);
+	background-color: var(--tah-button, #00000080);
   border: 0;
   box-shadow: 
     0 2px 0 -1px var(--tah-button-outline-hover-glow, #ff6400),

@@ -94,9 +94,9 @@ export class CategoryResizer {
           parseInt(child.css("marginLeft")) +
           parseInt(child.css("marginRight"));
 
-        totalWidth += childWidth + marginWidth + 3; // 3 is the gap width on parent element
+        totalWidth += childWidth + marginWidth + 5; // 5 is the gap width on parent element
       });
-      totalWidth = totalWidth - 3; //Remove the last gap width as gaps only exist between buttons
+      totalWidth = totalWidth - 5; //Remove the last gap width as gaps only exist between buttons
       if (totalWidth > maxWidth) maxWidth = totalWidth;
     });
 

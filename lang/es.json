@@ -616,10 +616,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Dotes activas",
       "crewActions": "Crew Actions",
       "misc": "Misceláneas",
       "msa": "Ataques de conjuros cuerpo a cuerpo",
       "mwa": "Ataques de armas cuerpo a cuerpo",
+      "passiveFeats": "Dotes pasivas",
       "rsa": "Ataques de conjuros a distancia",
       "rwa": "Ataques de armas a distancia",
       "shields": "Escudos",

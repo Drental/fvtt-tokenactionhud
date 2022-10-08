@@ -615,10 +615,12 @@
       }
     },
     "sfrpg": {
+      "activeFeats": "Aktywne wyczyny",
       "crewActions": "Crew Actions",
       "misc": "Misc",
       "msa": "Ataki Zaklęciami Dotykowymi",
       "mwa": "Ataki Bronią Białą",
+      "passiveFeats": "Wyczyny pasywn",
       "rsa": "Ataki Zaklęciami Dystansowymi",
       "rwa": "Ataki Bronią Zasięgową",
       "shields": "Tarcze",
