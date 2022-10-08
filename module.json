@@ -26,6 +26,7 @@
     "./scripts/bundle.min.js"
   ],
   "styles": [
+    "./styles/tah-compact.css", 
     "./styles/token-action-hud.css", 
     "./styles/tah-dorako.css", 
     "./styles/lib/tagify/tagify.css"

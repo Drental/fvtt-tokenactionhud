@@ -33,6 +33,7 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     type: String,
     default: "foundryVTT",
     choices: {
+      compact: "Compact",
       foundryVTT: "Foundry VTT",
       dorakoUI: "Dorako UI"
     },

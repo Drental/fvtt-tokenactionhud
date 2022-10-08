@@ -116,7 +116,9 @@
 
 .tah-title-button {
   height: auto;
+  line-height: 1;
   margin-right: 2px;
+  min-height: 20px;
   padding: 3px;
   text-align: center;
   text-shadow:
@@ -136,12 +138,6 @@
   visibility: hidden;
 }
 
-.tah-title-button:hover > .fa,
-.tah-title-button:hover > .fas {
-  cursor: pointer;
-  visibility: visible;
-}
-
 /* Dropdown Content (Hidden by Default) */
 .tah-content {
   background: var(--tah-background, #00000000);
@@ -157,8 +153,8 @@
   background: none;
   display: flex;
   flex-direction: column;
-  left: -177px;
-  padding: 3px;
+  left: -175px;
+  padding: 1px;
   position: absolute;
 }
 
@@ -170,13 +166,12 @@
 
 .tah-subtitle-wrapper {
   display: flex;
-  align-items: center;
-  height: 32px;
 }
 
 .tah-subtitle {
   color: #fff;
-  line-height: 1.1;
+  font-size: small;
+  line-height: 1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -209,11 +204,6 @@
   top: 3px;
   visibility: hidden;
   width: auto;
-}
-
-.tah-subtitle:hover > .tah-filterholder > .fa,
-.tah-subtitle:hover > .tah-filterholder > .fas {
-  visibility: visible;
 }
 
 .tah-actions {
@@ -311,8 +301,8 @@
 .tah-img {
   border-radius: 3px 0 0 3px;
   display: inline-flex;
-  height: 32px;
-  width: 32px;
+  height: 20px;
+  width: 20px;
 }
 
 .tah-icon > .fa,
@@ -358,9 +348,10 @@
 .tah-action button {
   color: #ddd;
   display: flex;
+  line-height: 1;
   margin: 0;
-  min-height: 32px;
-  min-width: 50px;
+  min-height: 20px;
+  min-width: 20px;
   padding: 0;
   text-decoration: none;
   text-shadow:
