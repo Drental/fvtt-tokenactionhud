@@ -1,5 +1,14 @@
 # Changelog
 
+# [3.0.11] 2022-10-08
+- Core - Fix compendium subcategories (#295).
+- Core - Fix HUD appearing above dialog windows (#297). 
+- Core - Fix 's is not defined' error (#298).
+- Core - Fix color pickers defaulting to black when upgrading to Foundry VTT v10.287 and the ColorSettings module is in use (#300).
+- Core - Add Compact option to the Style module setting.
+- Starfinder - Categorise Features into Active Feats and Passive Feats subcategories (#55).
+- Star Wars FFG - Fix HUD for v1.80-alpha3 (#299).
+
 # [3.0.10] 2022-10-02
 - Core - Improve Foundry VTT style to better match core style, especially around toggleable buttons. 
 - Core - Center align names on buttons (#286).
