@@ -6,6 +6,7 @@ import { Action } from "./entities/action.js";
 import * as settings from "../settings.js";
 import { GenericActionHandler } from "./genericActionHandler.js";
 import { CompendiumActionHandler } from "./compendiumActionHandler.js";
+import { getSubcategoriesById, getSubcategoryByNestId } from "../utils.js";
 
 export class ActionHandler {
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
@@ -46,27 +47,21 @@ export class ActionHandler {
     return savedActionList;
   }
 
-  getSuggestedActionsAsTagifyEntries(categoryId, subcategoryId) {
+  getSuggestedActionsAsTagifyEntries(nestId) {
     if (!this.actionList) return;
-    const actions = this.actionList.categories
-      .filter(category => category.id === categoryId)
-      .flatMap(category => category.subcategories)
-      .filter(subcategory => subcategory.id === subcategoryId)
-      .flatMap(subcategory => subcategory.actions)
+    const subcategory = getSubcategoryByNestId(this.actionList.categories, nestId);
+    const actions = subcategory.actions
       .map(action => this.asTagifyEntry(action));
     return actions;
   }
 
-  getSelectedActionsAsTagifyEntries(categoryId, subcategoryId) {
+  getSelectedActionsAsTagifyEntries(nestId) {
     if (!this.actionList) return;
-    const actions = this.actionList.categories
-    .filter(category => category.id === categoryId)
-    .flatMap(category => category.subcategories)
-    .filter(subcategory => subcategory.id === subcategoryId)
-    .flatMap(subcategory => subcategory.actions)
-    .filter(action => action.selected === true)
-    .map(action => this.asTagifyEntry(action));
-  return actions;
+    const subcategory = getSubcategoryByNestId(this.actionList.categories, nestId);
+    const actions = subcategory.actions
+      .filter(action => action.selected === true)
+      .map(action => this.asTagifyEntry(action));
+    return actions;
   }
 
   _buildEmptyActionList(character) {
@@ -85,7 +80,7 @@ export class ActionHandler {
       if (subcategories) {
         for (const subcategory of Object.values(subcategories)) {
           emptyActionList.categories.find(c => c.id === category.id)
-            .subcategories.push(new ActionSubcategory(subcategory.id, subcategory.title, subcategory.type));
+            .subcategories.push(new ActionSubcategory(subcategory.id, category.id, subcategory.title, subcategory.type));
         }
       }
     }
@@ -110,27 +105,24 @@ export class ActionHandler {
       .filter(subcategory => subcategory.id === subcategoryId)
       .flatMap(subcategory => subcategory.subcategories = subcategoriesClone);
   }
-
   /** @public */
   _mapActions(actionList, actions, subcategoryId) {
-    const categoryIds = Object.values(actionList.categories)
-      .map(category => [category.id, category.subcategories.flatMap(subcategory => subcategory.id)])
-      .filter(category => category[1].includes(subcategoryId))
-      .map(category => category[0]);
+    if (actions.length === 0) return;
 
-    for (const categoryId of categoryIds) {
+    const subcategories = getSubcategoriesById(actionList.categories, subcategoryId);
+
+    for (const subcategory of subcategories) {
+      // Get saved subcategory
+      const savedSubcategory = getSubcategoryByNestId(this.savedActionList, subcategory.nestId);
+
       // Clone actions
       const actionsClone = structuredClone(actions);
 
       for (const actionClone of actionsClone) {
 
         // Get selected value from saved action
-        const category = this.savedActionList.find(category => category.id === categoryId)
-        const subcategory = (category?.subcategories) 
-          ? category.subcategories.find(subcategory => subcategory.id === subcategoryId)
-          : { actions: [] };
-        const action = (subcategory?.actions)
-          ? subcategory.actions.find(action => action.encodedValue === actionClone.encodedValue)
+        const action = (savedSubcategory?.actions)
+          ? savedSubcategory.actions.find(action => action.encodedValue === actionClone.encodedValue)
           : { selected: true };
         const selected = action?.selected ?? true;
         
@@ -138,11 +130,7 @@ export class ActionHandler {
       }
 
       // Update action list
-      actionList.categories
-        .find(category => category.id === categoryId)
-        .subcategories
-        .find(subcategory => subcategory.id === subcategoryId)
-        .actions = actionsClone;
+      subcategory.actions = actionsClone;
     }
   } 
 
@@ -178,12 +166,9 @@ export class ActionHandler {
     await actor.setFlag("token-action-hud", "categories", actionList.categories);
   }
 
-  async saveActions(categoryId, subcategoryId, selectedActions) {
-    const actions = this.actionList.categories
-      .find(category => category.id === categoryId)
-      .subcategories
-      .find(subcategory => subcategory.id === subcategoryId)
-      .actions
+  async saveActions(nestId, selectedActions) {
+    const subcategory = getSubcategoryByNestId(this.actionList.categories, nestId);
+    const actions = subcategory.actions;
 
     const reorderedActions = [];
     
@@ -204,11 +189,7 @@ export class ActionHandler {
       }
     }
 
-    this.actionList.categories
-      .find(category => category.id === categoryId)
-      .subcategories
-      .find(subcategory => subcategory.id === subcategoryId)
-      .actions = reorderedActions;
+    subcategory.actions = reorderedActions;
       
     await this.saveActionList(this.actionList, this.character);
   }
@@ -243,8 +224,8 @@ export class ActionHandler {
     return category;
   }
 
-  initializeEmptySubcategory(id = "", name = "") {
-    let subcategory = new ActionSubcategory(id, name);
+  initializeEmptySubcategory(id = "", parentNestId = "", name = "", type = "", ) {
+    let subcategory = new ActionSubcategory(id, parentNestId, name, type);
     return subcategory;
   }
 

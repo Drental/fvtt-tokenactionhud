@@ -175,7 +175,8 @@ export class ActionHandler5e extends ActionHandler {
       id: itemId,
       encodedValue: encodedValue,
       img: img,
-      icon: icon
+      icon: icon,
+      selected: true
     };
 
     if (
@@ -316,7 +317,7 @@ export class ActionHandler5e extends ActionHandler {
       const ignoreSlotsAvailable = settings.get("showEmptyItems");
       let subcategory = {};
       if ((max && slotsAvailable) || !max || ignoreSlotsAvailable) {
-        subcategory = this.initializeEmptySubcategory(spellLevelId, spellLevelName);
+        subcategory = this.initializeEmptySubcategory(spellLevelId, "spells", spellLevelName);
         if (max > 0) subcategory.info1 = `${slots}/${max}`
     
         // CREATE ACTIONS
@@ -379,15 +380,16 @@ export class ActionHandler5e extends ActionHandler {
     const actorId = character.actor?.id;
     const tokenId = character.token?.id;
     const actor = character.actor;
+    const parentNestId = "features";
 
     let subcategories = [];
-    let activeId = this.i18n("tokenActionHud.active");
-    let passiveId = this.i18n("tokenActionHud.passive");
-    let legendaryId = this.i18n("tokenActionHud.dnd5e.legendary");
-    let lairId = this.i18n("tokenActionHud.dnd5e.lair");
-    let actionsId = this.i18n("tokenActionHud.actions");
-    let featuresId = this.i18n("tokenActionHud.features");
-    let reactionsId = this.i18n("tokenActionHud.reactions");
+    let activeId = "features_active";
+    let passiveId = "features_passive";
+    let legendaryId = "features_legendary";
+    let lairId = "features_lair";
+    let actionsId = "features_actions";
+    let featuresId = "features_features";
+    let reactionsId = "features_reactions";
     let activeTitle = this.i18n("tokenActionHud.active");
     let passiveTitle = this.i18n("tokenActionHud.passive");
     let legendaryTitle = this.i18n("tokenActionHud.dnd5e.legendary");
@@ -395,13 +397,20 @@ export class ActionHandler5e extends ActionHandler {
     let actionsTitle = this.i18n("tokenActionHud.actions");
     let featuresTitle = this.i18n("tokenActionHud.features");
     let reactionsTitle = this.i18n("tokenActionHud.reactions");
-    let active = this.initializeEmptySubcategory(activeId, activeTitle);
-    let passive = this.initializeEmptySubcategory(passiveId, passiveTitle);
-    let lair = this.initializeEmptySubcategory(lairId, lairTitle);
-    let legendary = this.initializeEmptySubcategory(legendaryId, legendaryTitle);
-    let actions = this.initializeEmptySubcategory(actionsId, actionsTitle);
-    let features = this.initializeEmptySubcategory(featuresId, featuresTitle);
-    let reactions = this.initializeEmptySubcategory(reactionsId, reactionsTitle);
+    let activeSubcategory = this.initializeEmptySubcategory(activeId, parentNestId, activeTitle);
+    let passiveSubcategory = this.initializeEmptySubcategory(passiveId, parentNestId, passiveTitle);
+    let lairSubcategory = this.initializeEmptySubcategory(lairId, lairTitle);
+    let legendarySubcategory = this.initializeEmptySubcategory(legendaryId, parentNestId, legendaryTitle);
+    let actionsSubcategory = this.initializeEmptySubcategory(actionsId, parentNestId, actionsTitle);
+    let featuresSubcategory = this.initializeEmptySubcategory(featuresId, parentNestId, featuresTitle);
+    let reactionsSubcategory = this.initializeEmptySubcategory(reactionsId, parentNestId, reactionsTitle);
+    let active = [];
+    let passive = [];
+    let lair = [];
+    let legendary = [];
+    let actions = [];
+    let features = [];
+    let reactions = [];
     
     let dispose = feats.reduce(
       function (dispose, f) {
@@ -412,56 +421,64 @@ export class ActionHandler5e extends ActionHandler {
 
         if (actor.type === "vehicle") {
           if (activationType && activationType !== "none" && activationType !== "reaction") {
-            actions.actions.push(feat);
+            actions.push(feat);
             return;
           }
 
           if (!activationType || activationType === "none") {
-            features.actions.push(feat);
+            features.push(feat);
             return;
           }
 
           if (activationType == "reaction") {
-            reactions.actions.push(feat);
+            reactions.push(feat);
             return;
           }
 
-          actions.actions.push(feat);
+          actions.push(feat);
           return
         }
 
         if (actor.type === "character" || actor.type === "npc") {
           if (!activationType || activationType === "") {
-            passive.actions.push(feat);
+            passive.push(feat);
             return;
           }
   
           if (activationType == "lair") {
-            lair.actions.push(feat);
+            lair.push(feat);
             return;
           }
   
           if (activationType == "legendary") {
-            legendary.actions.push(feat);
+            legendary.push(feat);
             return;
           }
   
-          active.actions.push(feat);
+          active.push(feat);
           return;
         }
       }.bind(this),
       {}
     );
 
-    subcategories.push(active);
-    if (!settings.get("ignorePassiveFeats")) subcategories.push(passive);
-    subcategories.push(lair);
-    subcategories.push(legendary);
-    subcategories.push(actions);
-    subcategories.push(features);
-    subcategories.push(reactions);
+    if (active.length > 0) subcategories.push(activeSubcategory);
+    if (!settings.get("ignorePassiveFeats") && passive.length > 0) subcategories.push(passiveSubcategory);
+    if (lair.length > 0) subcategories.push(lairSubcategory);
+    if (legendary.length > 0) subcategories.push(legendarySubcategory);
+    if (actions.length > 0) subcategories.push(actionsSubcategory);
+    if (features.length > 0) subcategories.push(featuresSubcategory);
+    if (reactions.length > 0) subcategories.push(reactionsSubcategory);
 
     this._mapSubcategories(actionList, subcategories, "features");
+
+    this._mapActions(actionList, active, activeId);
+    if (!settings.get("ignorePassiveFeats")) this._mapActions(actionList, passive, passiveId);
+    this._mapActions(actionList, lair, lairId);
+    this._mapActions(actionList, legendary, legendaryId);
+    this._mapActions(actionList, actions, actionsId);
+    this._mapActions(actionList, features, featuresId);
+    this._mapActions(actionList, reactions, reactionsId);
   }
 
   /** ATTRIBUTES */
@@ -583,14 +600,15 @@ export class ActionHandler5e extends ActionHandler {
     const actorId = character.actor?.id;
     const tokenId = character.token?.id;
     const actor = character.actor;
+    const parentNestId = "effects";
     const macroType = "effect";
     let subcategories = [];
     const temporaryId = "temporary-effects";
     const passiveId = "passive-effects";
     const temporaryTitle = this.i18n("tokenActionHud.temporary");
     const passiveTitle = this.i18n("tokenActionHud.passive");
-    let temporarySubcategory = this.initializeEmptySubcategory(temporaryId, temporaryTitle);
-    let passiveSubcategory = this.initializeEmptySubcategory(passiveId, passiveTitle);
+    let temporarySubcategory = this.initializeEmptySubcategory(temporaryId, parentNestId, temporaryTitle);
+    let passiveSubcategory = this.initializeEmptySubcategory(passiveId, parentNestId, passiveTitle);
   
     const effects =
       "find" in actor.effects.entries ? actor.effects.entries : actor.effects;

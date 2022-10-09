@@ -11,16 +11,14 @@ export class TagDialog extends Dialog {
   }
 
   static showDialog(
-    categoryId,
-    subcategoryId,
+    nestId,
     suggestions,
     selected,
     title,
     hbsData,
     submitFunc
   ) {
-    this.categoryId = categoryId;
-    this.subcategoryId = subcategoryId;
+    this.nestId = nestId;
     TagDialog._prepareHook(suggestions, selected);
 
     let template = Handlebars.compile(

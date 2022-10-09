@@ -9,5 +9,6 @@ export class Action {
     this.cssClass = "";
     this.icon = "";
     this.img = "";
+    this.selected = true;
   }
 }

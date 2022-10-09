@@ -114,7 +114,9 @@ export class TokenActionHUD extends Application {
   /** @override */
   activateListeners(html) {
     const repositionIcon = "#tah-reposition";
-    const categoriesIcon = "#tah-categories";
+    const editCategoriesButton = "#tah-edit-categories";
+    const unlockButton = "#tah-unlock";
+    const lockButton = "#tah-lock";
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
@@ -161,10 +163,9 @@ export class TokenActionHUD extends Application {
     function handlePossibleFilterSubtitleClick(e) {
       let target = e.target;
       if (target.id.length === 0) return;
-      const categoryId = target.dataset?.categoryId;
-      const subcategoryId = target.id;
+      const nestId = target.id;
 
-      TagDialogHelper.showActionDialog(game.tokenActionHUD.actionHandler, categoryId, subcategoryId);
+      TagDialogHelper.showActionDialog(game.tokenActionHUD.actionHandler, nestId);
     }
 
     function closeCategory(event) {
@@ -217,7 +218,23 @@ export class TokenActionHUD extends Application {
       html.find(category).hover(openCategory, closeCategory);
     }
 
-    html.find(categoriesIcon).mousedown((ev) => {
+    html.find(unlockButton).mousedown((ev) => {
+      ev.preventDefault();
+      ev = ev || window.event;
+      $(ev.target).addClass('tah-hidden');
+      html.find(lockButton).removeClass('tah-hidden');
+      html.find(editCategoriesButton).removeClass('tah-hidden');
+    });
+
+    html.find(lockButton).mousedown((ev) => {
+      ev.preventDefault();
+      ev = ev || window.event;
+      $(ev.target).addClass('tah-hidden');
+      html.find(unlockButton).removeClass('tah-hidden');
+      html.find(editCategoriesButton).addClass('tah-hidden');
+    });
+
+    html.find(editCategoriesButton).mousedown((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
 

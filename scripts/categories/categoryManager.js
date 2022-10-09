@@ -1,5 +1,6 @@
 import * as settings from "../settings.js";
 import { SubcategoryType } from "../enums/subcategoryType.js";
+import { getSubcategoriesById, getSubcategoryByNestId } from "../utils.js";
 
 export class CategoryManager {
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
@@ -155,6 +156,7 @@ export class CategoryManager {
   // GET SELECTED SUBCATEGORIES
   getSelectedCategoriesAsTagifyEntries() {
     const categories = this.user.getFlag("token-action-hud", "categories");
+    if (!categories) return;
     return Object.values(categories).map(category => this.asTagifyEntry(category));
   }
 
@@ -199,6 +201,6 @@ export class CategoryManager {
   }
 
   asTagifyEntry(data) {
-    return { id: data.id, value: data.title, type: data.type };
+    return { id: data.nestId, value: data.title, type: data.type };
   }
 }

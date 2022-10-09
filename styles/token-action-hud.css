@@ -18,7 +18,6 @@
   border-radius: 3px;
   display: flex;
   flex-direction: row;
-  gap: 2px;
   height: auto;
   left: 150px;
   margin-bottom: 1px;
@@ -35,7 +34,7 @@
 
 #token-action-hud:hover > #tah-reposition,
 #token-action-hud:hover > #tah-categories {
-  display: block;
+  display: flex;
   position: absolute;
 }
 
@@ -55,6 +54,11 @@
     top: -20px !important;
 }
 
+#tah-category-group {
+  display: flex;
+  gap: 2px;
+}
+
 #tah-reposition,
 #tah-categories {
   display: none;
@@ -62,26 +66,42 @@
   font-weight: normal;
 }
 
-#tah-reposition:hover,
-#tah-categories:hover {
-  cursor: pointer;
-}
-
 #tah-reposition {
   left: -20px;
 }
 
 #tah-categories {
+  display: flex;
   left: 100%;
+}
+
+#tah-categories button {
+  background: transparent;
+  border: 0;
+}
+
+#tah-categories button:hover, 
+#tah-categories button:focus {
+  box-shadow: none;
+}
+
+#tah-reposition > .fa,
+#tah-reposition > .fas {
+  font-size: small;
+  margin: 3px;
+  padding: 3px;
+}
+
+#tah-categories > button.fa,
+#tah-categories > button.fas {
+  font-size: large;
 }
 
 #tah-reposition > .fa,
 #tah-reposition > .fas,
-#tah-categories > .fa,
-#tah-categories > .fas {
+#tah-categories button > .fa,
+#tah-categories button > .fas {
   color: #ddd;
-  margin: 3px;
-  padding: 3px;
   pointer-events: none;
   text-align: center;
   text-shadow:
@@ -91,20 +111,14 @@
     1px 1px 1px rgba(52, 52, 52, 1);
 }
 
-#tah-reposition > .fa,
-#tah-reposition > .fas {
-  font-size: small;
-}
-
-#tah-categories > .fa,
-#tah-categories > .fas {
-  font-size: large;
-}
-
 #tah-reposition:hover > i,
-#tah-categories:hover > i {
+#tah-categories button:hover > i {
   color: #fff;
   text-shadow: 0 0 10px #ff6400;
+}
+
+.tah-hidden {
+  display: none !important;
 }
 
 /* The container <div> - needed to position the dropdown content */

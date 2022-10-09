@@ -121,6 +121,7 @@
 }
 
 #tah-categories {
+  display: flex;
   left: 100%;
 }
 

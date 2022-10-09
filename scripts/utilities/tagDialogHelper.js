@@ -26,7 +26,6 @@ export class TagDialogHelper {
     TagDialog.showDialog(
       null,
       null,
-      null,
       selected,
       title,
       hbsData,
@@ -87,7 +86,6 @@ export class TagDialogHelper {
 
     TagDialog.showDialog(
       categoryId,
-      null,
       suggestions,
       selected,
       title,
@@ -96,13 +94,13 @@ export class TagDialogHelper {
     );
   }
 
-  static showActionDialog(actionHandler, categoryId, subcategoryId) {
-    TagDialogHelper._showActionDialog(actionHandler, categoryId, subcategoryId);
+  static showActionDialog(actionHandler, nestId) {
+    TagDialogHelper._showActionDialog(actionHandler, nestId);
   }
 
-  static _showActionDialog(actionHandler, categoryId, subcategoryId) {
-    let suggestions = actionHandler.getSuggestedActionsAsTagifyEntries(categoryId, subcategoryId);
-    let selected = actionHandler.getSelectedActionsAsTagifyEntries(categoryId, subcategoryId);
+  static _showActionDialog(actionHandler, nestId) {
+    let suggestions = actionHandler.getSuggestedActionsAsTagifyEntries(nestId);
+    let selected = actionHandler.getSelectedActionsAsTagifyEntries(nestId);
 
     let title = game.i18n.localize("tokenActionHud.filterTitle");
 
@@ -118,15 +116,13 @@ export class TagDialogHelper {
     let submitFunc = async (choices) => {
       await TagDialogHelper.saveActions(
         actionHandler,
-        categoryId,
-        subcategoryId,
+        nestId,
         choices
       );
     };
 
     TagDialog.showDialog(
-      categoryId,
-      subcategoryId,
+      nestId,
       suggestions,
       selected,
       title,
@@ -146,8 +142,8 @@ export class TagDialogHelper {
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  static async saveActions(actionHandler, categoryId, subcategoryId, choices) {
-    await actionHandler.saveActions(categoryId, subcategoryId, choices);
+  static async saveActions(actionHandler, nestId, choices) {
+    await actionHandler.saveActions(nestId, choices);
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 }

@@ -72,6 +72,7 @@
 }
 
 #tah-categories {
+  display: flex;
   left: 100%;
 }
 
@@ -424,4 +425,10 @@
     0 0 0 1px var(--tah-button-outline-hover, red),
     0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
 	color: var(--tah-button-active-contrast, #fff);
+}
+
+.token-action-hud-taginput {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
