@@ -417,7 +417,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       const auxActionsMap = s.auxiliaryActions.map(
         function (a) {
           return {
-            id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+            id: encodeURIComponent(`${this.label}>${this.auxiliaryActions.indexOf(a)}>` + usage),
             name: a.label,
           };
         }.bind(s)
