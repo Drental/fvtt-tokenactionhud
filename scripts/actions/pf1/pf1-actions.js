@@ -163,7 +163,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getAttacksList(actor, tokenId) {
     let validAttacks = actor.items.filter((i) => i.type === "attack");
-    let sortedAttacks = this._sortByItemSort(validAttacks);
+    let sortedAttacks = this.sortItems(validAttacks);
     let macroType = "attack";
 
     let result = this.initializeEmptyCategory("attacks");
@@ -224,7 +224,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getBuffsList(actor, tokenId) {
     let validBuff = actor.items
       .filter((i) => i.type === "buff");
-    let sortedBuffs = this._sortByItemSort(validBuff);
+    let sortedBuffs = this.sortItems(validBuff);
     let macroType = "buff";
 
     let buffActions = sortedBuffs.map((w) => {
@@ -248,7 +248,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   _getItemList(actor, tokenId) {
     let validItems = actor.items
       .filter((i) => i.system.quantity > 0);
-    let sortedItems = this._sortByItemSort(validItems);
+    let sortedItems = this.sortItems(validItems);
     let macroType = "item";
 
     let equipped = sortedItems.filter(
@@ -516,7 +516,7 @@ export class ActionHandlerPf1 extends ActionHandler {
   /** @private */
   _getFeaturesList(actor, tokenId) {
     let validFeats = actor.items.filter((i) => i.type == "feat");
-    let sortedFeats = this._sortByItemSort(validFeats);
+    let sortedFeats = this.sortItems(validFeats);
     let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
@@ -1056,15 +1056,6 @@ export class ActionHandlerPf1 extends ActionHandler {
 
       return true;
     });
-  }
-
-  /** @private */
-  _sortByItemSort(items) {
-    let result = Object.values(items);
-
-    result.sort((a, b) => a.sort - b.sort);
-
-    return result;
   }
 
   /** @private */

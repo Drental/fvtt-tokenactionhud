@@ -153,7 +153,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let validItems = this._filterLongerActions(
       actor.items.filter((i) => i.system.quantity > 0)
     );
-    let sortedItems = this._sortByItemSort(validItems);
+    let sortedItems = this.sortItems(validItems);
     let macroType = "item";
 
     let equipped;
@@ -432,7 +432,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let validFeats = this._filterLongerActions(
       token.actor.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
     );
-    let sortedFeats = this._sortByItemSort(validFeats);
+    let sortedFeats = this.sortItems(validFeats);
     return this._categoriseFeatures(token.id, token.actor, sortedFeats);
   }
 
@@ -1208,15 +1208,6 @@ export class ActionHandlerSW5e extends ActionHandler {
 
       return true;
     });
-  }
-
-  /** @private */
-  _sortByItemSort(items) {
-    let result = Object.values(items);
-
-    result.sort((a, b) => a.sort - b.sort);
-
-    return result;
   }
 
   /** @private */

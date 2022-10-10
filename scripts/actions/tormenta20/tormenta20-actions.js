@@ -90,7 +90,7 @@ export class ActionHandlerT20 extends ActionHandler {
     let validItems = this._filterLongerActions(
       actor.items.filter((i) => i.system.qtd > 0)
     );
-    let sortedItems = this._sortByItemSort(validItems);
+    let sortedItems = this.sortItems(validItems);
     let macroType = "item";
 
     let equipped;
@@ -291,7 +291,7 @@ export class ActionHandlerT20 extends ActionHandler {
     let validFeats = this._filterLongerActions(
       actor.items.filter((i) => i.type == "poder")
     );
-    let sortedFeats = this._sortByItemSort(validFeats);
+    let sortedFeats = this.sortItems(validFeats);
     let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
@@ -738,15 +738,6 @@ export class ActionHandlerT20 extends ActionHandler {
 
       return true;
     });
-  }
-
-  /** @private */
-  _sortByItemSort(items) {
-    let result = Object.values(items);
-
-    result.sort((a, b) => a.sort - b.sort);
-
-    return result;
   }
 
   /** @private */

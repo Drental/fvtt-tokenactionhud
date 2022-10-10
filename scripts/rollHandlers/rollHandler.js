@@ -17,7 +17,7 @@ export class RollHandler {
   }
 
   getToken(tokenId) {
-    return canvas.tokens.placeables.find(token => token.id === tokenId);
+    return canvas.tokens.placeables.find((token) => token.id === tokenId);
   }
 
   throwInvalidValueErr(err) {
@@ -87,7 +87,9 @@ export class RollHandler {
   }
 
   isCtrl(event) {
-    return game.keyboard.isModifierActive(KeyboardManager.MODIFIER_KEYS.CONTROL);
+    return game.keyboard.isModifierActive(
+      KeyboardManager.MODIFIER_KEYS.CONTROL
+    );
   }
 
   isShift(event) {

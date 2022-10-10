@@ -16,21 +16,14 @@ export class TagDialogHelper {
       clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
         "tokenActionHud.pushLabelExplanation"
-      )
+      ),
     };
 
     let submitFunc = async (choices) => {
       await TagDialogHelper.submitCategories(categoryManager, choices);
     };
 
-    TagDialog.showDialog(
-      null,
-      null,
-      selected,
-      title,
-      hbsData,
-      submitFunc
-    );
+    TagDialog.showDialog(null, null, selected, title, hbsData, submitFunc);
   }
 
   static showSubcategoryDialog(categoryManager, categoryId, categoryName) {
@@ -42,11 +35,13 @@ export class TagDialogHelper {
   }
 
   static _showSubcategoryDialog(categoryManager, categoryId, categoryName) {
-    const defaultSubcategories = categoryManager.getSuggestedSystemSubcategoriesAsTagifyEntries();
-    let compendiumSubcategories = categoryManager.getSuggestedCompendiumSubcategoriesAsTagifyEntries();
+    const defaultSubcategories =
+      categoryManager.getSystemSubcategoriesAsTagifyEntries();
+    const compendiumSubcategories =
+      categoryManager.getCompendiumSubcategoriesAsTagifyEntries();
     let suggestions = [];
     suggestions.push(...defaultSubcategories, ...compendiumSubcategories);
-    
+
     let selected =
       categoryManager.getSelectedSubcategoriesAsTagifyEntries(categoryId);
 
@@ -58,12 +53,16 @@ export class TagDialogHelper {
       topLabel: game.i18n.localize("tokenActionHud.subcategoryTagExplanation"),
       placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
       clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
-      advancedCategoryOptions: game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`)
+      advancedCategoryOptions: game.user.getFlag(
+        "token-action-hud",
+        `categories.${categoryId}.advancedCategoryOptions`
+      ),
     };
 
     let submitFunc = async (choices, html) => {
-      choices = choices.map(choice => {
-        choice.id = choice.id ?? 
+      choices = choices.map((choice) => {
+        choice.id =
+          choice.id ??
           choice.title.slugify({
             replacement: "_",
             strict: true,
@@ -76,12 +75,26 @@ export class TagDialogHelper {
         categoryId,
         choices
       );
-      
-      const customWidth = parseInt(html.find(`input[name="custom-width"]`).val());
-      const compactView = html.find(`input[name="compact-view"]`).prop("checked");
-      const characterCount = parseInt(html.find(`input[name="character-count"]`).val());
-      const advancedCategoryOptions = { customWidth, compactView, characterCount };
-      await game.user.setFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`, advancedCategoryOptions);
+
+      const customWidth = parseInt(
+        html.find(`input[name="custom-width"]`).val()
+      );
+      const compactView = html
+        .find(`input[name="compact-view"]`)
+        .prop("checked");
+      const characterCount = parseInt(
+        html.find(`input[name="character-count"]`).val()
+      );
+      const advancedCategoryOptions = {
+        customWidth,
+        compactView,
+        characterCount,
+      };
+      await game.user.setFlag(
+        "token-action-hud",
+        `categories.${categoryId}.advancedCategoryOptions`,
+        advancedCategoryOptions
+      );
     };
 
     TagDialog.showDialog(
@@ -99,7 +112,7 @@ export class TagDialogHelper {
   }
 
   static _showActionDialog(actionHandler, nestId) {
-    let suggestions = actionHandler.getSuggestedActionsAsTagifyEntries(nestId);
+    let suggestions = actionHandler.getActionsAsTagifyEntries(nestId);
     let selected = actionHandler.getSelectedActionsAsTagifyEntries(nestId);
 
     let title = game.i18n.localize("tokenActionHud.filterTitle");
@@ -110,15 +123,11 @@ export class TagDialogHelper {
       clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
         "tokenActionHud.blockListLabel"
-      )
+      ),
     };
 
     let submitFunc = async (choices) => {
-      await TagDialogHelper.saveActions(
-        actionHandler,
-        nestId,
-        choices
-      );
+      await TagDialogHelper.saveActions(actionHandler, nestId, choices);
     };
 
     TagDialog.showDialog(

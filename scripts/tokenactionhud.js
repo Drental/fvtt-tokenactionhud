@@ -21,7 +21,7 @@ export class TokenActionHUD extends Application {
     await this.systemManager.registerDefaultFlags();
     this.categoryManager = await this.systemManager.getCategoryManager(user);
     this.actionHandler = await this.systemManager.getActionHandler(user);
-    this.rollHandler = this.systemManager.getRollHandler(); 
+    this.rollHandler = this.systemManager.getRollHandler();
   }
 
   updateSettings() {
@@ -82,9 +82,12 @@ export class TokenActionHUD extends Application {
     data.scale = this.getScale();
     data.background = this.getSetting("background") ?? "#00000000";
     settings.Logger.debug("HUD data:", data);
-    
+
     for (const category of data.actions.categories) {
-      const advancedCategoryOptions = game.user.getFlag("token-action-hud", `categories.${category.id}.advancedCategoryOptions`);
+      const advancedCategoryOptions = game.user.getFlag(
+        "token-action-hud",
+        `categories.${category.id}.advancedCategoryOptions`
+      );
       if (!advancedCategoryOptions?.compactView) continue;
 
       const characterCount = advancedCategoryOptions.characterCount ?? 2;
@@ -97,13 +100,15 @@ export class TokenActionHUD extends Application {
 
             if (action.name.length < 2) continue;
             else if (characterCount === 0) action.name = "";
-            else action.name = action.name
-              .split(" ")
-              .map(p => p.slice(0, characterCount))
-              .join(" ");
+            else
+              action.name = action.name
+                .split(" ")
+                .map((p) => p.slice(0, characterCount))
+                .join(" ");
           }
 
-          if (subcategory.subcategories.length) subcategory.subcategories.forEach(s => subcatRecursion(s));
+          if (subcategory.subcategories.length)
+            subcategory.subcategories.forEach((s) => subcatRecursion(s));
         }
       }
     }
@@ -120,7 +125,12 @@ export class TokenActionHUD extends Application {
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
-  
+    const categoryElements = html.find(".tah-category");
+    for (const categoryElement of categoryElements) {
+      const hasActions = (categoryElement.getElementsByClassName("tah-action").length > 0) ? true : false;
+      if (!hasActions) $(categoryElement).addClass("tah-hidden");
+    }
+
     const handleClick = (e) => {
       let target = e.target;
 
@@ -154,10 +164,10 @@ export class TokenActionHUD extends Application {
       let categoryTitle = target.innerText ?? target.outerText;
 
       TagDialogHelper.showSubcategoryDialog(
-          game.tokenActionHUD.categoryManager,
-          id,
-          categoryTitle
-        );
+        game.tokenActionHUD.categoryManager,
+        id,
+        categoryTitle
+      );
     }
 
     function handlePossibleFilterSubtitleClick(e) {
@@ -165,7 +175,10 @@ export class TokenActionHUD extends Application {
       if (target.id.length === 0) return;
       const nestId = target.id;
 
-      TagDialogHelper.showActionDialog(game.tokenActionHUD.actionHandler, nestId);
+      TagDialogHelper.showActionDialog(
+        game.tokenActionHUD.actionHandler,
+        nestId
+      );
     }
 
     function closeCategory(event) {
@@ -221,17 +234,24 @@ export class TokenActionHUD extends Application {
     html.find(unlockButton).mousedown((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
-      $(ev.target).addClass('tah-hidden');
-      html.find(lockButton).removeClass('tah-hidden');
-      html.find(editCategoriesButton).removeClass('tah-hidden');
+      $(ev.target).addClass("tah-hidden");
+      html.find(lockButton).removeClass("tah-hidden");
+      html.find(editCategoriesButton).removeClass("tah-hidden");
+      const categoryElements = html.find(".tah-category");
+      categoryElements.removeClass("tah-hidden");
     });
 
     html.find(lockButton).mousedown((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
-      $(ev.target).addClass('tah-hidden');
-      html.find(unlockButton).removeClass('tah-hidden');
-      html.find(editCategoriesButton).addClass('tah-hidden');
+      $(ev.target).addClass("tah-hidden");
+      html.find(unlockButton).removeClass("tah-hidden");
+      html.find(editCategoriesButton).addClass("tah-hidden");
+      const categoryElements = html.find(".tah-category");
+      for (const categoryElement of categoryElements) {
+        const hasActions = (categoryElement.getElementsByClassName("tah-action").length > 0) ? true : false;
+        if (!hasActions) $(categoryElement).addClass("tah-hidden");
+      }
     });
 
     html.find(editCategoriesButton).mousedown((ev) => {
@@ -261,15 +281,15 @@ export class TokenActionHUD extends Application {
     document.onmousemove = mouseMoveEvent;
     document.onmouseup = mouseUpEvent;
 
-    const element = ev.target.parentElement.closest('div#token-action-hud')
+    const element = ev.target.parentElement.closest("div#token-action-hud");
     let pos1 = 0,
-    pos2 = 0,
-    pos3 = ev.clientX,
-    pos4 = ev.clientY,
-    elementTop = element.offsetTop,
-    elementLeft = element.offsetLeft;
+      pos2 = 0,
+      pos3 = ev.clientX,
+      pos4 = ev.clientY,
+      elementTop = element.offsetTop,
+      elementLeft = element.offsetLeft;
 
-    function mouseMoveEvent (e) {
+    function mouseMoveEvent(e) {
       e = e || window.event;
       pos1 = pos3 - e.clientX;
       pos2 = pos4 - e.clientY;
@@ -277,23 +297,25 @@ export class TokenActionHUD extends Application {
       pos4 = e.clientY;
       elementTop = element.offsetTop - pos2;
       elementLeft = element.offsetLeft - pos1;
-      
+
       // set the element's new position:
       element.style.top = elementTop + "px";
       element.style.left = elementLeft + "px";
       element.style.position = "fixed";
     }
 
-    function mouseUpEvent () {
+    function mouseUpEvent() {
       document.onmousemove = null;
       document.onmouseup = null;
 
       game.user.update({
         flags: {
-          "token-action-hud": { hudPos: { top: elementTop, left: elementLeft } },
+          "token-action-hud": {
+            hudPos: { top: elementTop, left: elementLeft },
+          },
         },
       });
-  
+
       settings.Logger.info(
         `Setting position to x: ${elementTop}px, y: ${elementLeft}px, and saving in user flags.`
       );
@@ -457,7 +479,7 @@ export class TokenActionHUD extends Application {
       this.close();
       return;
     }
-  
+
     this.actionList = await this.actionHandler.buildActionList(character);
 
     this.rendering = true;
@@ -556,24 +578,21 @@ export class TokenActionHUD extends Application {
       character = { token, actor };
       character.id = token?.id ?? actor?.id;
       character.name = token?.name ?? actor?.name;
-      if ( character.id ) return character;
+      if (character.id) return character;
     }
-    if (
-      controlled.length === 0 &&
-      game.user.character
-    ) {
+    if (controlled.length === 0 && game.user.character) {
       if (!settings.get("alwaysShowHud")) return null;
 
       const actor = game.user.character;
       const token = canvas?.tokens?.placeables.find(
-        token => token.actor?.id === actor?.id
+        (token) => token.actor?.id === actor?.id
       );
       character = { token: token ?? null, actor };
       character.id = token?.id ?? actor.id;
       character.name = token?.name ?? actor.name;
       if (character.id) return character;
     }
-      return null;
+    return null;
   }
 
   /** @private */

@@ -139,7 +139,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getAttacksList(actor, tokenId) {
     let validAttacks = actor.items.filter((i) => i.type === "attack");
-    let sortedAttacks = this._sortByItemSort(validAttacks);
+    let sortedAttacks = this.sortItems(validAttacks);
     let macroType = "attack";
 
     let result = this.initializeEmptyCategory("attacks");
@@ -168,7 +168,7 @@ export class ActionHandlerD35E extends ActionHandler {
     let validFullAttacks = actor.items.filter(
       (i) => i.type === "full-attack"
     );
-    let sortedFullAttacks = this._sortByItemSort(validFullAttacks);
+    let sortedFullAttacks = this.sortItems(validFullAttacks);
     let fullAttackActions = sortedFullAttacks.map((w) =>
       this._buildItem(tokenId, actor, macroType, w)
     );
@@ -184,7 +184,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getBuffsList(actor, tokenId) {
     let validBuff = actor.items.filter((i) => i.type === "buff");
-    let sortedBuffs = this._sortByItemSort(validBuff);
+    let sortedBuffs = this.sortItems(validBuff);
     let macroType = "buff";
 
     let buffActions = sortedBuffs.map((w) => {
@@ -207,7 +207,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getItemList(actor, tokenId) {
     let validItems = actor.items.filter((i) => i.system.quantity > 0);
-    let sortedItems = this._sortByItemSort(validItems);
+    let sortedItems = this.sortItems(validItems);
     let macroType = "item";
 
     let equipped = sortedItems.filter(
@@ -459,7 +459,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getFeatsList(actor, tokenId) {
     let validFeats = actor.items.filter((i) => i.type == "feat");
-    let sortedFeats = this._sortByItemSort(validFeats);
+    let sortedFeats = this.sortItems(validFeats);
     let feats = this._categoriseFeatures(tokenId, actor, sortedFeats);
 
     return feats;
@@ -881,15 +881,6 @@ export class ActionHandlerD35E extends ActionHandler {
 
       return true;
     });
-  }
-
-  /** @private */
-  _sortByItemSort(items) {
-    let result = Object.values(items);
-
-    result.sort((a, b) => a.sort - b.sort);
-
-    return result;
   }
 
   /** @private */

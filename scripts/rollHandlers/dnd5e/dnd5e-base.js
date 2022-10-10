@@ -98,7 +98,9 @@ export class RollHandlerBase5e extends RollHandler {
 
   needsRecharge(item) {
     return (
-      item.system.recharge && !item.system.recharge.charged && item.system.recharge.value
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
     );
   }
 
@@ -134,7 +136,8 @@ export class RollHandlerBase5e extends RollHandler {
         break;
       case "endTurn":
         if (!token) break;
-        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        if (game.combat?.current?.tokenId === tokenId)
+          await game.combat?.nextTurn();
         break;
     }
   }
@@ -168,10 +171,7 @@ export class RollHandlerBase5e extends RollHandler {
   async toggleCondition(event, tokenId, effectId, effect = null) {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
-    if (
-         game.dfreds &&
-         effect?.flags?.isConvenient
-    ) {
+    if (game.dfreds && effect?.flags?.isConvenient) {
       const effectLabel = effect.label;
       game.dfreds.effectInterface.toggleEffect(effectLabel);
     } else {

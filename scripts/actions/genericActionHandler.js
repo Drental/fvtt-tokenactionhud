@@ -65,7 +65,7 @@ export class GenericActionHandler {
       actions.push(visibilityAction);
     }
 
-    this.baseHandler._mapActions(actionList, actions, "token");
+    this.baseHandler.addActionsToActionList(actionList, actions, "token");
   }
 
   /** @private */

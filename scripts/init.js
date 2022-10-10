@@ -10,58 +10,58 @@ let systemManager;
 Hooks.on("init", () => {
   registerHandlerbars();
 
-  game.modules.get('token-action-hud').api = {
+  game.modules.get("token-action-hud").api = {
     /* put all the relevant classes that systems and modules might need to access here */
-  }
+  };
 
   game.settings.register(appName, "startup", {
     name: "One-Time Startup Prompt",
     scope: "world",
     config: false,
     type: Boolean,
-    default: false
+    default: false,
   });
 
   const systemManagers = {
-    "dnd5e": "dnd5e",
-    "dungeonworld": "dungeonworld",
-    "pf2e": "pf2e",
-    "wfrp4e": "wfrp4e",
-    "sfrpg": "sfrpg",
-    "sw5e": "sw5e",
-    "demonlord": "demonlord",
-    "pf1": "pf1",
-    "lancer": "lancer",
-    "D35E": "D35E",
-    "swade": "swade",
-    "starwarsffg": "starwarsffg",
-    "tormenta20": "tormenta20",
+    alienrpg: "alienrpg",
     "blades-in-the-dark": "blades-in-the-dark",
-    "symbaroum": "symbaroum",
-    "od6s": "od6s",
-    "alienrpg": "alienrpg",
-    "cthack": "cthack",
-    "kamigakari": "kamigakari",
-    "tagmar": "tagmar",
-    "tagmar_rpg": "tagmar_rpg",
-    "ds4": "ds4",
-    "coc": "coc",
-    "cof": "cof",
+    cleenmain: "cleenmain",
+    coc: "coc",
+    CoC7: "CoC7",
+    cof: "cof",
+    cthack: "cthack",
+    D35E: "D35E",
+    demonlord: "demonlord",
+    dnd4e: "dnd4e",
+    dnd5e: "dnd5e",
+    ds4: "ds4",
+    dungeonworld: "dungeonworld",
+    earthdawn4e: "earthdawn4e",
     "forbidden-lands": "forbidden-lands",
-    "dnd4e": "dnd4e",
-    "earthdawn4e": "earthdawn4e",
-    "gurps": "gurps",
-    "space1889": "space1889",
-    "CoC7": "CoC7",
-    "cleenmain": "cleenmain"
+    gurps: "gurps",
+    kamigakari: "kamigakari",
+    lancer: "lancer",
+    od6s: "od6s",
+    pf1: "pf1",
+    pf2e: "pf2e",
+    sfrpg: "sfrpg",
+    space1889: "space1889",
+    starwarsffg: "starwarsffg",
+    sw5e: "sw5e",
+    swade: "swade",
+    symbaroum: "symbaroum",
+    tagmar: "tagmar",
+    tagmar_rpg: "tagmar_rpg",
+    tormenta20: "tormenta20",
+    wfrp4e: "wfrp4e",
     /* put all the SystemManagers that are included directly in TAH here */
-  }
-  Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
-  
+  };
+  Hooks.call("preCreateTAHSystemManager", systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
+
   const system = game.system.id;
   const supportedSystem = systemManagers[system];
-  if(!supportedSystem) {
-    console.error("Token Action HUD: System not supported")
+  if (!supportedSystem) {
+    console.error("Token Action HUD: System not supported");
     /* handle the error case somehow. If this happens, it means the current system is not supported */
   }
   systemManager = SystemManagerFactory.create(supportedSystem, appName);
@@ -78,12 +78,18 @@ Hooks.on("init", () => {
 //   systemManager.registerSettings();
 // });
 
-Hooks.once('ready', async () => {
+Hooks.once("ready", async () => {
   if (game.user.isGM) {
-    if (!(game.modules.get('lib-themer')?.active ?? false) && !(game.modules.get('color-picker')?.active ?? false) && !(game.modules.get('colorsettings')?.active ?? false)) {
+    if (
+      !(game.modules.get("lib-themer")?.active ?? false) &&
+      !(game.modules.get("color-picker")?.active ?? false) &&
+      !(game.modules.get("colorsettings")?.active ?? false)
+    ) {
       const firstStartup = game.settings.get(appName, "startup") === false;
-      if ( firstStartup ) {
-        ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules.")
+      if (firstStartup) {
+        ui.notifications.notify(
+          "Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules."
+        );
         game.settings.set(appName, "startup", true);
       }
     }
@@ -206,4 +212,3 @@ Hooks.on("canvasReady", async () => {
 
   game.tokenActionHUD.update();
 });
-

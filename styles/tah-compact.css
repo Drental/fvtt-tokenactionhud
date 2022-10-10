@@ -241,12 +241,6 @@
   width: auto;
 }
 
-.tah-actionSet {
-  align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
-}
-
 /* Links inside the dropdown */
 .tah-action {
   background: none;

@@ -16,7 +16,10 @@ export class CategoryResizer {
     if (actions.length === 0) return;
 
     const categoryId = catId.replace("tah-category-", "");
-    const customWidth = game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions.customWidth`);
+    const customWidth = game.user.getFlag(
+      "token-action-hud",
+      `categories.${categoryId}.advancedCategoryOptions.customWidth`
+    );
     if (customWidth) return CategoryResizer.resizeActions(actions, customWidth);
 
     // reset content to original width
@@ -68,14 +71,15 @@ export class CategoryResizer {
       if (boxWidth < minWidth) return;
 
       let newWidth = cssWidth - step;
-      
+
       CategoryResizer.resizeActions(actions, newWidth);
     }
 
     // SET MAX-HEIGHT
     const contentRect = content[0].getBoundingClientRect();
-    const maxHeight = window.innerHeight - contentRect.top - (window.innerHeight - bottomLimit);
-    const newHeight = (maxHeight < 100) ? 100 : maxHeight;
+    const maxHeight =
+      window.innerHeight - contentRect.top - (window.innerHeight - bottomLimit);
+    const newHeight = maxHeight < 100 ? 100 : maxHeight;
     content.css({ "max-height": newHeight + "px" });
   }
 

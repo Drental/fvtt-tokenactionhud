@@ -16,11 +16,7 @@
 </div>
 <div class="tah-actions{{~#if actionsClass}} {{actionsClass}}{{~/if~}}">
   {{#each actions}}
-    {{~#if this.set~}}
-      {{>"modules/token-action-hud/templates/actionSet.hbs"}}
-    {{~else~}}
-      {{>"modules/token-action-hud/templates/action.hbs"}}
-    {{~/if~}}
+    {{>"modules/token-action-hud/templates/action.hbs"}}
   {{/each}}
 </div>
 </div>

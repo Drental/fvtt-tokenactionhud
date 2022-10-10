@@ -10,14 +10,7 @@ export class TagDialog extends Dialog {
     this.subcategoryId = null;
   }
 
-  static showDialog(
-    nestId,
-    suggestions,
-    selected,
-    title,
-    hbsData,
-    submitFunc
-  ) {
+  static showDialog(nestId, suggestions, selected, title, hbsData, submitFunc) {
     this.nestId = nestId;
     TagDialog._prepareHook(suggestions, selected);
 
@@ -35,11 +28,12 @@ export class TagDialog extends Dialog {
           label: game.i18n.localize("tokenActionHud.accept"),
           callback: async (html) => {
             let selection = TagDialog.tagify.value.map((c) => {
-              c.id = c.id ?? 
-              c.value.slugify({
-                replacement: "_",
-                strict: true,
-              });
+              c.id =
+                c.id ??
+                c.value.slugify({
+                  replacement: "_",
+                  strict: true,
+                });
               return { id: c.id, title: c.value, type: c.type };
             });
             await submitFunc(selection, html);
@@ -62,7 +56,6 @@ export class TagDialog extends Dialog {
 
       var $index = html.find('select[id="token-action-hud-index"]');
       if ($index.length > 0) {
-      
         $index.css("background", "#fff");
         $index.css("color", "#000");
       }
@@ -86,14 +79,14 @@ export class TagDialog extends Dialog {
         TagDialog.tagify = new Tagify($tagFilter[0], options);
 
         TagDialog.dragSort = new DragSort(TagDialog.tagify.DOM.scope, {
-          selector: '.' + TagDialog.tagify.settings.classNames.tag,
+          selector: "." + TagDialog.tagify.settings.classNames.tag,
           callbacks: {
-              dragEnd: onDragEnd
-          }
-        })
-      
-        function onDragEnd(elm){
-          TagDialog.tagify.updateValueByDOMTags()
+            dragEnd: onDragEnd,
+          },
+        });
+
+        function onDragEnd(elm) {
+          TagDialog.tagify.updateValueByDOMTags();
         }
 
         var $tagifyBox = $(document).find(".tagify");
