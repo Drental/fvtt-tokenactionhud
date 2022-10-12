@@ -4,13 +4,13 @@ import { Logger } from "../../logger.js";
 
 export class ActionHandlerSpace1889 extends ActionHandler
 {
-	constructor(filterManager, categoryManager)
+	constructor(categoryManager)
 	{
-		super(filterManager, categoryManager);
+		super(categoryManager);
 	}
 
 
-	buildSystemActions(token, multipleTokens)
+	buildSystemActions(actionList, character, subcategoryIds)
 	{
 		let result = this.initializeEmptyActionList();
 		if (!token)

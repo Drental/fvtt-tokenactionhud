@@ -11,11 +11,11 @@ export class MagicItemsPreRollHandler extends PreRollHandler {
 
     if (payload.length != 3) return false;
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
-    if (macroType != "magicItem") return false;
+    if (actionType != "magicItem") return false;
 
     this._magicItemMacro(event, actorId, tokenId, actionId);
     return true;

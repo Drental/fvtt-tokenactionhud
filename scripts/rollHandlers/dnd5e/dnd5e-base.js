@@ -14,23 +14,30 @@ export class RollHandlerBase5e extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let actorId = payload[1];
     let tokenId = payload[2];
     let actionId = payload[3];
 
-    if (tokenId === "multi") {
-      for (let t of canvas.tokens.controlled) {
-        let idToken = t.id;
-        await this._handleMacros(event, macroType, idToken, actionId);
+    if (tokenId === "multi" && actionId !== "toggleCombat") {
+      for (const token of canvas.tokens.controlled) {
+        const tokenActorId = token.actor?.id;
+        const tokenTokenId = token.id;
+        await this._handleMacros(
+          event,
+          actionType,
+          tokenActorId,
+          tokenTokenId,
+          actionId
+        );
       }
     } else {
-      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
+      await this._handleMacros(event, actionType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
-    switch (macroType) {
+  async _handleMacros(event, actionType, actorId, tokenId, actionId) {
+    switch (actionType) {
       case "ability":
         this.rollAbilityMacro(event, actorId, actionId);
         break;
@@ -120,13 +127,14 @@ export class RollHandlerBase5e extends RollHandler {
         actor.update({ "data.attributes.inspiration": update });
         break;
       case "toggleCombat":
-        if (!token) break;
-        token.toggleCombat();
+        if (canvas.tokens.controlled.length === 0) break;
+        await canvas.tokens.controlled[0].toggleCombat();
         Hooks.callAll("forceUpdateTokenActionHUD");
         break;
       case "toggleVisibility":
         if (!token) break;
         token.toggleVisibility();
+        Hooks.callAll("forceUpdateTokenActionHUD");
         break;
       case "deathSave":
         actor.rollDeathSave({ event });

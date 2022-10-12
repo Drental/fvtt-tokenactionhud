@@ -12,7 +12,7 @@ export class RollHandlerBaseKg extends RollHandler {
     let payload = encodedValue.split("|");
     if (payload.length != 3) super.throwInvalidValueErr();
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
@@ -20,7 +20,7 @@ export class RollHandlerBaseKg extends RollHandler {
     let charType = actor.type;
 
     if (charType === "character") {
-      switch (macroType) {
+      switch (actionType) {
         case "stat":
           actor._rollDice(actionId, ctrlClick);
           break;
@@ -38,7 +38,7 @@ export class RollHandlerBaseKg extends RollHandler {
           break;
       }
     } else if (charType === "enemy") {
-      switch (macroType) {
+      switch (actionType) {
         case "item":
           actor._echoItemDescription(actionId);
           break;

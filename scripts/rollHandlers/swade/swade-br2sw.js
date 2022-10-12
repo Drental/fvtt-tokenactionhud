@@ -13,17 +13,17 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
     let actor = super.getActor(characterId);
 
     let hasSheet = ["item"];
-    if (this.isRenderItem() && hasSheet.includes(macroType))
+    if (this.isRenderItem() && hasSheet.includes(actionType))
       return this.doRenderItem(actorId, tokenId, actionId);
 
-    switch (macroType) {
+    switch (actionType) {
       case "item":
         this._rollItem(event, actor, actionId, tokenId);
         break;
@@ -45,7 +45,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       case "wounds":
       case "fatigue":
       case "powerPoints":
-        await this._adjustAttributes(event, actor, macroType, actionId);
+        await this._adjustAttributes(event, actor, actionType, actionId);
         break;
       case "utility":
         if (actionId === "endTurn") {
@@ -178,8 +178,8 @@ export class RollHandlerBR2SWSwade extends RollHandler {
   }
 
   /** @private */
-  async _adjustAttributes(event, actor, macroType, actionId) {
-    let attribute = actor.system[macroType];
+  async _adjustAttributes(event, actor, actionType, actionId) {
+    let attribute = actor.system[actionType];
 
     if (!attribute) return;
 
@@ -199,7 +199,7 @@ export class RollHandlerBR2SWSwade extends RollHandler {
 
     let update = { data: {} };
 
-    update.data[macroType] = { value: value };
+    update.data[actionType] = { value: value };
 
     await actor.update(update);
   }

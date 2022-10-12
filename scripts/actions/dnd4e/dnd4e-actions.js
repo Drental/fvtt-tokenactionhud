@@ -3,12 +3,12 @@ import * as settings from "../../settings.js";
 import { Logger } from "../../logger.js";
 
 export class ActionHandlerDnD4e extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  buildSystemActions(token, multipleTokens) {
+  buildSystemActions(actionList, character, subcategoryIds) {
     if (token) {
       return this._buildSingleTokenList(token);
     } else if (multipleTokens) {
@@ -96,7 +96,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     );
     if (settings.get("showConditionsCategory"))
       this._addMultiConditions(list, tokenId);
-    this._addMultiUtilities(list, tokenId, actors);
+    this._addMultiTokenUtilities(list, tokenId, actors);
     return list;
   }
 
@@ -128,15 +128,15 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   _buildFeatureSubCategory(actor, features, tokenId) {
-    const macroType = "feature"
+    const actionType = "feature"
     const result = this.initializeEmptySubcategory();
     features.forEach((item) => {
-      const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, item.id].join(this.delimiter);
       const action = {
         name: item.name,
         id: item.id,
         encodedValue: encodedValue,
-        img: this._getImage(item)
+        img: this.getImage(item)
       };
       result.actions.push(action)
     })
@@ -194,15 +194,15 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   _buildItemSubCategory(actor, items, tokenId, subcategories, filterObject) {
-    const macroType = "inventory"
+    const actionType = "inventory"
     const result = this.initializeEmptySubcategory();
     items.forEach((item) => {
-      const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, item.id].join(this.delimiter);
       const action = {
         name: item.name,
         id: item.id,
         encodedValue: encodedValue,
-        img: this._getImage(item)
+        img: this.getImage(item)
       };
       if (settings.get("hideUnequippedInventory")) {
         if (!item.system.equipped) {
@@ -271,7 +271,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   _buildPowerSubCategory(actor, powerList, tokenId) {
-    const macroType = "power"
+    const actionType = "power"
     const result = this.initializeEmptySubcategory();
     let powers = powerList
     if(settings.get("hideUsedPowers")) {
@@ -287,12 +287,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
     }
     const colour = settings.get("forcePowerColours")
     powers.forEach((item) => {
-        const encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
+        const encodedValue = [actionType, tokenId, item.id].join(this.delimiter);
         const action = {
           name: item.name,
           id: item.id,
           encodedValue: encodedValue,
-          img: this._getImage(item)
+          img: this.getImage(item)
         };
         if (colour) {
           action.cssClass = `force-ability-usage--${item.system.useType}`
@@ -310,7 +310,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     const skills = actor.system.skills;
     let result = this.initializeEmptyCategory("skills");
     result.name = this.i18n("tokenActionHud.skills");
-    let macroType = "skill";
+    let actionType = "skill";
     let abbr = settings.get("abbreviateSkills");
     let skillsActions = Object.entries(skills)
       .map((e) => {
@@ -318,7 +318,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
           let skillId = e[0];
           let name = abbr ? skillId : game.dnd4eBeta.config.skills[skillId];
           name = name.charAt(0).toUpperCase() + name.slice(1);
-          let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
+          let encodedValue = [actionType, token.id, e[0]].join(this.delimiter);
           let icon = this._getProficiencyIcon(skills[skillId].value);
           return {
             name: name,
@@ -341,12 +341,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   _addMultiSkills(list, tokenId) {
     let result = this.initializeEmptyCategory("skills");
-    let macroType = "skill";
+    let actionType = "skill";
     let abbr = settings.get("abbreviateSkills");
     let skillsActions = Object.entries(game.dnd4eBeta.config.skills).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let skillsCategory = this.initializeEmptySubcategory();
@@ -357,7 +357,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** @private */
-  _getAbilityList(tokenId, abilities, categoryId, categoryName, macroType) {
+  _getAbilityList(tokenId, abilities, categoryId, categoryName, actionType) {
     let result = this.initializeEmptyCategory(categoryId);
     result.name = categoryName;
     let abbr = settings.get("abbreviateSkills");
@@ -365,7 +365,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       if (abilities[e[0]].value === 0) return;
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       let icon;
       if (categoryId === "checks") icon = "";
       else icon = this._getProficiencyIcon(abilities[e[0]].proficient);
@@ -377,13 +377,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
     return result;
   }
 
-  _addMultiAbilities(list, tokenId, categoryId, categoryName, macroType) {
+  _addMultiAbilities(list, tokenId, categoryId, categoryName, actionType) {
     let cat = this.initializeEmptyCategory(categoryId);
     let abbr = settings.get("abbreviateSkills");
     let actions = Object.entries(game.dnd4eBeta.config.abilities).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let abilityCategory = this.initializeEmptySubcategory();
@@ -398,10 +398,10 @@ export class ActionHandlerDnD4e extends ActionHandler {
     const actor = token.actor;
     let result = this.initializeEmptyCategory("utility");
     result.name = this.i18n("tokenActionHud.utility");
-    let macroType = "utility";
+    let actionType = "utility";
     let utility = this.initializeEmptySubcategory();
-    this._addCombatSubcategory(macroType, result, token.id);
-    let healDialogValue = [macroType, token.id, "healDialog"].join(
+    this._addCombatSubcategory(actionType, result, token.id);
+    let healDialogValue = [actionType, token.id, "healDialog"].join(
       this.delimiter
     );
     utility.actions.push({
@@ -409,7 +409,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       encodedValue: healDialogValue,
       name: this.i18n("DND4EBETA.Healing"),
     });
-    let saveValue = [macroType, token.id, "save"].join(
+    let saveValue = [actionType, token.id, "save"].join(
       this.delimiter
     );
     utility.actions.push({
@@ -417,7 +417,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       encodedValue: saveValue,
       name: this.i18n("DND4EBETA.SavingThrow"),
     });
-    let saveDialogValue = [macroType, token.id, "saveDialog"].join(
+    let saveDialogValue = [actionType, token.id, "saveDialog"].join(
       this.delimiter
     );
     utility.actions.push({
@@ -431,7 +431,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       if (shouldShowActionPoint) {
         utility.actions.push({
           id: "actionPoint",
-          encodedValue: [macroType, token.id, "actionPoint"].join(this.delimiter),
+          encodedValue: [actionType, token.id, "actionPoint"].join(this.delimiter),
           name: this.i18n("DND4EBETA.ActionPointUse"),
         });
       }
@@ -440,13 +440,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
       if (shouldShowSecondWind) {
         utility.actions.push({
           id: "secondWind",
-          encodedValue: [macroType, token.id, "secondWind"].join(this.delimiter),
+          encodedValue: [actionType, token.id, "secondWind"].join(this.delimiter),
           name: this.i18n("DND4EBETA.SecondWind"),
         });
       }
       utility.actions.push({
         id: "deathSave",
-        encodedValue: [macroType, token.id, "deathSave"].join(this.delimiter),
+        encodedValue: [actionType, token.id, "deathSave"].join(this.delimiter),
         name: this.i18n("DND4EBETA.DeathSavingThrow"),
       });
     }
@@ -478,14 +478,14 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _addEffectsSubcategories(actor, tokenId, category) {
-    const macroType = "effect";
+    const actionType = "effect";
     const effects =
       "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
     let tempCategory = this.initializeEmptySubcategory();
     let passiveCategory = this.initializeEmptySubcategory();
     effects.forEach((e) => {
       const name = e.label;
-      const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, e.id].join(this.delimiter);
       const cssClass = e.disabled ? "" : "active";
       const image = e.icon;
       let action = {
@@ -514,7 +514,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
   /** @private */
   _addMultiConditions(list, tokenId) {
     const category = this.initializeEmptyCategory("conditions");
-    const macroType = "condition";
+    const actionType = "condition";
     const availableConditions = CONFIG.statusEffects.filter(
       (condition) => condition.id !== ""
     );
@@ -525,7 +525,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     let conditions = this.initializeEmptySubcategory();
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, c.id].join(this.delimiter);
       const cssClass = actors.every((actor) => {
         const effects =
           "some" in actor.effects.entries
@@ -552,7 +552,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @private */
   _addConditionsSubcategory(actor, tokenId, category) {
-    const macroType = "condition";
+    const actionType = "condition";
     const availableConditions = CONFIG.statusEffects.filter(
       (condition) => condition.id !== ""
     );
@@ -560,7 +560,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     let conditions = this.initializeEmptySubcategory();
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, c.id].join(this.delimiter);
       const effects =
         "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
       const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
@@ -584,7 +584,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** @private */
-  _addCombatSubcategory(macroType, category, tokenId) {
+  _addCombatSubcategory(actionType, category, tokenId) {
     let combatSubcategory = this.initializeEmptySubcategory();
     // Roll Initiative
     const combat = game.combat;
@@ -593,7 +593,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       combatant = combat.combatants.find((c) => c.tokenId === tokenId);
       currentInitiative = combatant?.initiative;
     }
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
+    let initiativeValue = [actionType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
@@ -604,7 +604,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     combatSubcategory.actions.push(initiativeAction);
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnValue = [actionType, tokenId, "endTurn"].join(this.delimiter);
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
@@ -621,12 +621,12 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** @private */
-  _addMultiCombatSubcategory(macroType, tokenId, category) {
+  _addMultiCombatSubcategory(actionType, tokenId, category) {
     let combatSubcategory = this.initializeEmptySubcategory();
 
     // Roll Initiative
     const combat = game.combat;
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
+    let initiativeValue = [actionType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
@@ -651,14 +651,14 @@ export class ActionHandlerDnD4e extends ActionHandler {
   }
 
   /** @private */
-  _addMultiUtilities(list, tokenId, actors) {
+  _addMultiTokenUtilities(list, tokenId, actors) {
     let category = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
-    this._addMultiCombatSubcategory(macroType, tokenId, category);
+    let actionType = "utility";
+    this._addMultiCombatSubcategory(actionType, tokenId, category);
     let rests = this.initializeEmptySubcategory();
     let utility = this.initializeEmptySubcategory();
     if (actors.every((a) => a.type === "character")) {
-      let shortRestValue = [macroType, tokenId, "shortRest"].join(
+      let shortRestValue = [actionType, tokenId, "shortRest"].join(
         this.delimiter
       );
       rests.actions.push({
@@ -666,13 +666,13 @@ export class ActionHandlerDnD4e extends ActionHandler {
         encodedValue: shortRestValue,
         name: this.i18n("tokenActionHud.shortRest"),
       });
-      let longRestValue = [macroType, tokenId, "longRest"].join(this.delimiter);
+      let longRestValue = [actionType, tokenId, "longRest"].join(this.delimiter);
       rests.actions.push({
         id: "longRest",
         encodedValue: longRestValue,
         name: this.i18n("tokenActionHud.longRest"),
       });
-      let inspirationValue = [macroType, tokenId, "inspiration"].join(this.delimiter);
+      let inspirationValue = [actionType, tokenId, "inspiration"].join(this.delimiter);
       let inspirationAction = {
         id: "inspiration",
         encodedValue: inspirationValue,
@@ -701,11 +701,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
       category
     );
   }
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
-  }
+
   _filterExpendedItems(items) {
     if (settings.get("showEmptyItems")) return items;
     return items.filter((i) => {

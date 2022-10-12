@@ -13,7 +13,7 @@ export class RollHandlerBaseGURPS extends RollHandler {
           super.throwInvalidValueErr();
       }
 
-      let macroType = payload[0];
+      let actionType = payload[0];
       let characterId = payload[1];
       let actionId = payload[2];
       let actor = super.getActor(characterId);
@@ -21,15 +21,15 @@ export class RollHandlerBaseGURPS extends RollHandler {
       if (tokenId === 'multi') {
           for (let t of canvas.tokens.controlled) {
               actor = super.getActor(t.id);
-              await this._handleMacros(event, macroType, actor, actionId);
+              await this._handleMacros(event, actionType, actor, actionId);
           }
       } else {
-          await this._handleMacros(event, macroType, actor, actionId);
+          await this._handleMacros(event, actionType, actor, actionId);
       }
   }
 
-  async _handleMacros(event, macroType, actor, actionId) {
-      switch (macroType) {
+  async _handleMacros(event, actionType, actor, actionId) {
+      switch (actionType) {
           case 'otf':
               this.executeOTF(event, actor, actionId)
               break

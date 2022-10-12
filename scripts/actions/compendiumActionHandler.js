@@ -10,7 +10,7 @@ export class CompendiumActionHandler {
   /** @override */
   async buildCompendiumActions(actionList) {
     const subcategoryIds = Object.values(actionList.categories)
-      .filter((catergory) => category.subcategories)
+      .filter((category) => category.subcategories)
       .flatMap((category) =>
         Object.values(category.subcategories)
           .filter((subcategory) => subcategory.type === "compendium")
@@ -38,9 +38,9 @@ export class CompendiumActionHandler {
 
   async getEntriesForActions(packKey) {
     let entries = await this.getCompendiumEntries(packKey);
-    let macroType = this.getCompendiumMacroType(packKey);
+    let actionType = this.getCompendiumActionType(packKey);
     return entries.map((entry) => {
-      let encodedValue = [macroType, packKey, entry._id].join(
+      let encodedValue = [actionType, packKey, entry._id].join(
         this.baseHandler.delimiter
       );
       let img = this.baseHandler.getImage(entry);
@@ -77,7 +77,7 @@ export class CompendiumActionHandler {
     }, []);
   }
 
-  getCompendiumMacroType(key) {
+  getCompendiumActionType(key) {
     const pack = game?.packs?.get(key);
     if (!pack) return "";
     const compendiumEntities = pack.documentName;

@@ -29,14 +29,14 @@ export class MacroActionHandler {
   }
 
   async getEntriesForActions() {
-    const macroType = "macro";
+    const actionType = "macro";
     const macros = game.macros.filter((macro) => {
       let permissions = macro.ownership;
       if (permissions[game.userId]) return permissions[game.userId] > 0;
       return permissions.default > 0;
     });
     return macros.map((macro) => {
-      let encodedValue = [macroType, macro.id].join(this.baseHandler.delimiter);
+      let encodedValue = [actionType, macro.id].join(this.baseHandler.delimiter);
       let img = this.baseHandler.getImage(macro);
       return {
         name: macro.name,

@@ -3,12 +3,12 @@ import * as settings from "../../settings.js";
 import { Logger } from "../../logger.js";
 
 export class ActionHandlerT20 extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  buildSystemActions(token, multipleTokens) {
+  buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
@@ -91,7 +91,7 @@ export class ActionHandlerT20 extends ActionHandler {
       actor.items.filter((i) => i.system.qtd > 0)
     );
     let sortedItems = this.sortItems(validItems);
-    let macroType = "item";
+    let actionType = "item";
 
     let equipped;
     // if (actor.type === 'npc' && settings.get('showAllNpcItems')) {
@@ -104,14 +104,14 @@ export class ActionHandlerT20 extends ActionHandler {
 
     let weapons = activeEquipped.filter((i) => i.type == "arma");
     let weaponActions = weapons.map((w) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, w)
+      this._buildEquipmentItem(tokenId, actor, actionType, w)
     );
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
 
     let equipment = activeEquipped.filter((i) => i.type == "equip");
     let equipmentActions = equipment.map((e) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, e)
+      this._buildEquipmentItem(tokenId, actor, actionType, e)
     );
     let equipmentCat = this.initializeEmptySubcategory();
     equipmentCat.actions = equipmentActions;
@@ -120,7 +120,7 @@ export class ActionHandlerT20 extends ActionHandler {
       (i) => i.type != "arma" && i.type != "equip"
     );
     let otherActions = other.map((o) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, o)
+      this._buildEquipmentItem(tokenId, actor, actionType, o)
     );
     let otherCat = this.initializeEmptySubcategory();
     otherCat.actions = otherActions;
@@ -132,14 +132,14 @@ export class ActionHandlerT20 extends ActionHandler {
     let expendedFiltered = this._filterExpendedItems(allConsumables);
     let consumable = expendedFiltered;
     let consumableActions = consumable.map((c) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, c)
+      this._buildEquipmentItem(tokenId, actor, actionType, c)
     );
     let consumablesCat = this.initializeEmptySubcategory();
     consumablesCat.actions = consumableActions;
 
     let tools = validItems.filter((t) => t.type === "tool");
     let toolsActions = tools.map((i) =>
-      this._buildEquipmentItem(tokenId, actor, macroType, i)
+      this._buildEquipmentItem(tokenId, actor, actionType, i)
     );
     let toolsCat = this.initializeEmptySubcategory();
     toolsCat.actions = toolsActions;
@@ -222,7 +222,7 @@ export class ActionHandlerT20 extends ActionHandler {
   _categoriseSpells(actor, tokenId, spells) {
     const powers = this.initializeEmptySubcategory();
     const book = this.initializeEmptySubcategory();
-    const macroType = "magia";
+    const actionType = "magia";
 
     let dispose = spells.reduce(
       function (dispose, s) {
@@ -238,7 +238,7 @@ export class ActionHandlerT20 extends ActionHandler {
           levelName = `${this.i18n("tokenActionHud.level")} ${level}`;
         }
 
-        let spell = this._buildItem(tokenId, actor, macroType, s);
+        let spell = this._buildItem(tokenId, actor, actionType, s);
 
         // if (settings.get('showSpellInfo'))
         // this._addSpellInfo(s, spell);
@@ -307,9 +307,9 @@ export class ActionHandlerT20 extends ActionHandler {
     let dispose = feats.reduce(
       function (dispose, f) {
         const activationType = f.system.ativacao.execucao;
-        const macroType = "poder";
+        const actionType = "poder";
 
-        let feat = this._buildEquipmentItem(tokenId, actor, macroType, f);
+        let feat = this._buildEquipmentItem(tokenId, actor, actionType, f);
 
         if (
           !activationType ||
@@ -343,7 +343,7 @@ export class ActionHandlerT20 extends ActionHandler {
   /** @private */
   _getSkillsList(skills, tokenId) {
     let result = this.initializeEmptyCategory("pericia");
-    let macroType = "pericia";
+    let actionType = "pericia";
 
     let abbr = false; //settings.get('abbreviateSkills');
 
@@ -355,7 +355,7 @@ export class ActionHandlerT20 extends ActionHandler {
           let skillName =  game.tormenta20.config.pericias[skillId] ?? e[1].label ?? e[1].name;
           let name = abbr ? skillId : skillName;
           name = name.charAt(0).toUpperCase() + name.slice(1);
-          let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+          let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
           let icon = this._getProficiencyIcon(skills[skillId].treinado);
           return {
             name: name,
@@ -380,7 +380,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
   _addMultiSkills(list, tokenId) {
     let result = this.initializeEmptyCategory("pericia");
-    let macroType = "pericia";
+    let actionType = "pericia";
 
     let abbr = false; //settings.get('abbreviateSkills');
 
@@ -388,7 +388,7 @@ export class ActionHandlerT20 extends ActionHandler {
       (e) => {
         let name = abbr ? e[0] : e[1];
         name = name.charAt(0).toUpperCase() + name.slice(1);
-        let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+        let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
         return { name: name, id: e[0], encodedValue: encodedValue };
       }
     );
@@ -402,7 +402,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
   /** @private */
   _getAbilityList(actor, tokenId) {
-    const macroType = "atributo";
+    const actionType = "atributo";
     let abilityCategory = this.initializeEmptyCategory("atributos");
     let abilitySubcategory = this.initializeEmptySubcategory();
     const abilitySubcategoryName = this.i18n("tokenActionHud.abilities");
@@ -416,7 +416,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       let icon = "";
 
       return { name: name, id: e[0], encodedValue: encodedValue, icon: icon };
@@ -432,7 +432,7 @@ export class ActionHandlerT20 extends ActionHandler {
     return abilityCategory;
   }
 
-  _addMultiAbilities(list, tokenId, categoryId, categoryName, macroType) {
+  _addMultiAbilities(list, tokenId, categoryId, categoryName, actionType) {
     let cat = this.initializeEmptyCategory(categoryId);
 
     let abbr = false; //settings.get('abbreviateSkills');
@@ -440,7 +440,7 @@ export class ActionHandlerT20 extends ActionHandler {
     let actions = Object.entries(game.tormenta20.config.atributos).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
 
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
@@ -469,7 +469,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
   /** @private */
   _addEffectsSubcategories(actor, tokenId, category) {
-    const macroType = "effect";
+    const actionType = "effect";
 
     const effects = actor.effects.entries;
 
@@ -478,7 +478,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
     effects.forEach((e) => {
       const name = e.system.label;
-      const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, e.id].join(this.delimiter);
       const cssClass = e.system.disabled ? "" : "active";
       const image = e.system.icon;
       let action = {
@@ -509,7 +509,7 @@ export class ActionHandlerT20 extends ActionHandler {
   /** @private */
   _addMultiConditions(list, tokenId) {
     const category = this.initializeEmptyCategory("conditions");
-    const macroType = "condition";
+    const actionType = "condition";
 
     const availableConditions = CONFIG.statusEffects.filter(
       (condition) => condition.id !== ""
@@ -524,7 +524,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, c.id].join(this.delimiter);
       const cssClass = actors.every((actor) =>
         actor.effects.entries.some((e) => e.flags.core?.statusId === c.id)
       )
@@ -549,7 +549,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
   /** @private */
   _addConditionsSubcategory(actor, tokenId, category) {
-    const macroType = "condition";
+    const actionType = "condition";
 
     const availableConditions = CONFIG.statusEffects.filter(
       (condition) => condition.id !== ""
@@ -561,7 +561,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
-      const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, c.id].join(this.delimiter);
       const cssClass = actor.effects.some(
         (e) => e.flags.core?.statusId === c.id
       )
@@ -587,7 +587,7 @@ export class ActionHandlerT20 extends ActionHandler {
   }
 
   /** @private */
-  _addCombatSubcategory(macroType, category, tokenId) {
+  _addCombatSubcategory(actionType, category, tokenId) {
     let combatSubcategory = this.initializeEmptySubcategory();
 
     const combat = game.combat;
@@ -596,7 +596,7 @@ export class ActionHandlerT20 extends ActionHandler {
       combatant = combat.combatants.find((c) => c.tokenId === tokenId);
       currentInitiative = combatant?.initiative;
     }
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
+    let initiativeValue = [actionType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
@@ -610,7 +610,7 @@ export class ActionHandlerT20 extends ActionHandler {
 
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnValue = [actionType, tokenId, "endTurn"].join(this.delimiter);
       let endTurnAction = {
           id: "endTurn",
           encodedValue: endTurnValue,
@@ -628,12 +628,12 @@ export class ActionHandlerT20 extends ActionHandler {
   }
 
   /** @private */
-  _addMultiCombatSubcategory(macroType, tokenId, category) {
+  _addMultiCombatSubcategory(actionType, tokenId, category) {
     let combatSubcategory = this.initializeEmptySubcategory();
 
     // Roll Initiative
     const combat = game.combat;
-    let initiativeValue = [macroType, tokenId, "initiative"].join(this.delimiter);
+    let initiativeValue = [actionType, tokenId, "initiative"].join(this.delimiter);
     let initiativeAction = {
       id: "rollInitiative",
       encodedValue: initiativeValue,
@@ -658,16 +658,16 @@ export class ActionHandlerT20 extends ActionHandler {
   }
 
   /** @private */
-  _buildEquipmentItem(tokenId, actor, macroType, item) {
-    let action = this._buildItem(tokenId, actor, macroType, item);
+  _buildEquipmentItem(tokenId, actor, actionType, item) {
+    let action = this._buildItem(tokenId, actor, actionType, item);
     this._addItemInfo(actor, item, action);
     return action;
   }
 
   /** @private */
-  _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
-    let img = this._getImage(item);
+  _buildItem(tokenId, actor, actionType, item) {
+    let encodedValue = [actionType, tokenId, item.id].join(this.delimiter);
+    let img = this.getImage(item);
     let icon = this._getActionIcon(item.system?.ativacao?.execucao);
     let result = {
       name: item.name,
@@ -687,13 +687,6 @@ export class ActionHandlerT20 extends ActionHandler {
     action.info2 = "";
 
     action.info3 = "";
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
   }
 
   /** @private */

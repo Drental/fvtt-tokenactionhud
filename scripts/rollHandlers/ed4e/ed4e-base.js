@@ -17,23 +17,23 @@ export class RollHandlerBaseED4e extends RollHandler {
             super.throwInvalidValueErr();
         }
 
-        let macroType = payload[0];
+        let actionType = payload[0];
         let characterId = payload[1];
         let actionId = payload[2];
 
         if (tokenId === 'multi') {
             for (let t of canvas.tokens.controlled) {
                 let idToken = t.id;
-                await this._handleMacros(event, macroType, idToken, actionId);
+                await this._handleMacros(event, actionType, idToken, actionId);
             }
         } else {
-            await this._handleMacros(event, macroType, actorId, tokenId, actionId);
+            await this._handleMacros(event, actionType, actorId, tokenId, actionId);
         }
     }
 
-    async _handleMacros(event, macroType, actorId, tokenId, actionId) {
+    async _handleMacros(event, actionType, actorId, tokenId, actionId) {
         let actor = super.getActor(characterId);
-        switch (macroType) {
+        switch (actionType) {
             case 'skill':
             // fall through
             case 'talent':

@@ -1,14 +1,16 @@
 import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
+const systemDefaultImages = ["systems/wfrp4e/icons/blank.png"];
+
 export class ActionHandlerWfrp extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
     this.filterManager.createOrGetFilter("skills");
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -148,12 +150,12 @@ export class ActionHandlerWfrp extends ActionHandler {
   _getCharacteristics(actor, tokenId) {
     if (settings.get("showCharacteristicsCategory") === false) return;
     let result = this.initializeEmptyCategory("characteristics");
-    let macroType = "characteristic";
+    let actionType = "characteristic";
 
     let characteristics = Object.entries(actor.characteristics);
     let characteristicsCategory = this.initializeEmptySubcategory();
     characteristicsCategory.actions = characteristics.map((c) => {
-      let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, c[0]].join(this.delimiter);
       return {
         name: this.i18n(c[1].abrev),
         encodedValue: encodedValue,
@@ -173,7 +175,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   _getSkills(actor, tokenId) {
     if (settings.get("showSkillsCategory") === false) return;
     let categoryId = "skills";
-    let macroType = "skill";
+    let actionType = "skill";
 
     let result = this.initializeEmptyCategory(categoryId);
     let skills = actor.getItemTypes("skill").filter((i) => i.id);
@@ -194,7 +196,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     meleeCat.actions = this._produceMap(
       tokenId,
       filteredMeleeSkills,
-      macroType
+      actionType
     );
 
     let rangedSkills = skills.filter((s) =>
@@ -208,7 +210,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     rangedCat.actions = this._produceMap(
       tokenId,
       filteredRangedSkills,
-      macroType
+      actionType
     );
 
     let basicSkills = skills.filter(
@@ -226,7 +228,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     basicSkillsCat.actions = this._produceMap(
       tokenId,
       filteredBasicSkills,
-      macroType
+      actionType
     );
 
     let advancedSkills = skills.filter(
@@ -247,7 +249,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     advancedSkillsCat.actions = this._produceMap(
       tokenId,
       filteredAdvancedSkills,
-      macroType
+      actionType
     );
 
     this._combineSubcategoryWithCategory(
@@ -299,14 +301,14 @@ export class ActionHandlerWfrp extends ActionHandler {
 
   _getSpells(actor, tokenId) {
     if (settings.get("showMagicCategory") === false) return;
-    let macroType = "spell";
+    let actionType = "spell";
     let result = this.initializeEmptyCategory("spells");
 
     let spells = actor.getItemTypes("spell");
 
     let petties = spells.filter((i) => i.system.lore.value === "petty");
     let pettyCategory = this.initializeEmptySubcategory();
-    pettyCategory.actions = this._produceMap(tokenId, petties, macroType);
+    pettyCategory.actions = this._produceMap(tokenId, petties, actionType);
 
     this._combineSubcategoryWithCategory(
       result,
@@ -331,7 +333,7 @@ export class ActionHandlerWfrp extends ActionHandler {
       subcategory.actions = this._produceMap(
         tokenId,
         loreCategory[1],
-        macroType
+        actionType
       );
       this._combineSubcategoryWithCategory(
         result,
@@ -345,14 +347,14 @@ export class ActionHandlerWfrp extends ActionHandler {
 
   _getPrayers(actor, tokenId) {
     if (settings.get("showReligionCategory") === false) return;
-    let macroType = "prayer";
+    let actionType = "prayer";
     let result = this.initializeEmptyCategory("prayers");
 
     let prayers = actor.getItemTypes("prayer");
 
     let blessings = prayers.filter((i) => i.type.value === "blessing");
     let blessingCategory = this.initializeEmptySubcategory();
-    blessingCategory.actions = this._produceMap(tokenId, blessings, macroType);
+    blessingCategory.actions = this._produceMap(tokenId, blessings, actionType);
 
     this._combineSubcategoryWithCategory(
       result,
@@ -377,7 +379,7 @@ export class ActionHandlerWfrp extends ActionHandler {
       subcategory.actions = this._produceMap(
         tokenId,
         miracleCategory[1],
-        macroType
+        actionType
       );
       this._combineSubcategoryWithCategory(
         result,
@@ -391,7 +393,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
   _getTalents(actor, tokenId) {
     if (settings.get("showTalentsCategory") === false) return;
-    let macroType = "talent";
+    let actionType = "talent";
     let result = this.initializeEmptyCategory("talents");
 
     let talents = actor.getItemTypes("talent");
@@ -401,7 +403,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     rollableCategory.actions = this._produceMap(
       tokenId,
       rollableTalents,
-      macroType
+      actionType
     );
 
     let unrollableTalents = talents.filter((t) => !t.rollable?.value);
@@ -409,7 +411,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     unrollableCategory.actions = this._produceMap(
       tokenId,
       unrollableTalents,
-      macroType
+      actionType
     );
 
     this._combineSubcategoryWithCategory(
@@ -428,7 +430,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
   _getTraits(actor, tokenId) {
     if (settings.get("showTraitsCategory") === false) return;
-    let macroType = "trait";
+    let actionType = "trait";
     let result = this.initializeEmptyCategory("traits");
 
     let traits = actor.getItemTypes("trait").filter((i) => i.included);
@@ -438,7 +440,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     rollableCategory.actions = this._produceMap(
       tokenId,
       rollableTraits,
-      macroType
+      actionType
     );
 
     let unrollableTraits = traits.filter((t) => !t.rollable?.value);
@@ -446,7 +448,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     unrollableCategory.actions = this._produceMap(
       tokenId,
       unrollableTraits,
-      macroType
+      actionType
     );
 
     this._combineSubcategoryWithCategory(
@@ -466,14 +468,14 @@ export class ActionHandlerWfrp extends ActionHandler {
   _getUtility(tokenId) {
     if (settings.get("showUtilityCategory") === false) return;
     let result = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
+    let actionType = "utility";
 
     // Combat Subcategory
     let combatSubcategory = this.initializeEmptySubcategory();
   
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnValue = [actionType, tokenId, "endTurn"].join(this.delimiter);
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
@@ -495,8 +497,8 @@ export class ActionHandlerWfrp extends ActionHandler {
 
   _produceMap(tokenId, itemSet, type) {
     return itemSet.map((i) => {
-      let encodedValue = [type, tokenId, i.id].join(this.delimiter);
-      let img = this._getImage(i);
+      const encodedValue = [type, tokenId, i.id].join(this.delimiter);
+      const img = this.getImage(i, systemDefaultImages);
       return { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
     })
     .sort((a, b) => {
@@ -506,15 +508,5 @@ export class ActionHandlerWfrp extends ActionHandler {
           sensitivity: "base",
         });
     });
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-
-    return result?.includes("icons/svg/mystery-man.svg") ||
-      result?.includes("systems/wfrp4e/icons/blank.png")
-      ? ""
-      : result;
   }
 }

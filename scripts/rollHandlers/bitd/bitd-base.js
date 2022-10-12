@@ -13,7 +13,7 @@ export class RollHandlerBaseBitD extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 

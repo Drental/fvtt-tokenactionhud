@@ -9,21 +9,21 @@ export class RollHandlerBaseDs4 extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    const macroType = payload[0];
+    const actionType = payload[0];
     const tokenId = payload[1];
     const actionId = payload[2];
 
     if (characterId === "multi") {
       for (const token of canvas.tokens.controlled) {
-        await this._handleMacros(event, macroType, token.id, actionId);
+        await this._handleMacros(event, actionType, token.id, actionId);
       }
     } else {
-      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
+      await this._handleMacros(event, actionType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
-    switch (macroType) {
+  async _handleMacros(event, actionType, actorId, tokenId, actionId) {
+    switch (actionType) {
       case "check":
         await this._rollCheckMacro(event, actorId, tokenId, actionId);
         break;

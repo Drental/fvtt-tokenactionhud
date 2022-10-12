@@ -3,7 +3,7 @@ import * as settings from "../../settings.js";
 
 export class ActionHandlerDs4 extends ActionHandler {
   /** @override */
-  buildSystemActions(token, multipleTokens) {
+  buildSystemActions(actionList, character, subcategoryIds) {
     if (token) {
       return this._buildSingleTokenList(token);
     } else if (multipleTokens) {

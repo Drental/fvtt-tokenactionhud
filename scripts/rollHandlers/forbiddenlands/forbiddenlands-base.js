@@ -12,7 +12,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
     let attributename = payload[3];
@@ -22,29 +22,29 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ['item', 'armor'];
-    if (renderable.includes(macroType) && this.isRenderItem()) return this.doRenderItem(actorId, tokenId, actionId);
+    if (renderable.includes(actionType) && this.isRenderItem()) return this.doRenderItem(actorId, tokenId, actionId);
 
     if (tokenId === 'multi') {
-      if (macroType === 'utility' && actionId.includes('toggle')) {
+      if (actionType === 'utility' && actionId.includes('toggle')) {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
         canvas.tokens.controlled.forEach((t) => {
           let idToken = t.id;
-          this._handleMacros(event, macroType, idToken, actionId, attributename);
+          this._handleMacros(event, actionType, idToken, actionId, attributename);
         });
       }
     } else {
       let sharedActions = ['utility'];
 
-      if (!sharedActions.includes(macroType)) {
+      if (!sharedActions.includes(actionType)) {
         switch (charType) {
           case 'character':
           case 'monster':
-            await this._handleUniqueActionsChar(macroType, event, actor, actionId);
+            await this._handleUniqueActionsChar(actionType, event, actor, actionId);
             break;
         }
       }
-      switch (macroType) {
+      switch (actionType) {
         case 'attribute':
           if (event.type === 'click') {
             actor.sheet.rollAttribute(actionId);
@@ -84,8 +84,8 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsChar(macroType, event, actor, actionId) {
-    switch (macroType) {
+  async _handleUniqueActionsChar(actionType, event, actor, actionId) {
+    switch (actionType) {
       case 'stress':
         await this._adjustAttribute(event, actor, 'stress', 'value', actionId);
         break;
@@ -183,10 +183,10 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   /** @private */
-  _rollItem(actor, tokenId, actionId, macroType) {
+  _rollItem(actor, tokenId, actionId, actionType) {
     let item = actor.items.get(actionId);
     let renderable = ['item'];
-    if (renderable.includes(macroType)) {
+    if (renderable.includes(actionType)) {
       return this.doRenderItem(actorId, tokenId, actionId);
     } else {
       console.warn('armor roll');

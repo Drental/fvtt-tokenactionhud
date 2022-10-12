@@ -71,13 +71,13 @@ export class ItemMacroActionListExtender extends ActionListExtender {
   }
 
   createItemMacroAction(action, replace) {
-    let macroType = "itemMacro";
+    let actionType = "itemMacro";
     let newAction = replace ? action : {};
 
     let keep = action.encodedValue.substr(
       action.encodedValue.indexOf(this.delimiter)
     );
-    newAction.encodedValue = macroType + keep;
+    newAction.encodedValue = actionType + keep;
     newAction.name = replace ? action.name : `(M) ${action.name}`;
     newAction.id = action.id;
     newAction.img = action.img;

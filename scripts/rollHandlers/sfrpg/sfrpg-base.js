@@ -14,11 +14,11 @@ export class RollHandlerBaseSfrpg extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
-    switch (macroType) {
+    switch (actionType) {
       case "ability":
         this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;

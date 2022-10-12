@@ -2,12 +2,12 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerKg extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -305,14 +305,14 @@ export class ActionHandlerKg extends ActionHandler {
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, macroType) {
+  _produceMap(tokenId, itemSet, actionType) {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
+        let encodedValue = [actionType, tokenId, i.id].join(this.delimiter);
         let item = { name: i.name, encodedValue: encodedValue, id: i.id };
 
-        if (macroType == "item" && i.system.quantity !== undefined)
+        if (actionType == "item" && i.system.quantity !== undefined)
           item.name = i.name + " X " + i.system.quantity;
 
         return item;

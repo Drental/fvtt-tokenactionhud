@@ -14,22 +14,22 @@ export class RollHandlerBaseD35E extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
     if (characterId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
         let idToken = t.id;
-        this._handleMacros(event, macroType, idToken, actionId);
+        this._handleMacros(event, actionType, idToken, actionId);
       });
     } else {
-      await this._handleMacros(event, macroType, actorId, tokenId, actionId);
+      await this._handleMacros(event, actionType, actorId, tokenId, actionId);
     }
   }
 
-  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
-    switch (macroType) {
+  async _handleMacros(event, actionType, actorId, tokenId, actionId) {
+    switch (actionType) {
       case "ability":
         this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;

@@ -3,12 +3,12 @@ import * as settings from "../../settings.js";
 import { CompendiumHelper } from "../../categories/compendiumHelper.js";
 
 export class ActionHandlerDw extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (settings.get("showGmCompendiums")) {
@@ -391,11 +391,11 @@ export class ActionHandlerDw extends ActionHandler {
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, macroType) {
+  _produceMap(tokenId, itemSet, actionType) {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.id].join(
+        let encodedValue = [actionType, tokenId, i.id].join(
           this.delimiter
         );
         let item = { name: i.name, encodedValue: encodedValue, id: i.id };

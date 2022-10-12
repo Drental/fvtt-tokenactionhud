@@ -12,14 +12,14 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
     let actor = super.getActor(characterId);
     let bypassData = { bypass: !!event.shiftKey };
 
-    if (macroType === "characteristic")
+    if (actionType === "characteristic")
       return actor
         .setupCharacteristic(actionId, bypassData)
         .then((setupData) => actor.basicTest(setupData));
@@ -31,7 +31,7 @@ export class RollHandlerBaseWfrp4e extends RollHandler {
 
     if (this.rightClick) return item.postItem();
 
-    switch (macroType) {
+    switch (actionType) {
       case "dodge":
         return this.dodge(actor);
       case "unarmed":

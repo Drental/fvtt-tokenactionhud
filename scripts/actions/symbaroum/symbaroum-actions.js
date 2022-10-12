@@ -1,13 +1,15 @@
 import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
+const systemDefaultImages = ["systems/symbaroum/asset/image/trait.png"];
+
 export class ActionHandlerSymbaroum extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -188,7 +190,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _produceMap(tokenId, itemSet, type) {
     return itemSet.map((i) => {
       let encodedValue = [type, tokenId, i.id].join(this.delimiter);
-      let img = this._getImage(i);
+      let img = this.getImage(i, systemDefaultImages);
       let result = {
         name: i.name,
         encodedValue: encodedValue,
@@ -197,13 +199,5 @@ export class ActionHandlerSymbaroum extends ActionHandler {
       };
       return result;
     });
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-    return !result?.includes("systems/symbaroum/asset/image/trait.png")
-      ? result
-      : "";
   }
 }

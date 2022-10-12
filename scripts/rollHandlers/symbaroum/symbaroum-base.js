@@ -11,60 +11,60 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
     if (payload.length != 3) {
       super.throwInvalidValueErr();
     }
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let itemId = payload[2];
 
     let actor = super.getActor(characterId);
-    switch (macroType) {
+    switch (actionType) {
       case "weapon":
-        this._handleWeapon(macroType, event, actor, itemId);
+        this._handleWeapon(actionType, event, actor, itemId);
         break;
       case "armor":
-        this._handleArmor(macroType, event, actor, itemId);
+        this._handleArmor(actionType, event, actor, itemId);
         break;
       case "ability":
-        this._handleAbility(macroType, event, actor, itemId);
+        this._handleAbility(actionType, event, actor, itemId);
         break;
       case "mysticalPower":
-        this._handleMysticalPowers(macroType, event, actor, itemId);
+        this._handleMysticalPowers(actionType, event, actor, itemId);
         break;
       case "trait":
-        this._handleTraits(macroType, event, actor, itemId);
+        this._handleTraits(actionType, event, actor, itemId);
         break;
       case "attribute":
-        this._handleAttributes(macroType, event, actor, itemId);
+        this._handleAttributes(actionType, event, actor, itemId);
         break;
     }
   }
 
-  _handleWeapon(macroType, event, actor, actionId) {
+  _handleWeapon(actionType, event, actor, actionId) {
     let usedItem = actor.system.weapons.filter(
       (item) => item.id === actionId
     );
     actor.rollWeapon(usedItem[0]);
   }
 
-  _handleArmor(macroType, event, actor, actionId) {
+  _handleArmor(actionType, event, actor, actionId) {
     actor.rollArmor();
   }
 
-  _handleAbility(macroType, event, actor, actionId) {
+  _handleAbility(actionType, event, actor, actionId) {
     let usedPower = actor.items.filter((item) => item.id === actionId);
     actor.usePower(usedPower[0]);
   }
 
-  _handleMysticalPowers(macroType, event, actor, actionId) {
+  _handleMysticalPowers(actionType, event, actor, actionId) {
     let usedPower = actor.items.filter((item) => item.id === actionId);
     actor.usePower(usedPower[0]);
   }
 
-  _handleTraits(macroType, event, actor, actionId) {
+  _handleTraits(actionType, event, actor, actionId) {
     let usedPower = actor.items.filter((item) => item.id === actionId);
     actor.usePower(usedPower[0]);
   }
 
-  _handleAttributes(macroType, event, actor, actionId) {
+  _handleAttributes(actionType, event, actor, actionId) {
     actor.rollAttribute(actionId);
   }
 }

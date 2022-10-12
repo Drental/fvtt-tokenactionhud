@@ -15,12 +15,12 @@ export class RollHandlerBasePf2e extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
     let renderable = ["item", "feat", "action", "lore", "ammo"];
-    if (renderable.includes(macroType) && this.isRenderItem())
+    if (renderable.includes(actionType) && this.isRenderItem())
       return this.doRenderItem(actorId, tokenId, actionId);
 
     try {
@@ -31,17 +31,17 @@ export class RollHandlerBasePf2e extends RollHandler {
         );
         for (let token of controlled) {
           let idToken = token.id;
-          await this._handleMacros(event, macroType, idToken, actionId);
+          await this._handleMacros(event, actionType, idToken, actionId);
         }
       } else {
-        await this._handleMacros(event, macroType, actorId, tokenId, actionId);
+        await this._handleMacros(event, actionType, actorId, tokenId, actionId);
       }
     } catch (e) {
       throw e;
     }
   }
 
-  async _handleMacros(event, macroType, actorId, tokenId, actionId) {
+  async _handleMacros(event, actionType, actorId, tokenId, actionId) {
     let actor = super.getActor(characterId);
     let charType;
     if (actor) charType = actor.type;
@@ -56,11 +56,11 @@ export class RollHandlerBasePf2e extends RollHandler {
       "toggle",
       "strike",
     ];
-    if (!sharedActions.includes(macroType)) {
+    if (!sharedActions.includes(actionType)) {
       switch (charType) {
         case "npc":
           await this._handleUniqueActionsNpc(
-            macroType,
+            actionType,
             event,
             tokenId,
             actor,
@@ -70,7 +70,7 @@ export class RollHandlerBasePf2e extends RollHandler {
         case "character":
         case "familiar":
           await this._handleUniqueActionsChar(
-            macroType,
+            actionType,
             event,
             tokenId,
             actor,
@@ -80,7 +80,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       }
     }
 
-    switch (macroType) {
+    switch (actionType) {
       case "ability":
         this._rollAbility(event, actor, actionId);
         break;
@@ -108,8 +108,8 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
-    switch (macroType) {
+  async _handleUniqueActionsChar(actionType, event, tokenId, actor, actionId) {
+    switch (actionType) {
       case "save":
         this._rollSave(event, actor, actionId);
         break;
@@ -131,7 +131,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       case "doomed":
       case "wounded":
       case "dying":
-        await this._adjustCondition(event, actor, macroType);
+        await this._adjustCondition(event, actor, actionType);
         break;
       case "recoveryCheck":
         actor.rollRecovery({ event });
@@ -146,8 +146,8 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsNpc(macroType, event, tokenId, actor, actionId) {
-    switch (macroType) {
+  async _handleUniqueActionsNpc(actionType, event, tokenId, actor, actionId) {
+    switch (actionType) {
       case "save":
         this._rollSave(event, actor, actionId);
         break;

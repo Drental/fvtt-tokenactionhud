@@ -13,12 +13,12 @@ export class RollHandlerCoreOD6S extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
     let actor;
-    if(macroType !== 'crew') actor = super.getActor(characterId);
-    switch (macroType) {
+    if(actionType !== 'crew') actor = super.getActor(characterId);
+    switch (actionType) {
       case "action":
         actor.rollAction(actionId);
         break;

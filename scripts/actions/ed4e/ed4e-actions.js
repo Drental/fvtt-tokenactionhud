@@ -3,12 +3,12 @@ import * as settings from "../../settings.js";
 import {Logger} from "../../logger.js";
 
 export class ActionHandlerED4e extends ActionHandler {
-    constructor(filterManager, categoryManager) {
-        super(filterManager, categoryManager);
+    constructor(categoryManager) {
+        super(categoryManager);
     }
 
 
-    buildSystemActions(token, multipleTokens) {
+    buildSystemActions(actionList, character, subcategoryIds) {
         if (token) {
             return this._buildSingleTokenList(token);
         } else if (multipleTokens) {
@@ -162,12 +162,12 @@ export class ActionHandlerED4e extends ActionHandler {
         let favoriteActions = favoriteItems.map(e => {
             try {
                 let itemID = e.id;
-                let macroType = e.type.toLowerCase();
+                let actionType = e.type.toLowerCase();
                 let name = e.name;
                 if (e.system.hasOwnProperty("ranks")) {
                     name += " (" + e.system.ranks + ")";
                 }
-                let encodedValue = [macroType, token.id, itemID].join(this.delimiter);
+                let encodedValue = [actionType, token.id, itemID].join(this.delimiter);
                 return {name: name, id: itemID, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -196,13 +196,13 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('talents');
         result.name = this.i18n("earthdawn.t.talents");
-        let macroType = 'talent';
+        let actionType = 'talent';
 
         let talentActions = talents.map(e => {
             try {
                 let talentId = e.id;
                 let name = e.name + " (" + e.system.ranks + ")";
-                let encodedValue = [macroType, token.id, talentId].join(this.delimiter);
+                let encodedValue = [actionType, token.id, talentId].join(this.delimiter);
                 return {name: name, id: talentId, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -290,13 +290,13 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('skills');
         result.name = this.i18n("earthdawn.s.skills");
-        let macroType = 'skill';
+        let actionType = 'skill';
 
         let skillActions = skills.map(e => {
             try {
                 let skillId = e.id;
                 let name = e.name + " (" + e.system.ranks + ")";
-                let encodedValue = [macroType, token.id, skillId].join(this.delimiter);
+                let encodedValue = [actionType, token.id, skillId].join(this.delimiter);
                 return {name: name, id: skillId, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -321,32 +321,32 @@ export class ActionHandlerED4e extends ActionHandler {
 
         if (['pc', 'npc'].indexOf(actor.type) < 0) return;
 
-        let macroType = 'inventory';
+        let actionType = 'inventory';
 
         // get list of items
 
         let validItems = actor.items.filter(i => ['weapon', 'armor', 'shield', 'equipment'].indexOf(i.type) > -1);
 
         let weapons = validItems.filter(i => (i.type === 'weapon'));
-        let weaponActions = weapons.map(w => this._buildItem(tokenId, actor, macroType, w))
+        let weaponActions = weapons.map(w => this._buildItem(tokenId, actor, actionType, w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let weaponsCat = this.initializeEmptySubcategory();
         weaponsCat.actions = weaponActions;
 
         let armors = validItems.filter(i => (i.type === 'armor'));
-        let armorActions = armors.map(w => this._buildItem(tokenId, actor, macroType, w))
+        let armorActions = armors.map(w => this._buildItem(tokenId, actor, actionType, w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let armorsCat = this.initializeEmptySubcategory();
         armorsCat.actions = armorActions;
 
         let shields = validItems.filter(i => (i.type === 'shield'));
-        let shieldActions = shields.map(w => this._buildItem(tokenId, actor, macroType, w))
+        let shieldActions = shields.map(w => this._buildItem(tokenId, actor, actionType, w))
             .sort((a,b) => a.name.localeCompare(b.name));
         let shieldCat = this.initializeEmptySubcategory();
         shieldCat.actions = shieldActions;
 
         let equipment = validItems.filter(i => i.type === 'equipment');
-        let equipmentActions = equipment.map(e => this._buildItem(tokenId, actor, macroType, e))
+        let equipmentActions = equipment.map(e => this._buildItem(tokenId, actor, actionType, e))
             .sort((a,b) => a.name.localeCompare(b.name));
         let equipmentCat = this.initializeEmptySubcategory();
         equipmentCat.actions = equipmentActions;
@@ -369,10 +369,10 @@ export class ActionHandlerED4e extends ActionHandler {
         return result;
     }
 
-    _buildItem(tokenId, actor, macroType, item) {
+    _buildItem(tokenId, actor, actionType, item) {
         const itemId = item.id ?? item._id;
-        let encodedValue = [macroType, tokenId, itemId].join(this.delimiter);
-        let img = this._getImage(item);
+        let encodedValue = [actionType, tokenId, itemId].join(this.delimiter);
+        let img = this.getImage(item);
         let action = { name: item.name, id: itemId, encodedValue: encodedValue, img: img};
         if (['weapon', 'armor', 'shield'].indexOf(item.type) >= 0) {
             action['cssClass'] = item.system.worn === true ? 'active' : '';
@@ -459,13 +459,13 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('attacks');
         result.name = this.i18n("earthdawn.a.attacks");
-        let macroType = 'attack';
+        let actionType = 'attack';
 
         let attackActions = attacks.map(e => {
             try {
                 let attackId = e.id;
                 let name = e.name;
-                let encodedValue = [macroType, token.id, attackId].join(this.delimiter);
+                let encodedValue = [actionType, token.id, attackId].join(this.delimiter);
                 return {name: name, id: attackId, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -490,13 +490,13 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('powers');
         result.name = this.i18n("earthdawn.p.powers");
-        let macroType = 'power';
+        let actionType = 'power';
 
         let powerActions = powers.map(e => {
             try {
                 let powerId = e.id;
                 let name = e.name;
-                let encodedValue = [macroType, token.id, powerId].join(this.delimiter);
+                let encodedValue = [actionType, token.id, powerId].join(this.delimiter);
                 return {name: name, id: powerId, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -521,13 +521,13 @@ export class ActionHandlerED4e extends ActionHandler {
 
         let result = this.initializeEmptyCategory('maneuvers');
         result.name = this.i18n("earthdawn.m.maneuvers");
-        let macroType = 'maneuver';
+        let actionType = 'maneuver';
 
         let maneuverActions = maneuvers.map(e => {
             try {
                 let maneuverId = e.id;
                 let name = e.name;
-                let encodedValue = [macroType, token.id, maneuverId].join(this.delimiter);
+                let encodedValue = [actionType, token.id, maneuverId].join(this.delimiter);
                 return {name: name, id: maneuverId, encodedValue: encodedValue};
             } catch (error) {
                 Logger.error(e);
@@ -547,13 +547,5 @@ export class ActionHandlerED4e extends ActionHandler {
     _getEntityData(entity) {
         // return entity.data.data ?? entity.data;
         return entity;
-    }
-
-    _getImage(item) {
-        let result = '';
-        if (settings.get('showIcons'))
-            result = item.img ?? '';
-
-        return !result?.includes('icons/svg/mystery-man.svg') ? result : '';
     }
 }

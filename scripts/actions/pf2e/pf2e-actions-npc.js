@@ -87,7 +87,7 @@ export class NpcActionHandlerPf2e {
 
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
-    const macroType = "toggle";
+    const actionType = "toggle";
     const toggles = actor.system.toggles;
 
     if (!toggles.length) return;
@@ -97,7 +97,7 @@ export class NpcActionHandlerPf2e {
     toggles.forEach((t) => {
       const id = [t.domain, t.option].join(".");
       const { delimiter } = this.baseHandler;
-      const encodedValue = [macroType, tokenId, JSON.stringify(t)].join(delimiter);
+      const encodedValue = [actionType, tokenId, JSON.stringify(t)].join(delimiter);
       const name = game.i18n.localize(t.label);
       const active = t.checked ? " active" : "";
       const cssClass = `toggle${active}`
@@ -115,7 +115,7 @@ export class NpcActionHandlerPf2e {
   /** @private */
   _getAttributeListNpc(actor, tokenId) {
     if (settings.get("showAttributesCategory") === false) return;
-    let macroType = "attribute";
+    let actionType = "attribute";
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();
 
@@ -127,7 +127,7 @@ export class NpcActionHandlerPf2e {
     attributes.actions = this.baseHandler._produceActionMap(
       tokenId,
       attributesMap,
-      macroType
+      actionType
     );
 
     this.baseHandler._combineSubcategoryWithCategory(

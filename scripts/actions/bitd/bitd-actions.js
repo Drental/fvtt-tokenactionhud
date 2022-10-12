@@ -2,95 +2,75 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerBitD extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
-    this.filterManager.createOrGetFilter("skills");
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
-    let result = this.initializeEmptyActionList();
+  async buildSystemActions(actionList, character, subcategoryIds) {
 
-    if (!token) return result;
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "actions"))
+      this._buildActions(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "resistances"))
+      this._buildResistances(actionList, character);
 
-    let tokenId = token.id;
-
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    result.actorId = actor.id;
-
-    let actions = this._getActions(actor, tokenId);
-    let resistances = this._getResistances(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.actions"),
-      actions
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.bitd.resistance"),
-      resistances
-    );
-
-    if (settings.get("showHudTitle")) result.hudTitle = token.name;
-
-    return result;
+    return actionList;
   }
 
-  _getActions(actor, tokenId) {
-    let result = this.initializeEmptyCategory("actions");
+  _buildActions(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const actionType = "action";
+    const subcategoryId = "actions";
 
-    for (let attribute in actor.system.attributes) {
-      let attributeCategory = this.initializeEmptySubcategory();
-      for (let skill_name in actor.system.attributes[attribute].skills) {
-        let skill = actor.system.attributes[attribute].skills[skill_name];
-        let name = this.i18n(skill.label);
-        let encodedValue = ["action", tokenId, skill_name].join(this.delimiter);
+    let actions = [];
 
-        attributeCategory.actions.push({
+    for (const attribute of actor.system.attributes) {
+      for (const skillName in actor.system.attributes[attribute].skills) {
+        const skill = actor.system.attributes[attribute].skills[skillName];
+        const id = skillName;
+        const name = this.i18n(skill.label);
+        const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter);
+        const action = {
+          id: id,
           name: name,
           encodedValue: encodedValue,
-        });
+          selected: true,
+        }
+
+        actions.push(action);
       }
-      let attributeTitle = this.i18n(
-        actor.system.attributes[attribute].label
-      );
-      this._combineSubcategoryWithCategory(
-        result,
-        attributeTitle,
-        attributeCategory
-      );
     }
-    return result;
+    
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
-  _getResistances(actor, tokenId) {
-    let result = this.initializeEmptyCategory("actions");
+  _buildResistances(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const actionType = "resistance";
+    const subcategoryId = "actions";
+   
+    let actions = [];
 
-    let resistanceCategory = this.initializeEmptySubcategory();
-    for (let attribute in actor.system.attributes) {
-      let name = this.i18n(actor.system.attributes[attribute].label);
-      let encodedValue = ["resistance", tokenId, attribute].join(
+    for (const attribute in actor.system.attributes) {
+      const id = attribute;
+      const name = this.i18n(actor.system.attributes[attribute].label);
+      const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      resistanceCategory.actions.push({
+      const action = {
+        id: name,
         name: name,
         encodedValue: encodedValue,
-      });
+        selected: true,
+      }
+      
+      actions.push(action);
     }
 
-    let resistanceTitle = this.i18n("tokenActionHud.bitd.resistance");
-    this._combineSubcategoryWithCategory(
-      result,
-      resistanceTitle,
-      resistanceCategory
-    );
-
-    return result;
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 }

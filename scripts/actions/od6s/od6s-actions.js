@@ -1,12 +1,12 @@
 import {ActionHandler} from "../actionHandler.js";
 
 export class ActionHandlerOD6S extends ActionHandler {
-    constructor(filterManager, categoryManager) {
-        super(filterManager, categoryManager);
+    constructor(categoryManager) {
+        super(categoryManager);
     }
 
     /** @override */
-    async buildSystemActions(token, multipleTokens) {
+    async buildSystemActions(actionList, character, subcategoryIds) {
         let result = this.initializeEmptyActionList();
 
         if (!token) return result;
@@ -76,7 +76,7 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     _buildCombatActionsCategory(actor, tokenId) {
-        let macroType = "action";
+        let actionType = "action";
         let result = this.initializeEmptyCategory("combatactions");
         let items = actor.items;
 
@@ -84,7 +84,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         let resistances = [];
         for (let r of resistanceTypes) {
             let name = game.i18n.localize(actor.data[r].label);
-            let encodedValue = [macroType, tokenId, r].join(this.delimiter);
+            let encodedValue = [actionType, tokenId, r].join(this.delimiter);
             resistances.push({name: name, id: r, encodedValue: encodedValue});
         }
 
@@ -104,7 +104,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                 (i) => i.type === "weapon" && i.system.subtype === "Melee" && i.system.equipped.value)
             .sort((a, b) => a.name.localeCompare(b.name))
             .valueOf();
-        let weaponActions = this._produceMap(tokenId, weapons, macroType);
+        let weaponActions = this._produceMap(tokenId, weapons, actionType);
         let weaponsSubcategory = this.initializeEmptySubcategory();
         weaponsSubcategory.actions = weaponActions;
         this._combineSubcategoryWithCategory(
@@ -118,7 +118,7 @@ export class ActionHandlerOD6S extends ActionHandler {
             if (game.od6s.config.actions[action].rollable) {
                 let name = game.i18n.localize(game.od6s.config.actions[action].name);
                 let encodedValue = [
-                    macroType,
+                    actionType,
                     tokenId,
                     game.od6s.config.actions[action].type,
                 ].join(this.delimiter);
@@ -161,11 +161,11 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     _buildVehicleCategory(actor, tokenId, categoryName) {
-        let macroType;
+        let actionType;
         if (categoryName === 'crew') {
-            macroType = "crew";
+            actionType = "crew";
         } else {
-            macroType = "action";
+            actionType = "action";
         }
 
         let result = this.initializeEmptyCategory("vehicleactions");
@@ -180,7 +180,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                 } else {
                     name = game.i18n.localize(game.od6s.config.starshipToughnessName);
                 }
-                let encodedValue = [macroType, tokenId, "vehicletoughness"].join(this.delimiter);
+                let encodedValue = [actionType, tokenId, "vehicletoughness"].join(this.delimiter);
                 resistances.push({name: name, id: "vehicletoughness", encodedValue: encodedValue});
 
                 if (actor.system.vehicle.shields.value > 0) {
@@ -188,7 +188,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                         let name = game.i18n.localize(actor.system.vehicle.shields.arcs[arc].label) +
                             " " + game.i18n.localize('OD6S.SHIELDS');
                         let encodedValue = [
-                            macroType,
+                            actionType,
                             tokenId,
                             "vehicleshields" + arc
                         ].join(this.delimiter);
@@ -209,7 +209,7 @@ export class ActionHandlerOD6S extends ActionHandler {
             let vehicleWeaponsSubcategory = this.initializeEmptySubcategory();
             vehicleWeaponsSubcategory.actions = this._produceMap(tokenId,
                 actor.system.vehicle.vehicle_weapons.filter(i => i.system.equipped.value),
-                macroType);
+                actionType);
             this._combineSubcategoryWithCategory(
                 result,
                 game.i18n.localize("OD6S.VEHICLE_WEAPON"),
@@ -226,7 +226,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                                 name = game.i18n.localize(game.od6s.config.vehicle_actions[action].name) + ": " +
                                     game.i18n.localize(actor.system.vehicle.sensors.types[type].label);
                                 let encodedValue = [
-                                    macroType,
+                                    actionType,
                                     tokenId,
                                     game.od6s.config.vehicle_actions[action].type + type
                                 ].join(this.delimiter);
@@ -240,7 +240,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                     } else {
                         name = game.i18n.localize(game.od6s.config.vehicle_actions[action].name);
                         let encodedValue = [
-                            macroType,
+                            actionType,
                             tokenId,
                             game.od6s.config.vehicle_actions[action].type,
                         ].join(this.delimiter);
@@ -265,14 +265,14 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     _buildAttributesCategory(actor, tokenId, categoryName) {
-        let macroType = "attribute";
+        let actionType = "attribute";
         let result = this.initializeEmptyCategory("attributes");
         let attributes = actor.system.attributes;
 
         let actions = Object.entries(attributes).map((e) => {
             if (e[1].score === 0) return;
             let name = game.od6s.config.attributes[e[0]].name;
-            let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+            let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
             return {name: name, id: e[0], encodedValue: encodedValue};
         });
 
@@ -287,14 +287,14 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     _buildSkillsCategory(actor, tokenId, categoryName) {
-        let macroType = "skill";
+        let actionType = "skill";
         let result = this.initializeEmptyCategory(categoryName);
         let items = actor.items;
         let skills = items.filter(
             (i) => i.type === "skill" || i.type === "specialization"
         );
         skills.sort((a, b) => a.name.localeCompare(b.name));
-        let skillActions = this._produceMap(tokenId, skills, macroType);
+        let skillActions = this._produceMap(tokenId, skills, actionType);
         let skillsSubcategory = this.initializeEmptySubcategory();
         skillsSubcategory.actions = skillActions;
         this._combineSubcategoryWithCategory(
@@ -306,11 +306,11 @@ export class ActionHandlerOD6S extends ActionHandler {
     }
 
     /** @private */
-    _produceMap(tokenId, itemSet, macroType) {
+    _produceMap(tokenId, itemSet, actionType) {
         return itemSet
             .filter((i) => !!i)
             .map((i) => {
-                let encodedValue = [macroType, tokenId, i.id].join(
+                let encodedValue = [actionType, tokenId, i.id].join(
                     this.delimiter
                 );
                 return {name: i.name, encodedValue: encodedValue, id: i.id};

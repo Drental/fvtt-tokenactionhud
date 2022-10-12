@@ -165,7 +165,7 @@ export class PcActionHandlerPf2e {
 
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
-    const macroType = "toggle";
+    const actionType = "toggle";
     const toggles = actor.system.toggles;
 
     if (!toggles.length) return;
@@ -175,7 +175,7 @@ export class PcActionHandlerPf2e {
     toggles.forEach((t) => {
       const id = [t.domain, t.option].join(".");
       const { delimiter } = this.baseHandler;
-      const encodedValue = [macroType, tokenId, JSON.stringify(t)].join(delimiter);
+      const encodedValue = [actionType, tokenId, JSON.stringify(t)].join(delimiter);
       const name = game.i18n.localize(t.label);
       const active = t.checked ? " active" : "";
       const cssClass = `toggle${active}`
@@ -192,7 +192,7 @@ export class PcActionHandlerPf2e {
 
   /** @private */
   _getFamiliarAttack(actor, tokenId) {
-    let macroType = "familiarAttack";
+    let actionType = "familiarAttack";
     let result = this.baseHandler.initializeEmptyCategory("attack");
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
@@ -204,7 +204,7 @@ export class PcActionHandlerPf2e {
 
       let name = att.name.charAt(0).toUpperCase() + att.name.slice(1);
 
-      let encodedValue = [macroType, tokenId, att.name].join(
+      let encodedValue = [actionType, tokenId, att.name].join(
         this.baseHandler.delimiter
       );
 
@@ -230,7 +230,7 @@ export class PcActionHandlerPf2e {
   /** @private */
   _getAttributeList(actor, tokenId) {
     if (settings.get("showAttributesCategory") === false) return;
-    let macroType = "attribute";
+    let actionType = "attribute";
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();
 
@@ -249,7 +249,7 @@ export class PcActionHandlerPf2e {
     attributes.actions = this.baseHandler._produceActionMap(
       tokenId,
       attributesMap,
-      macroType
+      actionType
     );
 
     this.baseHandler._combineSubcategoryWithCategory(

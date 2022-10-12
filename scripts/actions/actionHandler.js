@@ -29,7 +29,7 @@ export class ActionHandler {
     this.character = character;
     this.savedActionList = this.getSavedActionList(character);
     const emptyActionList = this.buildEmptyActionList(character);
-    this.actionList = await this.buildSystemActions(emptyActionList, character);
+    this.actionList = await this._buildSystemActions(emptyActionList, character);
     this._buildGenericActions(this.actionList, character);
     await this._buildCompendiumActions(this.actionList);
     await this._buildMacroActions(this.actionList);
@@ -50,8 +50,8 @@ export class ActionHandler {
   buildEmptyActionList(character) {
     let hudTitle = "";
     if (settings.get("showHudTitle")) hudTitle = character?.name ?? "Multiple";
-    const tokenId = character.token?.id;
-    const actorId = character.actor?.id;
+    const tokenId = character?.token?.id ?? "multi";
+    const actorId = character?.actor?.id ?? "multi";
     let emptyActionList = new ActionList(hudTitle, tokenId, actorId);
 
     const categories =
@@ -81,8 +81,20 @@ export class ActionHandler {
     return emptyActionList;
   }
 
+  async _buildSystemActions(emptyActionList, character) {
+    const subcategoryIds = Object.values(actionList.categories)
+      .filter((category) => category.subcategories)
+      .flatMap((category) =>
+        Object.values(category.subcategories)
+          .filter((subcategory) => subcategory.type === "system")
+          .flatMap((subcategory) => subcategory.id)
+      );
+    const actionList = emptyActionList;
+    await this.buildSystemActions(actionList, character, subcategoryIds);
+  }
+
   /** @public */
-  async buildSystemActions(actionList, character) {}
+  async buildSystemActions(actionList, character, subcategoryIds) {}
 
   /** @protected */
   _buildGenericActions(actionList, character) {
@@ -209,7 +221,7 @@ export class ActionHandler {
   }
 
   async saveActionList(actionList, character) {
-    if (!character.actor) return;
+    if (!character?.actor) return;
     const actor = character.actor;
     game.tokenActionHUD.ignoreUpdateActor = true;
     await actor.unsetFlag("token-action-hud", "categories");
@@ -263,7 +275,7 @@ export class ActionHandler {
     );
     this.furtherActionHandlers.push(handler);
   }
-  
+
   /** @public */
   initializeEmptyActionList() {
     return new ActionList();
@@ -291,21 +303,21 @@ export class ActionHandler {
     return { id: data.encodedValue, value: data.name, type: data.type };
   }
 
-  /** @protected */
-  _foundrySort(a, b) {
-    if (!(a?.sort || b?.sort)) return 0;
-    return a.sort - b.sort;
-  }
-
-  getImage(entity) {
+  getImage(entity, defaultImages = []) {
+    defaultImages.push("icons/svg/mystery-man.svg");
     let result = "";
     if (settings.get("showIcons")) result = entity.img ?? "";
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
+    return !defaultImages.includes(result) ? result : "";
   }
 
   sortItems(items) {
     let result = Object.values(items);
     result.sort((a, b) => a.sort - b.sort);
     return result;
+  }
+
+  foundrySort(a, b) {
+    if (!(a?.sort || b?.sort)) return 0;
+    return a.sort - b.sort;
   }
 }

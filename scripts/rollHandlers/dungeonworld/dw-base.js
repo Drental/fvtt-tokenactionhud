@@ -12,7 +12,7 @@ export class RollHandlerBaseDw extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
@@ -20,37 +20,37 @@ export class RollHandlerBaseDw extends RollHandler {
     let charType = actor.type;
 
     if (charType === "character") {
-      switch (macroType) {
+      switch (actionType) {
         case "damage":
-          this._handleDamage(macroType, event, actor, actionId);
+          this._handleDamage(actionType, event, actor, actionId);
           break;
         case "move":
         case "spell":
         case "equipment":
-          this._handleMove(macroType, event, tokenId, actor, actionId);
+          this._handleMove(actionType, event, tokenId, actor, actionId);
           break;
         case "ability":
-          this._handleAbility(macroType, event, actor, actionId);
+          this._handleAbility(actionType, event, actor, actionId);
           break;
       }
     } else if (charType === "npc") {
-      switch (macroType) {
+      switch (actionType) {
         case "damage":
-          this._handleDamage(macroType, event, actor, actionId);
+          this._handleDamage(actionType, event, actor, actionId);
           break;
         case "move":
-          this._handleMoveNpc(macroType, event, actor, actionId);
+          this._handleMoveNpc(actionType, event, actor, actionId);
           break;
         case "tag":
         case "quality":
         case "instinct":
-          this._handleTextNpc(macroType, event, actor, actionId);
+          this._handleTextNpc(actionType, event, actor, actionId);
           break;
       }
     }
   }
 
-  _handleDamage(macroType, event, actor, actionId) {
+  _handleDamage(actionType, event, actor, actionId) {
     let damage = actor.system.attributes.damage;
     let damageDie = `${damage.value}`;
     let damageMod = damage.misc.value > 0 ? damage.misc.value : 0;
@@ -67,7 +67,7 @@ export class RollHandlerBaseDw extends RollHandler {
     actor.rollMove(formula, actor, {}, templateData);
   }
 
-  _handleMove(macroType, event, tokenId, actor, actionId) {
+  _handleMove(actionType, event, tokenId, actor, actionId) {
     let move = actor.items.get(actionId);
 
     if (this.isRenderItem()) {
@@ -78,7 +78,7 @@ export class RollHandlerBaseDw extends RollHandler {
     move.roll();
   }
 
-  _handleAbility(macroType, event, actor, actionId) {
+  _handleAbility(actionType, event, actor, actionId) {
     let ability = actor.system.abilities[actionId];
 
     let mod = ability.mod;
@@ -94,10 +94,10 @@ export class RollHandlerBaseDw extends RollHandler {
     actor.rollMove(formula, actor, {}, templateData);
   }
 
-  _handleTextNpc(macroType, event, actor, actionId) {
+  _handleTextNpc(actionType, event, actor, actionId) {
     let action = decodeURIComponent(actionId);
 
-    let title = macroType.charAt(0).toUpperCase() + macroType.slice(1);
+    let title = actionType.charAt(0).toUpperCase() + actionType.slice(1);
     let templateData = {
       title: title,
       details: action,

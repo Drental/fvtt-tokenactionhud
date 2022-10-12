@@ -18,16 +18,16 @@ export class RollHandlerBaseLancer extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let actorID = payload[1];
     let actionId = payload[2];
     let option = JSON.parse(payload[3]);
 
     let hasSheet = ["item"];
-    if (this.isRenderItem() && hasSheet.includes(macroType))
+    if (this.isRenderItem() && hasSheet.includes(actionType))
       return this.doRenderItem(actorID, actionId);
 
-    switch (macroType) {
+    switch (actionType) {
       case "hase":
         this._rollHaseMacro(actorID, actionId);
         break;

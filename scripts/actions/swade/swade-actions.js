@@ -2,12 +2,12 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerSwade extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -48,7 +48,7 @@ export class ActionHandlerSwade extends ActionHandler {
     if (settings.get("showAttributesCategory") === false) return;
     const attr = actor.system.attributes;
     if (!attr) return;
-    const macroType = "attribute";
+    const actionType = "attribute";
 
     const subcat = this.initializeEmptySubcategory("attributes");
     Object.entries(attr).forEach((a) => {
@@ -62,7 +62,7 @@ export class ActionHandlerSwade extends ActionHandler {
         name = this.i18n(nameData.short);
       else name = this.i18n(nameData.long);
 
-      const encodedValue = [macroType, tokenId, key].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, key].join(this.delimiter);
       const action = { name: name, encodedValue: encodedValue, id: key };
 
       const mod = this._buildDieString(data.die, data["wild-die"]);
@@ -81,12 +81,12 @@ export class ActionHandlerSwade extends ActionHandler {
   _addSkills(list, tokenId, actor) {
     if (settings.get("showSkillsCategory") === false) return;
     const cat = this.initializeEmptyCategory("skills");
-    const macroType = "skill";
-    const skills = actor.items.filter((i) => i.type === macroType);
+    const actionType = "skill";
+    const skills = actor.items.filter((i) => i.type === actionType);
 
     const subcat = this.initializeEmptySubcategory("skills");
     skills.forEach((s) => {
-      const encodedValue = [macroType, tokenId, s.id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, s.id].join(this.delimiter);
       const action = { name: s.name, encodedValue: encodedValue, id: s.id };
 
       let mod = this._parseDie(s.system.die, s.system["wild-die"]);
@@ -106,8 +106,8 @@ export class ActionHandlerSwade extends ActionHandler {
     const powers = actor.items.filter((i) => i.type === "power");
     if (powers.length === 0) return;
 
-    const macroType = "powerPoints";
-    const cat = this.initializeEmptyCategory(macroType);
+    const actionType = "powerPoints";
+    const cat = this.initializeEmptyCategory(actionType);
 
     if (!settings.get("noPowerPoints")) {
       const pp = actor.system.powerPoints;
@@ -120,7 +120,7 @@ export class ActionHandlerSwade extends ActionHandler {
         tokenId,
         pp,
         this.i18n("tokenActionHud.swade.points"),
-        macroType
+        actionType
       );
     }
   
@@ -130,7 +130,7 @@ export class ActionHandlerSwade extends ActionHandler {
     Object.entries(groupedPowers).forEach((g) => {
       const key = g[0];
       const groupPowers = g[1];
-      this._addPowersSubcategory(tokenId, key, groupPowers, macroType, cat);
+      this._addPowersSubcategory(tokenId, key, groupPowers, actionType, cat);
     });
 
     this._combineCategoryWithList(list, powersName, cat);
@@ -228,26 +228,26 @@ export class ActionHandlerSwade extends ActionHandler {
   }
 
   /** @private */
-  _addCounterSubcategory(category, tokenId, countItem, name, macroType) {
+  _addCounterSubcategory(category, tokenId, countItem, name, actionType) {
     if (!countItem || (countItem.max < 1 && countItem.value < 1)) return;
 
-    const decreaseValue = [macroType, tokenId, "decrease"].join(this.delimiter);
+    const decreaseValue = [actionType, tokenId, "decrease"].join(this.delimiter);
     const decreaseAction = {
       name: "-",
       encodedValue: decreaseValue,
-      id: `${macroType}Decrease`,
+      id: `${actionType}Decrease`,
       cssClass: "shrink",
     };
 
-    const increaseValue = [macroType, tokenId, "increase"].join(this.delimiter);
+    const increaseValue = [actionType, tokenId, "increase"].join(this.delimiter);
     const increaseAction = {
       name: "+",
       encodedValue: increaseValue,
-      id: `${macroType}Increase`,
+      id: `${actionType}Increase`,
       cssClass: "shrink",
     };
 
-    const subcat = this.initializeEmptySubcategory(macroType);
+    const subcat = this.initializeEmptySubcategory(actionType);
     subcat.info1 = `${countItem.value}/${countItem.max}`;
     subcat.actions.push(decreaseAction);
     subcat.actions.push(increaseAction);
@@ -292,7 +292,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addPowersSubcategory(tokenId, subcatName, items, itemType, category) {
-    const macroType = "item";
+    const actionType = "item";
     const subcat = this.initializeEmptySubcategory(itemType);
 
     items
@@ -307,7 +307,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _addItemSubcategory(tokenId, subcatName, items, itemType, category) {
-    const macroType = "item";
+    const actionType = "item";
     const subcat = this.initializeEmptySubcategory(itemType);
 
     items
@@ -324,7 +324,7 @@ export class ActionHandlerSwade extends ActionHandler {
   _addStatuses(list, tokenId, actor) {
     if (settings.get("showStatusCategory") === false) return;
     const cat = this.initializeEmptyCategory("status");
-    const macroType = "status";
+    const actionType = "status";
     const statuses = actor.system.status;
 
     const subcat = this.initializeEmptySubcategory("status");
@@ -334,7 +334,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
       const name = key.slice(2).split(/(?=[A-Z])/).join(" ");
       const id = name.toLowerCase();
-      const encodedValue = [macroType, tokenId, id].join(this.delimiter);
+      const encodedValue = [actionType, tokenId, id].join(this.delimiter);
       const action = { name: name, id: name, encodedValue: encodedValue };
       action.cssClass = value ? "active" : "";
 
@@ -353,19 +353,19 @@ export class ActionHandlerSwade extends ActionHandler {
     if (!bennies) return;
 
     const cat = this.initializeEmptyCategory("bennies");
-    const macroType = "benny";
+    const actionType = "benny";
     const benniesName = this.i18n("tokenActionHud.swade.bennies");
 
     // Spend Bennies
     const spendName = this.i18n("tokenActionHud.swade.spend");
-    const spendValue = [macroType, tokenId, "spend"].join(this.delimiter);
+    const spendValue = [actionType, tokenId, "spend"].join(this.delimiter);
     const spendAction = {
       name: spendName,
       encodedValue: spendValue,
       id: `bennySpend`,
     };
 
-    const tokenSubcat = this.initializeEmptySubcategory(macroType);
+    const tokenSubcat = this.initializeEmptySubcategory(actionType);
     tokenSubcat.name = benniesName;
     tokenSubcat.info1 = bennies.value.toString();
     cat.info1 = bennies.value.toString();
@@ -375,7 +375,7 @@ export class ActionHandlerSwade extends ActionHandler {
     // Give Bennies
     const giveName = this.i18n("tokenActionHud.swade.give");
     if (this._checkGiveBennies(game.user.role)) {
-      const giveValue = [macroType, tokenId, "give"].join(this.delimiter);
+      const giveValue = [actionType, tokenId, "give"].join(this.delimiter);
       const giveAction = { name: giveName, encodedValue: giveValue, id: `bennyGive` };
       tokenSubcat.actions.push(giveAction);
     }
@@ -385,22 +385,22 @@ export class ActionHandlerSwade extends ActionHandler {
     if (game.user.isGM) {
       const gmBennies = game.user.getFlag("swade", "bennies") ?? 0;
       if (gmBennies !== null) {
-        const gmMacroType = "gmBenny";
-        const gmSpend = [gmMacroType, tokenId, "spend"].join(this.delimiter);
+        const gmactionType = "gmBenny";
+        const gmSpend = [gmactionType, tokenId, "spend"].join(this.delimiter);
         const gmSpendAction = {
           name: spendName,
           encodedValue: gmSpend,
           id: `gmBennySpend`,
         };
 
-        const gmGive = [gmMacroType, tokenId, "give"].join(this.delimiter);
+        const gmGive = [gmactionType, tokenId, "give"].join(this.delimiter);
         const gmGiveAction = {
           name: giveName,
           encodedValue: gmGive,
           id: `gmBennyGive`,
         };
 
-        const gmSubcat = this.initializeEmptySubcategory(gmMacroType);
+        const gmSubcat = this.initializeEmptySubcategory(gmactionType);
         gmSubcat.actions.push(gmSpendAction);
         gmSubcat.actions.push(gmGiveAction);
         const gmName = `${this.i18n("tokenActionHud.swade.gm")} ${benniesName}`;
@@ -424,14 +424,14 @@ export class ActionHandlerSwade extends ActionHandler {
   _addUtilities(list, tokenId, actor) {
     if (settings.get("showUtilityCategory") === false) return;
     let cat = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
+    let actionType = "utility";
 
     // Combat Subcategory
     let combatSubcategory = this.initializeEmptySubcategory();
 
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnValue = [actionType, tokenId, "endTurn"].join(this.delimiter);
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
@@ -482,10 +482,10 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _buildItemAction(tokenId, item) {
-    const macroType = "item";
+    const actionType = "item";
     const id = item.id;
     const name = item.name;
-    const encodedValue = [macroType, tokenId, id].join(this.delimiter);
+    const encodedValue = [actionType, tokenId, id].join(this.delimiter);
     const action = { name: name, id: id, encodedValue: encodedValue };
 
     action.info1 = this._getItemQuantity(item);
@@ -520,10 +520,10 @@ export class ActionHandlerSwade extends ActionHandler {
 
   /** @private */
   _buildPowerAction(tokenId, item) {
-    const macroType = "item";
+    const actionType = "item";
     const id = item.id;
     const name = item.name;
-    const encodedValue = [macroType, tokenId, id].join(this.delimiter);
+    const encodedValue = [actionType, tokenId, id].join(this.delimiter);
     const action = { name: name, id: id, encodedValue: encodedValue };
 
     action.info1 = this._getPowerPoints(item);

@@ -18,23 +18,23 @@ export class CompendiumMacroPreHandler extends PreRollHandler {
 
     if (payload.length < 2) return false;
 
-    let macroType = null;
+    let actionType = null;
     let key = null;
     let actionId = null;
 
     if (payload.length === 2) {
-      macroType = payload[0];
+      actionType = payload[0];
       actionId = payload[1];
     }
     if (payload.length === 3) {
-      macroType = payload[0];
+      actionType = payload[0];
       key = payload[1];
       actionId = payload[2];
     }
 
-    if (!types.includes(macroType)) return false;
+    if (!types.includes(actionType)) return false;
 
-    switch (macroType) {
+    switch (actionType) {
       case "compendiumEntry":
         this.handleCompendium(key, actionId);
         break;

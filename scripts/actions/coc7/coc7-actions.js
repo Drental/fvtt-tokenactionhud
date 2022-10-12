@@ -2,191 +2,179 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerCoC7 extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
-    let result = this.initializeEmptyActionList();
-
-    if (!token) return result;
-
-    let tokenId = token.id;
-
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    if (!['character', 'npc', 'creature'].includes(actor.type)) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
+    const actor = character?.actor;
+    const actorTypes = ["character", "npc", "creature"];
+    if (!actorTypes.includes(actor.type)) {
       return result;
     }
 
-    result.actorId = actor.id;
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "actions"))
+      this._buildActions(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
+      this._buildSkills(actionList, character);
 
-    let actions = this._getActions(actor, tokenId);
-    let skills = this._getSkills(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.actions"),
-      actions
-    );
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.skills"),
-      skills
-    );
-
-    if (settings.get("showHudTitle")) result.hudTitle = token.name;
-
-    return result;
+    return actionList;
   }
 
-  _getActions(actor, tokenId) {
-    let result = this.initializeEmptyCategory("actions");
+  _buildActions(actionList, character) {
+    const actorId = character?.actor?.id;
+    const tokenId = character?.actor?.id;
+    const actor = character?.actor;
+    const categorySubcategoryId = "characteristic";
+    const meleeSubcategoryId = "melee";
+    const rangedSubcategoryId = "ranged";
+    let categoryActions = [];
+    let meleeActions = [];
+    let rangedActions = [];
 
-    let category = this.initializeEmptySubcategory();
-    let melee = this.initializeEmptySubcategory();
-    let ranged = this.initializeEmptySubcategory();
-
-    for (let characteristicKey in actor.system.characteristics) {
-      category.actions.push({
-        name: this.i18n(actor.system.characteristics[characteristicKey].label),
-        encodedValue: ["characteristic", tokenId, characteristicKey].join(this.delimiter),
+    // Characteristics
+    for (const characteristicKey of actor.system.characteristics) {
+      const actionType = "characteristic";
+      const id = characteristicKey;
+      const name = this.i18n(
+        actor.system.characteristics[characteristicKey].label
+      );
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      categoryActions.push({
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
       });
     }
     if (actor.system.attribs.lck.value) {
-      category.actions.push({
-        name: actor.system.attribs.lck.label,
-        encodedValue: ["attribute", tokenId, 'lck'].join(this.delimiter),
+      const actionType = "attribute";
+      const id = "lck";
+      const name = actor.system.attribs.lck.label;
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      categoryActions.push({
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
       });
     }
     if (actor.system.attribs.san.value) {
-      category.actions.push({
-        name: actor.system.attribs.san.label,
-        encodedValue: ["attribute", tokenId, 'san'].join(this.delimiter),
+      const actionType = "attribute";
+      const id = "san";
+      const name = actor.system.attribs.san.label;
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      categoryActions.push({
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
       });
     }
 
-    if (category.actions.length) {
-      category.actions.sort((left, right) => {
-        return left.name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLocaleLowerCase()
-        .localeCompare(
-          right.name
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLocaleLowerCase()
-        )
-      })
+    if (categoryActions.length) {
+      categoryActions = this._sortItems(categoryActions);
+
+      this.addActionsToActionList(
+        actionList,
+        categoryActions,
+        categorySubcategoryId
+      );
     }
 
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
-      category
-    );
-
-    for (let item of actor.items) {
-      if (item.type === 'weapon') {
+    // Melee / Ranged
+    for (const item of actor.items) {
+      const actionType = "weapon";
+      if (item.type === "weapon") {
+        const id = item.id;
+        const name = item.name;
+        const encodedValue = [actionType, actorId, tokenId, id].join(
+          this.delimiter
+        );
+        const action = {
+          id: id,
+          name: name,
+          encodedValue: encodedValue,
+          selected: true,
+        };
         if (item.system.properties?.rngd) {
-          ranged.actions.push({
-            name: item.name,
-            encodedValue: ["weapon", tokenId, item.id].join(this.delimiter),
-          });
+          rangedActions.push(action);
         } else {
-          melee.actions.push({
-            name: item.name,
-            encodedValue: ["weapon", tokenId, item.id].join(this.delimiter),
-          });
+          meleeActions.push(action);
         }
       }
     }
 
-    if (melee.actions.length) {
-      melee.actions.sort((left, right) => {
-        return left.name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLocaleLowerCase()
-        .localeCompare(
-          right.name
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLocaleLowerCase()
-        )
-      })
-      this._combineSubcategoryWithCategory(
-        result,
-        this.i18n('CoC7.MeleeWeapons'),
-        melee
-      );
+    if (meleeActions.length) {
+      meleeActions = this._sortItems(meleeActions);
+
+      this.addActionsToActionList(actionList, meleeActions, meleeSubcategoryId);
     }
 
-    if (ranged.actions.length) {
-      ranged.actions.sort((left, right) => {
-        return left.name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .toLocaleLowerCase()
-        .localeCompare(
-          right.name
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLocaleLowerCase()
-        )
-      })
-      this._combineSubcategoryWithCategory(
-        result,
-        this.i18n('CoC7.RangeWeapons'),
-        ranged
+    if (rangedActions.length) {
+      rangedActions = this._sortItems(rangedActions);
+
+      this.addActionsToActionList(
+        actionList,
+        rangedActions,
+        rangedSubcategoryId
       );
     }
-
-    return result;
   }
 
-  _getSkills(actor, tokenId) {
-    let result = this.initializeEmptyCategory("skills");
+  _buildSkills(actionList, character) {
+    const actorId = character?.actor?.id;
+    const tokenId = character?.actor?.id;
+    const actor = character?.actor;
+    const actionType = "skill";
+    const subcategoryId = "skills";
 
-    let category = this.initializeEmptySubcategory();
-
-    for (let item of actor.items) {
-      if (item.type === 'skill') {
-        category.actions.push({
-          name: item.name,
-          encodedValue: ["skill", tokenId, item.name].join(this.delimiter),
-        });
+    let actions = [];
+    for (const item of actor.items) {
+      if (item.type === actionType) {
+        const id = item.id;
+        const name = item.name;
+        const encodedValue = [actionType, actorId, tokenId, item.name].join(
+          this.delimiter
+        );
+        const action = {
+          id: id,
+          name: name,
+          encodedValue: encodedValue,
+          selected: true,
+        };
+        actions.push(action);
       }
     }
 
-    if (category.actions.length) {
-      category.actions.sort((left, right) => {
-        return left.name
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
+    if (actions.length) {
+      actions = _sortItems(actions);
+
+      this.addActionsToActionList(actionList, actions, subcategoryId);
+    }
+  }
+
+  _sortItems(items) {
+    let result = Object.values(items);
+    result.sort((a, b) => {
+      return a.name
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
         .toLocaleLowerCase()
         .localeCompare(
-          right.name
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
+          b.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
             .toLocaleLowerCase()
-        )
-      })
-    }
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
-      category
-    );
-
+        );
+    });
     return result;
   }
 }

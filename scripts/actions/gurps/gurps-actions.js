@@ -3,12 +3,12 @@ import * as settings from "../../settings.js";
 import {Logger} from "../../logger.js";
 
 export class ActionHandlerGURPS extends ActionHandler {
-    constructor(filterManager, categoryManager) {
-        super(filterManager, categoryManager);
+    constructor(categoryManager) {
+        super(categoryManager);
     }
 
 
-    buildSystemActions(token, multipleTokens) {
+    buildSystemActions(actionList, character, subcategoryIds) {
       let result = this.initializeEmptyActionList();
       if (!GURPS) return result;  // If the GURPS Global is not defined, do nothing
       if (!token) return result;

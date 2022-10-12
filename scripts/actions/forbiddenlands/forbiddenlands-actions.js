@@ -2,12 +2,12 @@ import { ActionHandler } from '../actionHandler.js';
 import * as settings from '../../settings.js';
 
 export class ActionHandlerForbiddenlands extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let attributes = {};
     let skills = {};
     let weapons = {};
@@ -89,14 +89,14 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
   _getWeaponsList(actor, tokenId) {
     if (settings.get("showWeaponsCategory") === false) return;
-    let macroType = 'weapon';
+    let actionType = 'weapon';
     let result = this.initializeEmptyCategory('items');
 
     let subcategory = this.initializeEmptySubcategory();
     subcategory.actions = this._produceMap(
       tokenId,
-      actor.items.filter((i) => i.type == macroType),
-      macroType
+      actor.items.filter((i) => i.type == actionType),
+      actionType
     );
 
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.weapons'), subcategory);
@@ -106,10 +106,10 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
   _getItemsList(actor, tokenId) {
     if (settings.get("showInventoryCategory") === false) return;
-    let macroType = 'item';
+    let actionType = 'item';
     let result = this.initializeEmptyCategory('items');
     let filter = ['item', 'armor'];
-    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this.foundrySort);
 
     let armourList = items.filter((i) => i.type === 'armor');
     let armourActions = this._buildItemActions(tokenId, 'armor', armourList);
@@ -117,7 +117,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     armour.actions = armourActions;
 
     let itemList = items.filter((i) => i.type === 'item');
-    let itemActions = this._buildItemActions(tokenId, macroType, itemList);
+    let itemActions = this._buildItemActions(tokenId, actionType, itemList);
     let item = this.initializeEmptySubcategory();
     item.actions = itemActions;
 
@@ -129,13 +129,13 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
   _getTalentsList(actor, tokenId) {
     if (settings.get("showTalentsCategory") === false) return;
-    let macroType = 'item';
+    let actionType = 'item';
     let result = this.initializeEmptyCategory('items');
     let filter = ['talent'];
-    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this.foundrySort);
 
     let talentList = items.filter((i) => i.type === 'talent');
-    let talentActions = this._buildItemActions(tokenId, macroType, talentList);
+    let talentActions = this._buildItemActions(tokenId, actionType, talentList);
     let talent = this.initializeEmptySubcategory();
     talent.actions = talentActions;
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.talents'), talent);
@@ -145,13 +145,13 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
   _getSpellsList(actor, tokenId) {
     if (settings.get("showSpellsCategory") === false) return;
-    let macroType = 'item';
+    let actionType = 'item';
     let result = this.initializeEmptyCategory('items');
     let filter = ['spell'];
-    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this.foundrySort);
 
     let spellList = items.filter((i) => i.type === 'spell');
-    let spellActions = this._buildItemActions(tokenId, macroType, spellList);
+    let spellActions = this._buildItemActions(tokenId, actionType, spellList);
     let spell = this.initializeEmptySubcategory();
     spell.actions = spellActions;
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.spells'), spell);
@@ -164,24 +164,24 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let result = this.initializeEmptyCategory('consumables');
     let consumables = this.initializeEmptySubcategory();
     let powConsumables = this.initializeEmptySubcategory();
-    let macroType = 'consumables';
+    let actionType = 'consumables';
 
     let rollableConsumables = Object.entries(actor.system.consumable);
     let consumablesMap = rollableConsumables.map((c) => {
       let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
-      let encodedValue = [macroType, tokenId, id, name].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, id, name].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
     });
-    consumables.actions = this._produceMap(tokenId, consumablesMap, macroType);
+    consumables.actions = this._produceMap(tokenId, consumablesMap, actionType);
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.forbiddenLands.consumables'), consumables);
 
     return result;
   }
 
   /** @private */
-  _buildItemActions(tokenId, macroType, itemList, isPassive = false) {
-    let result = this._produceMap(tokenId, itemList, macroType, isPassive);
+  _buildItemActions(tokenId, actionType, itemList, isPassive = false) {
+    let result = this._produceMap(tokenId, itemList, actionType, isPassive);
 
     result.forEach((i) =>
       this._addItemInfo(
@@ -213,17 +213,17 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     if (settings.get("showSkillsCategory") === false) return;
     let result = this.initializeEmptyCategory('skills');
     let attributes = this.initializeEmptySubcategory();
-    let macroType = 'skill';
+    let actionType = 'skill';
     
     let rollableSkills = Object.entries(actor.system.skill);
     let skillMap = rollableSkills.map((c) => {
       let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
-      let encodedValue = [macroType, tokenId, id].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
     });
     
-    attributes.actions = this._produceMap(tokenId, skillMap, macroType);
+    attributes.actions = this._produceMap(tokenId, skillMap, actionType);
     
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.skills'), attributes);
     
@@ -234,17 +234,17 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     if (settings.get("showAttributesCategory") === false) return;
     let result = this.initializeEmptyCategory('attributes');
     let attributes = this.initializeEmptySubcategory();
-    let macroType = 'attribute';
+    let actionType = 'attribute';
 
     let rollableAttributes = Object.entries(actor.system.attribute);
     let attributesMap = rollableAttributes.map((c) => {
       let name = this.i18n('tokenActionHud.forbiddenLands.' + c[0]);
       let id = c[0];
-      let encodedValue = [macroType, tokenId, id].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
     });
 
-    attributes.actions = this._produceMap(tokenId, attributesMap, macroType);
+    attributes.actions = this._produceMap(tokenId, attributesMap, actionType);
 
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.attributes'), attributes);
 
@@ -252,13 +252,13 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
   }
 
   _getMonsterTalentsList(actor, tokenId) {
-    let macroType = 'item';
+    let actionType = 'item';
     let result = this.initializeEmptyCategory('items');
     let filter = ['monsterTalent'];
-    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this.foundrySort);
 
     let talentList = items.filter((i) => i.type === 'monsterTalent');
-    let talentActions = this._buildItemActions(tokenId, macroType, talentList);
+    let talentActions = this._buildItemActions(tokenId, actionType, talentList);
     let talent = this.initializeEmptySubcategory();
     talent.actions = talentActions;
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.talents'), talent);
@@ -268,15 +268,15 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
   _getAttacksList(actor, tokenId) {
     if (settings.get("showAttacksCategory") === false) return;
-    let macroType = 'monsterAttack';
+    let actionType = 'monsterAttack';
     let result = this.initializeEmptyCategory('attacks');
     let attacks = this.initializeEmptySubcategory();
     let filter = ['monsterAttack'];
 
-    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this._foundrySort);
+    let items = (actor.items ?? []).filter((a) => filter.includes(a.type)).sort(this.foundrySort);
 
     let attacksList = items.filter((i) => i.type === 'monsterAttack');
-    let attacksActions = this._buildItemActions(tokenId, macroType, attacksList);
+    let attacksActions = this._buildItemActions(tokenId, actionType, attacksList);
     attacks.actions = attacksActions;
 
     this._combineSubcategoryWithCategory(result, this.i18n('tokenActionHud.attacks'), attacks);
@@ -296,28 +296,28 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     if (settings.get("showConditionsCategory") === false) return;
     let result = this.initializeEmptyCategory('conditions');
     let conditions = this.initializeEmptySubcategory();
-    let macroType = 'conditions';
+    let actionType = 'conditions';
 
     if (actor.type === 'character') {
       let general = this.initializeEmptySubcategory();
       let generalActions = [];
 
-      let hungryStateValue = [macroType, tokenId, 'toggleHungry', ''].join(this.delimiter);
+      let hungryStateValue = [actionType, tokenId, 'toggleHungry', ''].join(this.delimiter);
       generalActions = { id: 'toggleHungry', encodedValue: hungryStateValue, name: this.i18n("CONDITION.HUNGRY") };
       generalActions.cssClass = actor.system.condition.hungry.value ? 'active' : '';
       general.actions.push(generalActions);
       
-      let thirstyStateValue = [macroType, tokenId, 'toggleThirsty', ''].join(this.delimiter);
+      let thirstyStateValue = [actionType, tokenId, 'toggleThirsty', ''].join(this.delimiter);
       generalActions = { id: 'toggleThirsty', encodedValue: thirstyStateValue, name: this.i18n("CONDITION.THIRSTY") };
       generalActions.cssClass = actor.system.condition.thirsty.value ? 'active' : '';
       general.actions.push(generalActions);
       
-      let coldStateValue = [macroType, tokenId, 'toggleCold', ''].join(this.delimiter);
+      let coldStateValue = [actionType, tokenId, 'toggleCold', ''].join(this.delimiter);
       generalActions = { id: 'toggleCold', encodedValue: coldStateValue, name: this.i18n("CONDITION.COLD") };
       generalActions.cssClass = actor.system.condition.cold.value ? 'active' : '';
       general.actions.push(generalActions);
       
-      let sleepyStateValue = [macroType, tokenId, 'toggleSleepy', ''].join(this.delimiter);
+      let sleepyStateValue = [actionType, tokenId, 'toggleSleepy', ''].join(this.delimiter);
       generalActions = { id: 'toggleSleepy', encodedValue: sleepyStateValue, name: this.i18n("CONDITION.SLEEPY") };
       generalActions.cssClass = actor.system.condition.sleepy.value ? 'active' : '';
       general.actions.push(generalActions);
@@ -335,11 +335,11 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
 
     // Combat Subcategory
     let combatSubcategory = this.initializeEmptySubcategory();
-    let macroType = 'utility';
+    let actionType = 'utility';
   
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [macroType, tokenId, "endTurn", ''].join(this.delimiter);
+      let endTurnValue = [actionType, tokenId, "endTurn", ''].join(this.delimiter);
       let endTurnAction = {
         id: "endTurn",
         encodedValue: endTurnValue,
@@ -383,24 +383,10 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
   _produceMap(tokenId, itemSet, type) {
     return itemSet.map((i) => {
       let encodedValue = [type, tokenId, i.id, i.name.toLowerCase()].join(this.delimiter);
-      let img = this._getImage(i);
+      let img = this.getImage(i);
       let result = { name: i.name, encodedValue: encodedValue, id: i.id, img: img };
 
       return result;
     });
-  }
-
-  _getImage(item) {
-    let result = '';
-    if (settings.get('showIcons')) result = item.img ?? '';
-
-    return !result?.includes('icons/svg/mystery-man.svg') ? result : '';
-  }
-  
-  /** @protected */
-  _foundrySort(a, b) {
-    if (!(a?.sort || b?.sort)) return 0;
-
-    return a.sort - b.sort;
   }
 }

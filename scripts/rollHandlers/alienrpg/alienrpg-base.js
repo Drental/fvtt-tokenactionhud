@@ -12,7 +12,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
     let attributename = payload[3];
@@ -22,18 +22,18 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ["item", "armor"];
-    if (renderable.includes(macroType) && this.isRenderItem())
+    if (renderable.includes(actionType) && this.isRenderItem())
       return this.doRenderItem(actorId, tokenId, actionId);
 
     if (characterId === "multi") {
-      if (macroType === "utility" && actionId.includes("toggle")) {
+      if (actionType === "utility" && actionId.includes("toggle")) {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
         canvas.tokens.controlled.forEach((t) => {
           let idToken = t.id;
           this._handleMacros(
             event,
-            macroType,
+            actionType,
             idToken,
             actionId,
             attributename
@@ -43,13 +43,13 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     } else {
       let sharedActions = ["utility"];
 
-      if (!sharedActions.includes(macroType)) {
+      if (!sharedActions.includes(actionType)) {
         switch (charType) {
           case "character":
           case "creature":
           case "synthetic":
             await this._handleUniqueActionsChar(
-              macroType,
+              actionType,
               event,
               tokenId,
               actor,
@@ -59,7 +59,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         }
       }
       let rData = [];
-      switch (macroType) {
+      switch (actionType) {
         case "attribute":
           rData = {
             roll: actor.system.attributes[actionId].value,
@@ -114,7 +114,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           }
           break;
         case "item":
-          this._rollItem(actor, tokenId, actionId, macroType);
+          this._rollItem(actor, tokenId, actionId, actionType);
           break;
         case "armor":
           rData = {
@@ -135,12 +135,12 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           break;
         case "power":
           const pTemp =
-            "ALIENRPG." + (macroType[0].toUpperCase() + macroType.substring(1));
+            "ALIENRPG." + (actionType[0].toUpperCase() + actionType.substring(1));
           const plabel =
             game.i18n.localize(pTemp) +
             " " +
             game.i18n.localize("ALIENRPG.Supply");
-          actor.consumablesCheck(actor, macroType, plabel, actionId);
+          actor.consumablesCheck(actor, actionType, plabel, actionId);
           break;
         case "conditions":
           this.performConditionMacro(event, actorId, tokenId, actionId);
@@ -155,9 +155,9 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
+  async _handleUniqueActionsChar(actionType, event, tokenId, actor, actionId) {
     let rData = 0;
-    switch (macroType) {
+    switch (actionType) {
       case "stress":
         await this._adjustAttribute(event, actor, "stress", "value", actionId);
         break;
@@ -295,10 +295,10 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
   }
 
   /** @private */
-  _rollItem(actor, tokenId, actionId, macroType) {
+  _rollItem(actor, tokenId, actionId, actionType) {
     let item = actor.items.get(actionId);
     let renderable = ["item"];
-    if (renderable.includes(macroType)) {
+    if (renderable.includes(actionType)) {
       return this.doRenderItem(actorId, tokenId, actionId);
     } else {
       console.warn("armor roll");

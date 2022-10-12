@@ -12,49 +12,49 @@ export class RollHandlerBaseCthack extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let itemId = payload[2];
 
     let actor = super.getActor(characterId);
-    switch (macroType) {
+    switch (actionType) {
       case "save":
-        this._handleSaves(macroType, event, actor, itemId);
+        this._handleSaves(actionType, event, actor, itemId);
         break;
       case "resource":
-        this._handleResources(macroType, event, actor, itemId);
+        this._handleResources(actionType, event, actor, itemId);
         break;
       case "damage":
-        this._handleDamages(macroType, event, actor, itemId);
+        this._handleDamages(actionType, event, actor, itemId);
         break;
       case "weapon":
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleWeapon(macroType, event, actor, itemId);
+        else this._handleWeapon(actionType, event, actor, itemId);
         break;
       case "item":
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleItem(macroType, event, actor, itemId);
+        else this._handleItem(actionType, event, actor, itemId);
         break;
       case "ability":
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleAbility(macroType, event, actor, itemId);
+        else this._handleAbility(actionType, event, actor, itemId);
         break;
     }
   }
 
-  _handleSaves(macroType, event, actor, actionId) {
+  _handleSaves(actionType, event, actor, actionId) {
     actor.rollSave(actionId);
   }
 
-  _handleResources(macroType, event, actor, actionId) {
+  _handleResources(actionType, event, actor, actionId) {
     actor.rollResource(actionId);
   }
 
-  _handleDamages(macroType, event, actor, actionId) {
+  _handleDamages(actionType, event, actor, actionId) {
     actor.rollDamageRoll(actionId);
   }
 
-  _handleWeapon(macroType, event, actor, actionId) {
+  _handleWeapon(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);
 
     // Material Roll
@@ -81,12 +81,12 @@ export class RollHandlerBaseCthack extends RollHandler {
 
   }
 
-  _handleItem(macroType, event, actor, actionId) {
+  _handleItem(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);
     actor.rollMaterial(item);
   }
 
-  _handleAbility(macroType, event, actor, actionId) {
+  _handleAbility(actionType, event, actor, actionId) {
     let ability = actor.items.get(actionId);
 
     if (ability.system.uses.value > 0) actor.useAbility(ability);

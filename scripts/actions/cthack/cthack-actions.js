@@ -2,214 +2,166 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerCthack extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
-    let result = this.initializeEmptyActionList();
+  async buildSystemActions(actionList, character, subcategoryIds) {
+    const actor = character?.actor;
+    if (actor.type !== "character") return;
 
-    if (!token) return result;
-
-    let tokenId = token.id;
-
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    let actorType = actor.type;
-    if (actorType != "character") return result;
-
-    result.actorId = actor.id;
-
-    let saves = this._getSaves(actor, tokenId);
-    let attributes = this._getAttributes(actor, tokenId);
-    let items = this._getItemList(actor, tokenId);
-    let abilities = this._getAbilities(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.saves"),
-      saves
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.attributes"),
-      attributes
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.equipment"),
-      items
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.features"),
-      abilities
+    const inventorySubcategoryIds = subcategoryIds.filter(
+      (subcategoryId) =>
+        subcategoryId === "weapons" || subcategoryId === "equipment"
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.name;
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "saves"))
+      this._buildSaves(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "attributes"))
+      this._buildAttributes(actionList, character);
+    if (inventorySubcategoryIds)
+      this._buildInventory(actionList, character, inventorySubcategoryIds);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "abilities"))
+      this._buildAbilities(actionList, character);
 
-    return result;
+    return actionList;
   }
 
   /** @private */
-  _getSaves(actor, tokenId) {
-    let result = this.initializeEmptyCategory("saves");
-    let attributesCategory = this.initializeEmptySubcategory();
+  _buildSaves(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const actionType = "save";
+    const subcategoryId = "saves";
 
-    let saves = Object.entries(actor.system.saves);
-
-    attributesCategory.actions = saves.map((c) => {
-      const saveId = c[0];
-      const name = game.cthack.config.saves[saveId];
-      const macroType = "save";
-      let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
-      return { name: name, encodedValue: encodedValue, id: c[0] };
+    const saves = Object.entries(actor.system.saves);
+    const actions = saves.map((save) => {
+      const id = save[0];
+      const name = game.cthack.config.saves[id];
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      return { id: id, name: name, encodedValue: encodedValue, selected: true };
     });
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.saves"),
-      attributesCategory
-    );
-    return result;
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
-  _getAttributes(actor, tokenId) {
-    let result = this.initializeEmptyCategory("attributes");
-    let attributesCategory = this.initializeEmptySubcategory();
-    let attributes = actor.getAvailableAttributes();
+  _buildAttributes(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const subcategoryId = "attributes";
 
-    attributesCategory.actions = attributes.map((c) => {
-      const attributeId = c[0];
+    const actions = attributes.map((attribute) => {
+      const id = attribute[0];
 
-      // The name depends of the settings
       let name;
       if (
-        attributeId === "miscellaneous" &&
+        id === "miscellaneous" &&
         game.settings.get("cthack", "MiscellaneousResource") !== ""
       ) {
         name = game.settings.get("cthack", "MiscellaneousResource");
-      } else name = game.cthack.config.attributes[attributeId];
-
-      let macroType = "resource";
-
-      if (attributeId === "armedDamage" || attributeId === "unarmedDamage") {
-        macroType = "damage";
+      } else {
+        name = game.cthack.config.attributes[id];
       }
-      let encodedValue = [macroType, tokenId, c[0]].join(this.delimiter);
-      return { name: name, encodedValue: encodedValue, id: c[0] };
+
+      let actionType = "resource";
+      if (id === "armedDamage" || id === "unarmedDamage") {
+        actionType = "damage";
+      }
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      return { id: id, name: name, encodedValue: encodedValue, selected: true };
     });
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.attributes"),
-      attributesCategory
-    );
-    return result;
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
-  _getItemList(actor, tokenId) {
-    let weapons = actor.items.filter((item) => item.type === "weapon");
-    let weaponActions = weapons.map((w) =>
-      this._buildEquipmentItem(tokenId, actor, "weapon", w)
-    );
-    let weaponsCat = this.initializeEmptySubcategory();
-    weaponsCat.actions = weaponActions;
+  _buildInventory(actionList, character, inventorySubcategoryIds) {
+    const actor = character.actor;
 
-    let equipment = actor.items.filter((item) => item.type === "item");
-    let equipmentActions = equipment.map((e) =>
-      this._buildEquipmentItem(tokenId, actor, "item", e)
-    );
-    let equipmentCat = this.initializeEmptySubcategory();
-    equipmentCat.actions = equipmentActions;
+    // Weapons
+    if (
+      inventorySubcategoryIds.some(
+        (subcategoryId) => subcategoryId === "weapons"
+      )
+    ) {
+      const weapons = actor.items.filter((item) => item.type === "weapon");
+      this._buildItems(actionList, character, weapons, "weapons");
+    }
 
-    let weaponsTitle = this.i18n("tokenActionHud.weapons");
-    let equipmentTitle = this.i18n("tokenActionHud.equipment");
-
-    let result = this.initializeEmptyCategory("inventory");
-
-    this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
-    this._combineSubcategoryWithCategory(result, equipmentTitle, equipmentCat);
-
-    return result;
+    // Equipment
+    if (
+      inventorySubcategoryIds.some(
+        (subcategoryId) => subcategoryId === "equipment"
+      )
+    ) {
+      const equipment = actor.items.filter((item) => item.type === "item");
+      this._buildItems(actionList, character, equipment, "items");
+    }
   }
 
   /** @private */
-  _getAbilities(actor, tokenId) {
-    let abilities = actor.items.filter((item) => item.type === "ability");
-    let abilitiesActions = abilities.map((w) =>
-      this._buildEquipmentItem(tokenId, actor, "ability", w)
+  _buildAbilities(actionList, character) {
+    const actor = character?.actor;
+    const actionType = "ability";
+    const subcategoryId = "abilities";
+
+    const abilities = actor.items.filter((item) => item.type === "ability");
+    const actions = abilities.map((ability) =>
+      this._getAction(character, actionType, ability)
     );
-    let abilitiesCat = this.initializeEmptySubcategory();
-    abilitiesCat.actions = abilitiesActions;
-
-    let abilitiesTitle = this.i18n("tokenActionHud.features");
-
-    let result = this.initializeEmptyCategory("inventory");
-
-    this._combineSubcategoryWithCategory(result, abilitiesTitle, abilitiesCat);
-
-    return result;
+    
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, macroType) {
-    return itemSet
-      .filter((i) => !!i)
-      .map((i) => {
-        let encodedValue = [macroType, tokenId, i._id].join(
-          this.delimiter
-        );
-        let item = { name: i.name, encodedValue: encodedValue, id: i._id };
-        return item;
-      });
+  _buildItems(actionList, character, items, subcategoryId) {
+    const actionType = "item";
+    const actions = items.map((item) =>
+      this._getAction(character, actionType, item)
+    );
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
-  _buildEquipmentItem(tokenId, actor, macroType, item) {
-    let action = this._buildItem(tokenId, actor, macroType, item);
+  _getAction(character, actionType, entity) {
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actor = character?.actor;
+    const id = entity.id;
+    const name = entity.name;
+    const encodedValue = [actionType, actorId, tokenId, id].join(
+      this.delimiter
+    );
+    const img = this.getImage(entity);
+    const icon = this._getIcon(entity);
+
+    let action = {
+      id: id,
+      name: name,
+      encodedValue: encodedValue,
+      img: img,
+      icon: icon,
+      selected: true,
+    };
+
     return action;
   }
 
   /** @private */
-  _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
-    let img = this._getImage(item);
-    let icon = this._getIcon(item);
-
-    let result = {
-      name: item.name,
-      id: item.id,
-      encodedValue: encodedValue,
-      img: img,
-      icon: icon
-    };
-
-    return result;
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
-  }
-
- /** @private */
   _getIcon(item) {
     // Capacity activable
     if (item.type === "ability" && item.system.uses?.per !== "Permanent") {
       if (item.system.uses.value > 0) {
         return '<i class="fas fa-check"></i>';
-      }
-      else return '<i class="fas fa-times"></i>';      
-    }    
+      } else return '<i class="fas fa-times"></i>';
+    }
     return "";
-  } 
-
+  }
 }

@@ -6,7 +6,7 @@ export class ExampleActionHandler extends ActionHandler {
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -34,14 +34,14 @@ export class ExampleActionHandler extends ActionHandler {
 
   _buildInventoryCategory(actor, tokenId) {
     let result = this.initializeEmptyCategory("inventory"); // string given is an ID not a title.
-    let macroType = "item";
+    let actionType = "item";
 
     let items = actor.items;
 
     let weapons = items.filter(
       (i) => i.type === "weapons" && i.system.equipped
     );
-    let weaponsActions = this._produceMap(tokenId, weapons, macroType);
+    let weaponsActions = this._produceMap(tokenId, weapons, actionType);
     let weaponsSubcategory = this.initializeEmptySubcategory();
     weaponsSubcategory.actions = weaponsActions;
     this._combineSubcategoryWithCategory(result, "weapons", weaponsSubcategory);
@@ -49,13 +49,13 @@ export class ExampleActionHandler extends ActionHandler {
     let armor = items.filter(
       (i) => i.type === "armor" && i.system.equipped
     );
-    let armorActions = this._produceMap(tokenId, armor, macroType);
+    let armorActions = this._produceMap(tokenId, armor, actionType);
     let armorSubcategory = this.initializeEmptySubcategory();
     armorSubcategory.actions = armorActions;
     this._combineSubcategoryWithCategory(result, "armor", armorSubcategory);
 
     let consumables = items.filter((i) => i.type === "consumables");
-    let consumablesActions = this._produceMap(tokenId, consumables, macroType);
+    let consumablesActions = this._produceMap(tokenId, consumables, actionType);
     let consumablesSubcategory = this.initializeEmptySubcategory();
     consumablesSubcategory.actions = consumablesActions;
     this._combineSubcategoryWithCategory(
@@ -68,11 +68,11 @@ export class ExampleActionHandler extends ActionHandler {
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, macroType) {
+  _produceMap(tokenId, itemSet, actionType) {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
+        let encodedValue = [actionType, tokenId, i.id].join(this.delimiter);
         return { name: i.name, encodedValue: encodedValue, id: i.id };
       });
   }

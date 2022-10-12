@@ -2,12 +2,12 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerD35E extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  buildSystemActions(token, multipleTokens) {
+  buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
@@ -67,7 +67,7 @@ export class ActionHandlerD35E extends ActionHandler {
       "abilityCheck"
     );
 
-    this._addMultiUtilities(list, tokenId, actors);
+    this._addMultiTokenUtilities(list, tokenId, actors);
   }
 
   _addAttacksList(result, actor, tokenId) {
@@ -140,7 +140,7 @@ export class ActionHandlerD35E extends ActionHandler {
   _getAttacksList(actor, tokenId) {
     let validAttacks = actor.items.filter((i) => i.type === "attack");
     let sortedAttacks = this.sortItems(validAttacks);
-    let macroType = "attack";
+    let actionType = "attack";
 
     let result = this.initializeEmptyCategory("attacks");
 
@@ -157,7 +157,7 @@ export class ActionHandlerD35E extends ActionHandler {
     );
 
     let weaponActions = sortedAttacks.map((w) =>
-      this._buildItem(tokenId, actor, macroType, w)
+      this._buildItem(tokenId, actor, actionType, w)
     );
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
@@ -170,7 +170,7 @@ export class ActionHandlerD35E extends ActionHandler {
     );
     let sortedFullAttacks = this.sortItems(validFullAttacks);
     let fullAttackActions = sortedFullAttacks.map((w) =>
-      this._buildItem(tokenId, actor, macroType, w)
+      this._buildItem(tokenId, actor, actionType, w)
     );
     let attackCat = this.initializeEmptySubcategory();
     attackCat.actions = fullAttackActions;
@@ -185,10 +185,10 @@ export class ActionHandlerD35E extends ActionHandler {
   _getBuffsList(actor, tokenId) {
     let validBuff = actor.items.filter((i) => i.type === "buff");
     let sortedBuffs = this.sortItems(validBuff);
-    let macroType = "buff";
+    let actionType = "buff";
 
     let buffActions = sortedBuffs.map((w) => {
-      var action = this._buildItem(tokenId, actor, macroType, w);
+      var action = this._buildItem(tokenId, actor, actionType, w);
       action.cssClass = w.system.active ? "active" : "";
       return action;
     });
@@ -208,7 +208,7 @@ export class ActionHandlerD35E extends ActionHandler {
   _getItemList(actor, tokenId) {
     let validItems = actor.items.filter((i) => i.system.quantity > 0);
     let sortedItems = this.sortItems(validItems);
-    let macroType = "item";
+    let actionType = "item";
 
     let equipped = sortedItems.filter(
       (i) => i.type !== "consumable" && i.system.equipped
@@ -216,14 +216,14 @@ export class ActionHandlerD35E extends ActionHandler {
 
     let weapons = equipped.filter((i) => i.type == "weapon");
     let weaponActions = weapons.map((w) =>
-      this._buildItem(tokenId, actor, macroType, w)
+      this._buildItem(tokenId, actor, actionType, w)
     );
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
 
     let equipment = equipped.filter((i) => i.type == "equipment");
     let equipmentActions = equipment.map((e) =>
-      this._buildItem(tokenId, actor, macroType, e)
+      this._buildItem(tokenId, actor, actionType, e)
     );
     let equipmentCat = this.initializeEmptySubcategory();
     equipmentCat.actions = equipmentActions;
@@ -232,7 +232,7 @@ export class ActionHandlerD35E extends ActionHandler {
       (i) => i.type != "weapon" && i.type != "equipment"
     );
     let otherActions = other.map((o) =>
-      this._buildItem(tokenId, actor, macroType, o)
+      this._buildItem(tokenId, actor, actionType, o)
     );
     let otherCat = this.initializeEmptySubcategory();
     otherCat.actions = otherActions;
@@ -246,7 +246,7 @@ export class ActionHandlerD35E extends ActionHandler {
         (c.system.uses?.max && c.system.uses?.max >= 0)
     );
     let consumableActions = consumable.map((c) =>
-      this._buildItem(tokenId, actor, macroType, c)
+      this._buildItem(tokenId, actor, actionType, c)
     );
     let consumablesCat = this.initializeEmptySubcategory();
     consumablesCat.actions = consumableActions;
@@ -257,14 +257,14 @@ export class ActionHandlerD35E extends ActionHandler {
         c.system.consumableType != "ammo"
     );
     let incomsumableActions = inconsumable.map((i) =>
-      this._buildItem(tokenId, actor, macroType, i)
+      this._buildItem(tokenId, actor, actionType, i)
     );
     let inconsumablesCat = this.initializeEmptySubcategory();
     inconsumablesCat.actions = incomsumableActions;
 
     let tools = validItems.filter((t) => t.type === "tool");
     let toolsActions = tools.map((i) =>
-      this._buildItem(tokenId, actor, macroType, i)
+      this._buildItem(tokenId, actor, actionType, i)
     );
     let toolsCat = this.initializeEmptySubcategory();
     toolsCat.actions = toolsActions;
@@ -310,7 +310,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
   /** @private */
   _categoriseSpells(actor, tokenId, spells) {
-    const macroType = "spell";
+    const actionType = "spell";
     let result = this.initializeEmptySubcategory("spells");
     let concentrationSubcategory =
       this.initializeEmptySubcategory("concentration");
@@ -376,14 +376,14 @@ export class ActionHandlerD35E extends ActionHandler {
           let name = spell.name;
           name = name.charAt(0).toUpperCase() + name.slice(1);
           let id = spell.id;
-          let encodedValue = [macroType, tokenId, id].join(this.delimiter);
+          let encodedValue = [actionType, tokenId, id].join(this.delimiter);
           var action = {
             name: name,
             id: id,
             encodedValue: encodedValue,
             info2: "",
           };
-          action.img = this._getImage(spell);
+          action.img = this.getImage(spell);
           this._addSpellInfo(spell, isSpontaneous, action);
 
           category.actions.push(action);
@@ -473,9 +473,9 @@ export class ActionHandlerD35E extends ActionHandler {
     let dispose = feats.reduce(
       function (dispose, f) {
         const activationType = f.system.activation.type;
-        const macroType = "feat";
+        const actionType = "feat";
 
-        let feat = this._buildItem(tokenId, actor, macroType, f);
+        let feat = this._buildItem(tokenId, actor, actionType, f);
 
         if (
           !activationType ||
@@ -509,7 +509,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getSkillsList(skills, tokenId) {
     let result = this.initializeEmptyCategory("skills");
-    let macroType = "skill";
+    let actionType = "skill";
 
     let abbr = settings.get("abbreviateSkills");
 
@@ -542,7 +542,7 @@ export class ActionHandlerD35E extends ActionHandler {
         id = `${data.mainSkill}.subSkills.${id}`;
       }
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, id].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, id].join(this.delimiter);
       let info1 = this._getSkillRankInfo(data.rank);
       let info2 = [data.rt ? "RT" : "", data.acp ? "ACP" : ""]
         .filter((a) => a !== "")
@@ -581,14 +581,14 @@ export class ActionHandlerD35E extends ActionHandler {
 
   _addMultiSkills(list, tokenId) {
     let result = this.initializeEmptyCategory("skills");
-    let macroType = "skill";
+    let actionType = "skill";
 
     let abbr = settings.get("abbreviateSkills");
 
     let skillsActions = Object.entries(CONFIG.D35E.skills).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let skillsCategory = this.initializeEmptySubcategory();
@@ -600,7 +600,7 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   /** @private */
-  _getAbilityList(tokenId, abilities, categoryId, categoryName, macroType) {
+  _getAbilityList(tokenId, abilities, categoryId, categoryName, actionType) {
     let result = this.initializeEmptyCategory(categoryId);
 
     let abbr = settings.get("abbreviateSkills");
@@ -610,7 +610,7 @@ export class ActionHandlerD35E extends ActionHandler {
 
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
       let icon;
       if (categoryId === "checks") icon = "";
       else icon = this._getProficiencyIcon(abilities[e[0]].proficient);
@@ -626,7 +626,7 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   /** @private */
-  _getSavesList(tokenId, actor, categoryId, categoryName, macroType) {
+  _getSavesList(tokenId, actor, categoryId, categoryName, actionType) {
     let result = this.initializeEmptyCategory(categoryId);
 
     let abbr = settings.get("abbreviateSkills");
@@ -634,7 +634,7 @@ export class ActionHandlerD35E extends ActionHandler {
     let actions = Object.entries(CONFIG.D35E.savingThrows).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
 
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
@@ -662,7 +662,7 @@ export class ActionHandlerD35E extends ActionHandler {
     return result;
   }
 
-  _addMultiAbilities(list, tokenId, categoryId, categoryName, macroType) {
+  _addMultiAbilities(list, tokenId, categoryId, categoryName, actionType) {
     let cat = this.initializeEmptyCategory(categoryId);
 
     let abbr = settings.get("abbreviateSkills");
@@ -670,7 +670,7 @@ export class ActionHandlerD35E extends ActionHandler {
     let actions = Object.entries(CONFIG.D35E.abilities).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
 
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
@@ -681,7 +681,7 @@ export class ActionHandlerD35E extends ActionHandler {
     this._combineCategoryWithList(list, categoryName, cat, true);
   }
 
-  _addMultiSaves(list, tokenId, categoryId, categoryName, macroType) {
+  _addMultiSaves(list, tokenId, categoryId, categoryName, actionType) {
     let cat = this.initializeEmptyCategory(categoryId);
     let savesCategory = this.initializeEmptySubcategory();
 
@@ -690,7 +690,7 @@ export class ActionHandlerD35E extends ActionHandler {
     let actions = Object.entries(CONFIG.D35E.savingThrows).map((e) => {
       let name = abbr ? e[0] : e[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
 
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
@@ -704,12 +704,12 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getUtilityList(actor, tokenId) {
     let result = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
+    let actionType = "utility";
 
     let rests = this.initializeEmptySubcategory();
 
     if (actor.type === "character") {
-      let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
+      let longRestValue = [actionType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
         encodedValue: longRestValue,
@@ -727,14 +727,14 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   /** @private */
-  _addMultiUtilities(list, tokenId, actors) {
+  _addMultiTokenUtilities(list, tokenId, actors) {
     let category = this.initializeEmptyCategory("utility");
-    let macroType = "utility";
+    let actionType = "utility";
 
     let rests = this.initializeEmptySubcategory();
 
     if (actors.every((a) => a.type === "character")) {
-      let longRestValue = [macroType, tokenId, "rest"].join(this.delimiter);
+      let longRestValue = [actionType, tokenId, "rest"].join(this.delimiter);
       rests.actions.push({
         id: "rest",
         encodedValue: longRestValue,
@@ -750,9 +750,9 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   /** @private */
-  _buildItem(tokenId, actor, macroType, item) {
-    let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
-    let img = this._getImage(item);
+  _buildItem(tokenId, actor, actionType, item) {
+    let encodedValue = [actionType, tokenId, item.id].join(this.delimiter);
+    let img = this.getImage(item);
     let icon = this._getActionIcon(item.data?.activation?.type);
     let name = this._getItemName(item);
     let result = {
@@ -790,13 +790,6 @@ export class ActionHandlerD35E extends ActionHandler {
     if (!name) name = item.name;
 
     return name;
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
   }
 
   /** @private */

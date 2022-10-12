@@ -14,13 +14,13 @@ export class RollHandlerBaseCoC7 extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
     let actor = super.getActor(characterId);
 
-    switch (macroType) {
+    switch (actionType) {
       case 'characteristic':
         actor.characteristicCheck(actionId, event.shiftKey);
         break;

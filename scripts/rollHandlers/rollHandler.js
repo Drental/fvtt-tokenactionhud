@@ -100,10 +100,10 @@ export class RollHandler {
   _isMultiGenericAction(encodedValue) {
     let payload = encodedValue.split("|");
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let actionId = payload[2];
 
-    return macroType === "utility" && actionId.includes("toggle");
+    return actionType === "utility" && actionId.includes("toggle");
   }
 
   /** @private */

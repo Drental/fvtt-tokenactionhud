@@ -12,36 +12,36 @@ export class RollHandlerBaseCo extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let itemId = payload[2];
 
     let actor = super.getActor(characterId);
-    switch (macroType) {
+    switch (actionType) {
       case "stat":
-        this._handleStats(macroType, event, actor, itemId);
+        this._handleStats(actionType, event, actor, itemId);
         break;
       case "skill":
-        this._handleSkills(macroType, event, actor, itemId);
+        this._handleSkills(actionType, event, actor, itemId);
         break;
       case "weapon":
-        this._handleWeapon(macroType, event, actor, itemId);
+        this._handleWeapon(actionType, event, actor, itemId);
         break;
       case "spell":
-        this._handleSpell(macroType, event, actor, itemId);
+        this._handleSpell(actionType, event, actor, itemId);
         break;        
       case "item":
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleItem(macroType, event, actor, itemId);
+        else this._handleItem(actionType, event, actor, itemId);
         break;
       case "capacity":
         if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleCapacity(macroType, event, actor, itemId);
+        else this._handleCapacity(actionType, event, actor, itemId);
         break;
     }
   }
 
-  _handleStats(macroType, event, actor, actionId) {
+  _handleStats(actionType, event, actor, actionId) {
     // Roll without dialog
     if (this.isRightClick(event)) {
       actor.rollStat(actionId, {dialog : false});
@@ -49,7 +49,7 @@ export class RollHandlerBaseCo extends RollHandler {
     else actor.rollStat(actionId);
   }
 
-  _handleSkills(macroType, event, actor, actionId) {
+  _handleSkills(actionType, event, actor, actionId) {
     // Roll without dialog
     if (this.isRightClick(event)) {
       actor.rollStat(actionId, {dialog : false});
@@ -57,7 +57,7 @@ export class RollHandlerBaseCo extends RollHandler {
     else actor.rollStat(actionId);
   }
 
-  _handleWeapon(macroType, event, actor, actionId) {
+  _handleWeapon(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);
     // Only Dommage
     if (this.isShift(event)) {
@@ -66,7 +66,7 @@ export class RollHandlerBaseCo extends RollHandler {
     else actor.rollWeapon(item);
   }
 
-  _handleSpell(macroType, event, actor, actionId) {
+  _handleSpell(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);
 
     // Consumable spell
@@ -81,7 +81,7 @@ export class RollHandlerBaseCo extends RollHandler {
 
   }
 
-  _handleItem(macroType, event, actor, actionId) {
+  _handleItem(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);  
 
     // Equipable item
@@ -92,7 +92,7 @@ export class RollHandlerBaseCo extends RollHandler {
     
   }
 
-  _handleCapacity(macroType, event, actor, actionId) {
+  _handleCapacity(actionType, event, actor, actionId) {
     let item = actor.items.get(actionId);  
 
     actor.activateCapacity(item);

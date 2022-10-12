@@ -14,11 +14,11 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
 
     if (payload.length != 3) return false;
 
-    let macroType = payload[0];
+    let actionType = payload[0];
     let characterId = payload[1];
     let actionId = payload[2];
 
-    if (macroType != "itemMacro") return false;
+    if (actionType != "itemMacro") return false;
 
     if (this.isRenderItem()) {
       this.doRenderItem(actorId, tokenId, actionId);

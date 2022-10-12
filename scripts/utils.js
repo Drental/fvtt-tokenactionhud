@@ -34,9 +34,6 @@ export function getSubcategoriesById(subcategories, id) {
   if (!subcategories) return;
   const result = [];
   for (const subcategory of subcategories) {
-    console.log(id);
-    console.log(subcategories);
-    console.log(subcategory);
     if (subcategory.subcategories?.length > 0) {
       result.push(getSubcategoriesById(subcategory.subcategories, id).flat());
     }

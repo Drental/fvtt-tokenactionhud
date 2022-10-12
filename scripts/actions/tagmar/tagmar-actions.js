@@ -1,12 +1,12 @@
 import { ActionHandler } from "../actionHandler.js";
 
 export class TagmarActionHandler extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -37,7 +37,7 @@ export class TagmarActionHandler extends ActionHandler {
   _buildTestesCategory(actor, tokenId) {
     let result = this.initializeEmptyCategory("testes");
     result.name = "Testes";
-    let macroType = "att";
+    let actionType = "att";
 
     let testes = [
       { name: "Intelecto", id: "INT" },
@@ -54,7 +54,7 @@ export class TagmarActionHandler extends ActionHandler {
       { name: "R. Magía", id: "Magía" },
     ];
 
-    let testesAction = this._produceMap(tokenId, testes, macroType);
+    let testesAction = this._produceMap(tokenId, testes, actionType);
     let testesSubCategory = this.initializeEmptySubcategory();
     testesSubCategory.actions = testesAction;
     this._combineSubcategoryWithCategory(
@@ -90,7 +90,7 @@ export class TagmarActionHandler extends ActionHandler {
     let result = this.initializeEmptyCategory("habilidades");
 
     result.name = "Habilidades";
-    let macroType = "item";
+    let actionType = "item";
 
     let items = actor.items;
 
@@ -98,7 +98,7 @@ export class TagmarActionHandler extends ActionHandler {
     habilidades.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
-    let habActions = this._produceMap(tokenId, habilidades, macroType);
+    let habActions = this._produceMap(tokenId, habilidades, actionType);
     let habSubcategory = this.initializeEmptySubcategory();
     habSubcategory.actions = habActions;
     this._combineSubcategoryWithCategory(result, "Habilidades", habSubcategory);
@@ -110,7 +110,7 @@ export class TagmarActionHandler extends ActionHandler {
     let result = this.initializeEmptyCategory("combate"); // string given is an ID not a title.
 
     result.name = "Combate";
-    let macroType = "item";
+    let actionType = "item";
 
     let items = actor.items;
 
@@ -118,7 +118,7 @@ export class TagmarActionHandler extends ActionHandler {
     weapons.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
-    let weaponsActions = this._produceMap(tokenId, weapons, macroType);
+    let weaponsActions = this._produceMap(tokenId, weapons, actionType);
     let weaponsSubcategory = this.initializeEmptySubcategory();
     weaponsSubcategory.actions = weaponsActions;
     this._combineSubcategoryWithCategory(result, "Ataques", weaponsSubcategory);
@@ -127,7 +127,7 @@ export class TagmarActionHandler extends ActionHandler {
     tecnicas.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
-    let tecnicasActions = this._produceMap(tokenId, tecnicas, macroType);
+    let tecnicasActions = this._produceMap(tokenId, tecnicas, actionType);
     let tecnicasSubCategory = this.initializeEmptySubcategory();
     tecnicasSubCategory.actions = tecnicasActions;
     this._combineSubcategoryWithCategory(
@@ -140,11 +140,11 @@ export class TagmarActionHandler extends ActionHandler {
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, macroType) {
+  _produceMap(tokenId, itemSet, actionType) {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
+        let encodedValue = [actionType, tokenId, i.id].join(this.delimiter);
         return { name: i.name, encodedValue: encodedValue, id: i.id };
       });
   }

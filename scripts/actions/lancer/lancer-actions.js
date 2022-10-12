@@ -2,12 +2,12 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerLancer extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -68,11 +68,11 @@ export class ActionHandlerLancer extends ActionHandler {
     return result;
   }
 
-  _makeAction(actionName, macroType, actorId, actionId, option) {
+  _makeAction(actionName, actionType, actorId, actionId, option) {
     let action = this.initializeEmptyAction();
     action.name = actionName;
     action.encodedValue = [
-      macroType,
+      actionType,
       actorId,
       actionId,
       JSON.stringify(option ? option : {}),

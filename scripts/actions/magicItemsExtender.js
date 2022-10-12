@@ -51,7 +51,7 @@ export class MagicItemActionListExtender extends ActionListExtender {
             tokenId,
             `${action.id}>${effect.id}`,
           ].join("|");
-          let img = this._getImage(effect);
+          let img = this.getImage(effect);
           let magicItemAction = {
             name: effect.name,
             id: effect.id,
@@ -82,13 +82,6 @@ export class MagicItemActionListExtender extends ActionListExtender {
       magicItemsCategory,
       false
     );
-  }
-
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-
-    return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
   }
 
   _isItemEquipped(magicItem) {

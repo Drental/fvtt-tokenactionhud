@@ -1,102 +1,81 @@
 import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
+const systemDefaultImages = ["systems/cleenmain/assets/image/default.png"];
+
 export class ActionHandlerCleenmain extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
-    let result = this.initializeEmptyActionList();
-
-    if (!token) return result;
-
-    let tokenId = token.id;
-
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    result.actorId = actor.id;
-
-    let actorType = actor.type;
-
-    let weapons = this._getWeapons(actor, tokenId);
-    let skills = this._getSkills(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.skills"),
-      skills
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.weapons"),
-      weapons
-    );
-
-    if (settings.get("showHudTitle")) result.hudTitle = token.name;
+  async buildSystemActions(actionList, character, subcategoryIds) {
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "weapons"))
+      this._buildWeapons(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
+      this._buildSkills(actor, tokenId);
 
     return result;
   }
 
-  _getSkills(actor, tokenId) {
-    let filteredItems = actor.items.filter(item => item.type == "skill").sort(function (a, b) {return a.name.localeCompare(b.name);});
-    let result = this.initializeEmptyCategory("actorSkills");
-    let skillsCategory = this.initializeEmptySubcategory();
-    skillsCategory.actions = this._produceMap(
-      tokenId,
-      filteredItems,
-      "skill"
+  _buildWeapons(actionList, character) {
+    const actor = character?.actor;
+    const actionType = "weapon";
+    const subcategoryId = "actorWeapons";
+    const weapons = actor.items.filter((item) => item.type === actionType);
+
+    this._buildActions(
+      actionList,
+      character,
+      weapons,
+      actionType,
+      subcategoryId
     );
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.roll"),
-      skillsCategory
-    );
-    return result;
   }
 
-  _getWeapons(actor, tokenId) {
-    let filteredItems = actor.items.filter((item) => item.type === "weapon");
-    let result = this.initializeEmptyCategory("actorWeapons");
-    let weaponsCategory = this.initializeEmptySubcategory();
-    weaponsCategory.actions = this._produceMap(
-      tokenId,
-      filteredItems,
-      "weapon"
-    );
+  _buildSkills(actionList, character) {
+    const actor = character?.actor;
+    const actionType = "skill";
+    const subcategoryId = "actorSkills";
+    const skills = actor.items
+      .filter((item) => item.type == actionType)
+      .sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
 
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.roll"),
-      weaponsCategory
+    sthis._buildActions(
+      actionList,
+      character,
+      weapons,
+      actionType,
+      subcategoryId
     );
-    return result;
   }
 
-  _produceMap(tokenId, itemSet, type) {
-    return itemSet.map((i) => {
-      let encodedValue = [type, tokenId, i.id].join(this.delimiter);
-      let img = this._getImage(i);
-      let result = {
-        name: i.name,
+  _buildActions(actionList, character, entities, actionType, subcategoryId) {
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+
+    let actions = [];
+
+    entities.forEach((entity) => {
+      const id = entity.id;
+      const name = entity.name;
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      const img = this.getImage(entity, systemDefaultImages);
+      const action = {
+        id: id,
+        name: name,
         encodedValue: encodedValue,
-        id: i.id,
         img: img,
+        selected: true,
       };
-      return result;
-    });
-  }
 
-  _getImage(item) {
-    let result = "";
-    if (settings.get("showIcons")) result = item.img ?? "";
-    return !result?.includes("systems/cleenmain/assets/image/default.png")
-      ? result
-      : "";
+      actions.push(action);
+    });
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 }

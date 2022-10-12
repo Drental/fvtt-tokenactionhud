@@ -2,13 +2,13 @@ import { ActionHandler } from "../actionHandler.js";
 import * as settings from "../../settings.js";
 
 export class ActionHandlerStarWarsFFG extends ActionHandler {
-  constructor(filterManager, categoryManager) {
-    super(filterManager, categoryManager);
+  constructor(categoryManager) {
+    super(categoryManager);
     this.filterManager.createOrGetFilter("skills");
   }
 
   /** @override */
-  async buildSystemActions(token, multipleTokens) {
+  async buildSystemActions(actionList, character, subcategoryIds) {
     let result = this.initializeEmptyActionList();
 
     if (!token) return result;
@@ -91,7 +91,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
   /** @private */
   _getSkills(type, system, tokenId) {
     let categoryId = "skills";
-    let macroType = "skill";
+    let actionType = "skill";
 
     let result = this.initializeEmptyCategory(categoryId);
 
@@ -108,7 +108,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       });
     settings.Logger.debug(skills);
     let skillCat = this.initializeEmptySubcategory();
-    skillCat.actions = this._produceSkillMap(tokenId, system, skills, macroType);
+    skillCat.actions = this._produceSkillMap(tokenId, system, skills, actionType);
 
     this._combineSubcategoryWithCategory(result, "", skillCat);
 

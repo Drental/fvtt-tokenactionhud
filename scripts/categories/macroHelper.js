@@ -15,10 +15,10 @@ export class MacroHelper {
   }
 
   static getEntriesForActions(delimiter) {
-    let macroType = "macro";
+    let actionType = "macro";
     let entries = MacroHelper.getMacros();
     return entries.map((m) => {
-      let encodedValue = [macroType, macroType, m._id].join(delimiter);
+      let encodedValue = [actionType, actionType, m._id].join(delimiter);
       let img = MacroHelper.getImage(m);
       return {
         name: m.name,
