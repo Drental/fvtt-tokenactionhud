@@ -18,10 +18,9 @@
   border-radius: 3px;
   display: flex;
   flex-direction: row;
-  gap: 2px;
+  gap: 3px;
   height: auto;
   left: 150px;
-  margin-bottom: 1px;
   position: fixed;
   top: 80px;
   width: auto;
@@ -39,7 +38,7 @@
   position: absolute;
 }
 
-#tah-hudTitle {
+#tah-character-name {
   color: #fff;
   left: 4px;
   margin: 0;
@@ -116,7 +115,6 @@
 
 .tah-title-button {
   height: auto;
-  margin-right: 2px;
   padding: 3px;
   text-align: center;
   text-shadow:
@@ -149,16 +147,24 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 2px;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 34px;
+  flex-direction: column-reverse;
+  padding-bottom: 3px;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
 }
 
 /* Show the dropdown menu on hover */
 .tah-category.hover .tah-content {
   background: none;
   display: flex;
-  flex-direction: column;
-  left: -177px;
-  padding: 3px;
+  left: -176px;
   position: absolute;
 }
 
@@ -433,4 +439,8 @@
     0 0 0 1px var(--tah-button-outline-hover, red),
     0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
 	color: var(--tah-button-active-contrast, #fff);
+}
+
+.tah-hidden {
+  display: none !important;
 }

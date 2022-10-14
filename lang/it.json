@@ -119,9 +119,13 @@
         "hint": "Enable debug logging. (This has sort of fallen by the wayside, don't expect it to be very useful)",
         "name": "Enable Debugging"
       },
-      "dropdown": {
-        "hint": "If enabled, sets categories to drop down, otherwise uses a (warning!) half-assed drop-up implementation. Feel free to report any bugs.",
-        "name": "Dropdown Categories"
+      "direction": {
+        "hint": "Imposta la direzione in cui si espanderà l'HUD",
+        "name": "Direzione",
+        "choices": {
+          "down": "Fuori uso",
+          "up": "Su"
+        }
       },
       "enabledForUser": {
         "hint": "If enabled, the HUD is active for the user. Does not override the player permission setting.",

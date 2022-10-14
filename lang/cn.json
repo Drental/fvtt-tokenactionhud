@@ -97,14 +97,34 @@
     "utility": "实用项",
     "weapons": "武器",
     "settings": {
-      "rollHandler": {
-        "name": "HUD掷骰处理器",
-        "hint": "选择用哪个模组来接手HUD进行的动作。"
+      "alwaysShowAdditionalCategories": {
+        "name": "始终显示自定义分类",
+        "hint": "启用后，自定义分类在没有选择指示物时也会显示出来。"
+      },
+      "alwaysShowHud": {
+        "name": "始终显示HUD",
+        "hint": "如果用户有关联的角色，HUD会在没有选择指示物时默认显示出来该角色的动作。"
+      },
+      "clickOpenCategory": {
+        "name": "点击打开分类",
+        "hint": "启用后，需要点击而非悬浮来展开分类。"
+      },
+      "debug": {
+        "name": "启用调试模式",
+        "hint": "启用调试日志记录。（这个功能做一半跑路了，别想着会很有用）。"
+      },
+      "direction": {
+        "hint": "設置 HUD 展開的方向",
+        "name": "方向",
+        "choices": {
+          "down": "下",
+          "up": "向上"
+        }
       },
       "enabledForUser": {
         "name": "为当前用户启用HUD",
         "hint": "启用后，当前用户HUD激活。不会覆盖玩家的权限设置。"
-      },
+      },     
       "onTokenHover": {
         "name": "启用鼠标悬浮",
         "hint": "启用后，鼠标悬停在受控指示物上时会显示HUD。\n警告：由于指示物在画布上的位置无法预测，某些动作的位置可能超出屏幕范围。"
@@ -113,37 +133,25 @@
         "name": "为玩家启用HUD",
         "hint": "启用后，玩家可以使用HUD。"
       },
-      "debug": {
-        "name": "启用调试模式",
-        "hint": "启用调试日志记录。（这个功能做一半跑路了，别想着会很有用）。"
-      },
       "renderItemOnRightClick": {
         "name": "右键单击展示物品卡片。",
         "hint": "启用后，在HUD上右键单击物品会打开该物品的物品卡片（可能与其他使用右键单击的设置冲突）。"
       },
-      "alwaysShowHud": {
-        "name": "始终显示HUD",
-        "hint": "如果用户有关联的角色，HUD会在没有选择指示物时默认显示出来该角色的动作。"
+      "rollHandler": {
+        "name": "HUD掷骰处理器",
+        "hint": "选择用哪个模组来接手HUD进行的动作。"
       },
       "showHudTitle": {
         "name": "显示HUD标题",
         "hint": "在HUD上显示标题，通常是受控指示物的别名。"
       },
-      "style": {
-        "hint": "設置 HUD 的樣式",
-        "name": "風格"
-      },
-      "alwaysShowAdditionalCategories": {
-        "name": "始终显示自定义分类",
-        "hint": "启用后，自定义分类在没有选择指示物时也会显示出来。"
-      },
       "showIcons": {
         "name": "显示动作图标",
         "hint": "启用后，HUD的动作按钮上在可用时就会显示该动作的图像。"
       },
-      "clickOpenCategory": {
-        "name": "点击打开分类",
-        "hint": "启用后，需要点击而非悬浮来展开分类。"
+      "style": {
+        "hint": "設置 HUD 的樣式",
+        "name": "風格"
       }
     },
     "alienRpg": {

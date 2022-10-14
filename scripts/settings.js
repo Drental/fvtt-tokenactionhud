@@ -42,6 +42,31 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     }
   });
 
+  game.settings.register(appName, "direction", {
+    name: game.i18n.localize("tokenActionHud.settings.direction.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.direction.hint"),
+    scope: "client",
+    config: true,
+    type: String,
+    default: "Down",
+    choices: {
+      up: game.i18n.localize("tokenActionHud.settings.direction.choices.up"),
+      down: game.i18n.localize("tokenActionHud.settings.direction.choices.down")
+    },
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
+  // Migrate from 3.0.11 to 3.0.12
+  if (game.settings.storage.get("client").getItem("token-action-hud.dropdown") === "false") {
+    set("direction", "up");
+    game.settings.storage.get("client").removeItem("token-action-hud.dropdown");
+  }
+  if (game.settings.storage.get("client").getItem("token-action-hud.dropdown") === "true") {
+    game.settings.storage.get("client").removeItem("token-action-hud.dropdown");
+  }
+  
   game.settings.register(appName, "scale", {
     name: game.i18n.localize("tokenActionHud.settings.scale.name"),
     hint: game.i18n.localize("tokenActionHud.settings.scale.hint"),
@@ -196,18 +221,6 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     config: true,
     type: Boolean,
     default: false,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
-  game.settings.register(appName, "dropdown", {
-    name: game.i18n.localize("tokenActionHud.settings.dropdown.name"),
-    hint: game.i18n.localize("tokenActionHud.settings.dropdown.hint"),
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true,
     onChange: (value) => {
       updateFunc(value);
     },

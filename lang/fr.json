@@ -122,13 +122,13 @@
         "hint": "Active le log de debug. (Cette fonction est en quelque sorte tombée en désuétude, ne vous attendez pas à ce qu'elle soit très utile)",
         "name": "Activer le debug"
       },
-      "dorakoUI": {
-        "hint": "Enable the more compact and modern look of Dorako UI in any system.",
-        "name": "Enable Dorako UI (TAH Standalone)"
-      },
-      "dropdown": {
-        "hint": "Si activée, l'affichage des catégories se fait vers le bas, sinon il utilise une implémentation médiocre (avertissement !) vers le haut. N'hésitez pas à signaler tout bug.",
-        "name": "Catégories déroulant vers le bas"
+      "direction": {
+        "hint": "Définissez la direction dans laquelle le HUD se développera",
+        "name": "Direction",
+        "choices": {
+          "down": "Vers le bas",
+          "up": "En haut"
+        }
       },
       "enabledForUser": {
         "hint": " Si activée, le HUD est actif pour le joueur. Ne vient pas écraser les permissions données au joueur.",

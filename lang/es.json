@@ -114,9 +114,13 @@
         "hint": "Activar el registro de depuración. (Esto se ha quedado por el camino, no esperes que sea muy útil)",
         "name": "Activar la depuración"
       },
-      "dropdown": {
-        "hint": "Si está activado, las categorías se despliegan hacia abajo, de lo contrario (¡cuidado!) se desplegarán hacia arriba a medias. No dudes en informar de cualquier error.",
-        "name": "Categorías desplegables hacia abajo"
+      "direction": {
+        "hint": "Establecer la dirección en la que se expandirá el HUD",
+        "name": "Dirección",
+        "choices": {
+          "down": "Abajo",
+          "up": "Arriba"
+        }
       },
       "enabledForUser": {
         "hint": "Si está activado, el HUD se le mostrará al usuario. No reemplaza la configuración de los permisos del jugador.",

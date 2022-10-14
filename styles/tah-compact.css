@@ -39,7 +39,7 @@
   position: absolute;
 }
 
-#tah-hudTitle {
+#tah-character-name {
   color: #fff;
   left: 4px;
   margin: 0;
@@ -145,27 +145,35 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 2px;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 20px;
+  flex-direction: column-reverse;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
+  padding-top: 3px;
 }
 
 /* Show the dropdown menu on hover */
 .tah-category.hover .tah-content {
-  background: none;
   display: flex;
-  flex-direction: column;
-  left: -175px;
-  padding: 1px;
+  left: -178px;
   position: absolute;
 }
 
 .tah-subcategory {
   cursor: default;
   display: flex;
-  padding-top: 3px;
+  padding: 1.5px;
 }
 
 .tah-subtitle-wrapper {
   display: flex;
+  padding-top: 3px;
 }
 
 .tah-subtitle {
@@ -424,4 +432,8 @@
     0 0 0 1px var(--tah-button-outline-hover, red),
     0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
 	color: var(--tah-button-active-contrast, #fff);
+}
+
+.tah-hidden {
+  display: none !important;
 }
