@@ -172,14 +172,17 @@
 }
 
 .tah-subtitle-wrapper {
+  align-items: center;
   display: flex;
-  padding-top: 3px;
+  height: 20px;
 }
 
 .tah-subtitle {
+  align-items: center;
   color: #fff;
-  font-size: small;
-  line-height: 1;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 1.1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -188,7 +191,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;
+    width: 175px;   
 }
 
 .tah-filterholder {
