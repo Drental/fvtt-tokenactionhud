@@ -34,7 +34,7 @@ export class ActionHandler {
     await this._buildCompendiumActions(this.actionList);
     await this._buildMacroActions(this.actionList);
     this.buildFurtherActions(this.actionList, character);
-    this.saveActionList(this.actionList, character);
+    await this.saveActionList(this.actionList, character);
     return this.actionList;
   }
 
@@ -82,6 +82,7 @@ export class ActionHandler {
   }
 
   async _buildSystemActions(emptyActionList, character) {
+    const actionList = emptyActionList;
     const subcategoryIds = Object.values(actionList.categories)
       .filter((category) => category.subcategories)
       .flatMap((category) =>
@@ -89,8 +90,8 @@ export class ActionHandler {
           .filter((subcategory) => subcategory.type === "system")
           .flatMap((subcategory) => subcategory.id)
       );
-    const actionList = emptyActionList;
     await this.buildSystemActions(actionList, character, subcategoryIds);
+    return actionList;
   }
 
   /** @public */
@@ -148,9 +149,9 @@ export class ActionHandler {
   // ADD SUBCATEGORIES/ACTIONS
 
   /** @public */
-  addToSubcategoriesList(subcategoriesList, id, subcategory, actions) {
+  addToSubcategoriesList(subcategoryList, id, subcategory, actions) {
     if (actions.length > 0) {
-      subcategoriesList.push({
+      subcategoryList.push({
         id: id,
         subcategory: subcategory,
         actions: actions,
@@ -223,9 +224,7 @@ export class ActionHandler {
   async saveActionList(actionList, character) {
     if (!character?.actor) return;
     const actor = character.actor;
-    game.tokenActionHUD.ignoreUpdateActor = true;
     await actor.unsetFlag("token-action-hud", "categories");
-    game.tokenActionHUD.ignoreUpdateActor = true;
     await actor.setFlag(
       "token-action-hud",
       "categories",

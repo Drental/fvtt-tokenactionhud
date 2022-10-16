@@ -371,7 +371,7 @@ export class ActionHandlerED4e extends ActionHandler {
 
     _buildItem(tokenId, actor, actionType, item) {
         const itemId = item.id ?? item._id;
-        let encodedValue = [actionType, tokenId, itemId].join(this.delimiter);
+        let encodedValue = [actionType, tokenId, actionId].join(this.delimiter);
         let img = this.getImage(item);
         let action = { name: item.name, id: itemId, encodedValue: encodedValue, img: img};
         if (['weapon', 'armor', 'shield'].indexOf(item.type) >= 0) {

@@ -13,10 +13,11 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
     let attributename = payload[3];
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let charType;
     if (actor) charType = actor.type;
     let item = actionId ? actor.items.get(actionId) : null;
@@ -120,7 +121,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   async performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -157,7 +158,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   performConditionMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -177,7 +178,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   performConsumableMacro(tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     if (!actor) return;
     actor.sheet.rollConsumable(actionId)
   }

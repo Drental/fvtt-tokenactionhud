@@ -207,7 +207,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   _buildItem(actorId, tokenId, actionType, item) {
     const itemId = item.id;
     const itemName = item.name;
-    const encodedValue = [actionType, actorId, tokenId, itemId].join(
+    const encodedValue = [actionType, actorId, tokenId, actionId].join(
       this.delimiter
     );
     const img = this.getImage(item);

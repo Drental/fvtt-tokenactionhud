@@ -41,8 +41,8 @@ export class RollHandlerBaseDs4 extends RollHandler {
     await actor.rollCheck(check, token.document);
   }
 
-  async _rollItemMacro(event, actorId, tokenId, itemId) {
-    const actor = super.getActor(characterId);
+  async _rollItemMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(tokenId, actorId);
     const item = super.getItem(actor, itemId);
     return item.use();
   }

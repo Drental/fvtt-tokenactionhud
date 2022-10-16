@@ -112,10 +112,10 @@ Hooks.on("canvasReady", async () => {
     game.tokenActionHUD.update();
   });
 
-  Hooks.on("updateToken", (scene, token, diff, options, idUser) => {
+  Hooks.on("updateToken", (token, data, diff) => {
     // If it's an X or Y change assume the token is just moving.
     if (diff.hasOwnProperty("y") || diff.hasOwnProperty("x")) return;
-    if (game.tokenActionHUD.validTokenChange(token))
+    if (game.tokenActionHUD.validTokenChange(token, data))
       game.tokenActionHUD.update();
   });
 
@@ -129,13 +129,14 @@ Hooks.on("canvasReady", async () => {
       game.tokenActionHUD.update();
   });
 
-  Hooks.on("updateActor", (actor) => {
-    if (game.tokenActionHUD.validActorOrItemUpdate(actor))
+  Hooks.on("updateActor", (actor, data) => {
+    if (game.tokenActionHUD.validActorOrItemUpdate(actor, data)) {
       game.tokenActionHUD.update();
+    }
   });
 
   Hooks.on("deleteActor", (actor) => {
-    if (game.tokenActionHUD.validActorOrItemUpdate(actor))
+    if (game.tokenActionHUD.validActorOrItemUpdate(actor, data))
       game.tokenActionHUD.update();
   });
 

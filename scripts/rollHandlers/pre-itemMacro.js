@@ -15,7 +15,8 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
     if (payload.length != 3) return false;
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     if (actionType != "itemMacro") return false;
@@ -29,7 +30,7 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
   }
 
   _tryExecuteItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let item = super.getItem(actor, actionId);
 
     try {

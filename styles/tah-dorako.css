@@ -83,8 +83,8 @@
 }
 
 #token-action-hud:hover > #tah-reposition,
-#token-action-hud:hover > #tah-categories {
-  display: block;
+#token-action-hud:hover > #tah-buttons {
+  display: flex;
   position: absolute;
 }
 
@@ -104,34 +104,55 @@
   top: -20px !important;
 }
 
-#tah-reposition,
 #tah-categories {
+  display: flex;
+  gap: 2px;
+}
+
+#tah-reposition,
+#tah-buttons {
   display: none;
   font-style: normal;
   font-weight: normal;
-}
-
-#tah-reposition:hover,
-#tah-categories:hover {
-  cursor: pointer;
 }
 
 #tah-reposition {
   left: -20px;
 }
 
-#tah-categories {
+#tah-buttons {
   display: flex;
   left: 100%;
 }
 
+#tah-buttons button {
+  background: transparent;
+  border: 0;
+  line-height: unset;
+}
+
+#tah-buttons button:hover, 
+#tah-buttons button:focus {
+  box-shadow: none;
+}
+
 #tah-reposition > .fa,
-#tah-reposition > .fas,
-#tah-categories > .fa,
-#tah-categories > .fas {
-  color: #ddd;
+#tah-reposition > .fas {
+  font-size: small;
   margin: 3px;
   padding: 3px;
+}
+
+#tah-buttons > button.fa,
+#tah-buttons > button.fas {
+  font-size: large;
+}
+
+#tah-reposition > .fa,
+#tah-reposition > .fas,
+#tah-buttons button > .fa,
+#tah-buttons button > .fas {
+  color: #ddd;
   pointer-events: none;
   text-align: center;
   text-shadow:
@@ -141,19 +162,14 @@
     1px 1px 1px rgba(52, 52, 52, 1);
 }
 
-#tah-reposition > .fa,
-#tah-reposition > .fas {
-  font-size: small;
-}
-
-#tah-categories > .fa,
-#tah-categories > .fas {
-  font-size: large;
-}
-
 #tah-reposition:hover > i,
-#tah-categories:hover > i {
+#tah-buttons button:hover > i {
   color: #fff;
+  text-shadow: 0 0 10px #ff6400;
+}
+
+.tah-hidden {
+  display: none !important;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -193,7 +209,7 @@
 }
 
 .tah-title-button > .fa,
-.tah-title-button > .fas { 
+.tah-title-button > .fas {
   color: rgba(255, 255, 255, 0.6);
   font-size: 6px;
   pointer-events: none;
@@ -210,7 +226,7 @@
 }
 
 /* Dropdown Content (Hidden by Default) */
-.tah-content {
+.tah-subcategories {
   border-radius: var(--dorako-radius);
   display: none;
   overflow-y: auto;
@@ -218,7 +234,7 @@
 }
 
 /* Show the dropdown menu on hover */
-.tah-category.hover .tah-content {
+.tah-category.hover .tah-subcategories {
   background: none;
   display: flex;
   flex-direction: column;

@@ -18,9 +18,10 @@ export class RollHandlerBaseSpace1889 extends RollHandler
 		}
 
 		let actionType = payload[0];
-		let characterId = payload[1];
+		let actorId = payload[1];
+    let tokenId = payload[2];
 		let actionId = payload[2];
-		let actor = super.getActor(characterId);
+		let actor = super.getActor(tokenId, actorId);
 
 		if (tokenId === 'multi')
 		{

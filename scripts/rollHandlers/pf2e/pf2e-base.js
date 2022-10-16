@@ -16,7 +16,8 @@ export class RollHandlerBasePf2e extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     let renderable = ["item", "feat", "action", "lore", "ammo"];
@@ -42,7 +43,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   async _handleMacros(event, actionType, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let charType;
     if (actor) charType = actor.type;
 
@@ -392,7 +393,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   async _performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -459,7 +460,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   }
 
   async _performToggleMacro(event, actorId, tokenId, actionId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     const toggle = JSON.parse(actionId);
     if (!(toggle.domain && toggle.option)) return;
 

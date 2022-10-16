@@ -324,7 +324,7 @@ export class TokenActionHUD extends Application {
 
   applySettings() {
     if (!settings.get("dropdown")) {
-      $(document).find(".tah-content").css({
+      $(document).find(".tah-subcategories").css({
         bottom: "40px",
         "flex-direction": "column-reverse",
       });
@@ -487,7 +487,8 @@ export class TokenActionHUD extends Application {
   }
 
   // Really just checks if only one token is being controlled. Not smart.
-  validTokenChange(token) {
+  validTokenChange(token, data = null) {
+    if (data?.actorData?.flags) return false;
     if (settings.get("alwaysShowHud"))
       return (
         this.isRelevantToken(token) || token.actorId === game.user.character?.id
@@ -520,12 +521,8 @@ export class TokenActionHUD extends Application {
   }
 
   // Basically update any time. All this logic could be improved.
-  validActorOrItemUpdate(actor) {
-    const ignoreUpdateActor = game.tokenActionHUD.ignoreUpdateActor;
-    if (ignoreUpdateActor) {
-      game.tokenActionHUD.ignoreUpdateActor = false;
-      return false;
-    }
+  validActorOrItemUpdate(actor, data) {
+    if (data?.flags) return false;
     if (actor) {
       settings.Logger.debug(`actor change, comparing actors`);
       settings.Logger.debug(

@@ -12,31 +12,32 @@ export class RollHandlerBaseCo extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let characterId = payload[1];
-    let itemId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     switch (actionType) {
       case "stat":
-        this._handleStats(actionType, event, actor, itemId);
+        this._handleStats(actionType, event, actor, actionId);
         break;
       case "skill":
-        this._handleSkills(actionType, event, actor, itemId);
+        this._handleSkills(actionType, event, actor, actionId);
         break;
       case "weapon":
-        this._handleWeapon(actionType, event, actor, itemId);
+        this._handleWeapon(actionType, event, actor, actionId);
         break;
       case "spell":
-        this._handleSpell(actionType, event, actor, itemId);
+        this._handleSpell(actionType, event, actor, actionId);
         break;        
       case "item":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleItem(actionType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
+        else this._handleItem(actionType, event, actor, actionId);
         break;
       case "capacity":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleCapacity(actionType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
+        else this._handleCapacity(actionType, event, actor, actionId);
         break;
     }
   }

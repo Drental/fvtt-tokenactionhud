@@ -97,10 +97,11 @@ export class ActionHandler5e extends ActionHandler {
     const tokenId = "multi";
     actionList.actorId = actorId;
     actionList.tokenId = tokenId;
-    const allowedTypes = ["npc", "character"];
+    const allowedTypes = ["character", "npc"];
     const actors = canvas.tokens.controlled
       .map((token) => token.actor)
       .filter((actor) => allowedTypes.includes(actor.type));
+
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "abilities"))
       this._buildMultiTokenAbilities(
         actionList,
@@ -214,7 +215,7 @@ export class ActionHandler5e extends ActionHandler {
   _buildItems(actionList, character, items, subcategoryId) {
     const actionType = "item";
     const actions = items.map((item) =>
-      this._buildEquipmentItem(character, actionType, item)
+      this._getAction(character, actionType, item)
     );
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
@@ -242,9 +243,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _getAction(character, actionType, entity) {
+    const actor = character?.actor;
     const actorId = character?.actor?.id;
     const tokenId = character?.token?.id;
-    const actor = character?.actor;
     const id = entity.id;
     let name = entity.name;
     if (
@@ -257,8 +258,8 @@ export class ActionHandler5e extends ActionHandler {
     const encodedValue = [actionType, actorId, tokenId, id].join(
       this.delimiter
     );
-    const img = this.getImage(item);
-    const icon = this._getIcon(item.system.activation?.type);
+    const img = this.getImage(entity);
+    const icon = this._getIcon(entity?.system?.activation?.type);
 
     let action = {
       id: id,
@@ -284,7 +285,7 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildSpells(actionList, character) {
-    const actor = character.actor;
+    const actor = character?.actor;
     let validSpells = this._filterLongerActions(
       actor.items.filter((item) => item.type === "spell")
     );
@@ -316,10 +317,8 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _categoriseSpells(actionList, character, spells) {
+    const actor = character?.actor;
     const actionType = "spell";
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
 
     // Reverse sort spells by level
     const spellSlotInfo = Object.entries(actor.system.spells).sort((a, b) => {
@@ -396,7 +395,7 @@ export class ActionHandler5e extends ActionHandler {
     });
 
     // CREATE SUBCATEGORIES
-    let subcategoriesList = [];
+    let subcategoryList = [];
 
     for (const spellLevel of spellLevels) {
       const spellLevelId = `spells_${spellLevel[0]}`;
@@ -408,7 +407,7 @@ export class ActionHandler5e extends ActionHandler {
           ? true
           : false;
       const levelInfo = spellSlotInfo.find(
-        (lvl) => lvl[0] === spellLevelId
+        (level) => level[0] === spellLevelId
       )?.[1];
       const slots = levelInfo?.value;
       const max = levelInfo?.max;
@@ -432,7 +431,7 @@ export class ActionHandler5e extends ActionHandler {
           : `spells_spell${spell.system.level}`;
 
         if (spellSpellLevelId === spellLevelId) {
-          let spellItem = this._getAction(actorId, tokenId, actionType, spell);
+          let spellItem = this._getAction(character, actionType, spell);
           if (settings.get("showSpellInfo"))
             this._addSpellInfo(spell, spellItem);
           actions.push(spellItem);
@@ -440,13 +439,13 @@ export class ActionHandler5e extends ActionHandler {
       }
 
       this.addToSubcategoriesList(
-        subcategoriesList,
+        subcategoryList,
         spellLevelId,
         subcategory,
         actions
       );
     }
-    this.addSubcategoriesToActionList(actionList, subcategoriesList, "spells");
+    this.addSubcategoriesToActionList(actionList, subcategoryList, "spells");
   }
 
   /** @private */
@@ -480,22 +479,20 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildFeatures(actionList, character) {
-    const actor = character.actor;
-    let validFeats = this._filterLongerActions(
+    const actor = character?.actor;
+    let feats = this._filterLongerActions(
       actor.items.filter((item) => item.type == "feat")
     );
-    let sortedFeats = this.sortItems(validFeats);
-    this._categoriseFeatures(actionList, character, sortedFeats);
+    feats = this.sortItems(feats);
+    this._categoriseFeatures(actionList, character, feats);
   }
 
   /** @private */
   _categoriseFeatures(actionList, character, feats) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
     const actor = character.actor;
-    const parentNestId = "features";
+    const categoryId = "features";
 
-    let subcategoriesList = [];
+    let subcategoryList = [];
     const activeId = "features_active";
     const passiveId = "features_passive";
     const lairId = "features_lair";
@@ -505,37 +502,37 @@ export class ActionHandler5e extends ActionHandler {
     const reactionsId = "features_reactions";
     let activeSubcategory = this.initializeEmptySubcategory(
       activeId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.active")
     );
     let passiveSubcategory = this.initializeEmptySubcategory(
       passiveId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.passive")
     );
     let lairSubcategory = this.initializeEmptySubcategory(
       lairId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.dnd5e.lair")
     );
     let legendarySubcategory = this.initializeEmptySubcategory(
       legendaryId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.dnd5e.legendary")
     );
     let actionsSubcategory = this.initializeEmptySubcategory(
       actionsId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.actions")
     );
     let featuresSubcategory = this.initializeEmptySubcategory(
       featuresId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.features")
     );
     let reactionsSubcategory = this.initializeEmptySubcategory(
       reactionsId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.reactions")
     );
     let activeActions = [];
@@ -547,16 +544,13 @@ export class ActionHandler5e extends ActionHandler {
     let reactionsActions = [];
 
     let dispose = feats.reduce(
-      function (dispose, f) {
-        const activationType = f.system.activation.type;
+      function (dispose, feat) {
+        const activationType = feat.system.activation.type;
         const actionType = "feat";
-
-        let feat = this._buildEquipmentItem(
-          actorId,
-          tokenId,
-          actor,
+        const action = this._getAction(
+          character,
           actionType,
-          f
+          feat
         );
 
         if (actor.type === "vehicle") {
@@ -565,41 +559,41 @@ export class ActionHandler5e extends ActionHandler {
             activationType !== "none" &&
             activationType !== "reaction"
           ) {
-            actionsActions.push(feat);
+            actionsActions.push(action);
             return;
           }
 
           if (!activationType || activationType === "none") {
-            featuresActions.push(feat);
+            featuresActions.push(action);
             return;
           }
 
           if (activationType == "reaction") {
-            reactionsActions.push(feat);
+            reactionsActions.push(action);
             return;
           }
 
-          actionsActions.push(feat);
+          actionsActions.push(action);
           return;
         }
 
         if (actor.type === "character" || actor.type === "npc") {
           if (!activationType || activationType === "") {
-            passiveActions.push(feat);
+            passiveActions.push(action);
             return;
           }
 
           if (activationType == "lair") {
-            lairActions.push(feat);
+            lairActions.push(action);
             return;
           }
 
           if (activationType == "legendary") {
-            legendaryActions.push(feat);
+            legendaryActions.push(action);
             return;
           }
 
-          activeActions.push(feat);
+          activeActions.push(action);
           return;
         }
       }.bind(this),
@@ -607,7 +601,7 @@ export class ActionHandler5e extends ActionHandler {
     );
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       activeId,
       activeSubcategory,
       activeActions
@@ -615,7 +609,7 @@ export class ActionHandler5e extends ActionHandler {
 
     if (!settings.get("ignorePassiveFeats")) {
       this.addToSubcategoriesList(
-        subcategoriesList,
+        subcategoryList,
         passiveId,
         passiveSubcategory,
         passiveActions
@@ -623,35 +617,35 @@ export class ActionHandler5e extends ActionHandler {
     }
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       lairId,
       lairSubcategory,
       lairActions
     );
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       legendaryId,
       legendarySubcategory,
       legendaryActions
     );
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       actionsId,
       actionsSubcategory,
       actionsActions
     );
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       featuresId,
       featuresSubcategory,
       featuresActions
     );
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       reactionsId,
       reactionsSubcategory,
       reactionsActions
@@ -659,8 +653,8 @@ export class ActionHandler5e extends ActionHandler {
 
     this.addSubcategoriesToActionList(
       actionList,
-      subcategoriesList,
-      "features"
+      subcategoryList,
+      categoryId
     );
   }
 
@@ -739,11 +733,10 @@ export class ActionHandler5e extends ActionHandler {
     const tokenId = character.token?.id;
     const actor = character.actor;
     const skills = actor.system.skills;
-    let actionType = "skill";
+    const actionType = "skill";
+    const abbr = settings.get("abbreviateSkills");
 
-    let abbr = settings.get("abbreviateSkills");
-
-    let actions = Object.entries(skills)
+    const actions = Object.entries(skills)
       .map((skill) => {
         try {
           let skillId = skill[0];
@@ -801,19 +794,19 @@ export class ActionHandler5e extends ActionHandler {
     const actorId = character.actor?.id;
     const tokenId = character.token?.id;
     const actor = character.actor;
-    const parentNestId = "effects";
+    const categoryId = "effects";
     const actionType = "effect";
-    let subcategoriesList = [];
+    let subcategoryList = [];
     const temporaryId = "effects_temporary-effects";
     const passiveId = "effects_passive-effects";
     let temporarySubcategory = this.initializeEmptySubcategory(
       temporaryId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.temporary")
     );
     let passiveSubcategory = this.initializeEmptySubcategory(
       passiveId,
-      parentNestId,
+      categoryId,
       this.i18n("tokenActionHud.passive")
     );
     let temporaryActions = [];
@@ -845,18 +838,18 @@ export class ActionHandler5e extends ActionHandler {
     });
 
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       temporaryId,
       temporarySubcategory,
       temporaryActions
     );
     this.addToSubcategoriesList(
-      subcategoriesList,
+      subcategoryList,
       passiveId,
       passiveSubcategory,
       passiveActions
     );
-    this.addSubcategoriesToActionList(actionList, subcategoriesList, "effects");
+    this.addSubcategoriesToActionList(actionList, subcategoryList, "effects");
   }
 
   /** CONDITIONS */
@@ -969,8 +962,9 @@ export class ActionHandler5e extends ActionHandler {
     );
     let initiativeAction = {
       id: "rollInitiative",
-      encodedValue: initiativeValue,
       name: this.i18n("tokenActionHud.rollInitiative"),
+      encodedValue: initiativeValue,
+      selected: true
     };
 
     if (currentInitiative) initiativeAction.info1 = currentInitiative;
@@ -986,8 +980,9 @@ export class ActionHandler5e extends ActionHandler {
       );
       let endTurnAction = {
         id: "endTurn",
-        encodedValue: endTurnValue,
         name: this.i18n("tokenActionHud.endTurn"),
+        encodedValue: endTurnValue,
+        selected: true
       };
 
       actions.push(endTurnAction);
@@ -1009,8 +1004,9 @@ export class ActionHandler5e extends ActionHandler {
     );
     let initiativeAction = {
       id: "rollInitiative",
-      encodedValue: initiativeValue,
       name: this.i18n("tokenActionHud.rollInitiative"),
+      encodedValue: initiativeValue,
+      selected: true
     };
 
     let isActive;
@@ -1043,16 +1039,18 @@ export class ActionHandler5e extends ActionHandler {
       );
       actions.push({
         id: "shortRest",
-        encodedValue: shortRestValue,
         name: this.i18n("tokenActionHud.shortRest"),
+        encodedValue: shortRestValue,
+        selected: true
       });
       let longRestValue = [actionType, actorId, tokenId, "longRest"].join(
         this.delimiter
       );
       actions.push({
         id: "longRest",
-        encodedValue: longRestValue,
         name: this.i18n("tokenActionHud.longRest"),
+        encodedValue: longRestValue,
+        selected: true
       });
     }
 
@@ -1158,7 +1156,7 @@ export class ActionHandler5e extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
-    let quantity = item.system.quantity;
+    let quantity = item?.system?.quantity;
     if (quantity > 1) {
       result = quantity;
     }
@@ -1170,7 +1168,7 @@ export class ActionHandler5e extends ActionHandler {
   _getUsesData(item) {
     let result = "";
 
-    let uses = item.system.uses;
+    let uses = item?.system?.uses;
     if (!uses) return result;
 
     result = uses.value === 0 && uses.max ? "0" : uses.value;
@@ -1186,7 +1184,7 @@ export class ActionHandler5e extends ActionHandler {
   _getConsumeData(item, actor) {
     let result = "";
 
-    let consumeType = item.system.consume?.type;
+    let consumeType = item?.system?.consume?.type;
     if (consumeType && consumeType !== "") {
       let consumeId = item.system.consume.target;
       let parentId = consumeId.substr(0, consumeId.lastIndexOf("."));

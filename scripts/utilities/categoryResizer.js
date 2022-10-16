@@ -9,7 +9,7 @@ export class CategoryResizer {
 
     if (!category[0]) return;
 
-    let content = category.find(".tah-content");
+    let content = category.find(".tah-subcategories");
     let isOneLineFit = category.hasClass("oneLine");
     let actions = category.find(".tah-actions");
 

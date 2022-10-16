@@ -8,226 +8,241 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
   /** @override */
   async buildSystemActions(actionList, character, subcategoryIds) {
-    let result = this.initializeEmptyActionList();
+    const actor = character?.actor;
 
-    if (multipleTokens) {
-      this._buildMultipleTokenList(result);
-      return result;
+    if (!actor) {
+      this._buildMultipleTokenList(actionList, subcategoryIds);
+      return actionList;
     }
 
-    if (!token) return result;
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "challenge"))
+      this._buildChallengeRoll(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "weapons"))
+      this._buildWeapons(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "talents"))
+      this._buildTalents(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "magic"))
+      this._buildMagic(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "combat"))
+      this._buildCombat(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "rest"))
+      this._buildRest(actionList, character);
 
-    let tokenId = token.id;
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    result.actorId = actor.id;
-
-    let attributes = this._getAttributes(actor, tokenId);
-    let weapons = this._getItemsList(actor, tokenId);
-    let talents = this._getTalents(actor, tokenId);
-    let spells = this._getSpells(actor, tokenId);
-    let utility = this._getUtilityList(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.demonLord.challenge"),
-      attributes
-    );
-
-    if (actor.type === "character")
-      this._combineCategoryWithList(
-        result,
-        this.i18n("tokenActionHud.weapons"),
-        weapons
-      );
-    else
-      this._combineCategoryWithList(
-        result,
-        this.i18n("tokenActionHud.demonLord.attackoptions"),
-        weapons
-      );
-
-    if (actor.type === "character")
-      this._combineCategoryWithList(
-        result,
-        this.i18n("tokenActionHud.talents"),
-        talents
-      );
-    else
-      this._combineCategoryWithList(
-        result,
-        this.i18n("tokenActionHud.demonLord.specialattacks"),
-        talents
-      );
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.spells"),
-      spells
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.utility"),
-      utility
-    );
-
-    this._setFilterSuggestions(actor);
-
-    if (settings.get("showHudTitle")) result.hudTitle = token.name;
-
-    return result;
+    return actionList;
   }
 
-  _getItemsList(actor, tokenId) {
-    let actionType = "weapon";
-    let result = this.initializeEmptyCategory("items");
+  _buildMultipleTokenList(actionList, subcategoryIds) {
+    const allowedTypes = ["creature", "character"];
+    const actors = canvas.tokens.controlled
+      .map((token) => token.actor)
+      .filter((actor) => allowedTypes.includes(actor.type));
 
-    let subcategory = this.initializeEmptySubcategory();
-
-    subcategory.actions = this._produceMap(
-      tokenId,
-      actor.items
-        .filter((i) => i.type == actionType)
-        .map((item) => {
-          return {
-            name: item.name,
-            encodedValue: [item.type, tokenId, item.id].join(this.delimiter),
-          };
-        }),
-      actionType
-    );
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.weapons"),
-      subcategory
-    );
-
-    return result;
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "challenge"))
+      this._buildMultiTokenChallengeRoll(actionList, actors);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "rest"))
+      this._buildMultiTokenRest(actionList, actors);
   }
 
-  _getAttributes(actor, tokenId) {
-    let result = this.initializeEmptyCategory("attributes");
-    let attributes = this.initializeEmptySubcategory();
-    let actionType = "challenge";
+  // CHALLENGE ROLL
 
-    let rollableAttributes = Object.entries(actor.system.attributes);
-    let attributesMap = rollableAttributes.map((c) => {
-      let name = this.i18n("tokenActionHud.attribute." + c[0]);
-      let encodedValue = [actionType, tokenId, c[0]].join(this.delimiter);
-      return { name: name, encodedValue: encodedValue, id: c[0] };
+  _buildChallengeRoll(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "challenge";
+    const subcategoryId = "challenge";
+
+    const attributes = Object.entries(actor.system.attributes);
+    const actions = attributes.map((attribute) => {
+      const id = attribute[0];
+      const name = this.i18n("tokenActionHud.attribute." + id);
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      const icon = this.getImage(attribute);
+      return {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        icon: icon,
+        selected: true,
+      };
     });
 
-    attributes.actions = this._produceMap(tokenId, attributesMap, actionType);
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.demonLord.challenge"),
-      attributes
-    );
-
-    return result;
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
-  _addMultiAttributes(list, tokenId, actors) {
-    let result = this.initializeEmptyCategory("attributes");
-    let attributes = this.initializeEmptySubcategory();
-    let actionType = "challenge";
-
-    let attributesMap = null;
-
+  _buildMultiTokenChallengeRoll(actionList, actors) {
+    const actorId = "multi";
+    const tokenId = "multi;";
+    const actionType = "challenge";
+    const subcategoryId = "challenge";
+    let actions = [];
     if (
       actors.every((actor) => {
-        let rollableAttributes = Object.entries(actor.system.attributes);
-
-        attributesMap = rollableAttributes.map((c) => {
-          let name = this.i18n("tokenActionHud.attribute." + c[0]);
-          let encodedValue = [actionType, tokenId, c[0]].join(this.delimiter);
-          return { name: name, encodedValue: encodedValue, id: c[0] };
+        const attributes = Object.entries(actor.system.attributes);
+        actions = attributes.map((attribute) => {
+          const id = attribute[0];
+          const name = this.i18n("tokenActionHud.attribute." + id);
+          const encodedValue = [actionType, actorId, tokenId, id].join(
+            this.delimiter
+          );
+          return {
+            id: id,
+            name: name,
+            encodedValue: encodedValue,
+            selected: true,
+          };
         });
       })
     );
 
-    if (attributesMap != null) {
-      attributes.actions = this._produceMap(tokenId, attributesMap, actionType);
-
-      this._combineSubcategoryWithCategory(
-        result,
-        this.i18n("tokenActionHud.demonLord.challenge"),
-        attributes
-      );
-      this._combineCategoryWithList(
-        list,
-        this.i18n("tokenActionHud.demonLord.challenge"),
-        result
-      );
-    }
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
-  _getTalents(actor, tokenId) {
-    let actionType = "talent";
-    let result = this.initializeEmptyCategory("talents");
+  // WEAPONS
 
-    let talents = actor.items.filter((i) => i.type == actionType);
+  _buildWeapons(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "weapon";
+    const subcategoryId = "weapons";
+
+    const actions = actor.items
+      .filter((item) => item.type == actionType)
+      .map((item) => {
+        const id = item.id;
+        const name = item.name;
+        const encodedValue = [actionType, actorId, tokenId, id].join(
+          this.delimiter
+        );
+        return {
+          id: id,
+          name: name,
+          encodedValue: encodedValue,
+          selected: true,
+        };
+      });
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
+  }
+
+  // TALENTS
+
+  _buildTalents(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "talent";
+    const categoryId = "talents";
+
+    const talents = actor.items.filter((item) => item.type == actionType);
 
     const groups = [
       ...new Set(talents.map((talent) => talent.system.groupname)),
     ];
+
+    let subcategoryList = [];
+
     groups.sort().forEach((group) => {
       if (group != undefined) {
-        let groupCategory = this.initializeEmptySubcategory();
-        groupCategory.name = group;
-        result.subcategories.push(groupCategory);
+        const subcategoryId = `talents_${group.toLowerCase()}`;
+        const subcategoryName = group;
+        const subcategory = this.initializeEmptySubcategory(
+          subcategoryId,
+          categoryId,
+          subcategoryName
+        );
 
-        let levelSubcategory = this.initializeEmptySubcategory();
-        talents.forEach((talentEntry) => {
-          if (talentEntry.system.groupname == group) {
-            let encodedValue = [actionType, tokenId, talentEntry.id].join(
+        const actions = talents
+          .filter((talent) => talent.system.groupname === group)
+          .map((talent) => {
+            const id = talent.id;
+            const name = talent.name;
+            const encodedValue = [actionType, actorId, tokenId, id].join(
               this.delimiter
             );
-            let addTalent = {
-              name: talentEntry.name,
+            const img = this.getImage(talent);
+            const info2 = this._getUsesData(talent);
+            return {
+              id: id,
+              name: name,
               encodedValue: encodedValue,
-              id: talentEntry.id,
+              img: img,
+              info2: info2,
+              selected: true,
             };
-            addTalent.img = this.getImage(talentEntry);
-            addTalent.info2 = this._getUsesData(talentEntry);
+          });
 
-            levelSubcategory.actions.push(addTalent);
-          }
-        });
-
-        this._combineSubcategoryWithCategory(
-          groupCategory,
-          group,
-          levelSubcategory
+        this.addToSubcategoriesList(
+          subcategoryList,
+          subcategoryId,
+          subcategory,
+          actions
         );
       }
     });
 
-    return result;
+    this.addSubcategoriesToActionList(actionList, subcategoryList, categoryId);
   }
 
-  _getSpells(actor, tokenId) {
-    let actionType = "spell";
-    let result = this.initializeEmptyCategory("spells");
+  // MAGIC
 
-    let spells = actor.items.filter((i) => i.type === actionType);
+  _buildMagic(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "spell";
+    const categoryId = "magic";
+    let subcategoryList = [];
 
-    let spellsSorted = this._sortSpellsByRank(spells);
-    let spellCategories = this._categoriseSpells(tokenId, spellsSorted);
+    let spells = actor.items.filter((i) => i.type === "spell");
+    spells = this._sortSpellsByRank(spells);
 
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.spells"),
-      spellCategories
-    );
+    const traditions = [
+      ...new Set(spells.map((spell) => spell.system.tradition)),
+    ];
+    traditions.sort().forEach((tradition) => {
+      if (tradition !== undefined) {
+        const traditionId = tradition;
+        const traditionName = tradition;
+        const subcategory = this.initializeEmptySubcategory(
+          traditionId,
+          categoryId,
+          traditionName
+        );
 
-    return result;
+        const actions = spells.map((spell) => {
+          if (spell.system.tradition === tradition) {
+            const id = spell.id;
+            const name = spell.name;
+            const encodedValue = [actionType, actorId, tokenId, id].join(
+              this.delimiter
+            );
+            const img = this.getImage(spell);
+            const info2 = this._getCastingsData(spell);
+            return {
+              id: id,
+              name: name,
+              encodedValue: encodedValue,
+              img: img,
+              info2: info2,
+              selected: true,
+            };
+          }
+        });
+
+        this.addToSubcategoriesList(
+          subcategoryList,
+          traditionId,
+          subcategory,
+          actions
+        );
+      }
+    });
+
+    this.addSubcategoriesToActionList(actionList, subcategoryList, categoryId);
   }
 
   _sortSpellsByRank(spells) {
@@ -246,174 +261,82 @@ export class ActionHandlerDemonlord extends ActionHandler {
     return result;
   }
 
-  _categoriseSpells(tokenId, spells) {
-    const actionType = "spell";
-    let result = this.initializeEmptySubcategory();
-
-    const traditions = [
-      ...new Set(spells.map((spell) => spell.system.tradition)),
-    ];
-    traditions.sort().forEach((tradition) => {
-      if (tradition != undefined) {
-        let traditionCategory = this.initializeEmptySubcategory();
-        traditionCategory.name = tradition;
-        result.subcategories.push(traditionCategory);
-
-        let levelSubcategory = this.initializeEmptySubcategory();
-        spells.forEach((spellEntry) => {
-          if (spellEntry.system.tradition == tradition) {
-            let encodedValue = [actionType, tokenId, spellEntry.id].join(
-              this.delimiter
-            );
-            let addSpell = {
-              name: spellEntry.name,
-              encodedValue: encodedValue,
-              id: spellEntry.id,
-            };
-            addSpell.img = this.getImage(spellEntry);
-            addSpell.info2 = this._getCastingsData(spellEntry);
-
-            levelSubcategory.actions.push(addSpell);
-          }
-        });
-
-        this._combineSubcategoryWithCategory(
-          traditionCategory,
-          tradition,
-          levelSubcategory
-        );
-      }
-    });
-
-    return result;
-  }
-
-  _buildMultipleTokenList(list) {
-    list.tokenId = "multi";
-    list.actorId = "multi";
-
-    const allowedTypes = ["creature", "character"];
-    let actors = canvas.tokens.controlled
-      .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.type));
-
-    this._addMultiAttributes(list, list.tokenId, actors);
-    this._addMultiTokenUtilities(list, list.tokenId, actors);
-  }
-
-  _getUtilityList(actor, tokenId) {
-    let result = this.initializeEmptyCategory("utility");
-    let actionType = "utility";
-
-    // Combat Subcategory
-    let combatSubcategory = this.initializeEmptySubcategory();
+  _buildCombat(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    if (!tokenId) return;
+    const actionType = "utility";
+    const subcategoryId = "combat";
+    let actions = [];
 
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {
-      let endTurnValue = [actionType, tokenId, "endTurn"].join(this.delimiter);
-      let endTurnAction = {
-        id: "endTurn",
-        encodedValue: endTurnValue,
-        name: this.i18n("tokenActionHud.endTurn"),
-      };
-
-      combatSubcategory.actions.push(endTurnAction);
-    }
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.combat"),
-      combatSubcategory
-    );
-
-    // Rest Subcategory
-    let restSubcategory = this.initializeEmptySubcategory();
-
-    // Rest
-    if (actor.type === "character") {
-      let shortRestValue = [actionType, tokenId, "rest"].join(this.delimiter);
-      restSubcategory.actions.push({
-        id: "rest",
-        encodedValue: shortRestValue,
-        name: this.i18n("tokenActionHud.demonLord.rest"),
-      });
-    }
-
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenActionHud.demonLord.rest"),
-      restSubcategory
-    );
-
-    return result;
-  }
-
-  _addMultiTokenUtilities(list, tokenId, actors) {
-    let category = this.initializeEmptyCategory("utility");
-    let actionType = "utility";
-
-    let rests = this.initializeEmptySubcategory();
-
-    if (actors.every((actor) => actor.type === "character")) {
-      let shortRestValue = [actionType, tokenId, "rest", ""].join(
+      const id = "endTurn";
+      const name = this.i18n("tokenActionHud.endTurn");
+      const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      rests.actions.push({
-        id: "rest",
-        encodedValue: shortRestValue,
-        name: this.i18n("tokenActionHud.demonLord.rest"),
-      });
-    }
-
-    this._combineSubcategoryWithCategory(
-      category,
-      this.i18n("tokenActionHud.demonLord.rest"),
-      rests
-    );
-    this._combineCategoryWithList(
-      list,
-      this.i18n("tokenActionHud.utility"),
-      category
-    );
-  }
-
-  /** @override */
-  _setFilterSuggestions(id, items) {
-    let suggestions = items?.map((s) => {
-      return { id: s.id, value: s.name };
-    });
-    if (suggestions?.length > 0)
-      this.filterManager.setSuggestions(id, suggestions);
-  }
-
-  _filterElements(categoryId, skills) {
-    let filteredNames = this.filterManager.getFilteredNames(categoryId);
-    let result = skills.filter((s) => !!s);
-    if (filteredNames.length > 0) {
-      if (this.filterManager.isBlocklist(categoryId)) {
-        result = skills.filter((s) => !filteredNames.includes(s.name));
-      } else {
-        result = skills.filter((s) => filteredNames.includes(s.name));
-      }
-    }
-
-    return result;
-  }
-
-  _produceMap(tokenId, itemSet, type) {
-    return itemSet.map((i) => {
-      let icon = this.getImage(i);
-      let result = {
-        name: i.name,
-        encodedValue: i.encodedValue,
-        id: i.id,
-        icon,
+      const action = {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
       };
+      actions.push(action);
+    }
 
-      if (type === "talent") result.info2 = this._getUsesData(i);
+    this.addActionsToActionList(actionList, actions, subcategoryId);
+  }
 
-      return result;
-    });
+  _buildRest(actionList, character) {
+    const actorId = character.actor?.id;
+    const tokenId = character.token?.id;
+    const actor = character.actor;
+    const actionType = "utility";
+    const subcategoryId = "rest";
+    let actions = [];
+
+    if (actor.type === "character") {
+      const id = "rest";
+      const name = this.i18n("tokenActionHud.demonLord.rest");
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      const action = {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
+      };
+      actions.push(action);
+    }
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
+  }
+
+  _buildMultiTokenRest(actionList, actors) {
+    const actorId = "multi";
+    const tokenId = "multi";
+    const actionType = "utility";
+    const subcategoryId = "rest";
+    let actions = [];
+
+    if (actors.every((actor) => actor.type === "character")) {
+      const id = "rest";
+      const name = this.i18n("tokenActionHud.demonLord.rest");
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      const action = {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
+      };
+      actions.push(action);
+    }
+
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   _getUsesData(item) {

@@ -367,10 +367,13 @@
       "inconsumables": "Inconsumables"
     },
     "demonLord": {
-      "attackoptions": "Attack Options",
-      "challenge": "Challenge Roll",
+      "attackOptions": "Attack Options",
+      "challengeRoll": "Challenge Roll",
       "rest": "Rest",
-      "specialattacks": "Special Attacks"
+      "specialAttacks": "Special Attacks",
+      "spells": "Spells",
+      "talents": "Talents",
+      "weapons": "Weapons"
     },
     "dnd4e": {
       "settings": {

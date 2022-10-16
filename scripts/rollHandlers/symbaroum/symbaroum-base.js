@@ -11,29 +11,30 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
     if (payload.length != 3) {
       super.throwInvalidValueErr();
     }
-    let actionType = payload[0];
-    let characterId = payload[1];
-    let itemId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     switch (actionType) {
       case "weapon":
-        this._handleWeapon(actionType, event, actor, itemId);
+        this._handleWeapon(actionType, event, actor, actionId);
         break;
       case "armor":
-        this._handleArmor(actionType, event, actor, itemId);
+        this._handleArmor(actionType, event, actor, actionId);
         break;
       case "ability":
-        this._handleAbility(actionType, event, actor, itemId);
+        this._handleAbility(actionType, event, actor, actionId);
         break;
       case "mysticalPower":
-        this._handleMysticalPowers(actionType, event, actor, itemId);
+        this._handleMysticalPowers(actionType, event, actor, actionId);
         break;
       case "trait":
-        this._handleTraits(actionType, event, actor, itemId);
+        this._handleTraits(actionType, event, actor, actionId);
         break;
       case "attribute":
-        this._handleAttributes(actionType, event, actor, itemId);
+        this._handleAttributes(actionType, event, actor, actionId);
         break;
     }
   }

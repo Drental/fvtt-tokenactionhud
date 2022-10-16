@@ -33,7 +33,7 @@
 }
 
 #token-action-hud:hover > #tah-reposition,
-#token-action-hud:hover > #tah-categories {
+#token-action-hud:hover > #tah-buttons {
   display: flex;
   position: absolute;
 }
@@ -51,16 +51,16 @@
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    top: -20px !important;
+  top: -20px !important;
 }
 
-#tah-category-group {
+#tah-categories {
   display: flex;
   gap: 2px;
 }
 
 #tah-reposition,
-#tah-categories {
+#tah-buttons {
   display: none;
   font-style: normal;
   font-weight: normal;
@@ -70,18 +70,19 @@
   left: -20px;
 }
 
-#tah-categories {
+#tah-buttons {
   display: flex;
   left: 100%;
 }
 
-#tah-categories button {
+#tah-buttons button {
   background: transparent;
   border: 0;
+  line-height: unset;
 }
 
-#tah-categories button:hover, 
-#tah-categories button:focus {
+#tah-buttons button:hover, 
+#tah-buttons button:focus {
   box-shadow: none;
 }
 
@@ -92,15 +93,15 @@
   padding: 3px;
 }
 
-#tah-categories > button.fa,
-#tah-categories > button.fas {
+#tah-buttons > button.fa,
+#tah-buttons > button.fas {
   font-size: large;
 }
 
 #tah-reposition > .fa,
 #tah-reposition > .fas,
-#tah-categories button > .fa,
-#tah-categories button > .fas {
+#tah-buttons button > .fa,
+#tah-buttons button > .fas {
   color: #ddd;
   pointer-events: none;
   text-align: center;
@@ -112,7 +113,7 @@
 }
 
 #tah-reposition:hover > i,
-#tah-categories button:hover > i {
+#tah-buttons button:hover > i {
   color: #fff;
   text-shadow: 0 0 10px #ff6400;
 }
@@ -157,7 +158,7 @@
 }
 
 /* Dropdown Content (Hidden by Default) */
-.tah-content {
+.tah-subcategories {
   background: var(--tah-background, #00000000);
   border-radius: 3px;
   display: none;
@@ -167,7 +168,7 @@
 }
 
 /* Show the dropdown menu on hover */
-.tah-category.hover .tah-content {
+.tah-category.hover .tah-subcategories {
   background: none;
   display: flex;
   flex-direction: column;

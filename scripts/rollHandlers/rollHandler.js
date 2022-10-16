@@ -7,9 +7,15 @@ export class RollHandler {
 
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
 
-  getActor(actorId) {
-    const actor = game.actors.get(actorId);
-    return actor;
+  getActor(tokenId, actorId) {
+    let token = null;
+    if (tokenId) {
+      token = canvas.tokens.placeables.find((token) => token.id === tokenId);
+    } 
+    if (token) {
+      return token.actor;
+    }
+    return game.actors.get(actorId);
   }
 
   getItem(actor, itemId) {

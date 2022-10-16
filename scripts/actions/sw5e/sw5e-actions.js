@@ -1047,7 +1047,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @private */
   _buildItem(tokenId, actor, actionType, item) {
     const itemId = item.id;
-    let encodedValue = [actionType, tokenId, itemId].join(this.delimiter);
+    let encodedValue = [actionType, tokenId, actionId].join(this.delimiter);
     let img = this.getImage(item);
     let icon = this._getActionIcon(item.system.activation?.type);
     let result = {

@@ -8,70 +8,78 @@ export class RollHandlerBaseDemonlord extends RollHandler {
 
   async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
-    if (payload.length != 3) {
+    if (payload.length != 4) {
       super.throwInvalidValueErr();
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
-    let actionId = payload[2];
+    let actorId = payload[1];
+    let tokenId = payload[2];
+    let actionId = payload[3];
 
-    if (characterId === "multi") {
-      canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.id;
-        this._handleMacros(event, actionType, idToken, actionId);
-      });
+    if (tokenId === "multi" && actionId !== "toggleCombat") {
+      for (const token of canvas.tokens.controlled) {
+        const tokenActorId = token.actor?.id;
+        const tokenTokenId = token.id;
+        await this._handleMacros(
+          event,
+          actionType,
+          tokenActorId,
+          tokenTokenId,
+          actionId
+        );
+      }
     } else {
-      this._handleMacros(event, actionType, actorId, tokenId, actionId);
+      await this._handleMacros(event, actionType, actorId, tokenId, actionId);
     }
   }
 
-  _handleMacros(event, actionType, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
-    let item = null;
-    if (["weapon", "specialaction", "spell", "talent"].includes(actionType)) {
-      item = actor.items.get(actionId);
-    }
-
+  async _handleMacros(event, actionType, actorId, tokenId, actionId) {
+    const actor = super.getActor(tokenId, actorId);
     switch (actionType) {
       case "challenge":
         const attribute = actor ? actor.system.attributes[actionId] : null;
         actor.rollChallenge(attribute, actionId);
         break;
       case "weapon":
-        actor.rollWeaponAttack(item.id, null);
+        actor.rollWeaponAttack(actionId, null);
         break;
       case "talent":
-      case "specialaction":
-        actor.rollTalent(item.id, null);
+      case "special":
+        actor.rollTalent(actionId, null);
         break;
       case "spell":
-        actor.rollSpell(item.id, null);
+        actor.rollSpell(actionId, null);
         break;
       case "utility":
-        this.performUtilityMacro(event, actorId, tokenId, actionId);
+        this.performUtilityMacro(actorId, tokenId, actionId);
       default:
         break;
     }
   }
 
-  async performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
-    let token = super.getToken(tokenId);
+  async performUtilityMacro(actorId, tokenId, actionId) {
+    const actor = super.getActor(tokenId, actorId);
+    const token = super.getToken(tokenId);
 
     switch (actionId) {
       case "rest":
         actor.restActor(token);
         break;
-      case "toggleVisibility":
-        token.toggleVisibility();
-        break;
       case "toggleCombat":
-        token.toggleCombat();
+        if (canvas.tokens.controlled.length === 0) break;
+        await canvas.tokens.controlled[0].toggleCombat();
+        Hooks.callAll("forceUpdateTokenActionHUD");
+        break;
+      case "toggleVisibility":
+        if (!token) break;
+        token.toggleVisibility();
         Hooks.callAll("forceUpdateTokenActionHUD");
         break;
       case "endTurn":
-        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        if (!token) break;
+        if (game.combat?.current?.tokenId === tokenId)
+          await game.combat?.nextTurn();
         break;
     }
   }

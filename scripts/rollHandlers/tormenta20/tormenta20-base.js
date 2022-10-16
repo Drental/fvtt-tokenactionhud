@@ -15,7 +15,8 @@ export class RollHandlerBaseT20 extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     if (characterId === "multi") {
@@ -53,12 +54,12 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollAtributo(checkId);
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     const skillData = {
       actor: actor,
       type: "perícia",
@@ -69,8 +70,8 @@ export class RollHandlerBaseT20 extends RollHandler {
     actor.rollPericia(skillData);
   }
 
-  rollItemMacro(event, actorId, tokenId, itemId) {
-    let actor = super.getActor(characterId);
+  rollItemMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(tokenId, actorId);
     let item = super.getItem(actor, itemId);
 
     // if (item.type === 'magia')
@@ -81,7 +82,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
 
     await actor.rollInitiative({ createCombatants: true });
 
@@ -89,7 +90,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     const effect = actor.effects.entries.find((e) => e.id === effectId);
 
     if (!effect) return;

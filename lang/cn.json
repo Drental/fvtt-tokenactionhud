@@ -203,9 +203,9 @@
       "inconsumables": "非消耗品"
     },
     "demonLord": {
-      "challenge": "Challenge Roll",
-      "attackoptions": "Attack Options",
-      "specialattacks": "Special Attacks",
+      "challengeRoll": "Challenge Roll",
+      "attackOptions": "Attack Options",
+      "specialAttacks": "Special Attacks",
       "rest": "Rest"
     },
     "dnd4e": {

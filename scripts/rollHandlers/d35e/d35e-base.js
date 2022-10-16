@@ -15,7 +15,8 @@ export class RollHandlerBaseD35E extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     if (characterId === "multi") {
@@ -69,49 +70,49 @@ export class RollHandlerBaseD35E extends RollHandler {
   }
 
   rollCmbMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollCMB(event);
   }
 
   rollConcentrationMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollConcentration(checkId);
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollAbility(checkId, { event: event });
   }
 
   rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollAbilityTest(checkId, { event: event });
   }
 
   rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollSavingThrow(checkId, { event: event });
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.rollSkill(checkId, { event: event });
   }
 
-  rollItemMacro(event, actorId, tokenId, itemId) {
-    const actor = super.getActor(characterId);
+  rollItemMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(tokenId, actorId);
     const item = super.getItem(actor, itemId);
 
     item.use({ ev: event, skipDialog: false });
   }
 
-  rollDefenses(event, tokenId, itemId) {
-    const actor = super.getActor(characterId);
+  rollDefenses(event, tokenId, actionId) {
+    const actor = super.getActor(tokenId, actorId);
     actor.rollDefenses();
   }
 
   async adjustBuff(event, tokenId, buffId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let buff = super.getItem(actor, buffId);
 
     let update = { "data.active": !buff.system.active };
@@ -120,7 +121,7 @@ export class RollHandlerBaseD35E extends RollHandler {
   }
 
   performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {

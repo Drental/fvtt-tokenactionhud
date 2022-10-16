@@ -13,10 +13,11 @@ export class RollHandlerBaseKg extends RollHandler {
     if (payload.length != 3) super.throwInvalidValueErr();
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let charType = actor.type;
 
     if (charType === "character") {

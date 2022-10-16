@@ -15,7 +15,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     switch (actionType) {
@@ -57,27 +58,27 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    super.getActor(characterId).rollAbility(checkId, { event: event });
+    super.getActor(tokenId, actorId).rollAbility(checkId, { event: event });
   }
 
   rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
-    super.getActor(characterId).rollAbilityTest(checkId, { event: event });
+    super.getActor(tokenId, actorId).rollAbilityTest(checkId, { event: event });
   }
 
   rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
-    super.getActor(characterId).rollAbilitySave(checkId, { event: event });
+    super.getActor(tokenId, actorId).rollAbilitySave(checkId, { event: event });
   }
 
   rollSaveMacro(event, actorId, tokenId, checkId) {
-    super.getActor(characterId).rollSave(checkId, { event: event });
+    super.getActor(tokenId, actorId).rollSave(checkId, { event: event });
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    super.getActor(characterId).rollSkill(checkId, { event: event });
+    super.getActor(tokenId, actorId).rollSkill(checkId, { event: event });
   }
 
-  rollItemMacro(event, actorId, tokenId, itemId) {
-    let actor = super.getActor(characterId);
+  rollItemMacro(event, actorId, tokenId, actionId) {
+    let actor = super.getActor(tokenId, actorId);
     let item = actor.items.get(itemId);
     const shiftKey = event.shiftKey;
     const ctrlKey = event.ctrlKey;
@@ -104,7 +105,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   async _handleShields(event, tokenId, actionId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     let payload = actionId.split(".");
 
     const side = payload[0];
@@ -145,7 +146,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   _handleCrewAction(event, tokenId, actionId) {
-    const actor = super.getActor(characterId);
+    const actor = super.getActor(tokenId, actorId);
     actor.useStarshipAction(actionId);
   }
 }

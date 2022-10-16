@@ -1,7 +1,7 @@
 import { SystemManager } from "./manager.js";
+import { CategoryManager } from "../categories/categoryManager.js";
 import { ActionHandler5e as ActionHandler } from "../actions/dnd5e/dnd5e-actions.js";
 import { ActionHandler5eGroupByType } from "../actions/dnd5e/dnd5e-actions-by-type.js";
-import { CategoryManager } from "../categories/categoryManager.js";
 import { MagicItemsPreRollHandler } from "../rollHandlers/dnd5e/pre-magicItems.js";
 import { MagicItemActionListExtender } from "../actions/magicItemsExtender.js";
 import { RollHandlerBase5e as Core } from "../rollHandlers/dnd5e/dnd5e-base.js";

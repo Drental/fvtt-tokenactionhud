@@ -360,10 +360,10 @@
       "inconsumables": "非消耗品"
     },
     "demonLord": {
-      "attackoptions": "攻撃オプション",
-      "challenge": "チャレンジ･ロール",
+      "attackOptions": "攻撃オプション",
+      "challengeRoll": "チャレンジ･ロール",
       "rest": "休憩",
-      "specialattacks": "特殊攻撃"
+      "specialAttacks": "特殊攻撃"
     },
     "dnd4e": {
       "settings": {

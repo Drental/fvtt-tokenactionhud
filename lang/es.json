@@ -345,10 +345,10 @@
       "inconsumables": "Inconsumables"
     },
     "demonLord": {
-      "attackoptions": "Opciones de Ataque",
-      "challenge": "Prueba",
+      "attackOptions": "Opciones de Ataque",
+      "challengeRoll": "Prueba",
       "rest": "Descanso",
-      "specialattacks": "Ataques Especiales"
+      "specialAttacks": "Ataques Especiales"
     },
     "dnd4e": {
       "settings": {

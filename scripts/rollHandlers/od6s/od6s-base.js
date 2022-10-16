@@ -14,10 +14,11 @@ export class RollHandlerCoreOD6S extends RollHandler {
     }
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
     let actor;
-    if(actionType !== 'crew') actor = super.getActor(characterId);
+    if(actionType !== 'crew') actor = super.getActor(tokenId, actorId);
     switch (actionType) {
       case "action":
         actor.rollAction(actionId);

@@ -5,13 +5,13 @@
     <div id="tah-hudTitle">{{actions.hudTitle}}</div>
     {{~/if~}}
     <div id="tah-reposition"><i class="fas fa-arrows-alt"></i></div>
-      <div id="tah-category-group">
+      <div id="tah-categories">
       {{#each actions.categories}}
       {{>"modules/token-action-hud/templates/category.hbs" background=../background}}
       {{/each}}
       {{#unless hovering}}
       </div>
-    <div id="tah-categories">
+    <div id="tah-buttons">
       <button id="tah-unlock">
         <i class="fa fa-lock"></i>
       </button>

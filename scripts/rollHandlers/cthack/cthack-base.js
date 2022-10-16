@@ -12,32 +12,33 @@ export class RollHandlerBaseCthack extends RollHandler {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let characterId = payload[1];
-    let itemId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     switch (actionType) {
       case "save":
-        this._handleSaves(actionType, event, actor, itemId);
+        this._handleSaves(actionType, event, actor, actionId);
         break;
       case "resource":
-        this._handleResources(actionType, event, actor, itemId);
+        this._handleResources(actionType, event, actor, actionId);
         break;
       case "damage":
-        this._handleDamages(actionType, event, actor, itemId);
+        this._handleDamages(actionType, event, actor, actionId);
         break;
       case "weapon":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleWeapon(actionType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
+        else this._handleWeapon(actionType, event, actor, actionId);
         break;
       case "item":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleItem(actionType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
+        else this._handleItem(actionType, event, actor, actionId);
         break;
       case "ability":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, itemId);
-        else this._handleAbility(actionType, event, actor, itemId);
+        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
+        else this._handleAbility(actionType, event, actor, actionId);
         break;
     }
   }

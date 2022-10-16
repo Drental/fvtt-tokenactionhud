@@ -12,7 +12,8 @@ export class MagicItemsPreRollHandler extends PreRollHandler {
     if (payload.length != 3) return false;
 
     let actionType = payload[0];
-    let characterId = payload[1];
+    let actorId = payload[1];
+    let tokenId = payload[2];
     let actionId = payload[2];
 
     if (actionType != "magicItem") return false;
@@ -22,7 +23,7 @@ export class MagicItemsPreRollHandler extends PreRollHandler {
   }
 
   _magicItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(characterId);
+    let actor = super.getActor(tokenId, actorId);
     let actionParts = actionId.split(">");
 
     let itemId = actionParts[0];
