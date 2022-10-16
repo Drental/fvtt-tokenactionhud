@@ -18,9 +18,9 @@
   border-radius: 3px;
   display: flex;
   flex-direction: row;
+  gap: 3px;
   height: auto;
   left: 150px;
-  margin-bottom: 1px;
   position: fixed;
   top: 80px;
   width: auto;
@@ -38,7 +38,7 @@
   position: absolute;
 }
 
-#tah-hudTitle {
+#tah-character-name {
   color: #fff;
   left: 4px;
   margin: 0;
@@ -131,7 +131,6 @@
 
 .tah-title-button {
   height: auto;
-  margin-right: 2px;
   padding: 3px;
   text-align: center;
   text-shadow:
@@ -164,16 +163,24 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 2px;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 34px;
+  flex-direction: column-reverse;
+  padding-bottom: 3px;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
 }
 
 /* Show the dropdown menu on hover */
 .tah-category.hover .tah-subcategories {
   background: none;
   display: flex;
-  flex-direction: column;
-  left: -177px;
-  padding: 3px;
+  left: -176px;
   position: absolute;
 }
 
@@ -184,13 +191,16 @@
 }
 
 .tah-subtitle-wrapper {
-  display: flex;
   align-items: center;
+  display: flex;
   height: 32px;
 }
 
 .tah-subtitle {
+  align-items: center;
   color: #fff;
+  display: flex;
+  justify-content: flex-end;
   line-height: 1.1;
   padding-right: 5px;
   position: relative;
@@ -200,7 +210,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;
+    width: 175px;   
 }
 
 .tah-filterholder {

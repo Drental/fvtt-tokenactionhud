@@ -31,8 +31,8 @@
     --glassy: 
     0px 0px 2px rgba(255, 255, 255, 0.4) inset, 
     0px 0px 6px rgba(255, 255, 255, 0.2) inset, 
-     1px  1px 1px rgba(0, 0, 0, 1), 
-     1px -1px 1px rgba(0, 0, 0, 1), 
+    1px  1px 1px rgba(0, 0, 0, 1), 
+    1px -1px 1px rgba(0, 0, 0, 1), 
     -1px -1px 1px rgba(0, 0, 0, 1), 
     -1px  1px 1px rgba(0, 0, 0, 1), 
     0px 0px 3px rgba(0, 0, 0, 1), 
@@ -69,6 +69,7 @@
   border-radius: var(--dorako-radius);
   display: flex;
   flex-direction: row;
+  gap: 2px;
   height: auto;
   left: 150px;
   position: fixed;
@@ -88,7 +89,7 @@
   position: absolute;
 }
 
-#tah-hudTitle {
+#tah-character-name {
   color: #fff;
   left: 4px;
   margin: 0;
@@ -186,7 +187,6 @@
   box-shadow: var(--glassy);
   color: #ddd;
   height: auto;
-  margin: 2px;
   padding: 3px;
   text-align: center;
   text-shadow: var(--dorako-text-shadow);
@@ -231,32 +231,44 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 32px;
+  flex-direction: column-reverse;
+  margin-bottom: 2px;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
 }
 
 /* Show the dropdown menu on hover */
 .tah-category.hover .tah-subcategories {
   background: none;
   display: flex;
-  flex-direction: column;
-  left: -177px;
-  padding: 3px;
+  left: -178px;
   position: absolute;
 }
 
 .tah-subcategory {
   cursor: default;
   display: flex;
-  padding-bottom: 5px;
+  padding: 2px;
 }
 
 .tah-subtitle-wrapper {
-  display: flex;
   align-items: center;
+  display: flex;
   height: 32px;
 }
 
 .tah-subtitle {
+  align-items: center;
   color: #fff;
+  display: flex;
+  justify-content: flex-end;
   line-height: 1.1;
   padding-right: 5px;
   position: relative;
@@ -266,7 +278,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;
+  width: 175px;   
 }
 
 .tah-filterholder {

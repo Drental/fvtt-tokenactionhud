@@ -6,7 +6,7 @@
         {{~#if this.info2~}}<div class="tah-info2">{{this.info2}}</div>{{~/if~}}
         {{~#if this.info3~}}<div class="tah-info3">{{this.info3}}</div>{{~/if~}}
     </button>
-    <div class="tah-subcategories" {{~#if background~}}style='background: {{background}}'{{~/if~}}>
+    <div class="tah-subcategories expand-down" {{~#if background~}}style='background: {{background}}'{{~/if~}}>
         {{#each subcategories}}
         {{>"modules/token-action-hud/templates/subcategory.hbs" categoryId=../id }}
         {{/each}}

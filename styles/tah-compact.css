@@ -39,7 +39,7 @@
   position: absolute;
 }
 
-#tah-hudTitle {
+#tah-character-name {
   color: #fff;
   left: 4px;
   margin: 0;
@@ -161,33 +161,44 @@
   display: none;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 2px;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 20px;
+  flex-direction: column-reverse;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
+  padding-top: 3px;
 }
 
 /* Show the dropdown menu on hover */
 .tah-category.hover .tah-subcategories {
-  background: none;
   display: flex;
-  flex-direction: column;
-  left: -175px;
-  padding: 1px;
+  left: -178px;
   position: absolute;
 }
 
 .tah-subcategory {
   cursor: default;
   display: flex;
-  padding-top: 3px;
+  padding: 1.5px;
 }
 
 .tah-subtitle-wrapper {
+  align-items: center;
   display: flex;
+  height: 20px;
 }
 
 .tah-subtitle {
+  align-items: center;
   color: #fff;
-  font-size: small;
-  line-height: 1;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 1.1;
   padding-right: 5px;
   position: relative;
   text-align: right;
@@ -196,7 +207,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;
+    width: 175px;   
 }
 
 .tah-filterholder {

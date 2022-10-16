@@ -118,9 +118,13 @@
         "hint": "Ativar registro de depuração.",
         "name": "Ativar depuração"
       },
-      "dropdown": {
-        "hint": "Define as categorias como suspensas, caso contrário, usa uma implementação suspensa incompleta (alerta!). Sinta-se à vontade para relatar quaisquer bugs.",
-        "name": "Categorias suspensas"
+      "direction": {
+        "hint": "Defina a direção de expansão do HUD",
+        "name": "Direção",
+        "choices": {
+          "down": "Baixa",
+          "up": "Acima"
+        }
       },
       "enabledForUser": {
         "hint": "O HUD fica ativo para o usuário. Não substitui a configuração de permissão do jogador.",

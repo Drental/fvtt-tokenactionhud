@@ -323,11 +323,10 @@ export class TokenActionHUD extends Application {
   }
 
   applySettings() {
-    if (!settings.get("dropdown")) {
-      $(document).find(".tah-subcategories").css({
-        bottom: "40px",
-        "flex-direction": "column-reverse",
-      });
+    if (settings.get("direction") === "up") {
+      $(document).find(".tah-subcategories").removeClass("expand-down");
+      $(document).find(".tah-subcategories").addClass("expand-up");
+      $(document).find("#tah-character-name").addClass("tah-hidden");
     }
   }
 
@@ -335,7 +334,7 @@ export class TokenActionHUD extends Application {
   trySetPos() {
     if (!this.actionList) return;
 
-    let hudTitle = $(document).find("#tah-hudTitle");
+    let hudTitle = $(document).find("#tah-character-name");
     if (hudTitle.length > 0)
       hudTitle.css("top", -hudTitle[0].getBoundingClientRect().height);
 

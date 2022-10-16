@@ -352,8 +352,28 @@ export class ActionHandlerPf2e extends ActionHandler {
     let calculateAttackPenalty = settings.get("calculateAttackPenalty");
     let subcategory = this.initializeEmptySubcategory();
     let glyph = s.glyph;
-    if (glyph)
+    if (usage === "thrown") {
+      subcategory.icon = 
+      `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/thrown.svg" title="Thrown Usage" style="
+      border: 0;
+      filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
+      left: 2px;
+      padding-top: 3px;
+      position: relative;
+      ">`
+    } 
+    if (usage === "melee") {
+      subcategory.icon = 
+      `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/sword.svg" title="Melee Usage" style="
+      border: 0;
+      filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
+      left: 2px;
+      padding-top: 3px;
+      position: relative;
+      ">`
+    } else if (usage !== "thrown" && glyph) {
       subcategory.icon = `<span style='font-family: "Pathfinder2eActions"'>${glyph}</span>`;
+    }
     if (s.ready) {
       let map = Math.abs(parseInt(s.variants[1].label.split(" ")[1]));
       let attackMod = s.totalModifier;
@@ -417,7 +437,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       const auxActionsMap = s.auxiliaryActions.map(
         function (a) {
           return {
-            id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+            id: encodeURIComponent(`${this.label}>${this.auxiliaryActions.indexOf(a)}>` + usage),
             name: a.label,
           };
         }.bind(s)
