@@ -7,7 +7,7 @@ export class RollHandler {
 
   i18n = (toTranslate) => game.i18n.localize(toTranslate);
 
-  getActor(tokenId, actorId) {
+  getActor(actorId, tokenId) {
     let token = null;
     if (tokenId) {
       token = canvas.tokens.placeables.find((token) => token.id === tokenId);
@@ -70,9 +70,9 @@ export class RollHandler {
     this.shift = this.isShift(event);
   }
 
-  doRenderItem(actorId, itemId) {
-    let actor = this.getActor(actorId);
-    let item = this.getItem(actor, itemId);
+  doRenderItem(actorId, tokenId, actionId) {
+    let actor = this.getActor(actorId, tokenId);
+    let item = this.getItem(actor, actionId);
     item.sheet.render(true);
   }
 
@@ -104,18 +104,18 @@ export class RollHandler {
 
   /** @private */
   _isMultiGenericAction(encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
     let actionType = payload[0];
-    let actionId = payload[2];
+    let actionId = payload[3];
 
     return actionType === "utility" && actionId.includes("toggle");
   }
 
   /** @private */
   async _doMultiGenericAction(encodedValue) {
-    let payload = encodedValue.split("|");
-    let actionId = payload[2];
+    const payload = encodedValue.split("|");
+    let actionId = payload[3];
 
     if (actionId === "toggleVisibility") {
       await canvas.tokens.controlled[0].toggleVisibility();

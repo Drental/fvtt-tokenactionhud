@@ -373,6 +373,7 @@
     "demonLord": {
       "attackOptions": "Attack Options",
       "challengeRoll": "Challenge Roll",
+      "magic": "Magic",
       "rest": "Rest",
       "specialAttacks": "Special Attacks",
       "spells": "Spells",
@@ -468,6 +469,9 @@
       }
     },
     "ds4": {
+      "checks": "Checks",
+      "spells": "Spells",
+      "weapons": "Weapons",
       "settings": {
         "displayCheckTargetNumbers": {
           "name": "Show Check Target Numbers",

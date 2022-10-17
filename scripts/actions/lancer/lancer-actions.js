@@ -87,7 +87,7 @@ export class ActionHandlerLancer extends ActionHandler {
     result.name = name;
     result.actions = mm
       .filter((item) => {
-        if (item != null) return item.Type === itemType;
+        if (item !==null) return item.Type === itemType;
       })
       .map((item) => {
         return this._makeAction(item.Name, macro, actorId, item.RegistryID);
@@ -103,7 +103,7 @@ export class ActionHandlerLancer extends ActionHandler {
     result.name = name;
     result.actions = actor.items
       .filter((item) => {
-        if (item != null) return item.type === "npc_feature";
+        if (item !==null) return item.type === "npc_feature";
       })
       .filter((item) => {
         return item.system.type === itemType;
@@ -218,7 +218,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
     let itemSubCats = mm._talents
       .filter((item) => {
-        if (item != null) return item.Type === "talent";
+        if (item !==null) return item.Type === "talent";
       })
       .map((talent) => {
         let subcat = this.initializeEmptySubcategory();
@@ -356,7 +356,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
     result.name = core.Name;
 
-    if (core.PassiveName != "Core Passive") {
+    if (core.PassiveName !== "Core Passive") {
       result.actions.push(
         this._makeAction(core.PassiveName, "corePassive", actorId, "")
       );

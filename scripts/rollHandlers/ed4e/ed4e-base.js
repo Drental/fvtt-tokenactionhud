@@ -11,16 +11,16 @@ export class RollHandlerBaseED4e extends RollHandler {
 
 
     async doHandleActionEvent(event, encodedValue) {
-        let payload = encodedValue.split('|');
+        const payload = encodedValue.split('|');
 
-        if (payload.length !== 3) {
+        if (payload.length !== 4) {
             super.throwInvalidValueErr();
         }
 
         let actionType = payload[0];
         let actorId = payload[1];
     let tokenId = payload[2];
-        let actionId = payload[2];
+        let actionId = payload[3];
 
         if (tokenId === 'multi') {
             for (let t of canvas.tokens.controlled) {
@@ -33,7 +33,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     async _handleMacros(event, actionType, actorId, tokenId, actionId) {
-        let actor = super.getActor(tokenId, actorId);
+        let actor = super.getActor(actorId, tokenId);
         switch (actionType) {
             case 'skill':
             // fall through
@@ -93,17 +93,17 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     rollAttributeMacro(event, actorId, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         actor.rollPrep({ attribute: `${actionId.split('.').slice(-1)}Step`, name: actionId });
     }
 
     rollTalentMacro(event, actorId, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         actor.rollPrep({ talentID: actionId});
     }
 
     rollInventoryMacro(event, actorId, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         const item = actor.items.get(actionId);
         if (item.type === 'equipment') {
             item.sheet.render(true);
@@ -116,7 +116,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     toggleDataProperty(event, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         if (actionId.includes("tactics")) {
             const tactic = actionId.split('.')[1];
             actor.update({
@@ -139,7 +139,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     toggleItemWornProperty(event, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         const item = actor.items.get(actionId);
         const currentValue = item.system['worn'];
         const valueType = typeof currentValue;
@@ -158,7 +158,7 @@ export class RollHandlerBaseED4e extends RollHandler {
     }
 
     handleCreatureActionMacro(event, actorId, tokenId, actionId) {
-        const actor = super.getActor(tokenId, actorId);
+        const actor = super.getActor(actorId, tokenId);
         const item = actor.items.get(actionId);
 
         if (item.system.attackstep !== 0) {

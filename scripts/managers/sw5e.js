@@ -15,18 +15,15 @@ export class SW5eSystemManager extends SystemManager {
   }
 
   /** @override */
-  doGetActionHandler(filterManager, categoryManager) {
+  doGetActionHandler(character, categoryManager) {
     let actionHandler;
     if (
       SystemManager.isModuleActive("character-actions-list-5e") &&
       settings.get("useActionList")
     ) {
-      actionHandler = new ActionHandlerSW5eGroupByType(
-        filterManager,
-        categoryManager
-      );
+      actionHandler = new ActionHandlerSW5eGroupByType(character, categoryManager);
     } else {
-      actionHandler = new ActionHandler(filterManager, categoryManager);
+      actionHandler = new ActionHandler(character, categoryManager);
     }
 
     if (SystemManager.isModuleActive("magicitems"))

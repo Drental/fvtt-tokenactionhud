@@ -10,16 +10,16 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
   prehandleActionEvent(event, encodedValue) {
     this.registerKeyPresses(event);
 
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length != 3) return false;
+    if (payload.length !== 4) return false;
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    if (actionType != "itemMacro") return false;
+    if (actionType !== "itemMacro") return false;
 
     if (this.isRenderItem()) {
       this.doRenderItem(actorId, tokenId, actionId);
@@ -30,7 +30,7 @@ export class ItemMacroPreRollHandler extends PreRollHandler {
   }
 
   _tryExecuteItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = super.getItem(actor, actionId);
 
     try {

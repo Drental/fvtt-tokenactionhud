@@ -12,15 +12,15 @@ export class RollHandlerBaseLancer extends RollHandler {
 
   /** @override */
   doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length != 3 && payload.length != 4) {
+    if (payload.length !== 4 && payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
     let actionType = payload[0];
     let actorID = payload[1];
-    let actionId = payload[2];
+    let actionId = payload[3];
     let option = JSON.parse(payload[3]);
 
     let hasSheet = ["item"];

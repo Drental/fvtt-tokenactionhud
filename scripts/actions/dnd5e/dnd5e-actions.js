@@ -245,8 +245,7 @@ export class ActionHandler5e extends ActionHandler {
   _getAction(character, actionType, entity) {
     const actor = character?.actor;
     const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
-    const id = entity.id;
+    const tokenId = character?.token?.id;const id = entity.id;
     let name = entity.name;
     if (
       entity?.system?.recharge &&
@@ -286,17 +285,17 @@ export class ActionHandler5e extends ActionHandler {
   /** @private */
   _buildSpells(actionList, character) {
     const actor = character?.actor;
-    let validSpells = this._filterLongerActions(
+    let spells = this._filterLongerActions(
       actor.items.filter((item) => item.type === "spell")
     );
-    validSpells = this._filterExpendedItems(validSpells);
+    spells = this._filterExpendedItems(spells);
 
     if (actor.type === "character" || !settings.get("showAllNpcItems"))
-      validSpells = this._filterNonpreparedSpells(validSpells);
+      spells = this._filterNonpreparedSpells(spells);
 
-    const spellsSorted = this._sortSpellsByLevel(validSpells);
+    spells = this._sortSpellsByLevel(spells);
 
-    this._categoriseSpells(actionList, character, spellsSorted);
+    this._categoriseSpells(actionList, character, spells);
   }
 
   /** @private */
@@ -547,11 +546,7 @@ export class ActionHandler5e extends ActionHandler {
       function (dispose, feat) {
         const activationType = feat.system.activation.type;
         const actionType = "feat";
-        const action = this._getAction(
-          character,
-          actionType,
-          feat
-        );
+        const action = this._getAction(character, actionType, feat);
 
         if (actor.type === "vehicle") {
           if (
@@ -651,11 +646,7 @@ export class ActionHandler5e extends ActionHandler {
       reactionsActions
     );
 
-    this.addSubcategoriesToActionList(
-      actionList,
-      subcategoryList,
-      categoryId
-    );
+    this.addSubcategoriesToActionList(actionList, subcategoryList, categoryId);
   }
 
   /** ATTRIBUTES */
@@ -729,9 +720,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildSkills(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const skills = actor.system.skills;
     const actionType = "skill";
     const abbr = settings.get("abbreviateSkills");
@@ -791,9 +782,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _getEffects(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const categoryId = "effects";
     const actionType = "effect";
     let subcategoryList = [];
@@ -856,9 +847,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildConditions(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const actionType = "condition";
     const subcategoryId = "conditions";
 
@@ -964,7 +955,7 @@ export class ActionHandler5e extends ActionHandler {
       id: "rollInitiative",
       name: this.i18n("tokenActionHud.rollInitiative"),
       encodedValue: initiativeValue,
-      selected: true
+      selected: true,
     };
 
     if (currentInitiative) initiativeAction.info1 = currentInitiative;
@@ -982,7 +973,7 @@ export class ActionHandler5e extends ActionHandler {
         id: "endTurn",
         name: this.i18n("tokenActionHud.endTurn"),
         encodedValue: endTurnValue,
-        selected: true
+        selected: true,
       };
 
       actions.push(endTurnAction);
@@ -1006,7 +997,7 @@ export class ActionHandler5e extends ActionHandler {
       id: "rollInitiative",
       name: this.i18n("tokenActionHud.rollInitiative"),
       encodedValue: initiativeValue,
-      selected: true
+      selected: true,
     };
 
     let isActive;
@@ -1027,9 +1018,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildRests(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const actionType = "utility";
     let actions = [];
 
@@ -1041,7 +1032,7 @@ export class ActionHandler5e extends ActionHandler {
         id: "shortRest",
         name: this.i18n("tokenActionHud.shortRest"),
         encodedValue: shortRestValue,
-        selected: true
+        selected: true,
       });
       let longRestValue = [actionType, actorId, tokenId, "longRest"].join(
         this.delimiter
@@ -1050,7 +1041,7 @@ export class ActionHandler5e extends ActionHandler {
         id: "longRest",
         name: this.i18n("tokenActionHud.longRest"),
         encodedValue: longRestValue,
-        selected: true
+        selected: true,
       });
     }
 
@@ -1089,9 +1080,9 @@ export class ActionHandler5e extends ActionHandler {
 
   /** @private */
   _buildUtility(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const actionType = "utility";
 
     let actions = [];
@@ -1243,19 +1234,19 @@ export class ActionHandler5e extends ActionHandler {
   _filterNonpreparedSpells(spells) {
     const nonpreparableSpells = Object.keys(
       game.dnd5e.config.spellPreparationModes
-    ).filter((p) => p != "prepared");
+    ).filter((p) => p !== "prepared");
     let result = spells;
 
     if (settings.get("showAllNonpreparableSpells")) {
-      result = spells.filter((i) => {
+      result = spells.filter((spell) => {
         return (
-          i.system.preparation.prepared ||
-          nonpreparableSpells.includes(i.system.preparation.mode) ||
-          i.system.level === 0
+          spell.system.preparation.prepared ||
+          nonpreparableSpells.includes(spell.system.preparation.mode) ||
+          spell.system.level === 0
         );
       });
     } else {
-      result = spells.filter((i) => i.system.preparation.prepared);
+      result = spells.filter((spell) => spell.system.preparation.prepared);
     }
 
     return result;
@@ -1265,8 +1256,8 @@ export class ActionHandler5e extends ActionHandler {
   _filterExpendedItems(items) {
     if (settings.get("showEmptyItems")) return items;
 
-    return items.filter((i) => {
-      let uses = i.system.uses;
+    return items.filter((item) => {
+      const uses = item.system.uses;
       // Assume something with no uses is unlimited in its use.
       if (!uses) return true;
 

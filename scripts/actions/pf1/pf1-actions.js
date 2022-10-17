@@ -11,7 +11,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
-      this._buildMultipleTokenList(result);
+      this._buildMultipleTokenActions(result);
       return result;
     }
 
@@ -43,7 +43,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     return result;
   }
 
-  _buildMultipleTokenList(list) {
+  _buildMultipleTokenActions(list) {
     list.tokenId = "multi";
     list.actorId = "multi";
 
@@ -270,7 +270,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = equipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment"
+      (i) => i.type !== "weapon" && i.type !== "equipment"
     );
     let otherActions = other.map((o) =>
       this._buildItem(tokenId, actor, actionType, o)
@@ -295,7 +295,7 @@ export class ActionHandlerPf1 extends ActionHandler {
     let inconsumable = allConsumables.filter(
       (c) =>
         !(c.system.uses?.max || c.system.uses?.value) &&
-        c.system.consumableType != "ammo"
+        c.system.consumableType !== "ammo"
     );
     let incomsumableActions = inconsumable.map((i) =>
       this._buildItem(tokenId, actor, actionType, i)

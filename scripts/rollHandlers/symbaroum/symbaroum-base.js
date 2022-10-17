@@ -7,8 +7,8 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
   }
 
   doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
-    if (payload.length != 3) {
+    const payload = encodedValue.split("|");
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
     const actionType = payload[0];
@@ -16,7 +16,7 @@ export class RollHandlerBaseSymbaroum extends RollHandler {
     const tokenId = payload[2];
     const actionId = payload[3];
 
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     switch (actionType) {
       case "weapon":
         this._handleWeapon(actionType, event, actor, actionId);

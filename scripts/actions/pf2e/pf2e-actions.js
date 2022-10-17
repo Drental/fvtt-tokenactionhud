@@ -16,7 +16,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
-      this._buildMultipleTokenList(result);
+      this._buildMultipleTokenActions(result);
       return result;
     }
 
@@ -45,7 +45,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     return result;
   }
 
-  _buildMultipleTokenList(list) {
+  _buildMultipleTokenActions(list) {
     list.tokenId = "multi";
     list.actorId = "multi";
 
@@ -902,7 +902,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     let value = data.check.mod;
     let info = "";
-    if (value != 0) {
+    if (value !== 0) {
       if (value > 0) info = `+${value}`;
       else info = `${value}`;
     }

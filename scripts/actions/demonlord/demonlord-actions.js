@@ -11,7 +11,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     const actor = character?.actor;
 
     if (!actor) {
-      this._buildMultipleTokenList(actionList, subcategoryIds);
+      this._buildMultipleTokenActions(actionList, subcategoryIds);
       return actionList;
     }
 
@@ -31,7 +31,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     return actionList;
   }
 
-  _buildMultipleTokenList(actionList, subcategoryIds) {
+  _buildMultipleTokenActions(actionList, subcategoryIds) {
     const allowedTypes = ["creature", "character"];
     const actors = canvas.tokens.controlled
       .map((token) => token.actor)
@@ -48,8 +48,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _buildChallengeRoll(actionList, character) {
     const actor = character?.actor;
     const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
-    const actionType = "challenge";
+    const tokenId = character?.token?.id;const actionType = "challenge";
     const subcategoryId = "challenge";
 
     const attributes = Object.entries(actor.system.attributes);
@@ -105,8 +104,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _buildWeapons(actionList, character) {
     const actor = character?.actor;
     const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
-    const actionType = "weapon";
+    const tokenId = character?.token?.id;const actionType = "weapon";
     const subcategoryId = "weapons";
 
     const actions = actor.items
@@ -133,8 +131,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _buildTalents(actionList, character) {
     const actor = character?.actor;
     const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
-    const actionType = "talent";
+    const tokenId = character?.token?.id;const actionType = "talent";
     const categoryId = "talents";
 
     const talents = actor.items.filter((item) => item.type == actionType);
@@ -146,7 +143,7 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let subcategoryList = [];
 
     groups.sort().forEach((group) => {
-      if (group != undefined) {
+      if (group !== undefined) {
         const subcategoryId = `talents_${group.toLowerCase()}`;
         const subcategoryName = group;
         const subcategory = this.initializeEmptySubcategory(
@@ -192,9 +189,8 @@ export class ActionHandlerDemonlord extends ActionHandler {
   _buildMagic(actionList, character) {
     const actor = character?.actor;
     const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
-    const actionType = "spell";
-    const categoryId = "magic";
+    const tokenId = character?.token?.id;const actionType = "spell";
+    const subcategoryId = "spells";
     let subcategoryList = [];
 
     let spells = actor.items.filter((i) => i.type === "spell");
@@ -205,11 +201,11 @@ export class ActionHandlerDemonlord extends ActionHandler {
     ];
     traditions.sort().forEach((tradition) => {
       if (tradition !== undefined) {
-        const traditionId = tradition;
+        const traditionSubcategoryId = tradition;
         const traditionName = tradition;
         const subcategory = this.initializeEmptySubcategory(
-          traditionId,
-          categoryId,
+          traditionSubcategoryId,
+          subcategoryId,
           traditionName
         );
 
@@ -235,14 +231,14 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
         this.addToSubcategoriesList(
           subcategoryList,
-          traditionId,
+          traditionSubcategoryId,
           subcategory,
           actions
         );
       }
     });
 
-    this.addSubcategoriesToActionList(actionList, subcategoryList, categoryId);
+    this.addSubcategoriesToActionList(actionList, subcategoryList, subcategoryId);
   }
 
   _sortSpellsByRank(spells) {
@@ -289,9 +285,9 @@ export class ActionHandlerDemonlord extends ActionHandler {
   }
 
   _buildRest(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const actionType = "utility";
     const subcategoryId = "rest";
     let actions = [];

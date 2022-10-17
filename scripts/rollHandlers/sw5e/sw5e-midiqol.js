@@ -7,7 +7,7 @@ export class RollHandlerMidiQolSW5e extends RollHandlerBaseSW5e {
 
   /** @override */
   rollItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = actor.items.get(itemId);
 
     if (this.needsRecharge(item)) {

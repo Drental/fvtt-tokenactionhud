@@ -9,12 +9,11 @@ export class ActionHandlerDnD4e extends ActionHandler {
 
   /** @override */
   buildSystemActions(actionList, character, subcategoryIds) {
-    if (token) {
-      return this._buildSingleTokenList(token);
-    } else if (multipleTokens) {
-      return this._buildMultipleTokenList();
+    if (actor) {
+      return this._buildSingleTokenActions(token);
+    } else {
+      return this._buildMultipleTokenActions();
     }
-    return this.initializeEmptyActionList();
   }
 
   buildUpgradeAnnouncement() {
@@ -25,7 +24,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     return list
   }
 
-  async _buildSingleTokenList(token) {
+  async _buildSingleTokenActions(token) {
     if(!game.dnd4eBeta.tokenBarHooks) {
       return this.buildUpgradeAnnouncement();
     }
@@ -73,7 +72,7 @@ export class ActionHandlerDnD4e extends ActionHandler {
     );
   }
 
-  _buildMultipleTokenList() {
+  _buildMultipleTokenActions() {
     if(!game.dnd4eBeta.tokenBarHooks) {
       return this.buildUpgradeAnnouncement();
     }

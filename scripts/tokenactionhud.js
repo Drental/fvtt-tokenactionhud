@@ -457,7 +457,6 @@ export class TokenActionHUD extends Application {
       `Resetting Token Action HUD filter and category flags`
     );
     await this.categoryManager.reset();
-    //??? await this.filterManager.reset();
     this.update();
   }
 

@@ -7,15 +7,15 @@ export class RollHandlerBaseDemonlord extends RollHandler {
   }
 
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
-    if (payload.length != 4) {
+    const payload = encodedValue.split("|");
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[3];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
     if (tokenId === "multi" && actionId !== "toggleCombat") {
       for (const token of canvas.tokens.controlled) {
@@ -35,7 +35,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
   }
 
   async _handleMacros(event, actionType, actorId, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     switch (actionType) {
       case "challenge":
         const attribute = actor ? actor.system.attributes[actionId] : null;
@@ -59,7 +59,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
   }
 
   async performUtilityMacro(actorId, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     const token = super.getToken(tokenId);
 
     switch (actionId) {

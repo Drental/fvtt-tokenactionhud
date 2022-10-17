@@ -10,8 +10,8 @@ export class Space1889SystemManager extends SystemManager {
     }
 
 
-    doGetActionHandler(filterManager, categoryManager) {
-        return new ActionHandlerSpace1889(filterManager, categoryManager);
+    doGetActionHandler(character, categoryManager) {
+        return new ActionHandlerSpace1889(character, categoryManager);
     }
 
     doGetRollHandler(handlerId) {

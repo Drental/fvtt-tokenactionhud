@@ -9,15 +9,15 @@ export class RollHandlerBaseKg extends RollHandler {
   doHandleActionEvent(event, encodedValue) {
     let ctrlClick = event.ctrlKey;
 
-    let payload = encodedValue.split("|");
-    if (payload.length != 3) super.throwInvalidValueErr();
+    const payload = encodedValue.split("|");
+    if (payload.length !== 4) super.throwInvalidValueErr();
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let charType = actor.type;
 
     if (charType === "character") {

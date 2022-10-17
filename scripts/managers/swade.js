@@ -10,8 +10,8 @@ export class SwadeSystemManager extends SystemManager {
   }
 
   /** @override */
-  doGetActionHandler(filterManager, categoryManager) {
-    return new ActionHandler(filterManager, categoryManager);
+  doGetActionHandler(character, categoryManager) {
+    return new ActionHandler(character, categoryManager);
   }
 
   /** @override */

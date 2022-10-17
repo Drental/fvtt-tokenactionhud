@@ -8,16 +8,16 @@ export class RollHandlerBaseSfrpg extends RollHandler {
 
   /** @override */
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length != 3) {
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
     switch (actionType) {
       case "ability":
@@ -58,27 +58,27 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    super.getActor(tokenId, actorId).rollAbility(checkId, { event: event });
+    super.getActor(actorId, tokenId).rollAbility(checkId, { event: event });
   }
 
   rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
-    super.getActor(tokenId, actorId).rollAbilityTest(checkId, { event: event });
+    super.getActor(actorId, tokenId).rollAbilityTest(checkId, { event: event });
   }
 
   rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
-    super.getActor(tokenId, actorId).rollAbilitySave(checkId, { event: event });
+    super.getActor(actorId, tokenId).rollAbilitySave(checkId, { event: event });
   }
 
   rollSaveMacro(event, actorId, tokenId, checkId) {
-    super.getActor(tokenId, actorId).rollSave(checkId, { event: event });
+    super.getActor(actorId, tokenId).rollSave(checkId, { event: event });
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    super.getActor(tokenId, actorId).rollSkill(checkId, { event: event });
+    super.getActor(actorId, tokenId).rollSkill(checkId, { event: event });
   }
 
   rollItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = actor.items.get(itemId);
     const shiftKey = event.shiftKey;
     const ctrlKey = event.ctrlKey;
@@ -105,8 +105,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   async _handleShields(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
-    let payload = actionId.split(".");
+    const actor = super.getActor(actorId, tokenId);
+    const payload = actionId.split(".");
 
     const side = payload[0];
     let shieldChange = parseInt(payload[1]);
@@ -146,7 +146,7 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   _handleCrewAction(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     actor.useStarshipAction(actionId);
   }
 }

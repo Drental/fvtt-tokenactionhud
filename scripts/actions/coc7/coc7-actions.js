@@ -11,53 +11,60 @@ export class ActionHandlerCoC7 extends ActionHandler {
     const actor = character?.actor;
     const actorTypes = ["character", "npc", "creature"];
     if (!actorTypes.includes(actor.type)) {
-      return result;
+      return actionList;
     }
 
-    if (subcategoryIds.some((subcategoryId) => subcategoryId === "actions"))
-      this._buildActions(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "characteristics"))
+      this._buildCharacteristics(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "attributes"))
+      this._buildAttributes(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "weapons"))
+      this._buildWeapons(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
       this._buildSkills(actionList, character);
 
     return actionList;
   }
 
-  _buildActions(actionList, character) {
+  _buildCharacteristics(actionList, character) {
+    const actor = character?.actor;
     const actorId = character?.actor?.id;
     const tokenId = character?.actor?.id;
-    const actor = character?.actor;
-    const categorySubcategoryId = "characteristic";
-    const meleeSubcategoryId = "melee";
-    const rangedSubcategoryId = "ranged";
-    let categoryActions = [];
-    let meleeActions = [];
-    let rangedActions = [];
-
-    // Characteristics
-    for (const characteristicKey of actor.system.characteristics) {
-      const actionType = "characteristic";
-      const id = characteristicKey;
+    const actionType = "characteristic"
+    const subcategoryId = "characteristics";
+    const characteristics = actor.system.characteristics
+    const actions = characteristics.map((characteristic) => {
+      const id = characteristic;
       const name = this.i18n(
-        actor.system.characteristics[characteristicKey].label
+        actor.system.characteristics[characteristic].label
       );
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      categoryActions.push({
+      return {
         id: id,
         name: name,
         encodedValue: encodedValue,
         selected: true,
-      });
-    }
+      }
+    });
+    this.addActionsToActionList(actionList, actions, subcategoryId);
+  }
+
+  _buildAttributes(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.actor?.id;
+    const actionType = "attribute";
+    const subcategoryId = "attributes";
+    let actions = [];
     if (actor.system.attribs.lck.value) {
-      const actionType = "attribute";
       const id = "lck";
       const name = actor.system.attribs.lck.label;
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      categoryActions.push({
+      actions.push({
         id: id,
         name: name,
         encodedValue: encodedValue,
@@ -65,100 +72,77 @@ export class ActionHandlerCoC7 extends ActionHandler {
       });
     }
     if (actor.system.attribs.san.value) {
-      const actionType = "attribute";
       const id = "san";
       const name = actor.system.attribs.san.label;
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      categoryActions.push({
+      actions.push({
         id: id,
         name: name,
         encodedValue: encodedValue,
         selected: true,
       });
     }
+    this.addActionsToActionList(
+      actionList,
+      actions,
+      subcategoryId
+    );
+  }
 
-    if (categoryActions.length) {
-      categoryActions = this._sortItems(categoryActions);
-
-      this.addActionsToActionList(
-        actionList,
-        categoryActions,
-        categorySubcategoryId
-      );
-    }
-
-    // Melee / Ranged
-    for (const item of actor.items) {
-      const actionType = "weapon";
-      if (item.type === "weapon") {
+  _buildWeapons(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.actor?.id;
+    const actionType = "weapon";
+    const subcategoryId = "weapons";
+    let items = actor.items;
+    const actions = items
+      .filter((item) => item.type === actionType)
+      .map((item) => {
         const id = item.id;
         const name = item.name;
         const encodedValue = [actionType, actorId, tokenId, id].join(
           this.delimiter
         );
-        const action = {
+        return {
           id: id,
           name: name,
           encodedValue: encodedValue,
-          selected: true,
-        };
-        if (item.system.properties?.rngd) {
-          rangedActions.push(action);
-        } else {
-          meleeActions.push(action);
+          selected: true
         }
-      }
-    }
-
-    if (meleeActions.length) {
-      meleeActions = this._sortItems(meleeActions);
-
-      this.addActionsToActionList(actionList, meleeActions, meleeSubcategoryId);
-    }
-
-    if (rangedActions.length) {
-      rangedActions = this._sortItems(rangedActions);
-
-      this.addActionsToActionList(
-        actionList,
-        rangedActions,
-        rangedSubcategoryId
-      );
-    }
+      })
+    this.addActionsToActionList(
+      actionList,
+      actions,
+      subcategoryId
+    );
   }
 
   _buildSkills(actionList, character) {
+    const actor = character?.actor;
     const actorId = character?.actor?.id;
     const tokenId = character?.actor?.id;
-    const actor = character?.actor;
     const actionType = "skill";
     const subcategoryId = "skills";
-
-    let actions = [];
-    for (const item of actor.items) {
-      if (item.type === actionType) {
+    const items = actor.items;
+    const actions = items
+      .filter((item) => item.type === actionType)
+      .map((item) => {
         const id = item.id;
         const name = item.name;
-        const encodedValue = [actionType, actorId, tokenId, item.name].join(
+        const encodedValue = [actionType, actorId, tokenId, id].join(
           this.delimiter
         );
-        const action = {
+        return {
           id: id,
           name: name,
           encodedValue: encodedValue,
-          selected: true,
-        };
-        actions.push(action);
-      }
-    }
-
-    if (actions.length) {
-      actions = _sortItems(actions);
-
-      this.addActionsToActionList(actionList, actions, subcategoryId);
-    }
+          selected: true
+        }
+      });
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   _sortItems(items) {

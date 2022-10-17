@@ -10,14 +10,14 @@ export class ActionHandlerSW5e extends ActionHandler {
   /** @override */
   buildSystemActions(actionList, character, subcategoryIds) {
     if (token) {
-      return this._buildSingleTokenList(token);
+      return this._buildSingleTokenActions(token);
     } else if (multipleTokens) {
-      return this._buildMultipleTokenList();
+      return this._buildMultipleTokenActions();
     }
     return this.initializeEmptyActionList();
   }
 
-  async _buildSingleTokenList(token) {
+  async _buildSingleTokenActions(token) {
     const list = this.initializeEmptyActionList();
     list.tokenId = token?.id;
     list.actorId = token?.actor?.id;
@@ -90,7 +90,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     );
   }
 
-  _buildMultipleTokenList() {
+  _buildMultipleTokenActions() {
     const list = this.initializeEmptyActionList();
     list.tokenId = "multi";
     list.actorId = "multi";
@@ -184,7 +184,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = activeEquipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment"
+      (i) => i.type !== "weapon" && i.type !== "equipment"
     );
     let otherActions = other.map((o) =>
       this._buildEquipmentItem(tokenId, actor, actionType, o)
@@ -1168,7 +1168,7 @@ export class ActionHandlerSW5e extends ActionHandler {
   _filterNonpreparedPowers(powers) {
     const nonpreparablePowers = Object.keys(
       game.sw5e.config.powerPreparationModes
-    ).filter((p) => p != "prepared");
+    ).filter((p) => p !== "prepared");
     let result = powers;
 
     if (settings.get("showAllNonpreparablePowers")) {

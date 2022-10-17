@@ -511,7 +511,7 @@ export class ActionHandlerSwade extends ActionHandler {
     if (!curr) return;
 
     let result = "";
-    if (curr != 0 || shots != 0) result += curr;
+    if (curr !== 0 || shots !== 0) result += curr;
 
     if (shots > 0) result += `/${shots}`;
 

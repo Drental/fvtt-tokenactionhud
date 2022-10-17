@@ -10,8 +10,8 @@ export class ForbiddenLandsSystemManager extends SystemManager {
     }
 
     /** @override */
-    doGetActionHandler(filterManager, categoryManager) {
-        let actionHandler = new ActionHandler(filterManager, categoryManager);
+    doGetActionHandler(character, categoryManager) {
+        let actionHandler = new ActionHandler(character, categoryManager);
         return actionHandler;
     }
 

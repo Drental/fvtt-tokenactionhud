@@ -9,9 +9,9 @@ export class LancerSystemManager extends SystemManager {
   }
 
   /** @override */
-  doGetActionHandler(filterManager, categoryManager) {
+  doGetActionHandler(character, categoryManager) {
     console.log("startup");
-    let actionHandler = new ActionHandler(filterManager, categoryManager);
+    let actionHandler = new ActionHandler(character, categoryManager);
     return actionHandler;
   }
 

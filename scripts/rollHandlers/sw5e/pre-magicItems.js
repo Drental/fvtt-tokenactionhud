@@ -7,23 +7,23 @@ export class MagicItemsPreRollHandler extends PreRollHandler {
 
   /** @override */
   prehandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length != 3) return false;
+    if (payload.length !== 4) return false;
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    if (actionType != "magicItem") return false;
+    if (actionType !== "magicItem") return false;
 
     this._magicItemMacro(event, actorId, tokenId, actionId);
     return true;
   }
 
   _magicItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let actionParts = actionId.split(">");
 
     let itemId = actionParts[0];

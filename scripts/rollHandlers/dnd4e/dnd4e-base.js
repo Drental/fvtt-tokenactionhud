@@ -8,16 +8,16 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
   /** @override */
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length !== 3) {
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
     if (characterId === "multi") {
       for (let t of canvas.tokens.controlled) {
@@ -60,23 +60,23 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     return game.dnd4eBeta.tokenBarHooks.rollAbility(actor, checkId, event);
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     return game.dnd4eBeta.tokenBarHooks.rollSkill(actor, checkId, event);
   }
 
   rollItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = super.getItem(actor, itemId);
     return game.dnd4eBeta.tokenBarHooks.rollItem(actor, item, event);
   }
 
   rollPowerMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = super.getItem(actor, itemId);
 
     if (this.needsRecharge(actor, item)) {
@@ -95,7 +95,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   async performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let token = super.getToken(tokenId);
 
     switch (actionId) {
@@ -134,7 +134,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId, event) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
 
     await actor.rollInitiative({ createCombatants: true, event });
 
@@ -142,7 +142,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     const effects =
       "find" in actor.effects.entries ? actor.effects.entries : actor.effects;
     const effect = effects.find((e) => e.id === effectId);

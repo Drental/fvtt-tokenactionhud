@@ -12,7 +12,7 @@ export class ActionHandlerT20 extends ActionHandler {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
-      this._buildMultipleTokenList(result);
+      this._buildMultipleTokenActions(result);
       return result;
     }
 
@@ -57,7 +57,7 @@ export class ActionHandlerT20 extends ActionHandler {
     return result;
   }
 
-  _buildMultipleTokenList(list) {
+  _buildMultipleTokenActions(list) {
     list.tokenId = "multi";
     list.actorId = "multi";
 
@@ -117,7 +117,7 @@ export class ActionHandlerT20 extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = activeEquipped.filter(
-      (i) => i.type != "arma" && i.type != "equip"
+      (i) => i.type !== "arma" && i.type !== "equip"
     );
     let otherActions = other.map((o) =>
       this._buildEquipmentItem(tokenId, actor, actionType, o)

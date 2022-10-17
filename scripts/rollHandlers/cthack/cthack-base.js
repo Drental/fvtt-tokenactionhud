@@ -7,57 +7,54 @@ export class RollHandlerBaseCthack extends RollHandler {
   }
 
   doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
-    if (payload.length != 3) {
+    const payload = encodedValue.split("|");
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
-
     const actionType = payload[0];
     const actorId = payload[1];
     const tokenId = payload[2];
     const actionId = payload[3];
-
-    let actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     switch (actionType) {
       case "save":
-        this._handleSaves(actionType, event, actor, actionId);
+        this._handleSaves(actor, actionId);
         break;
       case "resource":
-        this._handleResources(actionType, event, actor, actionId);
+        this._handleResources(actor, actionId);
         break;
       case "damage":
-        this._handleDamages(actionType, event, actor, actionId);
+        this._handleDamages(actor, actionId);
         break;
       case "weapon":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this._handleWeapon(actionType, event, actor, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this._handleWeapon(event, actor, actionId);
         break;
       case "item":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this._handleItem(actionType, event, actor, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this._handleItem(actor, actionId);
         break;
       case "ability":
-        if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
-        else this._handleAbility(actionType, event, actor, actionId);
+        if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
+        else this._handleAbility(actor, actionId);
         break;
     }
   }
 
-  _handleSaves(actionType, event, actor, actionId) {
+  _handleSaves(actor, actionId) {
     actor.rollSave(actionId);
   }
 
-  _handleResources(actionType, event, actor, actionId) {
+  _handleResources(actor, actionId) {
     actor.rollResource(actionId);
   }
 
-  _handleDamages(actionType, event, actor, actionId) {
+  _handleDamages(actor, actionId) {
     actor.rollDamageRoll(actionId);
   }
 
-  _handleWeapon(actionType, event, actor, actionId) {
-    let item = actor.items.get(actionId);
-
+  _handleWeapon(event, actor, actionId) {
+    const item = actor.items.get(actionId);
     // Material Roll
     if (this.isShift(event)) {
       actor.rollMaterial(item);
@@ -78,18 +75,15 @@ export class RollHandlerBaseCthack extends RollHandler {
           item.system.range === "" ? actor.rollSave("str") : actor.rollSave("dex"); 
       }
     }
-
-
   }
 
-  _handleItem(actionType, event, actor, actionId) {
-    let item = actor.items.get(actionId);
+  _handleItem(actor, actionId) {
+    const item = actor.items.get(actionId);
     actor.rollMaterial(item);
   }
 
-  _handleAbility(actionType, event, actor, actionId) {
-    let ability = actor.items.get(actionId);
-
+  _handleAbility(actor, actionId) {
+    const ability = actor.items.get(actionId);
     if (ability.system.uses.value > 0) actor.useAbility(ability);
     else actor.resetAbility(ability);
   }

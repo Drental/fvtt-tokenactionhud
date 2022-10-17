@@ -10,14 +10,14 @@ export class ActionHandlerED4e extends ActionHandler {
 
     buildSystemActions(actionList, character, subcategoryIds) {
         if (token) {
-            return this._buildSingleTokenList(token);
+            return this._buildSingleTokenActions(token);
         } else if (multipleTokens) {
-            return this._buildMultipleTokenList();
+            return this._buildMultipleTokenActions();
         }
         return this.initializeEmptyActionList();
     }
 
-    async _buildSingleTokenList(token) {
+    async _buildSingleTokenActions(token) {
         const list = this.initializeEmptyActionList();
         list.tokenId = token?.id;
         list.actorId = token?.actor?.id;

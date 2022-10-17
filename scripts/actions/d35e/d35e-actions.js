@@ -9,18 +9,22 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @override */
   buildSystemActions(actionList, character, subcategoryIds) {
     const actor = character?.actor;
-
-    if (!actor) {
-      this._buildMultipleTokenActions(actionList);
-      return actionList;
+    if (actor) {
+      this._buildSingleTokenActions(actionList, character, subcategoryIds);
+    } else {
+      this._buildMultipleTokenActions(actionList, subcategoryIds);
     }
+    return actionList;
+  }
 
+  _buildSingleTokenActions(actionList, character, subcategoryIds) {
     const inventorySubcategoryIds = subcategoryIds.filter(
       (subcategoryId) =>
         subcategoryId === "weapons" ||
-        subcategoryId === "protections" ||
+        subcategoryId === "equipment" ||
         subcategoryId === "consumables" ||
-        subcategoryId === "spells" ||
+        subcategoryId === "inconsumables" ||
+        subcategoryId === "tools" ||
         subcategoryId === "other"
     );
 
@@ -33,46 +37,29 @@ export class ActionHandlerD35E extends ActionHandler {
       this._buildSpells(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "features"))
       this._buildFeatures(actionList, character);
-    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
-      this._buildSkills(actionList, character);
-    if (subcategoryIds.some((subcategoryId) => subcategoryId === "saves"))
-      this._buildSaves(actionList, character);
-      if (subcategoryIds.some((subcategoryId) => subcategoryId === "defenses"))
-      this._buildDefenses(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "checks"))
       this._buildChecks(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "saves"))
+      this._buildSaves(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "defenses"))
+      this._buildDefenses(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
+      this._buildSkills(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "utility"))
       this._buildUtility(actionList, character);
-
-    return actionList;
   }
 
-  _buildMultipleTokenActions(actionList) {
-    const actorId = "multi";
-    const tokenId = "multi";
-    actionList.actorId = actorId;
-    actionList.tokenId = tokenId;
-    const allowedTypes = ["character", "npc"];
-    const actors = canvas.tokens.controlled
-      .map((token) => token.actor)
-      .filter((actor) => allowedTypes.includes(actor.type));
+  _buildMultipleTokenActions(actionList, subcategoryIds) {
+    const character = { actor: { id: "multi" }, token: { id: "multi" } };
 
-    if (subcategoryIds.some((subcategoryId) => subcategoryId === "abilities"))
-      this._addMultiAbilities(
-        actionList,
-        actorId,
-        tokenId,
-        "abilityCheck",
-        "checks"
-      );
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "checks"))
+      this._buildChecks(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "saves"))
-      this._addMultiSaves(actionList, actorId, tokenId, "abilitySave", "saves");
+      this._buildSaves(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
-      this._addMultiSkills(actionList, actorId, tokenId);
+      this._buildMultiSkills(actionList, character);
     if (subcategoryIds.some((subcategoryId) => subcategoryId === "utility"))
-      this._addMultiTokenUtilities(actionList, actorId, tokenId, actors);
-
-    return actionList;
+      this._buildUtility(actionList, character);
   }
 
   // ATTACKS
@@ -177,7 +164,7 @@ export class ActionHandlerD35E extends ActionHandler {
       inventorySubcategoryIds.some((subcategoryId) => subcategoryId === "other")
     ) {
       const other = equippedItems.filter(
-        (item) => item.type != "weapon" && item.type != "equipment"
+        (item) => item.type !== "weapon" && item.type !== "equipment"
       );
       this._buildItems(actionList, character, other, "other");
     }
@@ -211,7 +198,7 @@ export class ActionHandlerD35E extends ActionHandler {
       const inconsumables = allConsumables.filter(
         (consumable) =>
           !(consumable.system.uses?.max || consumable.system.uses?.value) &&
-          consumable.system.consumableType != "ammo"
+          consumable.system.consumableType !== "ammo"
       );
       this._buildItems(actionList, character, inconsumables, "inconsumables");
     }
@@ -487,11 +474,7 @@ export class ActionHandlerD35E extends ActionHandler {
       );
     }
 
-    this.addSubcategoriesToActionList(
-      actionList,
-      subcategoryList,
-      categoryId
-    );
+    this.addSubcategoriesToActionList(actionList, subcategoryList, categoryId);
   }
 
   // SKILLS
@@ -583,21 +566,25 @@ export class ActionHandlerD35E extends ActionHandler {
     const subcategoryId = "saves";
     const abbr = settings.get("abbreviateSkills");
 
-    let actions = Object.entries(CONFIG.D35E.savingThrows).map((savingThrow) => {
-      const id = savingThrow[0];
-      let name = abbr ? savingThrow[0] : savingThrow[1];
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter);
-      return { 
-        id: id,
-        name: name,
-        encodedValue: encodedValue,
-        selected: true
-      };
-    });
+    let actions = Object.entries(CONFIG.D35E.savingThrows).map(
+      (savingThrow) => {
+        const id = savingThrow[0];
+        let name = abbr ? savingThrow[0] : savingThrow[1];
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        const encodedValue = [actionType, actorId, tokenId, id].join(
+          this.delimiter
+        );
+        return {
+          id: id,
+          name: name,
+          encodedValue: encodedValue,
+          selected: true,
+        };
+      }
+    );
     actions = actions.filter((a) => !!a);
 
-    this.addActionsToActionList(actionList, actions, subcategoryId)
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   // DEFENSES
@@ -609,7 +596,7 @@ export class ActionHandlerD35E extends ActionHandler {
     const subcategoryId = "defenses";
     const id = "defenses";
     const name = this.i18n("tokenActionHud.defenses");
-    const encodedValue = [actionType, actorId,  tokenId, id].join(
+    const encodedValue = [actionType, actorId, tokenId, id].join(
       this.delimiter
     );
     const actions = [
@@ -617,10 +604,10 @@ export class ActionHandlerD35E extends ActionHandler {
         id: id,
         name: name,
         encodedValue: encodedValue,
-        selected: true
+        selected: true,
       },
     ];
-    
+
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -638,12 +625,14 @@ export class ActionHandlerD35E extends ActionHandler {
       const id = ability[0];
       let name = abbr ? ability[0] : ability[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter);
-      return { 
-        id: id, 
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      return {
+        id: id,
         name: name,
         encodedValue: encodedValue,
-        selected: tru
+        selected: tru,
       };
     });
     actions = actions.filter((a) => !!a);
@@ -652,111 +641,54 @@ export class ActionHandlerD35E extends ActionHandler {
   }
 
   _buildUtility(actionList, character) {
-    const actor  = character?.actor;
+    const actor = character?.actor;
     const actorId = character?.actor?.id;
     const tokenId = character?.token?.id;
+    let isEachControlledTokenCharacter = false;
+    if (actorId === "multi") {
+      isEachControlledTokenCharacter = canvas.tokens.controlled
+        .map((token) => token.actor)
+        .every((actor) => actor.type === "character");
+    }
+    if (actor.type !== "character" && !isEachControlledTokenCharacter) return;
     const actionType = "utility";
     const subcategoryId = "rests";
-
-    let actions = [];
-
-    if (actor.type === "character") {
-      const id = "rest";
-      const name = this.i18n("tokenActionHud.rest");
-      const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter);
-      const action = {
-        id: id,
-        name: name,
-        encodedValue: encodedValue,
-        selected: true
-      }
-      actions.push(action);
-    }
-
+    const id = "rest";
+    const name = this.i18n("tokenActionHud.rest");
+    const encodedValue = [actionType, actorId, tokenId, id].join(
+      this.delimiter
+    );
+    const actions = {
+      id: id,
+      name: name,
+      encodedValue: encodedValue,
+      selected: true,
+    };
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
-  _addMultiSkills(list, tokenId) {
-    let result = this.initializeEmptyCategory("skills");
-    let actionType = "skill";
-
-    let abbr = settings.get("abbreviateSkills");
-
-    let skillsActions = Object.entries(CONFIG.D35E.skills).map((e) => {
-      let name = abbr ? e[0] : e[1];
+  _buildMultiSkills(actionList, character) {
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "skill";
+    const subcategoryId = "skills";
+    const abbr = settings.get("abbreviateSkills");
+    const skills = Object.entries(CONFIG.D35E.skills);
+    const actions = skills.map((skill) => {
+      const id = skill[0];
+      let name = abbr ? skill[0] : skill[1];
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
-      return { name: name, id: e[0], encodedValue: encodedValue };
+      const encodedValue = [actionType, actorId, tokenId, id].join(
+        this.delimiter
+      );
+      return {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true,
+      };
     });
-    let skillsCategory = this.initializeEmptySubcategory();
-    skillsCategory.actions = skillsActions;
-
-    let skillsTitle = this.i18n("tokenActionHud.skills");
-    this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
-    this._combineCategoryWithList(list, skillsTitle, result, true);
-  }
-
-
-  _addMultiAbilities(list, tokenId, categoryId, categoryName, actionType) {
-    let cat = this.initializeEmptyCategory(categoryId);
-
-    let abbr = settings.get("abbreviateSkills");
-
-    let actions = Object.entries(CONFIG.D35E.abilities).map((e) => {
-      let name = abbr ? e[0] : e[1];
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
-
-      return { name: name, id: e[0], encodedValue: encodedValue };
-    });
-    let abilityCategory = this.initializeEmptySubcategory();
-    abilityCategory.actions = actions;
-
-    this._combineSubcategoryWithCategory(cat, categoryName, abilityCategory);
-    this._combineCategoryWithList(list, categoryName, cat, true);
-  }
-
-  _addMultiSaves(list, tokenId, categoryId, categoryName, actionType) {
-    let cat = this.initializeEmptyCategory(categoryId);
-    let savesCategory = this.initializeEmptySubcategory();
-
-    let abbr = settings.get("abbreviateSkills");
-
-    let actions = Object.entries(CONFIG.D35E.savingThrows).map((e) => {
-      let name = abbr ? e[0] : e[1];
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [actionType, tokenId, e[0]].join(this.delimiter);
-
-      return { name: name, id: e[0], encodedValue: encodedValue };
-    });
-
-    savesCategory.actions = actions.filter((a) => !!a);
-
-    this._combineSubcategoryWithCategory(cat, categoryName, savesCategory);
-    this._combineCategoryWithList(list, categoryName, cat, true);
-  }
-
-  /** @private */
-  _addMultiTokenUtilities(list, tokenId, actors) {
-    let category = this.initializeEmptyCategory("utility");
-    let actionType = "utility";
-
-    let rests = this.initializeEmptySubcategory();
-
-    if (actors.every((a) => a.type === "character")) {
-      let longRestValue = [actionType, tokenId, "rest"].join(this.delimiter);
-      rests.actions.push({
-        id: "rest",
-        encodedValue: longRestValue,
-        name: this.i18n("tokenActionHud.rest"),
-      });
-    }
-
-    this._combineSubcategoryWithCategory(
-      category,
-      this.i18n("tokenActionHud.rests"),
-      rests
-    );
+    this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
@@ -765,7 +697,6 @@ export class ActionHandlerD35E extends ActionHandler {
     const actions = items.map((item) =>
       this._getAction(character, actionType, item)
     );
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -783,7 +714,9 @@ export class ActionHandlerD35E extends ActionHandler {
     ) {
       name += ` (${this.i18n("tokenActionHud.recharge")})`;
     }
-    const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter);
+    const encodedValue = [actionType, actorId, tokenId, id].join(
+      this.delimiter
+    );
     const img = this.getImage(entity);
     const icon = this._getActionIcon(entity?.data?.activation?.type);
     const info1 = this._getQuantityData(entity);
@@ -798,7 +731,7 @@ export class ActionHandlerD35E extends ActionHandler {
       info1: info1,
       info2: info2,
       info3: info3,
-      selected: true
+      selected: true,
     };
 
     return action;
@@ -819,6 +752,7 @@ export class ActionHandlerD35E extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
+    
     if (item.system.quantity > 1) {
       result = item.system.quantity;
     }

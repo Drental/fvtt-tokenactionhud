@@ -36,7 +36,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._skills(actor, tokenId)
 		);
 
-		if (actor.system.talents.find(e => e.system.isRollable) != undefined)
+		if (actor.system.talents.find(e => e.system.isRollable) !== undefined)
 		{
 			this._combineCategoryWithList(
 				result,
@@ -91,7 +91,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 			this._addEntry(tokenId, this.i18n('SPACE1889.Parry') + ' (' + actor.system.parry.value + ')', 'parry', type, category);
 			this._addEntry(tokenId, this.i18n('SPACE1889.Evasion') + ' (' + actor.system.evasion.value + ')', 'evasion', type, category);
 		}
-		if (actor.type != 'vehicle')
+		if (actor.type !=='vehicle')
 			this._addEntry(tokenId, this.i18n('SPACE1889.ActiveDefense') + ' (' + actor.system.secondaries.defense.activeTotal + ')', 'activeDefense', type, category);
 			
 		this._addEntry(tokenId, this.i18n('SPACE1889.PassiveDefense') + ' (' + actor.system.secondaries.defense.passiveTotal + ')', 'passiveDefense', type, category);
@@ -207,7 +207,7 @@ export class ActionHandlerSpace1889 extends ActionHandler
 		let abilityCategory = this.initializeEmptySubcategory();
 		
 		const abilities = actor.system.abilities;
-		if (abilities != undefined && actor.type != 'vehicle')
+		if (abilities !== undefined && actor.type !=='vehicle')
 		{
 			let actions = Object.entries(game.space1889.config.abilities).map((e) =>
 			{

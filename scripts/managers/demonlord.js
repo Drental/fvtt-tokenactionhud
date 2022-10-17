@@ -76,11 +76,11 @@ export class DemonlordSystemManager extends SystemManager {
               }
             }
           },
-          spells: { 
-            id: "spells",     
-            title: this.i18n("tokenActionHud.demonLord.spells"), 
+          magic: { 
+            id: "magic",     
+            title: this.i18n("tokenActionHud.demonLord.magic"), 
             subcategories: {
-              spells_spells: {
+              magic_spells: {
                 id: "spells",
                 title: this.i18n("tokenActionHud.demonLord.spells"),
                 type: "system"
@@ -112,6 +112,7 @@ export class DemonlordSystemManager extends SystemManager {
         subcategories: [
           { id: "challenge", title: this.i18n("tokenActionHud.demonLord.challengeRoll"), type: "system" },
           { id: "weapons", title: this.i18n("tokenActionHud.demonLord.weapons"), type: "system" },
+          { id: "magic", title: this.i18n("tokenActionHud.demonLord.magic"), type: "system" },
           { id: "talents", title: this.i18n("tokenActionHud.demonLord.talents"), type: "system" },
           { id: "combat", title: this.i18n("tokenActionHud.combat"), type: "system" },
           { id: "rest", title: this.i18n("tokenActionHud.demonLord.rest"), type: "system" },

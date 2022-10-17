@@ -22,7 +22,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     let result = this.initializeEmptyActionList();
 
     if (multipleTokens) {
-      this._buildMultipleTokenList(result);
+      this._buildMultipleTokenActions(result);
       return result;
     }
 
@@ -284,7 +284,7 @@ export class ActionHandlerForbiddenlands extends ActionHandler {
     return result;
   }
 
-  _buildMultipleTokenList(list) {
+  _buildMultipleTokenActions(list) {
     list.tokenId = 'multi';
     list.actorId = 'multi';
 

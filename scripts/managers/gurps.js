@@ -10,8 +10,8 @@ export class GURPSSystemManager extends SystemManager {
     }
 
 
-    doGetActionHandler(filterManager, categoryManager) {
-        return new ActionHandlerGURPS(filterManager, categoryManager);
+    doGetActionHandler(character, categoryManager) {
+        return new ActionHandlerGURPS(character, categoryManager);
     }
 
     doGetRollHandler(handlerId) {

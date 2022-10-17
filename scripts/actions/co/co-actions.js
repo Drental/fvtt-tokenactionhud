@@ -9,7 +9,7 @@ export class ActionHandlerCo extends ActionHandler {
   /** @override */
   async buildSystemActions(actionList, character, subcategoryIds) {
     const actor = character?.actor;
-    if (actor.type != "character" && actor.type != "npc") return;
+    if (actor.type !== "character" && actor.type !== "npc") return;
 
     const inventorySubcategoryIds = subcategoryIds.filter(
       (subcategoryId) =>
@@ -40,12 +40,10 @@ export class ActionHandlerCo extends ActionHandler {
 
   /** @private */
   _buildStats(actionList, character) {
-    const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
     const actor = character?.actor;
-    const actionType = "stat";
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;const actionType = "stat";
     const subcategoryId = "stats";
-
     const stats = Object.entries(actor.system.stats);
     const actions = stats.map((stat) => {
       const id = stat[0];
@@ -56,20 +54,22 @@ export class ActionHandlerCo extends ActionHandler {
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      return { id: id, name: name, encodedValue: encodedValue, selected: true };
+      return { 
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true
+      };
     });
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
   _buildAttacks(actionList, character) {
-    const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
     const actor = character?.actor;
-    const actionType = "skill";
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;const actionType = "skill";
     const subcategoryId = "attacks";
-
     const attacks = Object.entries(actor.system.attacks);
     const actions = attacks.map((attack) => {
       const id = attack[0];
@@ -80,9 +80,13 @@ export class ActionHandlerCo extends ActionHandler {
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      return { id: id, name: name, encodedValue: encodedValue, selected: true };
+      return {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true
+      };
     });
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -91,7 +95,6 @@ export class ActionHandlerCo extends ActionHandler {
     const actor = character?.actor;
     const actionType = "weapon";
     const subcategoryId = "readyWeapons";
-
     const weapons = actor.items.filter(
       (item) =>
         item.type === "item" &&
@@ -101,7 +104,6 @@ export class ActionHandlerCo extends ActionHandler {
     const actions = weapons.map((weapon) =>
       this._getAction(character, actionType, weapon)
     );
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -110,7 +112,6 @@ export class ActionHandlerCo extends ActionHandler {
     const actor = character?.actor;
     const actionType = "spell";
     const subcategoryId = "readySpells";
-
     const spells = actor.items.filter(
       (item) =>
         item.type === "item" &&
@@ -120,7 +121,6 @@ export class ActionHandlerCo extends ActionHandler {
     const actions = spells.map((spell) =>
       this._getAction(character, actionType, spell)
     );
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -207,12 +207,10 @@ export class ActionHandlerCo extends ActionHandler {
     const actor = character?.actor;
     const actionType = "capacity";
     const subcategoryId = "capacities";
-
-    let capacities = actor.items.filter((item) => item.type === actionType);
+    const capacities = actor.items.filter((item) => item.type === actionType);
     const actions = capacities.map((capacity) =>
       this._getAction(character, actionType, capacity)
     );
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -227,17 +225,15 @@ export class ActionHandlerCo extends ActionHandler {
 
   /** @private */
   _getAction(character, actionType, entity) {
-    const actorId = character?.actor?.id;
-    const tokenId = character?.token?.id;
     const actor = character?.actor;
-    const id = entity.id;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;const id = entity.id;
     const name = entity.name;
     const encodedValue = [actionType, actorId, tokenId, id].join(
       this.delimiter
     );
     const img = this.getImage(entity);
     const icon = this._getIcon(entity);
-
     let action = {
       id: id,
       name: name,
@@ -247,7 +243,6 @@ export class ActionHandlerCo extends ActionHandler {
       selected: true,
     };
     this._addItemInfo(actor, entity, action);
-
     return action;
   }
 
@@ -292,7 +287,6 @@ export class ActionHandlerCo extends ActionHandler {
     if (item.type === "item") {
       const consumable = item.system.properties.consumable;
       const quantity = item.system.qty;
-
       if (consumable) {
         if (quantity > 0) {
           result = quantity;

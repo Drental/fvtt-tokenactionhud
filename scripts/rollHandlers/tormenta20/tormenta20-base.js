@@ -8,16 +8,16 @@ export class RollHandlerBaseT20 extends RollHandler {
 
   /** @override */
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
+    const payload = encodedValue.split("|");
 
-    if (payload.length != 3) {
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
     if (characterId === "multi") {
       for (let t of canvas.tokens.controlled) {
@@ -54,12 +54,12 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   rollAbilityMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     actor.rollAtributo(checkId);
   }
 
   rollSkillMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     const skillData = {
       actor: actor,
       type: "perícia",
@@ -71,7 +71,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   rollItemMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
     let item = super.getItem(actor, itemId);
 
     // if (item.type === 'magia')
@@ -82,7 +82,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async performInitiativeMacro(tokenId) {
-    let actor = super.getActor(tokenId, actorId);
+    let actor = super.getActor(actorId, tokenId);
 
     await actor.rollInitiative({ createCombatants: true });
 
@@ -90,7 +90,7 @@ export class RollHandlerBaseT20 extends RollHandler {
   }
 
   async toggleEffect(event, tokenId, effectId) {
-    const actor = super.getActor(tokenId, actorId);
+    const actor = super.getActor(actorId, tokenId);
     const effect = actor.effects.entries.find((e) => e.id === effectId);
 
     if (!effect) return;

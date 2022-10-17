@@ -30,12 +30,11 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _buildSaves(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
-    const actor = character.actor;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const actionType = "save";
     const subcategoryId = "saves";
-
     const saves = Object.entries(actor.system.saves);
     const actions = saves.map((save) => {
       const id = save[0];
@@ -43,21 +42,25 @@ export class ActionHandlerCthack extends ActionHandler {
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      return { id: id, name: name, encodedValue: encodedValue, selected: true };
+      return {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true
+      };
     });
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
   /** @private */
   _buildAttributes(actionList, character) {
-    const actorId = character.actor?.id;
-    const tokenId = character.token?.id;
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
     const subcategoryId = "attributes";
-
+    const attributes = actor.getAvailableAttributes();
     const actions = attributes.map((attribute) => {
       const id = attribute[0];
-
       let name;
       if (
         id === "miscellaneous" &&
@@ -67,7 +70,6 @@ export class ActionHandlerCthack extends ActionHandler {
       } else {
         name = game.cthack.config.attributes[id];
       }
-
       let actionType = "resource";
       if (id === "armedDamage" || id === "unarmedDamage") {
         actionType = "damage";
@@ -75,9 +77,13 @@ export class ActionHandlerCthack extends ActionHandler {
       const encodedValue = [actionType, actorId, tokenId, id].join(
         this.delimiter
       );
-      return { id: id, name: name, encodedValue: encodedValue, selected: true };
+      return {
+        id: id,
+        name: name,
+        encodedValue: encodedValue,
+        selected: true
+      };
     });
-
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -111,12 +117,10 @@ export class ActionHandlerCthack extends ActionHandler {
     const actor = character?.actor;
     const actionType = "ability";
     const subcategoryId = "abilities";
-
     const abilities = actor.items.filter((item) => item.type === "ability");
     const actions = abilities.map((ability) =>
       this._getAction(character, actionType, ability)
     );
-    
     this.addActionsToActionList(actionList, actions, subcategoryId);
   }
 
@@ -141,8 +145,7 @@ export class ActionHandlerCthack extends ActionHandler {
     );
     const img = this.getImage(entity);
     const icon = this._getIcon(entity);
-
-    let action = {
+    const action = {
       id: id,
       name: name,
       encodedValue: encodedValue,
@@ -150,7 +153,6 @@ export class ActionHandlerCthack extends ActionHandler {
       icon: icon,
       selected: true,
     };
-
     return action;
   }
 

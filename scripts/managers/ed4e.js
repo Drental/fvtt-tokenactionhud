@@ -10,8 +10,8 @@ export class ED4eSystemManager extends SystemManager {
     }
 
 
-    doGetActionHandler(filterManager, categoryManager) {
-        return new ActionHandlerED4e(filterManager, categoryManager);
+    doGetActionHandler(character, categoryManager) {
+        return new ActionHandlerED4e(character, categoryManager);
     }
 
     doGetRollHandler(handlerId) {

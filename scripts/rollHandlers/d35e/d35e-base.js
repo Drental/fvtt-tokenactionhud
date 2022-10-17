@@ -8,21 +8,20 @@ export class RollHandlerBaseD35E extends RollHandler {
 
   /** @override */
   async doHandleActionEvent(event, encodedValue) {
-    let payload = encodedValue.split("|");
-
-    if (payload.length != 3) {
+    const payload = encodedValue.split("|");
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
+    const actionType = payload[0];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    let actionType = payload[0];
-    let actorId = payload[1];
-    let tokenId = payload[2];
-    let actionId = payload[2];
-
-    if (characterId === "multi") {
-      canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.id;
-        this._handleMacros(event, actionType, idToken, actionId);
+    if (actorId === "multi") {
+      canvas.tokens.controlled.forEach((token) => {
+        const tokenActorId = token.actor.id;
+        const tokenTokenId = token.id;
+        awaitthis._handleMacros(event, actionType, tokenActorId, tokenTokenId, actionId);
       });
     } else {
       await this._handleMacros(event, actionType, actorId, tokenId, actionId);
@@ -35,10 +34,10 @@ export class RollHandlerBaseD35E extends RollHandler {
         this.rollAbilityMacro(event, actorId, tokenId, actionId);
         break;
       case "concentration":
-        this.rollConcentrationMacro(event, actorId, tokenId, actionId);
+        this.rollConcentrationMacro(actorId, tokenId, actionId);
         break;
       case "cmb":
-        this.rollCmbMacro(event, actorId, tokenId, actionId);
+        this.rollCmbMacro(event, actorId, tokenId);
         break;
       case "skill":
         this.rollSkillMacro(event, actorId, tokenId, actionId);
@@ -50,7 +49,7 @@ export class RollHandlerBaseD35E extends RollHandler {
         this.rollAbilityCheckMacro(event, actorId, tokenId, actionId);
         break;
       case "buff":
-        await this.adjustBuff(event, tokenId, actionId);
+        await this.adjustBuff(actorId, tokenId, actionId);
         break;
       case "item":
       case "spell":
@@ -60,7 +59,7 @@ export class RollHandlerBaseD35E extends RollHandler {
         else this.rollItemMacro(event, actorId, tokenId, actionId);
         break;
       case "defenses":
-        this.rollDefenses(event, tokenId, actionId);
+        this.rollDefenses(tokenId, actionId);
         break;
       case "utility":
         this.performUtilityMacro(event, actorId, tokenId, actionId);
@@ -69,61 +68,56 @@ export class RollHandlerBaseD35E extends RollHandler {
     }
   }
 
-  rollCmbMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
+  rollCmbMacro(event, actorId, tokenId) {
+    const actor = super.getActor(actorId, tokenId);
     actor.rollCMB(event);
   }
 
-  rollConcentrationMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
-    actor.rollConcentration(checkId);
+  rollConcentrationMacro(actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    actor.rollConcentration(actionId);
   }
 
-  rollAbilityMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
-    actor.rollAbility(checkId, { event: event });
+  rollAbilityMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    actor.rollAbility(actionId, { event: event });
   }
 
-  rollAbilityCheckMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
-    actor.rollAbilityTest(checkId, { event: event });
+  rollAbilityCheckMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    actor.rollAbilityTest(actionId, { event: event });
   }
 
-  rollAbilitySaveMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
-    actor.rollSavingThrow(checkId, { event: event });
+  rollAbilitySaveMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    actor.rollSavingThrow(actionId, { event: event });
   }
 
-  rollSkillMacro(event, actorId, tokenId, checkId) {
-    const actor = super.getActor(tokenId, actorId);
-    actor.rollSkill(checkId, { event: event });
+  rollSkillMacro(event, actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    actor.rollSkill(actionId, { event: event });
   }
 
   rollItemMacro(event, actorId, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
-    const item = super.getItem(actor, itemId);
-
+    const actor = super.getActor(actorId, tokenId);
+    const item = super.getItem(actor, actionId);
     item.use({ ev: event, skipDialog: false });
   }
 
-  rollDefenses(event, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
+  rollDefenses(actorId, tokenId) {
+    const actor = super.getActor(actorId, tokenId);
     actor.rollDefenses();
   }
 
-  async adjustBuff(event, tokenId, buffId) {
-    let actor = super.getActor(tokenId, actorId);
-    let buff = super.getItem(actor, buffId);
-
+  async adjustBuff(actorId, tokenId, actionId) {
+    let actor = super.getActor(actorId, tokenId);
+    let buff = super.getItem(actor, actionId);
     let update = { "data.active": !buff.system.active };
-
     await buff.update(update);
   }
 
   performUtilityMacro(event, actorId, tokenId, actionId) {
-    let actor = super.getActor(tokenId, actorId);
-    let token = super.getToken(tokenId);
-
+    let actor = super.getActor(actorId, tokenId);
     switch (actionId) {
       case "rest":
         actor.sheet._onRest(event);

@@ -5,17 +5,26 @@ export class RollHandlerBaseDs4 extends RollHandler {
   async doHandleActionEvent(event, encodedValue) {
     const payload = encodedValue.split("|");
 
-    if (payload.length != 3) {
+    if (payload.length !== 4) {
       super.throwInvalidValueErr();
     }
 
     const actionType = payload[0];
-    const tokenId = payload[1];
-    const actionId = payload[2];
+    const actorId = payload[1];
+    const tokenId = payload[2];
+    const actionId = payload[3];
 
-    if (characterId === "multi") {
+    if (tokenId === "multi" && actionId !== "toggleCombat") {
       for (const token of canvas.tokens.controlled) {
-        await this._handleMacros(event, actionType, token.id, actionId);
+        const tokenActorId = token.actor?.id;
+        const tokenTokenId = token.id;
+        await this._handleMacros(
+          event,
+          actionType,
+          tokenActorId,
+          tokenTokenId,
+          actionId
+        );
       }
     } else {
       await this._handleMacros(event, actionType, actorId, tokenId, actionId);
@@ -25,25 +34,25 @@ export class RollHandlerBaseDs4 extends RollHandler {
   async _handleMacros(event, actionType, actorId, tokenId, actionId) {
     switch (actionType) {
       case "check":
-        await this._rollCheckMacro(event, actorId, tokenId, actionId);
+        await this._rollCheckMacro(tokenId, actionId);
         break;
       case "weapon":
       case "spell":
         if (this.isRenderItem()) this.doRenderItem(actorId, tokenId, actionId);
-        else this._rollItemMacro(event, actorId, tokenId, actionId);
+        else this._rollItemMacro(actorId, tokenId, actionId);
         break;
     }
   }
 
-  async _rollCheckMacro(event, actorId, tokenId, check) {
+  async _rollCheckMacro(tokenId, check) {
     const token = super.getToken(tokenId);
     const actor = token?.actor;
     await actor.rollCheck(check, token.document);
   }
 
-  async _rollItemMacro(event, actorId, tokenId, actionId) {
-    const actor = super.getActor(tokenId, actorId);
-    const item = super.getItem(actor, itemId);
+  async _rollItemMacro(actorId, tokenId, actionId) {
+    const actor = super.getActor(actorId, tokenId);
+    const item = super.getItem(actor, actionId);
     return item.use();
   }
 }

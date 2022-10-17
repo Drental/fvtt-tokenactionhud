@@ -1,79 +1,113 @@
 import { ActionHandler } from "./actionHandler.js";
 
 export class ExampleActionHandler extends ActionHandler {
-  constructor(filterManager) {
-    super(filterManager);
+  constructor(categoryManager) {
+    super(categoryManager);
   }
 
   /** @override */
-  async buildSystemActions(actionList, character, subcategoryIds) {
-    let result = this.initializeEmptyActionList();
-
-    if (!token) return result;
-
-    let tokenId = token.id;
-
-    result.tokenId = tokenId;
-
-    let actor = token.actor;
-
-    if (!actor) return result;
-
-    result.actorId = actor.id;
-
-    let inventoryCategory = this._buildInventoryCategory(actor, tokenId);
-
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenActionHud.inventory"),
-      inventoryCategory
-    ); // combines the inventory category with the list with the title given by the second argument.
-
-    return result;
+  buildSystemActions(actionList, character, subcategoryIds) {
+    const actor = character?.actor;
+    if (actor) {
+      this._buildSingleTokenActions(actionList, character, subcategoryIds);
+    } else {
+      this._buildMultipleTokenActions(actionList, subcategoryIds);
+    }
+    return actionList;
   }
 
-  _buildInventoryCategory(actor, tokenId) {
-    let result = this.initializeEmptyCategory("inventory"); // string given is an ID not a title.
-    let actionType = "item";
-
-    let items = actor.items;
-
-    let weapons = items.filter(
-      (i) => i.type === "weapons" && i.system.equipped
-    );
-    let weaponsActions = this._produceMap(tokenId, weapons, actionType);
-    let weaponsSubcategory = this.initializeEmptySubcategory();
-    weaponsSubcategory.actions = weaponsActions;
-    this._combineSubcategoryWithCategory(result, "weapons", weaponsSubcategory);
-
-    let armor = items.filter(
-      (i) => i.type === "armor" && i.system.equipped
-    );
-    let armorActions = this._produceMap(tokenId, armor, actionType);
-    let armorSubcategory = this.initializeEmptySubcategory();
-    armorSubcategory.actions = armorActions;
-    this._combineSubcategoryWithCategory(result, "armor", armorSubcategory);
-
-    let consumables = items.filter((i) => i.type === "consumables");
-    let consumablesActions = this._produceMap(tokenId, consumables, actionType);
-    let consumablesSubcategory = this.initializeEmptySubcategory();
-    consumablesSubcategory.actions = consumablesActions;
-    this._combineSubcategoryWithCategory(
-      result,
-      "consumables",
-      consumablesSubcategory
+  _buildSingleTokenActions(actionList, character, subcategoryIds) {
+    // Get a list of subcategoryIds related to inventory
+    const inventorySubcategoryIds = subcategoryIds.filter(
+      (subcategoryId) =>
+        subcategoryId === "weapons" ||
+        subcategoryId === "equipment" ||
+        subcategoryId === "consumables"
     );
 
-    return result;
+    // If statement to only execute code where the subcategory is selected by the user
+    if (inventorySubcategoryIds)
+      this._buildInventory(actionList, character);
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
+      this._buildSkills(actionList, character);
+  }
+
+  _buildMultipleTokenActions(actionList, subcategoryIds) {
+    // Create new character variable for use in methods shared by single and multi tokens
+    const character = { actor: { id: "multi" }, token: { id: "multi" } };
+
+    // If statement to only execute code where the subcategory is selected by the user
+    if (subcategoryIds.some((subcategoryId) => subcategoryId === "skills"))
+      this._buildSkills(actionList, character);
+  }
+
+  _buildInventoryCategory(actionList, character) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const actionType = "item";
+    const items = actor.items;
+
+    // Weapons
+    if (
+      inventorySubcategoryIds.some(
+        (subcategoryId) => subcategoryId === "weapons"
+      )
+    ) {
+      const weapons = items.filter(
+        (item) => item.type === "weapons" && item.system.equipped
+      );
+      this._buildItems(actionList, character, weapons, "weapons");
+    }
+
+    // Equipment
+    if (
+      inventorySubcategoryIds.some(
+        (subcategoryId) => subcategoryId === "equipment"
+      )
+    ) {
+      const equipment = items.filter(
+       (item) => item.type === "equipment" && item.system.equipped
+      );
+    this._buildItems(actionList, character, equipment, "equipment");
+    }
+
+    // Consumables
+    if (
+      inventorySubcategoryIds.some(
+        (subcategoryId) => subcategoryId === "consumables"
+      )
+    ) {
+      const consumables = items.filter((item) => item.type === "consumables");
+      this._buildItems(actionList, character, consumables, "consumables");
+    }
   }
 
   /** @private */
-  _produceMap(tokenId, itemSet, actionType) {
-    return itemSet
-      .filter((i) => !!i)
-      .map((i) => {
-        let encodedValue = [actionType, tokenId, i.id].join(this.delimiter);
-        return { name: i.name, encodedValue: encodedValue, id: i.id };
-      });
+  _buildItems(actionList, character, items, subcategoryId) {
+    const actionType = "item";
+    const actions = items.map((item) =>
+      this._getAction(character, actionType, item)
+    );
+    this.addActionsToActionList(actionList, actions, subcategoryId);
+  }
+
+  /** @private */
+  _getAction(character, actionType, entity) {
+    const actor = character?.actor;
+    const actorId = character?.actor?.id;
+    const tokenId = character?.token?.id;
+    const id = entity.id;
+    const name = entity.name;
+    const encodedValue = [actionType, actorId, tokenId, id].join(
+      this.delimiter
+    );
+    const action = {
+      id: id,
+      name: name,
+      encodedValue: encodedValue,
+      selected: true
+    };
+    return action;
   }
 }
