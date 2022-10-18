@@ -18,7 +18,6 @@ export class TokenActionHUD extends Application {
   }
 
   async init(user) {
-    ui.windows[this.appId] = this;
     this.actions = await this.systemManager.getActionHandler(user);
 
     this.rollHandler = this.systemManager.getRollHandler();
@@ -449,11 +448,12 @@ export class TokenActionHUD extends Application {
       return;
     }
 
+    if (!ui.windows[this.appId]) ui.windows[this.appId] = this;
     this.rendering = true;
     this.render(true);
   }
 
-  // Really just checks if only one token is being controlled. Not smart.
+  // Really just checks if only one stoken is being controlled. Not smart.
   validTokenChange(token) {
     if (settings.get("alwaysShowHud"))
       return (
