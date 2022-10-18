@@ -1,5 +1,12 @@
 # Changelog
 
+# [3.0.12] 2022-10-18
+- Core - Fix menus closing when cursor moves into space between buttons (#308).
+- Core - Replace 'Dropdown Categories' module setting with 'Direction' module setting to support left and right directions in the future. The new setting should pick up the old setting.
+- Core - Fix HUD holding focus when 'Enable for Current User' is unticked and Foundry VTT is reloaded (#311).
+- Pathfinder 2e - Fix deprecated StatisticModifier#name (#302) - Provided by Drental.
+- Pathfinder 2e - Add melee and thrown icons to actions in the Strikes category (#307).
+
 # [3.0.11] 2022-10-08
 - Core - Fix compendium subcategories (#295).
 - Core - Fix HUD appearing above dialog windows (#297). 
