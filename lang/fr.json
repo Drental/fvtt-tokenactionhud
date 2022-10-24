@@ -1,6 +1,6 @@
 {
   "tokenActionHud": {
-    "abilities": "Abilités",
+    "abilities": "Habiletés",
     "accept": "Accepter",
     "actions": "Actions",
     "activate": "Activer",
@@ -31,21 +31,21 @@
     "categoryTagTitle": "Ajouter/Supprimer des catégories",
     "characteristics": "Caractéristiques",
     "checks": "Tests",
-    "clearButton": "Clear",
+    "clearButton": "Remise à zéro",
     "combat": "Combat",
     "conditions": "Conditions",
     "consumables": "Consommables",
     "coreBonus": "Core Bonus",
     "critical": "Critique",
-    "damage": "Dommages",
+    "damage": "Dégâts",
     "defenses": "Défenses",
     "effects": "Effets",
-    "endTurn": "End Turn",
-    "equipment": "Equipement",
-    "experimental": "Experimental",
+    "endTurn": "Fin du tour",
+    "equipment": "Équipement",
+    "experimental": "Expérimental",
     "feats": "Dons",
     "features": "Capacités",
-    "filterPlaceholder": "Choix (séparation avec point-virgule)",
+    "filterPlaceholder": "Choix (séparer par un point-virgule)",
     "filterTagExplanation": "Ajoutez des entrées ici pour afficher ou masquer des entrées de catégories spécifiques.",
     "filterTitle": "Filtre",
     "general": "Général",
@@ -66,8 +66,8 @@
     "passive": "Passif",
     "powers": "Pouvoirs",
     "profession": "Profession",
-    "push": "Right",
-    "pushLabelExplanation": "Montrer les catégories de quel côté?",
+    "push": "Droite",
+    "pushLabelExplanation": "De quel côté afficher les catégories ?",
     "ranged": "Projectile",
     "reactions": "Réactions",
     "recharge": "Recharger",
@@ -78,12 +78,12 @@
     "removeFromCombat": "Retirer du Combat",
     "repair": "Réparer",
     "rest": "Repos",
-    "rests": "Repos",
-    "repairs": "Repairs",
+    "rests": "Se repose",
+    "repairs": "Répare",
     "roll": "Lancer Dés",
     "rollInitiative": "Lancer l'initiative",
     "saves": "Sauvegardes",
-    "shortRest": "Repos rapide",
+    "shortRest": "Repos court",
     "skills": "Compétences",
     "specialActions": "Actions spéciales",
     "spells": "Sorts",
@@ -95,7 +95,7 @@
     "toggleCombatState": "Basculer l'état de Combat",
     "toggles": "Basculer",
     "toggleVisibility": "Basculer la visibilité",
-    "token": "Token",
+    "token": "Jeton",
     "tools": "Outils",
     "traits": "Traits",
     "unshift": "Gauche",
@@ -107,27 +107,27 @@
         "hint": "Si activée, les boutons qui peuvent être actifs seront également marqués d'un astérisque pour indiquer leur activité. Les boutons inactifs n'auront pas d'astérisque."
       },
       "alwaysShowAdditionalCategories": {
-        "hint": "Si activée, les catégories personnalisées seront affichées même si aucun token n'est sélectionné.",
+        "hint": "Si activée, les catégories personnalisées seront affichées même si aucun jeton n'est sélectionné.",
         "name": "Toujours afficher les catégories personnalisées"
       },
       "alwaysShowHud": {
-        "hint": "Si l'utilisateur a un personnage assigné, le HUD affichera celui-ci par défaut quand aucun token n'est sélectionné.",
+        "hint": "Si l'utilisateur a un personnage assigné, le HUD affichera celui-ci par défaut quand aucun jeton n'est sélectionné.",
         "name": "Toujours afficher le HUD"
       },
       "clickOpenCategory": {
-        "hint": "Si activée, les catégories s'ouvriront sur un clic plutôt qu'un survol.",
+        "hint": "Si activée, les catégories s'ouvriront sur un clic plutôt qu'au survol.",
         "name": "Clic pour ouvrir les catégories"
       },
       "debug": {
-        "hint": "Active le log de debug. (Cette fonction est en quelque sorte tombée en désuétude, ne vous attendez pas à ce qu'elle soit très utile)",
-        "name": "Activer le debug"
+        "hint": "Active le journal d'anomalie. (Cette fonction est en quelque sorte tombée en désuétude, ne vous attendez pas à ce qu'elle soit très utile)",
+        "name": "Activer la recherche d'anomalie"
       },
       "direction": {
         "hint": "Définissez la direction dans laquelle le HUD se développera",
         "name": "Direction",
         "choices": {
           "down": "Vers le bas",
-          "up": "En haut"
+          "up": "Vers le haut"
         }
       },
       "enabledForUser": {
@@ -135,12 +135,12 @@
         "name": "Activer le HUD pour le joueur actuel"
       },
       "itemMacroReplace": {
-        "showBoth": "Montrer l'objet original et l'objet Item Macro",
-        "showItemMacro": "Montrer l'objet Item Macro",
-        "showOriginal": "Montrer l'objet original"
+        "showBoth": "Afficher l'objet original et l'objet Item Macro",
+        "showItemMacro": "Afficher l'objet Item Macro",
+        "showOriginal": "Afficher l'objet original"
       },
       "onTokenHover": {
-        "hint": "Si activée, le HUD apparaîtra lorsque la souris survole un token contrôlé par le joueur. Attention : à cause de la nature imprévisible de l'aposition du Token sur la scène, certaines actions pourraient être affichées hors de l'écran.",
+        "hint": "Si activée, le HUD apparaîtra lorsque la souris survole un jeton contrôlé par le joueur. Attention : à cause de la nature imprévisible de l'aposition du jeton sur la scène, certaines actions pourraient être affichées hors de l'écran.",
         "name": "Activer le survol"
       },
       "playerPermission": {
@@ -149,7 +149,7 @@
       },
       "renderItemOnRightClick": {
         "hint": "Si activée, un clic droit sur un objet dans le HUD fera apparaître sa fiche (conflit potentiel avec d'autres paramètres qui utilisent le clic droit).",
-        "name": "Affiche la fiche avec un clic droit"
+        "name": "Afficher la fiche avec un clic droit"
       },
       "rollHandler": {
         "hint": "Choisissez quel module recevra les actions du HUD.",
@@ -160,19 +160,19 @@
         "name": "Echelle HUD"
       },
       "showAbilitiesCategory": {
-        "hint": "Afficher la catégorie capacités sur le HUD",
-        "name": "Afficher les capacités"
+        "hint": "Afficher la catégorie Habiletés sur le HUD",
+        "name": "Afficher les Habiletés"
       },
       "showActionsCategory": {
-        "hint": "Afficher la catégorie actions sur le HUD",
+        "hint": "Afficher la catégorie Actions sur le HUD",
         "name": "Afficher les actions"
       },
       "showAttacksCategory": {
-        "hint": "Afficher la catégorie attaques sur le HUD",
+        "hint": "Afficher la catégorie Attaques sur le HUD",
         "name": "Afficher les attaques"
       },
       "showAttributesCategory": {
-        "hint": "Afficher la catégorie attributs sur le HUD",
+        "hint": "Afficher la catégorie Attributs sur le HUD",
         "name": "Afficher les attributs"
       },
       "showBenniesCategory": {
@@ -184,91 +184,91 @@
         "name": "Afficher les buffs"
       },
       "showCharacteristicsCategory": {
-        "hint": "Afficher la catégorie caractéristiques sur le HUD",
+        "hint": "Afficher la catégorie Caractéristiques sur le HUD",
         "name": "Afficher les caractéristiques"
       },
       "showChecksCategory": {
-        "hint": "Afficher la catégorie tests sur le HUD",
+        "hint": "Afficher la catégorie Tests sur le HUD",
         "name": "Afficher les tests"
       },
       "showConditionsCategory": {
-        "hint": "Afficher la catégorie conditions sur le HUD",
+        "hint": "Afficher la catégorie Conditions sur le HUD",
         "name": "Afficher les conditions"
       },
       "showConsumablesCategory": {
-        "hint": "Afficher la catégorie consommables sur le HUD",
+        "hint": "Afficher la catégorie Consommables sur le HUD",
         "name": "Afficher les consommables"
       },
       "showEdgesHindrancesCategory": {
-        "hint": "Afficher la catégorie Edges/Hindrances sur le HUD",
-        "name": "Afficher les Edges/Hindrances"
+        "hint": "Afficher la catégorie Avantages/Désavantages sur le HUD",
+        "name": "Afficher les Avantages/Désavantages"
       },
       "showEffectsCategory": {
-        "hint": "Afficher la catégorie effets sur le HUD",
+        "hint": "Afficher la catégorie Effets sur le HUD",
         "name": "Afficher les effets"
       },
       "showFeaturesCategory": {
-        "hint": "Afficher la catégorie fonctionnalités sur le HUD",
-        "name": "Afficher les fonctionnalités"
+        "hint": "Afficher la catégorie Capacités sur le HUD",
+        "name": "Afficher les Capacités"
       },
       "showGearCategory": {
-        "hint": "Afficher la catégorie équipement sur le HUD",
+        "hint": "Afficher la catégorie Équipement sur le HUD",
         "name": "Afficher l'équipement"
       },
       "showInventoryCategory": {
-        "hint": "Afficher la catégorie inventaire sur le HUD",
+        "hint": "Afficher la catégorie Inventaire sur le HUD",
         "name": "Afficher l'inventaire"
       },
       "showMagicCategory": {
-        "hint": "Afficher la catégorie magie sur le HUD",
+        "hint": "Afficher la catégorie Magie sur le HUD",
         "name": "Afficher la magie"
       },
       "showPowersCategory": {
-        "hint": "Afficher la catégorie pouvoirs sur le HUD",
-        "name": "Afficher les pouvoirs"
+        "hint": "Afficher la catégorie Pouvoirs sur le HUD",
+        "name": "Afficher les Pouvoirs"
       },
       "showReligionCategory": {
-        "hint": "Afficher la catégorie religion sur le HUD",
-        "name": "Afficher la religion"
+        "hint": "Afficher la catégorie Religion sur le HUD",
+        "name": "Afficher la Religion"
       },
       "showSavesCategory": {
-        "hint": "Afficher la catégorie sauvegardes sur le HUD",
-        "name": "Afficher les sauvegardes"
+        "hint": "Afficher la catégorie Sauvegardes sur le HUD",
+        "name": "Afficher les jets de sauvegarde"
       },
       "showSkillsCategory": {
-        "hint": "Afficher la catégorie compétences sur le HUD",
+        "hint": "Afficher la catégorie Compétences sur le HUD",
         "name": "Afficher les compétences"
       },
       "showSpecialAbilitiesCategory": {
-        "hint": "Afficher la catégorie capacités spéciales sur le HUD",
+        "hint": "Afficher la catégorie Capacités spéciales sur le HUD",
         "name": "Afficher les capacités spéciales"
       },
       "showSpellsCategory": {
-        "hint": "Afficher la catégorie sorts sur le HUD",
+        "hint": "Afficher la catégorie Sorts sur le HUD",
         "name": "Afficher les sorts"
       },
       "showStatusCategory": {
-        "hint": "Afficher la catégorie d'état sur le HUD",
+        "hint": "Afficher la catégorie État sur le HUD",
         "name": "Afficher l'état"
       },
       "showStrikesCategory": {
-        "hint": "Afficher la catégorie frappes sur le HUD",
+        "hint": "Afficher la catégorie Frappes sur le HUD",
         "name": "Afficher les frappes"
       },
       "showTalentsCategory": {
-        "hint": "Afficher la catégorie talents sur le HUD",
+        "hint": "Afficher la catégorie Talents sur le HUD",
         "name": "Afficher les talents"
       },
       "showTraitsCategory": {
-        "hint": "Afficher la catégorie traits sur le HUD",
+        "hint": "Afficher la catégorie Traits sur le HUD",
         "name": "Afficher les traits"
       },
       "showUtilityCategory": {
-        "hint": "Afficher la catégorie utilitaire sur le HUD",
+        "hint": "Afficher la catégorie Utilitaire sur le HUD",
         "name": "Afficher l'utilitaire"
       },
       "showWeaponsCategory": {
-        "hint": "Afficher la catégorie armes sur le HUD",
+        "hint": "Afficher la catégorie Armes sur le HUD",
         "name": "Afficher les armes"
       },
       "showWoundsFatigueCategory": {
@@ -276,20 +276,20 @@
         "name": "Afficher blessures/fatigue"
       },
       "background": {
-        "hint": "Définir la couleur de fond du HUD. Ce paramètre est ignoré avec le Dorako UI",
+        "hint": "Définir la couleur de fond du HUD. Ce paramètre est ignoré avec le module 'Dorako UI'",
         "name": "Couleur de fond du HUD"
       },
       "buttonBackgroundColor": {
-        "hint": "Définir la couleur d'arrière-plan des boutons du HUD. Ce paramètre est ignoré avec le Dorako UI",
+        "hint": "Définir la couleur d'arrière-plan des boutons du HUD. Ce paramètre est ignoré avec le module 'Dorako UI'",
         "name": "Couleur d'arrière-plan du bouton"
       },
       "buttonBorderColor": {
-        "hint": "Définir la couleur de la bordure des boutons HUD. Ce paramètre est ignoré avec le Dorako Dorako UI",
+        "hint": "Définir la couleur de la bordure des boutons HUD. Ce paramètre est ignoré avec le module 'Dorako UI'",
         "name": "Couleur de la bordure du bouton"
       },
       "showHudTitle": {
         "name": "Afficher le titre du HUD",
-        "hint": "Affiche un titre au-dessus du HUD, normalement l'alias du token sélectionné."
+        "hint": "Affiche un titre au-dessus du HUD, normalement l'alias du jeton sélectionné."
       },
       "showIcons": {
         "hint": "Si activée, l'image de l'action sera affichée sur le bouton HUD lorsqu'il est disponible.",
