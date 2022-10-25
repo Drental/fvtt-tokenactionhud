@@ -129,6 +129,10 @@
           "up": "上"
         }
       },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
       "enabledForUser": {
         "hint": "現在のユーザに自動的にホットバーを使用できる状態で初期化します。プレイヤーは設定を変更することで自分の好みに変更することができます。",
         "name": "現在のユーザはホットバーを使用できる"

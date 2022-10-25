@@ -32,10 +32,9 @@
   width: 100%;
 }
 
-#token-action-hud:hover > #tah-reposition,
-#token-action-hud:hover > #tah-categories {
-  display: block;
-  position: absolute;
+#token-action-hud:hover > #tah-collapse-expand #tah-collapse-hud,
+#token-action-hud:hover > #tah-buttons #tah-edit-categories {
+  display: flex;
 }
 
 #tah-character-name {
@@ -51,37 +50,55 @@
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    top: -20px !important;
+  top: -20px !important;
 }
 
-#tah-reposition,
 #tah-categories {
+  display: flex;
+  gap: 2px;
+}
+
+#tah-edit-categories {
   display: none;
   font-style: normal;
   font-weight: normal;
-}
-
-#tah-reposition:hover,
-#tah-categories:hover {
-  cursor: pointer;
-}
-
-#tah-reposition {
-  left: -20px;
-}
-
-#tah-categories {
   left: 100%;
 }
 
-#tah-reposition > .fa,
-#tah-reposition > .fas,
-#tah-categories > .fa,
-#tah-categories > .fas {
+#tah-collapse-expand:hover,
+#tah-edit-categories:hover {
+  cursor: pointer;
+}
+
+#tah-collapse-expand {
+  font-style: normal;
+  font-weight: normal;
+  left: -25px;
+  position: absolute;
+}
+
+#tah-collapse-hud {
+  background: transparent;
+  border: 0;
+  display: none;
+  line-height: unset;
+}
+
+#tah-collapse-hud:hover, 
+#tah-collapse-hud:focus {
+  box-shadow: none;
+}
+
+
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas,
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
   color: #ddd;
   margin: 3px;
   padding: 3px;
   pointer-events: none;
+  position: relative;
   text-align: center;
   text-shadow:
     1px 1px 1px rgba(52, 52, 52, 1),
@@ -90,18 +107,18 @@
     1px 1px 1px rgba(52, 52, 52, 1);
 }
 
-#tah-reposition > .fa,
-#tah-reposition > .fas {
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas {
   font-size: small;
 }
 
-#tah-categories > .fa,
-#tah-categories > .fas {
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
   font-size: large;
 }
 
-#tah-reposition:hover > i,
-#tah-categories:hover > i {
+#tah-collapse-expand:hover button > i,
+#tah-edit-categories:hover > i {
   color: #fff;
   text-shadow: 0 0 10px #ff6400;
 }
@@ -160,7 +177,6 @@
   flex-direction: column;
 }
 
-/* Show the dropdown menu on hover */
 .tah-category.hover .tah-content {
   background: none;
   display: flex;
@@ -184,6 +200,7 @@
   align-items: center;
   color: #fff;
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
   line-height: 1.1;
   padding-right: 5px;
@@ -194,7 +211,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;   
+  width: 175px;
 }
 
 .tah-filterholder {
@@ -378,7 +395,6 @@
   width: 100%;
 }
 
-/* Change color of dropdown links on hover */
 .tah-action button:hover {
   border: 0;
   box-shadow: 0 0 10px #ff6400, 0 2px 0 -1px #ff6400, 0 0 0 1px red;
@@ -412,6 +428,17 @@
   content: "*";
 }
 
+#tah-expand-hud {
+  height: 34px;
+  position: relative;
+  top: 18px;
+}
+
+#tah-expand-hud {
+  padding: 3px;
+}
+
+#tah-expand-hud,
 .tah-category button,
 .tah-action button {
 	background-color: var(--tah-button, #00000080);
@@ -423,6 +450,8 @@
 	color: var(--tah-button-contrast, #ddd);
 	transition: all 0.1s ease-in-out;
 }
+
+#tah-expand-hud:hover,
 .tah-category button:hover,
 .tah-category.hover > button,
 .tah-action button:hover {
@@ -434,6 +463,7 @@
     0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
 	color: var(--tah-button-hover-contrast, #fff);
 }
+
 .tah-category button:active {
 	background-color: var(--tah-button-active, #00000080);
   border: 0;

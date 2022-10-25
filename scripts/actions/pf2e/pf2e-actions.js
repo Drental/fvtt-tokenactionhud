@@ -659,7 +659,8 @@ export class ActionHandlerPf2e extends ActionHandler {
     let spellCategories = this.initializeEmptySubcategory();
 
     for (const spellcastingEntry of items) {
-      const bookName = spellcastingEntry.name;
+      const spellsText = game.i18n.localize("tokenActionHud.spells");
+      const bookName = `<div>${spellcastingEntry.name.replace(" ", "</div>&nbsp<div>")}</div>`.replace(` ${spellsText}`, "");
       let spellcastingEntryCategory = this.initializeEmptySubcategory(bookName);
       spellcastingEntryCategory.name = bookName;
       spellCategories.subcategories.push(spellcastingEntryCategory);
@@ -669,13 +670,13 @@ export class ActionHandlerPf2e extends ActionHandler {
       const activeLevels = spellInfo.levels.filter((level) => level.active.length > 0);
       for (const [i, level] of Object.entries(activeLevels)) {
         const isFirst = Number(i) === 0;
-        let levelName = String(game.i18n.localize(level.label));
+        let levelName = String(game.i18n.localize(level.label)).replace(` ${spellsText}`, "");
         let levelSubcategory = this.initializeEmptySubcategory();
 
         this._setSpellSlotInfo(actor, tokenId, levelSubcategory, level, spellInfo, isFirst);
 
         if (isFirst) {
-          levelName = `${bookName} - ${levelName}`;
+          levelName = `${bookName}&nbsp<div>-</div>&nbsp<div>${levelName}</div>`;
           levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
         }
 

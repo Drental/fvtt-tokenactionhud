@@ -123,6 +123,10 @@
           "up": "위로"
         }
       },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
       "enabledForUser": {
         "name": "현재 유저에게 HUD를 활성화",
         "hint": "활성화시 HUD는 유저들에게 활성화 된다. 플레이어 권한 설정을 덮어쓰지 않는다."

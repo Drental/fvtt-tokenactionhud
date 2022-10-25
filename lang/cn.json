@@ -121,6 +121,10 @@
           "up": "向上"
         }
       },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
       "enabledForUser": {
         "name": "为当前用户启用HUD",
         "hint": "启用后，当前用户HUD激活。不会覆盖玩家的权限设置。"

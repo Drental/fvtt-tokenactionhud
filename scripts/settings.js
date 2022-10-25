@@ -84,6 +84,18 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     },
   });
 
+  game.settings.register(appName, "drag", {
+    name: game.i18n.localize("tokenActionHud.settings.drag.name"),
+    hint: game.i18n.localize("tokenActionHud.settings.drag.hint"),
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: (value) => {
+      updateFunc(value);
+    },
+  });
+
   initColorSettings(appName);
 
   game.settings.register(appName, "enabledForUser", {

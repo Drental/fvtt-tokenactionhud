@@ -130,6 +130,10 @@
           "up": "Vers le haut"
         }
       },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
       "enabledForUser": {
         "hint": " Si activée, le HUD est actif pour le joueur. Ne vient pas écraser les permissions données au joueur.",
         "name": "Activer le HUD pour le joueur actuel"

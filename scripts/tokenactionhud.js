@@ -114,8 +114,9 @@ export class TokenActionHUD extends Application {
 
   /** @override */
   activateListeners(html) {
-    const repositionIcon = "#tah-reposition";
-    const categoriesIcon = "#tah-categories";
+    const repositionIcon = "#tah-collapse-expand";
+    const editCategoriesIcon = "#tah-edit-categories";
+    const categories = '#tah-categories'
     const category = ".tah-category";
     const titleButton = ".tah-title-button";
     const action = ".tah-action";
@@ -221,14 +222,46 @@ export class TokenActionHUD extends Application {
       html.find(category).hover(openCategory, closeCategory);
     }
 
-    html.find(categoriesIcon).mousedown((ev) => {
+    html.find(editCategoriesIcon).mousedown((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
 
       TagDialogHelper._showCategoryDialog(this.categoryManager);
     });
 
-    html.find(repositionIcon).mousedown((ev) => {
+    const collapseHudButton = "#tah-collapse-hud"
+    const expandHudButton = "#tah-expand-hud"
+    const buttons = "#tah-buttons"
+
+    if (game.user.getFlag("token-action-hud", "isCollapsed")) {
+      html.find(collapseHudButton).addClass("tah-hidden");
+      html.find(expandHudButton).removeClass("tah-hidden");
+      html.find(categories).addClass("tah-hidden");
+      html.find(buttons).addClass("tah-hidden");
+    }
+
+    html.find(collapseHudButton).click((ev) => {
+      ev.preventDefault();
+      ev = ev || window.event;
+      if (game.user.getFlag("token-action-hud", "isCollapsed")) return;
+      $(ev.target).addClass("tah-hidden");
+      html.find(expandHudButton).removeClass("tah-hidden");
+      html.find(categories).addClass("tah-hidden");
+      html.find(buttons).addClass("tah-hidden");
+      game.user.setFlag("token-action-hud", "isCollapsed", true);
+    });
+
+    html.find(expandHudButton).click((ev) => {
+      ev.preventDefault();
+      ev = ev || window.event;
+      $(ev.target).addClass("tah-hidden");
+      html.find(collapseHudButton).removeClass("tah-hidden");
+      html.find(categories).removeClass("tah-hidden");
+      html.find(buttons).removeClass("tah-hidden");
+      game.user.setFlag("token-action-hud", "isCollapsed", false);
+    });
+
+    html.find(expandHudButton).mousedown((ev) => {
       this.dragEvent(ev);
     });
 
@@ -245,6 +278,7 @@ export class TokenActionHUD extends Application {
   dragEvent(ev) {
     ev.preventDefault();
     ev = ev || window.event;
+    if (!settings.get("drag")) return
     document.onmousemove = mouseMoveEvent;
     document.onmouseup = mouseUpEvent;
 

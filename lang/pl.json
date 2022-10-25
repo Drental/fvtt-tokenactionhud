@@ -121,8 +121,12 @@
           "up": "W górę"
         }
       },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
       "enabledForUser": {
-        "hint": "If enabled, the HUD is active for the user. Does not override the player permission setting.",
+        "hint": "Enable the HUD for the current user. Does not override the player permission setting",
         "name": "Enable HUD for Current User"
       },
       "itemMacroReplace": {
