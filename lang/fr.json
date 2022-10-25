@@ -554,11 +554,9 @@
       "techs": "Techs"
     },
     "pf1": {
-      "bab": "BAB",
       "bonuses": "Bonus",
       "buffs": "Buffs",
       "casterlevel": "Caster Level",
-      "cmb": "CMB",
       "concentration": "Concentration",
       "disabled": "Désactivé",
       "inconsumables": "Non consommables",

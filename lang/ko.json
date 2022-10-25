@@ -556,11 +556,9 @@
       "techs": "Techs"
     },
     "pf1": {
-      "bab": "BAB",
       "bonuses": "보너스",
       "buffs": "버프",
       "casterlevel": "Caster Level",
-      "cmb": "CMB",
       "concentration": "집중",
       "disabled": "Disabled",
       "inconsumables": "비소모품",
