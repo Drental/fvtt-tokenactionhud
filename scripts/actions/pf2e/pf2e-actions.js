@@ -51,8 +51,11 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     const allowedTypes = ["npc", "character", "familiar"];
     let actors = canvas.tokens.controlled
+      .filter((t) => t.actor)
       .map((t) => t.actor)
       .filter((a) => allowedTypes.includes(a.type));
+    
+    if (actors.length === 0) return;
 
     const tokenId = list.tokenId;
 
