@@ -438,6 +438,8 @@ export class ActionHandlerD35E extends ActionHandler {
 
     if (spell.system.atWill) return true;
 
+    if (spell.system.isPower) return true;
+
     if (isSpontaneous) return true;
 
     if (spell.system.preparation.preparedAmount === 0) return false;
