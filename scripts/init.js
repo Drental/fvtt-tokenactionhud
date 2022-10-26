@@ -69,6 +69,29 @@ Hooks.on("init", () => {
   switchCSS(game.settings.get(systemManager.appName, "style"));
 });
 
+/**
+ * Move the HUD below the scene context menus
+ */
+Hooks.on("renderSceneNavigation", (data, html) => {
+  html.find("li.scene.nav-item").contextmenu((ev) => {
+      sendHudToBottom();
+  });
+});
+
+/**
+ * Move the HUD below the hotbar context menus
+ */
+Hooks.on("renderHotbar", (data, html) => {
+  html.find("li.macro").contextmenu((ev) => {
+      sendHudToBottom();
+  });
+});
+
+function sendHudToBottom () {
+  if (!game.tokenActionHUD) return;
+   game.tokenActionHUD.element[0].style.zIndex = 0;       
+}
+
 // Hooks.on("init", () => {
 //   registerHandlerbars();
 

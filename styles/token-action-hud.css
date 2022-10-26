@@ -201,6 +201,7 @@
   color: #fff;
   display: flex;
   flex-wrap: wrap;
+  font-size: small;
   justify-content: flex-end;
   line-height: 1.1;
   padding-right: 5px;
