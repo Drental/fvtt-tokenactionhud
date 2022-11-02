@@ -327,7 +327,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenActionHud.weapons"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
 
