@@ -124,11 +124,6 @@ export class PcActionHandlerPf2e {
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenActionHud.effects"),
-      effects
-    );
-    this.baseHandler._combineCategoryWithList(
-      result,
       this.i18n("tokenActionHud.utility"),
       utilities
     );
