@@ -65,11 +65,13 @@ export class RollHandlerBaseSwade extends RollHandler {
   async _toggleStatus(event, actor, actionId, tokenId) {
     const existsOnActor = actor.effects.find(
       e => e.getFlag("core", "statusId") == actionId);
-    const effect = CONFIG.SWADE.statusEffects.find(
-      (e) => e.id === actionId
-    );
-    effect["flags.core.statusId"] = actionId;
-    await canvas.tokens.get(tokenId).toggleEffect(effect, {active: !existsOnActor});
+
+    const filter = (e) => e.id === actionId;
+    let data = CONFIG.statusEffects.find(filter);
+    if (!data) data = SWADE.statusEffects.find(filter);
+
+    data["flags.core.statusId"] = actionId;
+    await canvas.tokens.get(tokenId).toggleEffect(data, {active: !existsOnActor});
   }
 
   /** @private */

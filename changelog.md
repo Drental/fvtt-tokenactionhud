@@ -6,7 +6,7 @@
 - Core - Add collapse/expand button to left of HUD.
 - Core - Fix overflowing subtitles (#314).
 - Core - Fix scene and hotbar context menus appearing below the HUD (#316).
-- 3.5e SRD - Fix Psionic Power spells not showing on the HUD.
+- 3.5e SRD - Fix Psionic Power spells not showing on the HUD (#145).
 - D&D 5e - Fix title references when Group by Action Type is enabled (#318).
 - Pathfinder 1e - Fix BAB and CMB title references (#315).
 - Pathfinder 2e - Fix error caused by tokens with no actor assigned (#145).
