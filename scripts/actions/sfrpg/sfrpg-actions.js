@@ -614,8 +614,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
         } else {
           subcategory.info1 =
             crewRole.limit > 0
-              ? `${crewRole.actors.length}/${crewRole.limit}`
-              : crewRole.actors.length;
+              ? `${crewRole.actorIds.length}/${crewRole.limit}`
+              : crewRole.actorIds.length;
         }
       }
 
@@ -631,7 +631,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _shouldShowCrewOptions(crew, crewRole, npcRole) {
     if (!crewRole) return true;
 
-    if (crewRole.actors?.length > 0 && !crew.useNPCCrew) return true;
+    if (crewRole.actorIds?.length > 0 && !crew.useNPCCrew) return true;
 
     if (crew.useNPCCrew && npcRole?.numberOfUses > 0) return true;
 
