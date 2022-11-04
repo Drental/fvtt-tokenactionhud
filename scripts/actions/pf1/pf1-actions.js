@@ -367,7 +367,7 @@ export class ActionHandlerPf1 extends ActionHandler {
       const toUpperFirstChar = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
       // this follows the same logic as the spellbook display tab in PF1 - so this pairs the rolls/spells directly to the character sheet
-      let spellbookName = spellbook.altName || toUpperFirstChar(spellbook.class) || toUpperFirstChar(sbId);
+      let spellbookName = spellbook.altName || this.i18n(spellbook.label) || toUpperFirstChar(spellbook.class) || toUpperFirstChar(sbId);
 
       checksCategory.actions.push(
         this._createConcentrationAction(tokenId, sbId, this.i18n("tokenActionHud.pf1.concentration"))
