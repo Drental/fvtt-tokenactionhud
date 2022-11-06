@@ -91,6 +91,10 @@
         "type": "system"
       },
       {
+        "id": "cyphersystem",
+        "type": "system"
+      },
+      {
         "id": "dungeonworld",
         "type": "system"
       },
