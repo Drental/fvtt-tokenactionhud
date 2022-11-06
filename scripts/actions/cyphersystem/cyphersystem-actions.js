@@ -89,14 +89,13 @@ export class ActionHandlerCypherSystem extends ActionHandler {
     }
 
     _getPools(actor, tokenId) {
-        let result = this.initializeEmptyCategory("actions");
+        let result = this.initializeEmptyCategory("pools");
         let category = this.initializeEmptySubcategory();
         let pools = this.initializeEmptySubcategory();
         let combat = this.initializeEmptySubcategory();
     
         // Pools
         for (const key of [ "might", "speed", "intellect" ]) {
-            const pool = actor.system.pools[key];
             category.actions.push({
               name: this.i18n(`CYPHERSYSTEM.${key.capitalize()}`),
               encodedValue: ["pool", tokenId, key.capitalize()].join(this.delimiter),
@@ -127,7 +126,7 @@ export class ActionHandlerCypherSystem extends ActionHandler {
 
         for (const item of actor.items.filter( item => item.type === 'attack')) {
             subcat.actions.push({
-                name: this.i18n(item.name),
+                name: item.name,
                 encodedValue: ["attack", tokenId, item.id].join(this.delimiter),
             });
         }
@@ -147,7 +146,7 @@ export class ActionHandlerCypherSystem extends ActionHandler {
 
         for (const item of actor.items.filter( item => item.type === 'skill')) {
             subcat.actions.push({
-                name: this.i18n(item.name),
+                name: item.name,
                 encodedValue: ["skill", tokenId, item.id].join(this.delimiter),
             });
         }
@@ -167,7 +166,7 @@ export class ActionHandlerCypherSystem extends ActionHandler {
 
         for (const item of actor.items.filter( item => item.type === 'ability')) {
             subcat.actions.push({
-                name: this.i18n(item.name),
+                name: item.name,
                 encodedValue: ["ability", tokenId, item.id].join(this.delimiter),
             });
         }
