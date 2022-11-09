@@ -39,6 +39,9 @@ export class RollHandlerBR2SWSwade extends RollHandler {
       case "attribute":
         this._rollAttribute(event, actor, actionId, tokenId);
         break;
+      case "runningDie":
+        actor.rollRunningDie();
+        break;
       case "skill":
         this._rollSkill(event, actor, actionId, tokenId);
         break;
