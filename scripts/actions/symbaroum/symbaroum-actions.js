@@ -71,7 +71,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getMysticalPowers(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "mysticalPower" && item.system?.script
+      (item) => item.type === "mysticalPower" && item.system?.hasScript
     );
     let result = this.initializeEmptyCategory("actorPowers");
     let powersCategory = this.initializeEmptySubcategory();
@@ -90,7 +90,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getTraits(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "trait" && item.system?.script
+      (item) => item.type === "trait" && item.system?.hasScript
     );
     let result = this.initializeEmptyCategory("actorsTraits");
     let traitsCategory = this.initializeEmptySubcategory();
@@ -107,7 +107,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getWeapons(actor, tokenId) {
     let filteredItems = actor.items.filter(
       (item) =>
-        item.data?.type === "weapon" && item.system?.state === "active"
+        item.type === "weapon" && item.system?.state === "active"
     );
     let result = this.initializeEmptyCategory("actorWeapons");
     let weaponsCategory = this.initializeEmptySubcategory();
@@ -128,16 +128,17 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getArmors(actor, tokenId) {
     let result = this.initializeEmptyCategory("actorArmors");
     let armorsCategory = this.initializeEmptySubcategory();
-    let encodedValue = ["armor", tokenId, actor.system.combat.id].join(
-      this.delimiter
-    );
-    let item = {
-      name: actor.system.combat.armor,
-      encodedValue: encodedValue,
-      id: actor.system.combat.id,
-    };
 
-    armorsCategory.actions = [item];
+    const armorItemId = actor.system.combat.id;
+    let items = [];
+    items.push(actor.items.get(armorItemId));
+
+    armorsCategory.actions = this._produceMap(
+      tokenId,
+      items,
+      "armor"
+    );
+
     this._combineSubcategoryWithCategory(
       result,
       this.i18n("tokenActionHud.roll"),
