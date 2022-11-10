@@ -108,7 +108,9 @@ export class RollHandlerBaseSwade extends RollHandler {
 
   /** @private */
   async _adjustAttributes(event, actor, macroType, actionId) {
-    let attribute = actor.system[macroType];
+    let attribute = (macroType === 'powerPoints')
+      ? actor.system[macroType].general
+      : actor.system[macroType];
 
     if (!attribute) return;
 
@@ -128,7 +130,9 @@ export class RollHandlerBaseSwade extends RollHandler {
 
     let update = { data: {} };
 
-    update.data[macroType] = { value: value };
+    update.data[macroType] = (macroType === 'powerPoints')
+      ? { general: { value: value } }
+      : { value: value };
 
     await actor.update(update);
   }

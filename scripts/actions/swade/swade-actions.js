@@ -134,7 +134,7 @@ export class ActionHandlerSwade extends ActionHandler {
     const cat = this.initializeEmptyCategory(macroType);
 
     if (!settings.get("noPowerPoints")) {
-      const pp = actor.system.powerPoints;
+      const pp = actor.system.powerPoints.general;
       pp.value = pp.value ?? 0;
       pp.max = pp.max ?? 0;
       cat.info1 = `${pp.value}/${pp.max}`;
