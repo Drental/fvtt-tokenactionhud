@@ -356,23 +356,25 @@ export class ActionHandler5e extends ActionHandler {
     var pactInfo = spellSlotInfo.find((s) => s[0] === "pact");
 
     var slotsAvailable = false;
-    spellSlotInfo.forEach((s) => {
-      if (s[0].startsWith("spell")) {
-        if (!slotsAvailable && s[1].max > 0 && s[1].value > 0)
-          slotsAvailable = true;
-
-        if (!slotsAvailable && s[0] === "spell" + pactInfo[1]?.level) {
-          if (pactInfo[1].max > 0 && pactInfo[1].value > 0)
+    spellSlotInfo
+      .filter((spell) => spell[0] !== "maxLevel")
+      .forEach((s) => {
+        if (s[0].startsWith("spell")) {
+          if (!slotsAvailable && s[1].max > 0 && s[1].value > 0)
             slotsAvailable = true;
+  
+          if (!slotsAvailable && s[0] === "spell" + pactInfo[1]?.level) {
+            if (pactInfo[1].max > 0 && pactInfo[1].value > 0)
+              slotsAvailable = true;
+          }
+  
+          s[1].slotsAvailable = slotsAvailable;
+        } else {
+          if (!s[1]) s[1] = {};
+  
+          s[1].slotsAvailable = !s[1].max || s[1].value > 0;
         }
-
-        s[1].slotsAvailable = slotsAvailable;
-      } else {
-        if (!s[1]) s[1] = {};
-
-        s[1].slotsAvailable = !s[1].max || s[1].value > 0;
-      }
-    });
+      });
 
     let pactIndex = spellSlotInfo.findIndex((p) => p[0] === "pact");
     if (!spellSlotInfo[pactIndex][1].slotsAvailable) {
