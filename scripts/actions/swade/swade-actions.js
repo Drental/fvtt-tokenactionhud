@@ -70,11 +70,35 @@ export class ActionHandlerSwade extends ActionHandler {
 
       subcat.actions.push(action);
     });
-
-    const catName = this.i18n("tokenActionHud.attributes");
+    
+    const catName = this.i18n("SWADE.Attributes");
     let cat = this.initializeEmptyCategory("attributes");
-    this._combineSubcategoryWithCategory(cat, catName, subcat);
+
+    const subcatName = this.i18n("SWADE.Attributes");
+    this._combineSubcategoryWithCategory(cat, subcatName, subcat);
+
+    const derivedStatsSubcatName = this.i18n("SWADE.Derived");
+    const derivedStatsSubcat = this._getDerivedStatsSubcategory(tokenId);
+    this._combineSubcategoryWithCategory(cat, derivedStatsSubcatName, derivedStatsSubcat);
+
     this._combineCategoryWithList(list, catName, cat);
+  }
+
+  /** @private */
+  _getDerivedStatsSubcategory(tokenId) {
+    const subcat = this.initializeEmptySubcategory("derivedStats");
+    
+    // Running Die
+    const runningDieMacroType = "runningDie";
+    const runningDieId = "runningDie";
+    const runningDieName = game.i18n.localize("SWADE.RunningDie")
+    const runningDieEncodedValue = [runningDieMacroType, tokenId, runningDieId].join(this.delimiter);
+    const runningDieAction = { name: runningDieName, encodedValue: runningDieEncodedValue, id: runningDieId };
+    runningDieAction.info1 = "d6";
+
+    subcat.actions.push(runningDieAction);
+
+    return subcat;
   }
 
   /** @private */
@@ -95,7 +119,7 @@ export class ActionHandlerSwade extends ActionHandler {
       subcat.actions.push(action);
     });
 
-    const skillName = this.i18n("tokenActionHud.skills");
+    const skillName = this.i18n("SWADE.Skills");
     this._combineSubcategoryWithCategory(cat, skillName, subcat);
     this._combineCategoryWithList(list, skillName, cat);
   }
@@ -110,7 +134,7 @@ export class ActionHandlerSwade extends ActionHandler {
     const cat = this.initializeEmptyCategory(macroType);
 
     if (!settings.get("noPowerPoints")) {
-      const pp = actor.system.powerPoints;
+      const pp = actor.system.powerPoints.general;
       pp.value = pp.value ?? 0;
       pp.max = pp.max ?? 0;
       cat.info1 = `${pp.value}/${pp.max}`;

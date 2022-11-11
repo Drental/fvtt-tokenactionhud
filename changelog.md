@@ -1,5 +1,15 @@
 # Changelog
 
+# [3.0.14] 2022-11-10
+- D&D5e - Fix error when Ruins of Symbaroum module is enabled and the actor has spells (#186).
+- Pathfinder 1e - Use spellbook labels for categories (#320).
+- Pathfinder 2e - Remove duplicate Effects category and fix subcategory name - Provided by Felerius.
+- Starfinder - Fix Crew Actions (#201).
+- SWADE - Add 'Running Die' action to the Attributes category under the Derived Stats subcategory (#173).
+- SWADE - Fix Entangled status still applying core statuses when the Fantasy Companion system setting was enabled (#322).
+- SWADE - Fix Power Points not updating on the HUD following change in SWADE 2.1.0 (#328).
+- Symbaroum - Fix HUD for the Symbaroum following v10 release.
+
 # [3.0.13] 2022-10-26
 - Core - Update fr.json - Provided by rectulo.
 - Core - Add 'Enable Dragging' module setting.
