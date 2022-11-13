@@ -23,6 +23,7 @@ Hooks.on("init", () => {
   });
 
   const systemManagers = {
+    "cyphersystem": "cyphersystem",
     "dnd5e": "dnd5e",
     "dungeonworld": "dungeonworld",
     "pf2e": "pf2e",

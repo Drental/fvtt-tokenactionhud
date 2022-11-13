@@ -26,6 +26,7 @@ import { ED4eSystemManager } from './ed4e.js'
 import { GURPSSystemManager } from './gurps.js'
 import { Space1889SystemManager } from './space1889.js'
 import { CoC7SystemManager } from './coc7.js'
+import { CypherSystemSystemManager } from './cyphersystem.js'
 import { CleenmainSystemManager } from './cleenmain.js'
 
 export class SystemManagerFactory {
@@ -33,7 +34,9 @@ export class SystemManagerFactory {
     switch (system) {
       case "blades-in-the-dark":
         return new BitDSystemManager(appName);
-      case "demonlord":
+        case "cyphersystem":
+          return new CypherSystemSystemManager(appName);
+        case "demonlord":
         return new DemonlordSystemManager(appName);
       case "dnd5e":
         return new Dnd5eSystemManager(appName);
