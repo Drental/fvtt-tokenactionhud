@@ -20,7 +20,7 @@ export class RollHandlerBaseT20 extends RollHandler {
 
     if (tokenId === "multi") {
       for (let t of canvas.tokens.controlled) {
-        let idToken = t.data._id;
+        let idToken = t.id;
         await this._handleMacros(event, macroType, idToken, actionId);
       }
     } else {
@@ -62,8 +62,8 @@ export class RollHandlerBaseT20 extends RollHandler {
     const skillData = {
       actor: actor,
       type: "perícia",
-      data: actor.data.data.pericias[checkId],
-      name: actor.data.data.pericias[checkId].label,
+      data: actor.system.pericias[checkId],
+      name: actor.system.pericias[checkId].label,
       id: checkId,
     };
     actor.rollPericia(skillData);
@@ -73,10 +73,10 @@ export class RollHandlerBaseT20 extends RollHandler {
     let actor = super.getActor(tokenId);
     let item = super.getItem(actor, itemId);
 
-    // if (item.data.type === 'magia')
+    // if (item.type === 'magia')
     // return actor._onItemRoll(item);
 
-    return item.roll({ event });
+    return item.use({ event });
     // return actor._onItemRoll(item);
   }
 
@@ -94,13 +94,13 @@ export class RollHandlerBaseT20 extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
       await this.toggleCondition(event, tokenId, statusId);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 

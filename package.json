@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "dev": "rollup -wcm"
   },
   "devDependencies": {
     "rollup": "^2.56.3",

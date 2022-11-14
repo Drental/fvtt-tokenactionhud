@@ -22,7 +22,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
 
     let mysticalPowers = this._getMysticalPowers(actor, tokenId);
     let traits = this._getTraits(actor, tokenId);
@@ -33,45 +33,45 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.symbaroum.mysticalPowers"),
+      this.i18n("tokenActionHud.symbaroum.mysticalPowers"),
       mysticalPowers
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.traits"),
+      this.i18n("tokenActionHud.traits"),
       traits
     );
     if (!game.settings.get("symbaroum", "combatAutomation")) {
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.armour"),
+        this.i18n("tokenActionHud.armour"),
         armors
       );
     }
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.symbaroum.abilities"),
+      this.i18n("tokenActionHud.symbaroum.abilities"),
       abilities
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
 
   _getMysticalPowers(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "mysticalPower" && item.data.data?.script
+      (item) => item.type === "mysticalPower" && item.system?.hasScript
     );
     let result = this.initializeEmptyCategory("actorPowers");
     let powersCategory = this.initializeEmptySubcategory();
@@ -82,7 +82,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       powersCategory
     );
     return result;
@@ -90,7 +90,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getTraits(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "trait" && item.data.data?.script
+      (item) => item.type === "trait" && item.system?.hasScript
     );
     let result = this.initializeEmptyCategory("actorsTraits");
     let traitsCategory = this.initializeEmptySubcategory();
@@ -98,7 +98,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       traitsCategory
     );
     return result;
@@ -107,7 +107,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getWeapons(actor, tokenId) {
     let filteredItems = actor.items.filter(
       (item) =>
-        item.data?.type === "weapon" && item.data.data?.state === "active"
+        item.type === "weapon" && item.system?.state === "active"
     );
     let result = this.initializeEmptyCategory("actorWeapons");
     let weaponsCategory = this.initializeEmptySubcategory();
@@ -119,7 +119,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       weaponsCategory
     );
     return result;
@@ -128,19 +128,20 @@ export class ActionHandlerSymbaroum extends ActionHandler {
   _getArmors(actor, tokenId) {
     let result = this.initializeEmptyCategory("actorArmors");
     let armorsCategory = this.initializeEmptySubcategory();
-    let encodedValue = ["armor", tokenId, actor.data.data.combat.id].join(
-      this.delimiter
-    );
-    let item = {
-      name: actor.data.data.combat.armor,
-      encodedValue: encodedValue,
-      id: actor.data.data.combat.id,
-    };
 
-    armorsCategory.actions = [item];
+    const armorItemId = actor.system.combat.id;
+    let items = [];
+    items.push(actor.items.get(armorItemId));
+
+    armorsCategory.actions = this._produceMap(
+      tokenId,
+      items,
+      "armor"
+    );
+
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       armorsCategory
     );
     return result;
@@ -148,7 +149,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getAbilities(actor, tokenId) {
     let filteredItems = actor.items.filter(
-      (item) => item.data?.type === "ability" && item.data.data?.script
+      (item) => item.data?.type === "ability" && item.system?.script
     );
     let result = this.initializeEmptyCategory("actorAbilities");
     let abilitiesCategory = this.initializeEmptySubcategory();
@@ -159,7 +160,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       abilitiesCategory
     );
     return result;
@@ -167,7 +168,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
 
   _getAttributes(actor, tokenId) {
     let result = this.initializeEmptyCategory("attributes");
-    let attributes = Object.entries(actor.data.data.attributes);
+    let attributes = Object.entries(actor.system.attributes);
     let attributesCategory = this.initializeEmptySubcategory();
     attributesCategory.actions = attributes.map((c) => {
       let encodedValue = ["attribute", tokenId, c[0]].join(this.delimiter);
@@ -179,7 +180,7 @@ export class ActionHandlerSymbaroum extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributesCategory
     );
     return result;

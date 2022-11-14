@@ -32,7 +32,8 @@ export class RollHandlerBaseLancer extends RollHandler {
         this._rollHaseMacro(actorID, actionId);
         break;
       case "stat":
-        this._rollStatMacro(actorID, actionId);
+        if (actionId == "techattack") this._rollTechMacro(actorID, null);
+        else this._rollStatMacro(actorID, actionId);
         break;
       case "item":
         this._rollWeaponOrFeatureMacro(actorID, actionId, option);
@@ -58,6 +59,10 @@ export class RollHandlerBaseLancer extends RollHandler {
 
   _rollStatMacro(actorID, action) {
     game.lancer.prepareStatMacro(actorID, `mm.${action}`);
+  }
+
+  _rollTechMacro(actorID, action) {
+    game.lancer.prepareTechMacro(actorID, null);
   }
 
   _rollWeaponOrFeatureMacro(actorID, itemId, option) {

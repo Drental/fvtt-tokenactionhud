@@ -133,8 +133,8 @@ export class ActionHandler {
 
   /** @protected */
   _foundrySort(a, b) {
-    if (!(a?.data?.sort || b?.data?.sort)) return 0;
+    if (!(a?.sort || b?.sort)) return 0;
 
-    return a.data.sort - b.data.sort;
+    return a.sort - b.sort;
   }
 }

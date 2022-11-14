@@ -11,14 +11,14 @@ export class TagmarActionHandler extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
     let actor = token.actor;
     if (!actor) return result;
 
-    if (actor.data.type == "Inventario") return result;
+    if (actor.type == "Inventario") return result;
 
     result.actorId = actor.id;
 
@@ -72,7 +72,7 @@ export class TagmarActionHandler extends ActionHandler {
       resistSubCategory
     );
 
-    if (actor.data.type == "NPC") {
+    if (actor.type == "NPC") {
       let moralAction = this._produceMap(
         tokenId,
         [{ name: "Moral", id: "Moral" }],
@@ -94,7 +94,7 @@ export class TagmarActionHandler extends ActionHandler {
 
     let items = actor.items;
 
-    let habilidades = items.filter((i) => i.data.type === "Habilidade");
+    let habilidades = items.filter((i) => i.type === "Habilidade");
     habilidades.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
@@ -114,7 +114,7 @@ export class TagmarActionHandler extends ActionHandler {
 
     let items = actor.items;
 
-    let weapons = items.filter((i) => i.data.type === "Combate");
+    let weapons = items.filter((i) => i.type === "Combate");
     weapons.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });
@@ -123,7 +123,7 @@ export class TagmarActionHandler extends ActionHandler {
     weaponsSubcategory.actions = weaponsActions;
     this._combineSubcategoryWithCategory(result, "Ataques", weaponsSubcategory);
 
-    let tecnicas = items.filter((i) => i.data.type === "TecnicasCombate");
+    let tecnicas = items.filter((i) => i.type === "TecnicasCombate");
     tecnicas.sort(function (a, b) {
       return a.name.localeCompare(b.name);
     });

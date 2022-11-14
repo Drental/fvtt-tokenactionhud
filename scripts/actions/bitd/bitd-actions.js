@@ -13,7 +13,7 @@ export class ActionHandlerBitD extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -21,23 +21,23 @@ export class ActionHandlerBitD extends ActionHandler {
 
     if (!actor) return result;
 
-    result.actorId = actor.data._id;
+    result.actorId = actor.id;
 
     let actions = this._getActions(actor, tokenId);
     let resistances = this._getResistances(actor, tokenId);
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.resistance"),
+      this.i18n("tokenActionHud.bitd.resistance"),
       resistances
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -45,10 +45,10 @@ export class ActionHandlerBitD extends ActionHandler {
   _getActions(actor, tokenId) {
     let result = this.initializeEmptyCategory("actions");
 
-    for (let attribute in actor.data.data.attributes) {
+    for (let attribute in actor.system.attributes) {
       let attributeCategory = this.initializeEmptySubcategory();
-      for (let skill_name in actor.data.data.attributes[attribute].skills) {
-        let skill = actor.data.data.attributes[attribute].skills[skill_name];
+      for (let skill_name in actor.system.attributes[attribute].skills) {
+        let skill = actor.system.attributes[attribute].skills[skill_name];
         let name = this.i18n(skill.label);
         let encodedValue = ["action", tokenId, skill_name].join(this.delimiter);
 
@@ -58,7 +58,7 @@ export class ActionHandlerBitD extends ActionHandler {
         });
       }
       let attributeTitle = this.i18n(
-        actor.data.data.attributes[attribute].label
+        actor.system.attributes[attribute].label
       );
       this._combineSubcategoryWithCategory(
         result,
@@ -73,8 +73,8 @@ export class ActionHandlerBitD extends ActionHandler {
     let result = this.initializeEmptyCategory("actions");
 
     let resistanceCategory = this.initializeEmptySubcategory();
-    for (let attribute in actor.data.data.attributes) {
-      let name = this.i18n(actor.data.data.attributes[attribute].label);
+    for (let attribute in actor.system.attributes) {
+      let name = this.i18n(actor.system.attributes[attribute].label);
       let encodedValue = ["resistance", tokenId, attribute].join(
         this.delimiter
       );
@@ -84,7 +84,7 @@ export class ActionHandlerBitD extends ActionHandler {
       });
     }
 
-    let resistanceTitle = this.i18n("tokenactionhud.resistance");
+    let resistanceTitle = this.i18n("tokenActionHud.bitd.resistance");
     this._combineSubcategoryWithCategory(
       result,
       resistanceTitle,

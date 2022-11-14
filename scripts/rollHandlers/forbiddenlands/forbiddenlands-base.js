@@ -18,7 +18,7 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     let attributename = payload[3];
     let actor = super.getActor(tokenId);
     let charType;
-    if (actor) charType = actor.data.type;
+    if (actor) charType = actor.type;
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ['item', 'armor'];
@@ -40,22 +40,19 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         switch (charType) {
           case 'character':
           case 'monster':
-            await this._handleUniqueActionsChar(macroType, event, tokenId, actor, actionId);
+            await this._handleUniqueActionsChar(macroType, event, actor, actionId);
             break;
         }
       }
-      let rData = [];
       switch (macroType) {
         case 'attribute':
-          rData = { roll: actor.data.data.attribute[actionId].value, label: actor.data.data.attribute[actionId].label };
           if (event.type === 'click') {
-            actor.sheet.rollAttribute(game.i18n.localize(rData.label).toLowerCase());
+            actor.sheet.rollAttribute(actionId);
           }
           break;
         case 'skill':
-          rData = { roll: actor.data.data.skill[actionId].mod, label: actor.data.data.skill[actionId].label };
           if (event.type === 'click') {
-            actor.sheet.rollSkill(game.i18n.localize(rData.label).toLowerCase());
+            actor.sheet.rollSkill(actionId);
           }
           break;
         case 'weapon':
@@ -75,7 +72,9 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         case 'conditions':
           this.performConditionMacro(event, tokenId, actionId);
           break;
-
+        case 'consumables':
+          this.performConsumableMacro(tokenId, actionId);
+          break;
         case 'utility':
           this.performUtilityMacro(event, tokenId, actionId);
         default:
@@ -85,43 +84,22 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
   }
 
   /** @private */
-  async _handleUniqueActionsChar(macroType, event, tokenId, actor, actionId) {
-    let rData = 0;
+  async _handleUniqueActionsChar(macroType, event, actor, actionId) {
     switch (macroType) {
       case 'stress':
         await this._adjustAttribute(event, actor, 'stress', 'value', actionId);
         break;
-      case 'rollStress':
-        if (actor.data.type === 'character') {
-          rData = { panicroll: actor.data.data.header.stress };
-        } else {
-          rData = { panicroll: { value: 0, label: 'Stress' } };
-        }
-        if (event.type === 'click') {
-          actor.rollAbility(actor, rData);
-        } else {
-          actor.rollAbilityMod(actor, rData);
-        }
-        break;
       case 'health':
         await this._adjustAttribute(event, actor, 'health', 'value', actionId);
         break;
-      case 'creatureAttack':
-        let rAttData = { atttype: actor.data.data.rTables };
-        actor.creatureAttackRoll(actor, rAttData);
-        break;
-      case 'acidSplash':
-        let aSplashData = { roll: actor.data.data.general.acidSplash.value, label: actor.data.data.general.acidSplash.label };
-        actor.creatureAcidRoll(actor, aSplashData);
-        break;
-      case 'rollCrit':
-        actor.rollCrit(actor.data.type);
+      case 'monsterAttack':
+        actor.sheet.rollSpecificAttack(actionId);
         break;
     }
   }
 
   async _adjustAttribute(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.header[property][valueName];
+    let value = actor.system.header[property][valueName];
     let max = '10';
 
     if (this.rightClick) {
@@ -137,29 +115,11 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     await actor.update(update);
   }
 
-  async togggleConditionState(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.general[property][valueName];
-    let max = '1';
-
-    if (this.rightClick) {
-      if (value <= 0) return;
-      value--;
-      if (property === 'panic') {
-        actor.checkAndEndPanic(actor);
-      }
-    } else {
-      if (value >= max) return;
-      value++;
-      if (property === 'panic') {
-        actor.checkAndEndPanic(actor);
-      }
-    }
-
-    let update = { data: { general: { [property]: { [valueName]: value } } } };
-    await actor.update(update);
+  async toggleConditionState(actor, property) {
+    actor.toggleCondition(property);
   }
 
-  performUtilityMacro(event, tokenId, actionId) {
+  async performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -171,23 +131,26 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
         token.toggleCombat();
         Hooks.callAll('forceUpdateTokenActionHUD');
         break;
+      case 'endTurn':
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        break;
     }
   }
 
   async performMultiToggleUtilityMacro(actionId) {
     if (actionId === 'toggleVisibility') {
-      const allVisible = canvas.tokens.controlled.every((t) => !t.data.hidden);
+      const allVisible = canvas.tokens.controlled.every((t) => !t.document.hidden);
       canvas.tokens.controlled.forEach((t) => {
         if (allVisible) t.toggleVisibility();
-        else if (t.data.hidden) t.toggleVisibility();
+        else if (t.document.hidden) t.toggleVisibility();
       });
     }
 
     if (actionId === 'toggleCombat') {
-      const allInCombat = canvas.tokens.controlled.every((t) => t.data.inCombat);
+      const allInCombat = canvas.tokens.controlled.every((t) => t.inCombat);
       for (let t of canvas.tokens.controlled) {
         if (allInCombat) await t.toggleCombat();
-        else if (!t.data.inCombat) await t.toggleCombat();
+        else if (!t.inCombat) await t.toggleCombat();
       }
       Hooks.callAll('forceUpdateTokenActionHUD');
     }
@@ -198,22 +161,25 @@ export class RollHandlerBaseForbiddenlands extends RollHandler {
     let token = super.getToken(tokenId);
 
     switch (actionId) {
-      case 'toggleStarving':
-        this.togggleConditionState(event, actor, 'starving', 'value');
+      case 'toggleHungry':
+        this.toggleConditionState(actor, 'hungry');
         break;
-      case 'toggleDehydrated':
-        this.togggleConditionState(event, actor, 'dehydrated', 'value');
+      case 'toggleThirsty':
+        this.toggleConditionState(actor, 'thirsty');
         break;
-      case 'toggleExhausted':
-        this.togggleConditionState(event, actor, 'exhausted', 'value');
+      case 'toggleCold':
+        this.toggleConditionState(actor, 'cold');
         break;
-      case 'toggleFreezing':
-        this.togggleConditionState(event, actor, 'freezing', 'value');
-        break;
-      case 'togglePanic':
-        this.togggleConditionState(event, actor, 'panic', 'value');
+      case 'toggleSleepy':
+        this.toggleConditionState(actor, 'sleepy');
         break;
     }
+  }
+
+  performConsumableMacro(tokenId, actionId) {
+    let actor = super.getActor(tokenId);
+    if (!actor) return;
+    actor.sheet.rollConsumable(actionId)
   }
 
   /** @private */

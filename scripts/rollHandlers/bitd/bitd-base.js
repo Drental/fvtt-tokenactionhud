@@ -23,6 +23,6 @@ export class RollHandlerBaseBitD extends RollHandler {
   }
 
   rollItemMacro(event, actor, actionId) {
-    actor.item.find((i) => i.data.id === actionId).roll(event);
+    actor.item.find((i) => i.id === actionId).roll(event);
   }
 }

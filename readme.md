@@ -1,14 +1,52 @@
 # Token Action HUD
 
-This module populates a repositionable HUD showing the most common basic actions for a selected token. Currently the HUD supports DND5e, WFRP4e, Dungeon World, Pathfinder 2E, Pathfinder 1E, Star Wars FFG, Star Wars 5e, Shadow of the Demonlord (thanks to Xacus#7239) and SFRPG (thanks to Rainer#5041), Tormenta20 (thanks to mclemente#5524).
-![Easy action access](.github/readme/tah-dnd5e.gif)
+This module populates a repositionable HUD showing the most common actions for a selected token.
+
+![Token Action HUD](.github/readme/tah-dnd5e.gif)
 
 # Installation
 
-1. Inside Foundry's Configuration and Setup screen, go to **Add-on Modules**
-2. Click "Install Module"
-3. or in the Manifest URL field paste: `https://github.com/espositos/fvtt-tokenactionhud/raw/master/module.json`
-4. Within the game, click on **Settings** -> **Manage Modules** and make sure the Token Action Hud is enabled.
+1. Inside Foundry's **Configuration and Setup** screen, go to **Add-on Modules**
+2. Click **Install Module**
+    - or in the Manifest URL field, paste: `https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json`
+3. Within the game, click on **Settings** > **Manage Modules** and make sure Token Action HUD is enabled.
+
+## Recommended Modules
+Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/color-picker), [libThemer](https://foundryvtt.com/packages/lib-themer) or [VTTColorSettings](https://foundryvtt.com/packages/colorsettings) library modules for its color picker settings. Only one is required.
+
+# Supported Systems
+
+- 3.5e SRD
+- Alien RPG
+- Blades In The Dark
+- Call of Cthulhu 7th edition (Unofficial)
+- Chroniques Oubliées Contemporain
+- Chroniques Oubliées Fantasy
+- Clé en main
+- Cthulhu Hack
+- DnD 4th Edition
+- DnD5e, including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
+- Dungeon World
+- Dungeonslayers 4
+- Earthdawn 4th Edition
+- Forbidden Lands
+- GURPS 4th Edition Game Aid (Unofficial)
+- Kamigakari: God Hunter
+- LANCER
+- OpenD6 Space
+- Pathfinder 1
+- Pathfinder Second Edition (Official)
+- Savage Worlds Adventure Edition
+- Shadow of the Demon Lord
+- Starfinder
+- Star Wars FFG system for Foundry VTT
+- Symbaroum
+- Tagmar RPG
+- Tormenta20
+- Warhammer Fantasy Roleplay 4th Edition
+
+## Supporting Other Systems
+If you'd like a system to be supported by Token Action HUD and are able to develop it yourself, feel free to submit a pull request. See [How to Add Support for a System/Module](adding_systems.md) for help in developing Token Action HUD. Otherwise, raise a feature request for the system [here](https://github.com/Drental/fvtt-tokenactionhud/issues).
 
 # Usage
 
@@ -17,71 +55,37 @@ Once activated, selecting a token that has an actor/character sheet associated w
 Offers a variety of settings including support for third-party roll handlers (Please contact me if you'd like to add yours, or improve the functionality of those offered), and can be repositioned.
 ![Customizable settings](.github/readme/tah-settings_and_repositioning.gif)
 
-## Custom Categories
+## How to Use Custom Categories
 
-[Using custom categories](custom_categories.md)
-
-## Support for WFRP
-
-![Warhammer Fantasy Roleplay 4E](.github/readme/tah-wfrp.gif)
+See [How to Use Custom Categories](custom_categories.md)
 
 ## Dungeon World
 
 ![Dungeon World](.github/readme/tah-dungeonworld.gif)
 
-## Pathfinder 2E
+## Warhammer Fantasy Roleplay 4th Edition
 
-![Pathfinder 2E](.github/readme/tah-pf2e.gif)
+![Warhammer Fantasy Roleplay 4th Edition](.github/readme/tah-wfrp.gif)
+
+## Pathfinder Second Edition (Official)
+
+![Pathfinder Second Edition (Official)](.github/readme/tah-pf2e.gif)
 
 ## Starfinder RPG
 
 ![Starfinder RPG](.github/readme/tah-sfrpg.gif)
 
-# Supported systems
-
-- Blades in the Dark
-- DND5e (including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
-- Dungeon World
-- PF2E
-- WFRP4e
-- SFRPG
-- SWRPG
-- SotDL
-- PF1
-- Star Wars FFG
-- Tormenta20
-- Symbaroum
-- Cthulhu Hack
-- Chroniques Oubliées
-- Lancer
-- D35E
-- dnd4e
-- swade
-- od6s
-- alienrpg
-- kamigakari
-- tagmar
-- ds4
-- forbidden-lands
-- GURPS
-- Any other system? I believe the HUD is modular enough that anyone who understands what the players of their system want and how actions in their system are handled could quickly build it into the HUD. Please contact me if you'd like to add support for your favourite system.
-
-[Developing for your system or module](adding_systems.md)
-
 # Support
 
-For questions, feature requests, or bug reports, feel free to contact me on the Foundry Discord (Drental#7146) or open an issue here directly.
+For questions, feature requests or bug reports, please open an issue [here](https://github.com/Drental/fvtt-tokenactionhud/issues).
 
-- Feel free to submit pull requests with a justification of your change, or ask me before starting.
-- The HUD's layout could do with some love. If you think you can improve things and know how your way around CSS, please get in touch!
+Pull requests are welcome. Please include a reason for the request or create an issue before starting one.
 
 # Thanks
 
 First and foremost, thank you to the Community Helpers on Foundry's Discord who provide tireless support for people seeking help with the HUD.
-Enormous thanks also goes to the following people for their help in getting the HUD to its current state:
-Kekilla, Rainer, Xacus, Giddy, and anyone who has provided advice to any and all of my problems on Discord, as well as all the other developers who make FoundryVTT a joy to use.
+Enormous thanks also goes to the following people for their help in getting the HUD to its current state: Drental, Kekilla, Rainer, Xacus, Giddy, and anyone who has provided advice to any and all of my problems on Discord, as well as all the other developers who make FoundryVTT a joy to use.
 
 # License
 
-This Foundry VTT module is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
-This work is licensed under [Foundry Virtual Tabletop EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).
+This Foundry VTT module is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) and this work is licensed under [Foundry Virtual Tabletop EULA - Limited License Agreement for module development](https://foundryvtt.com/article/license/).

@@ -1,6 +1,7 @@
 import { TokenActionHUD } from "./tokenactionhud.js";
 import { SystemManagerFactory } from "./managers/systemManagerFactory.js";
 import { registerHandlerbars } from "./utilities/handlebars.js";
+import { switchCSS } from "./utils.js";
 
 const appName = "token-action-hud";
 
@@ -13,7 +14,16 @@ Hooks.on("init", () => {
     /* put all the relevant classes that systems and modules might need to access here */
   }
 
+  game.settings.register(appName, "startup", {
+    name: "One-Time Startup Prompt",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
   const systemManagers = {
+    "cyphersystem": "cyphersystem",
     "dnd5e": "dnd5e",
     "dungeonworld": "dungeonworld",
     "pf2e": "pf2e",
@@ -41,12 +51,15 @@ Hooks.on("init", () => {
     "forbidden-lands": "forbidden-lands",
     "dnd4e": "dnd4e",
     "earthdawn4e": "earthdawn4e",
-    "gurps": "gurps"
+    "gurps": "gurps",
+    "space1889": "space1889",
+    "CoC7": "CoC7",
+    "cleenmain": "cleenmain"
     /* put all the SystemManagers that are included directly in TAH here */
   }
   Hooks.call('preCreateTAHSystemManager', systemManagers); // this allows systems / modules to react to the hook and inject their own SystemManager
   
-  const system = game.data.system.id;
+  const system = game.system.id;
   const supportedSystem = systemManagers[system];
   if(!supportedSystem) {
     console.error("Token Action HUD: System not supported")
@@ -54,19 +67,52 @@ Hooks.on("init", () => {
   }
   systemManager = SystemManagerFactory.create(supportedSystem, appName);
   systemManager.registerSettings();
-  if (game.settings.get(systemManager.appName, "dorakoUI"))
-    injectCSS("dorako-action-hud");
+  switchCSS(game.settings.get(systemManager.appName, "style"));
 });
 
+/**
+ * Move the HUD below the scene context menus
+ */
+Hooks.on("renderSceneNavigation", (data, html) => {
+  html.find("li.scene.nav-item").contextmenu((ev) => {
+      sendHudToBottom();
+  });
+});
+
+/**
+ * Move the HUD below the hotbar context menus
+ */
+Hooks.on("renderHotbar", (data, html) => {
+  html.find("li.macro").contextmenu((ev) => {
+      sendHudToBottom();
+  });
+});
+
+function sendHudToBottom () {
+  if (!game.tokenActionHUD) return;
+   game.tokenActionHUD.element[0].style.zIndex = 0;       
+}
 
 // Hooks.on("init", () => {
 //   registerHandlerbars();
 
-//   let system = game.data.system.id;
+//   let system = game.system.id;
 
 //   systemManager = SystemManagerFactory.create(system, appName);
 //   systemManager.registerSettings();
 // });
+
+Hooks.once('ready', async () => {
+  if (game.user.isGM) {
+    if (!(game.modules.get('lib-themer')?.active ?? false) && !(game.modules.get('color-picker')?.active ?? false) && !(game.modules.get('colorsettings')?.active ?? false)) {
+      const firstStartup = game.settings.get(appName, "startup") === false;
+      if ( firstStartup ) {
+        ui.notifications.notify("Token Action HUD: To set colors within this module's settings, install and enable one of the following 'Color Picker', 'Color Settings' or 'libThemer' modules.")
+        game.settings.set(appName, "startup", true);
+      }
+    }
+  }
+});
 
 Hooks.on("canvasReady", async () => {
   let user = game.user;
@@ -174,19 +220,14 @@ Hooks.on("canvasReady", async () => {
     game.tokenActionHUD.update();
   });
 
+  Hooks.on("createActiveEffect", () => {
+    game.tokenActionHUD.update();
+  });
+
+  Hooks.on("deleteActiveEffect", () => {
+    game.tokenActionHUD.update();
+  });
+
   game.tokenActionHUD.update();
 });
 
-
-function injectCSS(filename) {
-  const head = document.getElementsByTagName("head")[0];
-  const mainCss = document.createElement("link");
-  mainCss.setAttribute("rel", "stylesheet");
-  mainCss.setAttribute("type", "text/css");
-  mainCss.setAttribute(
-    "href",
-    "modules/token-action-hud/styles/" + filename + ".css"
-  );
-  mainCss.setAttribute("media", "all");
-  head.insertBefore(mainCss, head.lastChild);
-}

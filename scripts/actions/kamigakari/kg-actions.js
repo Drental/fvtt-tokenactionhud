@@ -18,13 +18,13 @@ export class ActionHandlerKg extends ActionHandler {
     if (!actor) return result;
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (actorType === "enemy") {
       let attack = this._getEnemyTalents(actor, tokenId);
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.attack"),
+        this.i18n("tokenActionHud.attack"),
         attack
       );
     } else if (actorType === "character") {
@@ -36,27 +36,27 @@ export class ActionHandlerKg extends ActionHandler {
 
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.mainStats"),
+        this.i18n("tokenActionHud.kamigakari.mainStats"),
         mainStat
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.subStats"),
+        this.i18n("tokenActionHud.kamigakari.subStats"),
         subStat
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.spiritBurn"),
+        this.i18n("tokenActionHud.kamigakari.spiritBurn"),
         spiritBurn
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.talents"),
+        this.i18n("tokenActionHud.talents"),
         talents
       );
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.kamigakari.items"),
+        this.i18n("tokenActionHud.kamigakari.items"),
         items
       );
     }
@@ -67,7 +67,7 @@ export class ActionHandlerKg extends ActionHandler {
   _getMainStat(actor, tokenId) {
     let result = this.initializeEmptyCategory("mainStat");
 
-    let mainStat = Object.entries(actor.data.data.attributes).filter(
+    let mainStat = Object.entries(actor.system.attributes).filter(
       (a) => a[1]?.add !== undefined && a[1]?.base === undefined
     );
     let mainStatMap = mainStat.map((a) => {
@@ -79,7 +79,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.mainStats"),
+      this.i18n("tokenActionHud.kamigakari.mainStats"),
       mainStatCategory
     );
 
@@ -89,7 +89,7 @@ export class ActionHandlerKg extends ActionHandler {
   _getSubStat(actor, tokenId) {
     let result = this.initializeEmptyCategory("subStat");
 
-    let subStat = Object.entries(actor.data.data.attributes).filter(
+    let subStat = Object.entries(actor.system.attributes).filter(
       (a) => a[1]?.add === undefined && a[1]?.label !== undefined
     );
     let subStatMap = subStat.map((a) => {
@@ -101,7 +101,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.subStats"),
+      this.i18n("tokenActionHud.kamigakari.subStats"),
       subStatCategory
     );
 
@@ -114,15 +114,15 @@ export class ActionHandlerKg extends ActionHandler {
     let burns = [
       {
         id: "transcend",
-        name: this.i18n("tokenactionhud.kamigakari.transcend"),
+        name: this.i18n("tokenActionHud.kamigakari.transcend"),
       },
       {
         id: "vitalIgnition",
-        name: this.i18n("tokenactionhud.kamigakari.vitalIgnition"),
+        name: this.i18n("tokenActionHud.kamigakari.vitalIgnition"),
       },
       {
         id: "conceptDestruction",
-        name: this.i18n("tokenactionhud.kamigakari.conceptDestruction"),
+        name: this.i18n("tokenActionHud.kamigakari.conceptDestruction"),
       },
     ];
     let actions = this._produceMap(tokenId, burns, "burn");
@@ -131,7 +131,7 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.spiritBurn"),
+      this.i18n("tokenActionHud.kamigakari.spiritBurn"),
       burnCategory
     );
 
@@ -151,37 +151,37 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.start"),
+      this.i18n("tokenActionHud.kamigakari.start"),
       start
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.prep"),
+      this.i18n("tokenActionHud.kamigakari.prep"),
       prep
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.attack"),
+      this.i18n("tokenActionHud.kamigakari.attack"),
       attack
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.free"),
+      this.i18n("tokenActionHud.kamigakari.free"),
       free
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.defense"),
+      this.i18n("tokenActionHud.kamigakari.defense"),
       defense
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.end"),
+      this.i18n("tokenActionHud.kamigakari.end"),
       end
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.constant"),
+      this.i18n("tokenActionHud.kamigakari.constant"),
       constant
     );
 
@@ -207,37 +207,37 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.start"),
+      this.i18n("tokenActionHud.kamigakari.start"),
       start
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.prep"),
+      this.i18n("tokenActionHud.kamigakari.prep"),
       prep
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.attack"),
+      this.i18n("tokenActionHud.kamigakari.attack"),
       attack
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.free"),
+      this.i18n("tokenActionHud.kamigakari.free"),
       free
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.defense"),
+      this.i18n("tokenActionHud.kamigakari.defense"),
       defense
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.end"),
+      this.i18n("tokenActionHud.kamigakari.end"),
       end
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.constant"),
+      this.i18n("tokenActionHud.kamigakari.constant"),
       constant
     );
 
@@ -246,7 +246,7 @@ export class ActionHandlerKg extends ActionHandler {
 
   _getTalentsByManyTiming(actor, tokenId, timings) {
     let talent = actor.items.filter((a) =>
-      timings.includes(a.data.data.timing)
+      timings.includes(a.system.timing)
     );
     let talentAction = this._produceMap(tokenId, talent, "item");
 
@@ -257,7 +257,7 @@ export class ActionHandlerKg extends ActionHandler {
   }
 
   _getTalentsByTiming(actor, tokenId, timing) {
-    let talent = actor.items.filter((a) => a.data.data.timing === timing);
+    let talent = actor.items.filter((a) => a.system.timing === timing);
     let talentAction = this._produceMap(tokenId, talent, "item");
 
     let talentCategory = this.initializeEmptySubcategory();
@@ -275,17 +275,17 @@ export class ActionHandlerKg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       equipment
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.sacraments"),
+      this.i18n("tokenActionHud.kamigakari.sacraments"),
       sacraments
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.kamigakari.consumables"),
+      this.i18n("tokenActionHud.kamigakari.consumables"),
       consumables
     );
 
@@ -294,7 +294,7 @@ export class ActionHandlerKg extends ActionHandler {
 
   _getItemByType(actor, tokenId, type) {
     let item = actor.items.filter(
-      (a) => a.data.data.class === type || a.data.type == type
+      (a) => a.system.class === type || a.type == type
     );
     let itemAction = this._produceMap(tokenId, item, "item");
 
@@ -312,8 +312,8 @@ export class ActionHandlerKg extends ActionHandler {
         let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
         let item = { name: i.name, encodedValue: encodedValue, id: i.id };
 
-        if (macroType == "item" && i.data.data.quantity !== undefined)
-          item.name = i.name + " X " + i.data.data.quantity;
+        if (macroType == "item" && i.system.quantity !== undefined)
+          item.name = i.name + " X " + i.system.quantity;
 
         return item;
       });

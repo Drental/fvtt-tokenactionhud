@@ -12,7 +12,7 @@ export class ActionHandlerCthack extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -20,7 +20,7 @@ export class ActionHandlerCthack extends ActionHandler {
 
     if (!actor) return result;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (actorType != "character") return result;
 
     result.actorId = actor.id;
@@ -32,26 +32,26 @@ export class ActionHandlerCthack extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       items
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.features"),
+      this.i18n("tokenActionHud.features"),
       abilities
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -61,7 +61,7 @@ export class ActionHandlerCthack extends ActionHandler {
     let result = this.initializeEmptyCategory("saves");
     let attributesCategory = this.initializeEmptySubcategory();
 
-    let saves = Object.entries(actor.data.data.saves);
+    let saves = Object.entries(actor.system.saves);
 
     attributesCategory.actions = saves.map((c) => {
       const saveId = c[0];
@@ -72,7 +72,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       attributesCategory
     );
     return result;
@@ -106,7 +106,7 @@ export class ActionHandlerCthack extends ActionHandler {
     });
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributesCategory
     );
     return result;
@@ -114,22 +114,22 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _getItemList(actor, tokenId) {
-    let weapons = actor.items.filter((item) => item.data?.type === "weapon");
+    let weapons = actor.items.filter((item) => item.type === "weapon");
     let weaponActions = weapons.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "weapon", w)
     );
     let weaponsCat = this.initializeEmptySubcategory();
     weaponsCat.actions = weaponActions;
 
-    let equipment = actor.items.filter((item) => item.data?.type === "item");
+    let equipment = actor.items.filter((item) => item.type === "item");
     let equipmentActions = equipment.map((e) =>
       this._buildEquipmentItem(tokenId, actor, "item", e)
     );
     let equipmentCat = this.initializeEmptySubcategory();
     equipmentCat.actions = equipmentActions;
 
-    let weaponsTitle = this.i18n("tokenactionhud.weapons");
-    let equipmentTitle = this.i18n("tokenactionhud.equipment");
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
+    let equipmentTitle = this.i18n("tokenActionHud.equipment");
 
     let result = this.initializeEmptyCategory("inventory");
 
@@ -141,14 +141,14 @@ export class ActionHandlerCthack extends ActionHandler {
 
   /** @private */
   _getAbilities(actor, tokenId) {
-    let abilities = actor.items.filter((item) => item.data?.type === "ability");
+    let abilities = actor.items.filter((item) => item.type === "ability");
     let abilitiesActions = abilities.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "ability", w)
     );
     let abilitiesCat = this.initializeEmptySubcategory();
     abilitiesCat.actions = abilitiesActions;
 
-    let abilitiesTitle = this.i18n("tokenactionhud.features");
+    let abilitiesTitle = this.i18n("tokenActionHud.features");
 
     let result = this.initializeEmptyCategory("inventory");
 
@@ -162,10 +162,10 @@ export class ActionHandlerCthack extends ActionHandler {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.data._id].join(
+        let encodedValue = [macroType, tokenId, i._id].join(
           this.delimiter
         );
-        let item = { name: i.name, encodedValue: encodedValue, id: i.data._id };
+        let item = { name: i.name, encodedValue: encodedValue, id: i._id };
         return item;
       });
   }
@@ -203,8 +203,8 @@ export class ActionHandlerCthack extends ActionHandler {
  /** @private */
   _getIcon(item) {
     // Capacity activable
-    if (item.type === "ability" && item.data.data?.uses?.per !== "Permanent") {
-      if (item.data.data.uses.value > 0) {
+    if (item.type === "ability" && item.system.uses?.per !== "Permanent") {
+      if (item.system.uses.value > 0) {
         return '<i class="fas fa-check"></i>';
       }
       else return '<i class="fas fa-times"></i>';      

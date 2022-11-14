@@ -38,18 +38,18 @@ export class TagDialogHelper {
     let selected = filterManager.getFilteredElements(subcategoryId);
     let indexChoice = filterManager.isBlocklist(subcategoryId) ? 1 : 0;
 
-    let title = game.i18n.localize("tokenactionhud.filterTitle");
+    let title = game.i18n.localize("tokenActionHud.filterTitle");
 
     let hbsData = {
-      topLabel: game.i18n.localize("tokenactionhud.filterTagExplanation"),
-      placeholder: game.i18n.localize("tokenactionhud.filterPlaceholder"),
-      clearButtonText: game.i18n.localize("tokenactionhud.clearButton"),
+      topLabel: game.i18n.localize("tokenActionHud.filterTagExplanation"),
+      placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
+      clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
-        "tokenactionhud.blocklistLabel"
+        "tokenActionHud.blockListLabel"
       ),
       index: [
-        { value: 0, text: game.i18n.localize("tokenactionhud.allowlist") },
-        { value: 1, text: game.i18n.localize("tokenactionhud.blocklist") },
+        { value: 0, text: game.i18n.localize("tokenActionHud.allowlist") },
+        { value: 1, text: game.i18n.localize("tokenActionHud.blockList") },
       ],
     };
 
@@ -79,16 +79,17 @@ export class TagDialogHelper {
       categoryManager.getCategorySubcategoriesAsTagifyEntries(categoryId);
 
     let title =
-      game.i18n.localize("tokenactionhud.subcategoryTagTitle") +
+      game.i18n.localize("tokenActionHud.subcategoryTagTitle") +
       ` (${categoryName})`;
 
     let hbsData = {
-      topLabel: game.i18n.localize("tokenactionhud.subcategoryTagExplanation"),
-      placeholder: game.i18n.localize("tokenactionhud.filterPlaceholder"),
-      clearButtonText: game.i18n.localize("tokenactionhud.clearButton"),
+      topLabel: game.i18n.localize("tokenActionHud.subcategoryTagExplanation"),
+      placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
+      clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
+      advancedCategoryOptions: game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`)
     };
 
-    let submitFunc = async (choices, indexValue) => {
+    let submitFunc = async (choices, indexValue, html) => {
       let subcats = choices.map((c) => {
         return { id: c.id, title: c.value, type: c.type };
       });
@@ -97,6 +98,12 @@ export class TagDialogHelper {
         categoryId,
         subcats
       );
+      
+      const customWidth = parseInt(html.find(`input[name="custom-width"]`).val());
+      const compactView = html.find(`input[name="compact-view"]`).prop("checked");
+      const characterCount = parseInt(html.find(`input[name="character-count"]`).val());
+      const advancedCategoryOptions = { customWidth, compactView, characterCount };
+      await game.user.setFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions`, advancedCategoryOptions);
     };
 
     TagDialog.showDialog(
@@ -112,18 +119,18 @@ export class TagDialogHelper {
   static _showCategoryDialog(categoryManager) {
     let selected = categoryManager.getExistingCategories();
     let indexChoice = categoryManager.arePush() ? 1 : 0;
-    let title = game.i18n.localize("tokenactionhud.categoryTagTitle");
+    let title = game.i18n.localize("tokenActionHud.categoryTagTitle");
 
     let hbsData = {
-      topLabel: game.i18n.localize("tokenactionhud.categoryTagExplanation"),
-      placeholder: game.i18n.localize("tokenactionhud.filterPlaceholder"),
-      clearButtonText: game.i18n.localize("tokenactionhud.clearButton"),
+      topLabel: game.i18n.localize("tokenActionHud.categoryTagExplanation"),
+      placeholder: game.i18n.localize("tokenActionHud.filterPlaceholder"),
+      clearButtonText: game.i18n.localize("tokenActionHud.clearButton"),
       indexExplanationLabel: game.i18n.localize(
-        "tokenactionhud.pushLabelExplanation"
+        "tokenActionHud.pushLabelExplanation"
       ),
       index: [
-        { value: 0, text: game.i18n.localize("tokenactionhud.unshift") },
-        { value: 1, text: game.i18n.localize("tokenactionhud.push") },
+        { value: 0, text: game.i18n.localize("tokenActionHud.unshift") },
+        { value: 1, text: game.i18n.localize("tokenActionHud.push") },
       ],
     };
 

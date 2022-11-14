@@ -13,7 +13,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -25,7 +25,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
     let weapons = this._getItemsList(actor, tokenId, "weapon");
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
 
@@ -36,10 +36,10 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       forcePowers
     );
 
-    const data = actor.data.data;
+    const system = actor.system;
 
-    data.skilltypes.forEach((type) => {
-      let skills = this._getSkills(type, data, tokenId);
+    system.skilltypes.forEach((type) => {
+      let skills = this._getSkills(type, system, tokenId);
       this._combineCategoryWithList(result, type.label, skills);
     });
 
@@ -51,7 +51,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       );
     }
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -89,14 +89,14 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
   }
 
   /** @private */
-  _getSkills(type, data, tokenId) {
+  _getSkills(type, system, tokenId) {
     let categoryId = "skills";
     let macroType = "skill";
 
     let result = this.initializeEmptyCategory(categoryId);
 
-    const skills = Object.keys(data.skills)
-      .filter((s) => data.skills[s].type === type.type)
+    const skills = Object.keys(system.skills)
+      .filter((s) => system.skills[s].type === type.type)
       .sort((a, b) => {
         let comparison = 0;
         if (a.toLowerCase() > b.toLowerCase()) {
@@ -108,7 +108,7 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
       });
     settings.Logger.debug(skills);
     let skillCat = this.initializeEmptySubcategory();
-    skillCat.actions = this._produceSkillMap(tokenId, data, skills, macroType);
+    skillCat.actions = this._produceSkillMap(tokenId, system, skills, macroType);
 
     this._combineSubcategoryWithCategory(result, "", skillCat);
 
@@ -124,10 +124,10 @@ export class ActionHandlerStarWarsFFG extends ActionHandler {
   }
 
   /** @private */
-  _produceSkillMap(tokenId, data, skills, type) {
+  _produceSkillMap(tokenId, system, skills, type) {
     return skills.map((i) => {
       let encodedValue = [type, tokenId, i].join(this.delimiter);
-      return { name: data.skills[i].label, encodedValue: encodedValue, id: i };
+      return { name: system.skills[i].label, encodedValue: encodedValue, id: i };
     });
   }
 }

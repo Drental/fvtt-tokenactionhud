@@ -1,10 +1,35 @@
 export function register(appName, updateFunc) {
+  const showCategorySettings = [
+    'Abilities',
+    'Skills',
+    'Powers',
+    'Features',
+    'Inventory', 
+    'Conditions',
+    'Utility'
+  ]
+
+  for (const category of showCategorySettings) {
+    game.settings.register(appName, `show${category}Category`, {
+      name: game.i18n.localize(`tokenActionHud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenActionHud.settings.show${category}Category.hint`),
+      scope: "client",
+      config: true,
+      type: Boolean,
+      default: true,
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    })
+  }
+
+
   game.settings.register(appName, "abbreviateSkills", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.abbreviateSkills.name"
+      "tokenActionHud.dnd5e.settings.abbreviateSkills.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.dnd5e.abbreviateSkills.hint"
+      "tokenActionHud.dnd5e.settings.abbreviateSkills.hint"
     ),
     scope: "client",
     config: true,
@@ -15,28 +40,12 @@ export function register(appName, updateFunc) {
     },
   });
 
-  game.settings.register(appName, "showConditionsCategory", {
-    name: game.i18n.localize(
-        "tokenactionhud.settings.dnd5e.showConditionsCategory.name"
-    ),
-    hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd5e.showConditionsCategory.hint"
-    ),
-    scope: "client",
-    config: true,
-    type: Boolean,
-    default: true,
-    onChange: (value) => {
-      updateFunc(value);
-    },
-  });
-
   game.settings.register(appName, "hideUsedPowers", {
     name: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideUsedPowers.name"
+        "tokenActionHud.dnd4e.settings.hideUsedPowers.name"
     ),
     hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideUsedPowers.hint"
+        "tokenActionHud.dnd4e.settings.hideUsedPowers.hint"
     ),
     scope: "client",
     config: true,
@@ -49,10 +58,10 @@ export function register(appName, updateFunc) {
 
   game.settings.register(appName, "forcePowerColours", {
     name: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.forcePowerColours.name"
+        "tokenActionHud.dnd4e.settings.forcePowerColours.name"
     ),
     hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.forcePowerColours.hint"
+        "tokenActionHud.dnd4e.settings.forcePowerColours.hint"
     ),
     scope: "client",
     config: true,
@@ -65,10 +74,10 @@ export function register(appName, updateFunc) {
 
   game.settings.register(appName, "hideUnequippedInventory", {
     name: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideUnequippedInventory.name"
+        "tokenActionHud.dnd4e.settings.hideUnequippedInventory.name"
     ),
     hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideUnequippedInventory.hint"
+        "tokenActionHud.dnd4e.settings.hideUnequippedInventory.hint"
     ),
     scope: "client",
     config: true,
@@ -81,10 +90,10 @@ export function register(appName, updateFunc) {
 
   game.settings.register(appName, "hideQuantityZero", {
     name: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideQuantityZero.name"
+        "tokenActionHud.dnd4e.settings.hideQuantityZero.name"
     ),
     hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.hideQuantityZero.hint"
+        "tokenActionHud.dnd4e.settings.hideQuantityZero.hint"
     ),
     scope: "client",
     config: true,
@@ -97,10 +106,10 @@ export function register(appName, updateFunc) {
 
   game.settings.register(appName, "equipmentCategoryList", {
     name: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.equipmentCategoryList.name"
+        "tokenActionHud.dnd4e.settings.equipmentCategoryList.name"
     ),
     hint: game.i18n.localize(
-        "tokenactionhud.settings.dnd4e.equipmentCategoryList.hint"
+        "tokenActionHud.dnd4e.settings.equipmentCategoryList.hint"
     ),
     scope: "client",
     config: true,

@@ -7,15 +7,17 @@ export class RollHandlerCoreOD6S extends RollHandler {
   }
 
   /** @override */
-  doHandleActionEvent(event, encodedValue) {
+  async doHandleActionEvent(event, encodedValue) {
     let payload = encodedValue.split("|");
     if (payload.length != 3) {
       super.throwInvalidValueErr();
     }
+
     let macroType = payload[0];
     let tokenId = payload[1];
     let actionId = payload[2];
-    let actor = super.getActor(tokenId);
+    let actor;
+    if(macroType !== 'crew') actor = super.getActor(tokenId);
     switch (macroType) {
       case "action":
         actor.rollAction(actionId);
@@ -31,12 +33,15 @@ export class RollHandlerCoreOD6S extends RollHandler {
         break;
       case "skill":
         this.rollItemMacro(event, actor, actionId);
+      case "crew":
+        actor = await game.od6s.getActorFromUuid(tokenId);
+        actor.rollAction(actionId);
       default:
         break;
     }
   }
 
   rollItemMacro(event, actor, actionId, parry = false) {
-    actor.items.find((i) => i.data._id === actionId).roll(parry);
+    actor.items.find((i) => i.id === actionId).roll(parry);
   }
 }

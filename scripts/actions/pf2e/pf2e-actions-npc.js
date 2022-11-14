@@ -7,81 +7,80 @@ export class NpcActionHandlerPf2e {
     this.baseHandler = actionHandlerpf2e;
   }
 
-  buildActionList(result, tokenId, actor) {
+  async buildActionList(result, tokenId, actor) {
     let strikes = this._getStrikesListNpc(actor, tokenId);
     let actions = this.baseHandler._getActionsList(actor, tokenId);
     let items = this.baseHandler._getItemsList(actor, tokenId);
-    let spells = this.baseHandler._getSpellsList(actor, tokenId);
+    let spells = await this.baseHandler._getSpellsList(actor, tokenId);
     let feats = this.baseHandler._getFeatsList(actor, tokenId);
-    let skills = this._getSkillsList(actor, tokenId);
-    let saves = this.baseHandler._getSaveList(actor, tokenId);
+    let skills = this.baseHandler._getSkillsList(actor, tokenId);
     let attributes = this._getAttributeListNpc(actor, tokenId);
+    let saves = this.baseHandler._getSaveList(actor, tokenId);
     let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let utilities = this.baseHandler._getUtilityList(actor, tokenId);
 
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.strikes"),
+      this.i18n("tokenActionHud.pf2e.strikes"),
       strikes
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.effects"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenActionHud.inventory"),
       items
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.spells"),
+      this.i18n("tokenActionHud.spells"),
       spells
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.features"),
+      this.i18n("tokenActionHud.features"),
       feats
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this.baseHandler._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utilities
     );
   }
 
   /** @private */
   _getStrikesListNpc(actor, tokenId) {
+    if (settings.get("showStrikesCategory") === false) return;
     let result = this.baseHandler.initializeEmptyCategory("strikes");
     result.cssClass = "oneLine";
 
     if (!settings.get("separateTogglesCategory"))
       this._addTogglesCategories(actor, tokenId, result);
 
-    const info = this.baseHandler.i18n("tokenactionhud.experimental");
-
-    this.baseHandler._addStrikesCategories(actor, tokenId, result, info);
+    this.baseHandler._addStrikesCategories(actor, tokenId, result);
 
     return result;
   }
@@ -89,94 +88,33 @@ export class NpcActionHandlerPf2e {
   /** @private */
   _addTogglesCategories(actor, tokenId, category) {
     const macroType = "toggle";
-    const toggleActions = actor.data.data.toggles?.actions;
+    const toggles = actor.system.toggles;
 
-    if (!toggleActions) return;
+    if (!toggles.length) return;
 
     let subcategory = this.baseHandler.initializeEmptySubcategory();
-    subcategory.actionsClass = "excludeFromWidthCalculation";
 
-    toggleActions.forEach((t) => {
-      let toggleKey = this._getToggleKey(t.inputName);
-      if (!toggleKey) return;
+    toggles.forEach((t) => {
+      const id = [t.domain, t.option].join(".");
+      const { delimiter } = this.baseHandler;
+      const encodedValue = [macroType, tokenId, JSON.stringify(t)].join(delimiter);
+      const name = game.i18n.localize(t.label);
+      const active = t.checked ? " active" : "";
+      const cssClass = `toggle${active}`
 
-      let id = toggleKey;
-      let encodedValue = [macroType, tokenId, toggleKey].join(
-        this.baseHandler.delimiter
-      );
-      let name = t.label.startsWith("PF2E.")
-        ? this.baseHandler.i18n(t.label)
-        : t.label;
-      let cssClass = t.checked ? "active" : "";
-
-      let action = {
-        id: id,
-        encodedValue: encodedValue,
-        name: name,
-        cssClass: cssClass,
-      };
-
-      subcategory.actions.push(action);
+      subcategory.actions.push({ id, encodedValue, name, cssClass });
     });
 
     this.baseHandler._combineSubcategoryWithCategory(
       category,
-      this.baseHandler.i18n("tokenactionhud.toggles"),
+      this.baseHandler.i18n("tokenActionHud.toggles"),
       subcategory
     );
   }
 
   /** @private */
-  _getToggleKey(inputName) {
-    const rollOptionPrefix = "flags.pf2e.rollOptions.";
-    if (!inputName.includes(rollOptionPrefix)) return "";
-
-    return inputName.substring(rollOptionPrefix.length);
-  }
-
-  /** @private */
-  _getSkillsList(actor, tokenId) {
-    let result = this.baseHandler.initializeEmptyCategory("skills");
-
-    let abbreviated = settings.get("abbreviateSkills");
-
-    let actorSkills = Object.entries(actor.data.data.skills).filter(
-      (s) => !!s[1].name && s[1].name.length > 1
-    );
-
-    let skillMap = actorSkills
-      .filter((s) => !s[1].lore)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let skills = this.baseHandler.initializeEmptySubcategory();
-    skills.actions = skillMap;
-
-    let loreMap = actorSkills
-      .filter((s) => s[1].lore)
-      .sort(this._foundrySort)
-      .map((s) =>
-        this.baseHandler.createSkillMap(tokenId, "skill", s, abbreviated)
-      );
-    let lore = this.baseHandler.initializeEmptySubcategory();
-    lore.actions = loreMap;
-
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.skills"),
-      skills
-    );
-    this.baseHandler._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.lore"),
-      lore
-    );
-
-    return result;
-  }
-
-  /** @private */
   _getAttributeListNpc(actor, tokenId) {
+    if (settings.get("showAttributesCategory") === false) return;
     let macroType = "attribute";
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();
@@ -194,7 +132,7 @@ export class NpcActionHandlerPf2e {
 
     this.baseHandler._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
 
@@ -203,8 +141,8 @@ export class NpcActionHandlerPf2e {
 
   /** @protected */
   _foundrySort(a, b) {
-    if (!(a?.data?.sort || b?.data?.sort)) return 0;
+    if (!(a?.sort || b?.sort)) return 0;
 
-    return a.data.sort - b.data.sort;
+    return a.sort - b.sort;
   }
 }

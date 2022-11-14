@@ -70,8 +70,8 @@ export class TokenActionHUD extends Application {
     return scale;
   }
 
-  getBackground() {
-    return settings.get("background");
+  getSetting(key) {
+    return settings.get(key);
   }
 
   /** @override */
@@ -81,18 +81,46 @@ export class TokenActionHUD extends Application {
     data.id = "token-action-hud";
     data.hovering = settings.get("onTokenHover");
     data.scale = this.getScale();
-    data.background = this.getBackground();
+    data.background = this.getSetting("background") ?? "#00000000";
     settings.Logger.debug("HUD data:", data);
+    
+    for (const category of data.actions.categories) {
+      const advancedCategoryOptions = game.user.getFlag("token-action-hud", `categories.${category.id}.advancedCategoryOptions`);
+      if (!advancedCategoryOptions?.compactView) continue;
+
+      const characterCount = advancedCategoryOptions.characterCount ?? 2;
+      subcatRecursion(category);
+
+      function subcatRecursion(category) {
+        for (const subcategory of category.subcategories) {
+          for (const action of subcategory.actions) {
+            action.title = action.name;
+
+            if (action.name.length < 2) continue;
+            else if (characterCount === 0) action.name = "";
+            else action.name = action.name
+              .split(" ")
+              .map(p => p.slice(0, characterCount))
+              .join(" ");
+          }
+
+          if (subcategory.subcategories.length) subcategory.subcategories.forEach(s => subcatRecursion(s));
+        }
+      }
+    }
+
     return data;
   }
 
   /** @override */
   activateListeners(html) {
-    const tokenactionhud = "#token-action-hud";
-    const repositionIcon = "#tah-reposition";
-    const categoriesIcon = "#tah-categories";
+    const repositionIcon = "#tah-collapse-expand";
+    const editCategoriesIcon = "#tah-edit-categories";
+    const categories = '#tah-categories'
+    const category = ".tah-category";
+    const titleButton = ".tah-title-button";
     const action = ".tah-action";
-
+  
     const handleClick = (e) => {
       let target = e.target;
 
@@ -105,6 +133,10 @@ export class TokenActionHUD extends Application {
         settings.Logger.error(e);
       }
     };
+
+    html.find(titleButton).on("click", (e) => {
+      this.bringToTop();
+    });
 
     html.find(action).on("click", (e) => {
       handleClick(e);
@@ -158,7 +190,7 @@ export class TokenActionHUD extends Application {
     }
 
     function closeAllCategories(event) {
-      html.find(".tah-category").removeClass("hover");
+      html.find(category).removeClass("hover");
     }
 
     function toggleCategory(event) {
@@ -174,7 +206,7 @@ export class TokenActionHUD extends Application {
     }
 
     html
-      .find(".tah-title-button")
+      .find(titleButton)
       .contextmenu("click", (e) => handlePossibleFilterButtonClick(e));
 
     html
@@ -185,92 +217,56 @@ export class TokenActionHUD extends Application {
       .contextmenu("click", (e) => handlePossibleFilterSubtitleClick(e));
 
     if (settings.get("clickOpenCategory")) {
-      html.find(".tah-title-button").click("click", toggleCategory);
+      html.find(titleButton).click("click", toggleCategory);
     } else {
-      html.find(".tah-category").hover(openCategory, closeCategory);
+      html.find(category).hover(openCategory, closeCategory);
     }
 
-    html.find(categoriesIcon).mousedown((ev) => {
+    html.find(editCategoriesIcon).mousedown((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
 
       TagDialogHelper._showCategoryDialog(this.categoryManager);
     });
 
-    html.find(repositionIcon).mousedown((ev) => {
+    const collapseHudButton = "#tah-collapse-hud"
+    const expandHudButton = "#tah-expand-hud"
+    const buttons = "#tah-buttons"
+
+    if (game.user.getFlag("token-action-hud", "isCollapsed")) {
+      html.find(collapseHudButton).addClass("tah-hidden");
+      html.find(expandHudButton).removeClass("tah-hidden");
+      html.find(categories).addClass("tah-hidden");
+      html.find(buttons).addClass("tah-hidden");
+    }
+
+    html.find(collapseHudButton).click((ev) => {
       ev.preventDefault();
       ev = ev || window.event;
+      if (game.user.getFlag("token-action-hud", "isCollapsed")) return;
+      $(ev.target).addClass("tah-hidden");
+      html.find(expandHudButton).removeClass("tah-hidden");
+      html.find(categories).addClass("tah-hidden");
+      html.find(buttons).addClass("tah-hidden");
+      game.user.setFlag("token-action-hud", "isCollapsed", true);
+    });
 
-      let hud = $(document.body).find(tokenactionhud);
-      let marginLeft = parseInt(hud.css("marginLeft").replace("px", ""));
-      let marginTop = parseInt(hud.css("marginTop").replace("px", ""));
+    html.find(expandHudButton).click((ev) => {
+      ev.preventDefault();
+      ev = ev || window.event;
+      $(ev.target).addClass("tah-hidden");
+      html.find(collapseHudButton).removeClass("tah-hidden");
+      html.find(categories).removeClass("tah-hidden");
+      html.find(buttons).removeClass("tah-hidden");
+      game.user.setFlag("token-action-hud", "isCollapsed", false);
+    });
 
-      dragElement(document.getElementById("token-action-hud"));
-      let pos1 = 0,
-        pos2 = 0,
-        pos3 = 0,
-        pos4 = 0;
+    html.find(expandHudButton).mousedown((ev) => {
+      this.dragEvent(ev);
+    });
 
-      function dragElement(elmnt) {
-        elmnt.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-          e = e || window.event;
-          e.preventDefault();
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-
-          document.onmouseup = closeDragElement;
-          document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-          e = e || window.event;
-          e.preventDefault();
-          // calculate the new cursor position:
-          pos1 = pos3 - e.clientX;
-          pos2 = pos4 - e.clientY;
-          pos3 = e.clientX;
-          pos4 = e.clientY;
-          // set the element's new position:
-          elmnt.style.top = elmnt.offsetTop - pos2 - marginTop + "px";
-          elmnt.style.left = elmnt.offsetLeft - pos1 - marginLeft + "px";
-          elmnt.style.position = "fixed";
-          elmnt.style.zIndex = 100;
-        }
-
-        function closeDragElement() {
-          // stop moving when mouse button is released:
-          elmnt.onmousedown = null;
-          document.onmouseup = null;
-          document.onmousemove = null;
-          let xPos =
-            elmnt.offsetLeft - pos1 > window.innerWidth
-              ? window.innerWidth
-              : elmnt.offsetLeft - pos1;
-          let yPos =
-            elmnt.offsetTop - pos2 > window.innerHeight - 20
-              ? window.innerHeight - 100
-              : elmnt.offsetTop - pos2;
-          xPos = xPos < 0 ? 0 : xPos;
-          yPos = yPos < 0 ? 0 : yPos;
-          if (
-            xPos != elmnt.offsetLeft - pos1 ||
-            yPos != elmnt.offsetTop - pos2
-          ) {
-            elmnt.style.top = yPos + "px";
-            elmnt.style.left = xPos + "px";
-          }
-          settings.Logger.info(
-            `Setting position to x: ${xPos}px, y: ${yPos}px, and saving in user flags.`
-          );
-          game.user.update({
-            flags: {
-              "token-action-hud": { hudPos: { top: yPos, left: xPos } },
-            },
-          });
-        }
-      }
+    html.find(titleButton).mousedown((ev) => {
+      this.dragEvent(ev);
     });
 
     $(document)
@@ -279,12 +275,57 @@ export class TokenActionHUD extends Application {
       .css("cursor", "pointer");
   }
 
-  applySettings() {
-    if (!settings.get("dropdown")) {
-      $(document).find(".tah-content").css({
-        bottom: "40px",
-        "flex-direction": "column-reverse",
+  dragEvent(ev) {
+    ev.preventDefault();
+    ev = ev || window.event;
+    if (!settings.get("drag")) return
+    document.onmousemove = mouseMoveEvent;
+    document.onmouseup = mouseUpEvent;
+
+    const element = ev.target.parentElement.closest('div#token-action-hud')
+    let pos1 = 0,
+    pos2 = 0,
+    pos3 = ev.clientX,
+    pos4 = ev.clientY,
+    elementTop = element.offsetTop,
+    elementLeft = element.offsetLeft;
+
+    function mouseMoveEvent (e) {
+      e = e || window.event;
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+      elementTop = element.offsetTop - pos2;
+      elementLeft = element.offsetLeft - pos1;
+      
+      // set the element's new position:
+      element.style.top = elementTop + "px";
+      element.style.left = elementLeft + "px";
+      element.style.position = "fixed";
+    }
+
+    function mouseUpEvent () {
+      document.onmousemove = null;
+      document.onmouseup = null;
+
+      game.user.update({
+        flags: {
+          "token-action-hud": { hudPos: { top: elementTop, left: elementLeft } },
+        },
       });
+  
+      settings.Logger.info(
+        `Setting position to x: ${elementTop}px, y: ${elementLeft}px, and saving in user flags.`
+      );
+    }
+  }
+
+  applySettings() {
+    if (settings.get("direction") === "up") {
+      $(document).find(".tah-content").removeClass("expand-down");
+      $(document).find(".tah-content").addClass("expand-up");
+      $(document).find("#tah-character-name").addClass("tah-hidden");
     }
   }
 
@@ -292,12 +333,12 @@ export class TokenActionHUD extends Application {
   trySetPos() {
     if (!(this.targetActions && this.targetActions.tokenId)) return;
 
-    let hudTitle = $(document).find("#tah-hudTitle");
+    let hudTitle = $(document).find("#tah-character-name");
     if (hudTitle.length > 0)
       hudTitle.css("top", -hudTitle[0].getBoundingClientRect().height);
 
     let token = canvas?.tokens?.placeables.find(
-      (t) => t.data._id === this.targetActions?.tokenId
+      (t) => t.id === this.targetActions?.tokenId
     );
     if (settings.get("onTokenHover") && token) {
       this.setHoverPos(token);
@@ -312,13 +353,13 @@ export class TokenActionHUD extends Application {
   setUserPos() {
     if (
       !(
-        game.user.data.flags["token-action-hud"] &&
-        game.user.data.flags["token-action-hud"].hudPos
+        game.user.flags["token-action-hud"] &&
+        game.user.flags["token-action-hud"].hudPos
       )
     )
       return;
 
-    let pos = game.user.data.flags["token-action-hud"].hudPos;
+    let pos = game.user.flags["token-action-hud"].hudPos;
     let defaultLeftPos = this.defaultLeftPos;
     let defaultTopPos = this.defaultTopPos;
 
@@ -336,7 +377,6 @@ export class TokenActionHUD extends Application {
               ? defaultLeftPos + "px"
               : pos.left + "px";
           elmnt.style.position = "fixed";
-          elmnt.style.zIndex = 100;
           resolve();
         } else {
           setTimeout(check, 30);
@@ -356,13 +396,12 @@ export class TokenActionHUD extends Application {
           elmnt.css(
             "left",
             token.worldTransform.tx +
-              (token.data.width * canvas.dimensions.size + 55) *
+              (token.width * canvas.dimensions.size + 55) *
                 canvas.scene._viewPosition.scale +
               "px"
           );
           elmnt.css("top", token.worldTransform.ty + 0 + "px");
           elmnt.css("position", "fixed");
-          elmnt.css("zIndex", 100);
           resolve();
         } else {
           setTimeout(check, 30);
@@ -443,11 +482,12 @@ export class TokenActionHUD extends Application {
       return;
     }
 
+    if (!ui.windows[this.appId]) ui.windows[this.appId] = this;
     this.rendering = true;
     this.render(true);
   }
 
-  // Really just checks if only one token is being controlled. Not smart.
+  // Really just checks if only one stoken is being controlled. Not smart.
   validTokenChange(token) {
     if (settings.get("alwaysShowHud"))
       return (

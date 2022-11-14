@@ -12,7 +12,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     if (!token) return actionList;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     actionList.tokenId = tokenId;
 
@@ -22,7 +22,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     actionList.actorId = actor.id;
 
-    if (actor.data.type !== "starship") {
+    if (actor.type !== "starship") {
       this._buildItemCategory(token, actionList);
       this._buildSpellsCategory(token, actionList);
       this._buildFeatsCategory(token, actionList);
@@ -34,24 +34,25 @@ export class ActionHandlerSfrpg extends ActionHandler {
       await this._addCrewActions(token, actor, actionList);
       this._addShields(token, actor, actionList);
     }
+    this._buildUtilityCategory(token, actionList);
 
     settings.Logger.debug("SFRPG ActionList:", actionList);
 
-    if (settings.get("showHudTitle")) actionList.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) actionList.hudTitle = token.name;
 
     return actionList;
   }
 
   _buildItemCategory(token, actionList) {
-    var itemList = token.actor.data.items;
-    let tokenId = token.data._id;
+    var itemList = token.actor.items;
+    let tokenId = token.id;
 
-    var itemsCategoryName = this.i18n("tokenactionhud.equipment");
+    var itemsCategoryName = this.i18n("tokenActionHud.equipment");
     var itemsMacroType = "item";
     let itemsCategory = this.initializeEmptyCategory("equipment");
 
     itemsCategory = this._addSubcategoryByType(
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       "weapon",
       itemsMacroType,
       itemList,
@@ -59,7 +60,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     itemsCategory = this._addSubcategoryByType(
-      this.i18n("tokenactionhud.consumables"),
+      this.i18n("tokenActionHud.consumables"),
       "consumable",
       itemsMacroType,
       itemList,
@@ -71,15 +72,15 @@ export class ActionHandlerSfrpg extends ActionHandler {
   }
 
   _buildFeatsCategory(token, actionList) {
-    var itemList = token.actor.data.items.filter((item) => item.type == "feat");
-    let tokenId = token.data._id;
+    var itemList = token.actor.items.filter((item) => item.type == "feat");
+    let tokenId = token.id;
 
-    var itemsCategoryName = this.i18n("tokenactionhud.features");
+    var itemsCategoryName = this.i18n("tokenActionHud.features");
     var itemsMacroType = "feat";
     let itemsCategory = this.initializeEmptyCategory(itemsCategoryName);
 
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.mwa"),
+      this.i18n("tokenActionHud.sfrpg.mwa"),
       "mwak",
       itemsMacroType,
       itemList,
@@ -87,7 +88,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.rwa"),
+      this.i18n("tokenActionHud.sfrpg.rwa"),
       "rwak",
       itemsMacroType,
       itemList,
@@ -95,7 +96,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.msa"),
+      this.i18n("tokenActionHud.sfrpg.msa"),
       "msak",
       itemsMacroType,
       itemList,
@@ -103,7 +104,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.rsa"),
+      this.i18n("tokenActionHud.sfrpg.rsa"),
       "rsak",
       itemsMacroType,
       itemList,
@@ -111,7 +112,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       itemsCategory
     );
     this._addSubcategoryByActionType(
-      this.i18n("tokenactionhud.healing"),
+      this.i18n("tokenActionHud.healing"),
       "heal",
       itemsMacroType,
       itemList,
@@ -122,12 +123,27 @@ export class ActionHandlerSfrpg extends ActionHandler {
     if (settings.get("showMiscFeats")) {
       const miscFeats = itemList.filter(
         (i) =>
-          !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.data.actionType)
+          !["mwak", "rwak", "msak", "rsak", "heal"].includes(i.system.actionType)
+      );
+      
+      const activeFeats = miscFeats.filter(
+        feat => feat.system.activation.type !== ""
       );
       this._addSubcategoryByItemList(
-        this.i18n("tokenactionhud.misc"),
+        this.i18n("tokenActionHud.sfrpg.activeFeats"),
         itemsMacroType,
-        miscFeats,
+        activeFeats,
+        tokenId,
+        itemsCategory
+      );
+
+      const passiveFeats = miscFeats.filter(
+        feat => feat.system.activation.type === ""
+      );
+      this._addSubcategoryByItemList(
+        this.i18n("tokenActionHud.sfrpg.passiveFeats"),
+        itemsMacroType,
+        passiveFeats,
         tokenId,
         itemsCategory
       );
@@ -137,12 +153,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
   }
 
   _buildSpellsCategory(token, actionList) {
-    var itemList = token.actor.data.items.filter(
+    var itemList = token.actor.items.filter(
       (item) => item.type == "spell"
     );
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
-    var categoryName = this.i18n("tokenactionhud.spellbook");
+    var categoryName = this.i18n("tokenActionHud.sfrpg.spellbook");
     var macroType = "spell";
     let category = this.initializeEmptyCategory(categoryName);
 
@@ -150,7 +166,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     for (let level = 0; level < maxLevel; level++) {
       category = this._addSubcategoryByLevel(
-        `${this.i18n("tokenactionhud.level")} ` + level,
+        `${this.i18n("tokenActionHud.level")} ` + level,
         level,
         macroType,
         itemList,
@@ -164,12 +180,12 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
   /** @private */
   _buildSkillCategory(token, actor, actionList) {
-    if (!actor.data.data.skills) return actionList;
+    if (!actor.system.skills) return actionList;
 
     let category = this.initializeEmptyCategory("skills");
     let macroType = "skill";
 
-    const actorSkills = Object.entries(actor.data.data.skills);
+    const actorSkills = Object.entries(actor.system.skills);
     const coreSkills = CONFIG.SFRPG.skills;
 
     let skillsActions = actorSkills
@@ -184,7 +200,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           name = coreSkills[key];
         }
 
-        let encodedValue = [macroType, token.data._id, key].join(
+        let encodedValue = [macroType, token.id, key].join(
           this.delimiter
         );
         let icon = this._getClassSkillIcon(data.value);
@@ -201,7 +217,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenactionhud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.skills");
     this._combineSubcategoryWithCategory(category, skillsTitle, skillsCategory);
     this._combineCategoryWithList(actionList, skillsTitle, category);
   }
@@ -213,13 +229,13 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     let abilitiesActions = Object.entries(CONFIG.SFRPG.abilities).map((e) => {
       let name = e[1];
-      let encodedValue = [macroType, token.data._id, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let abilitiesCategory = this.initializeEmptySubcategory();
     abilitiesCategory.actions = abilitiesActions;
 
-    let abilitiesTitle = this.i18n("tokenactionhud.abilities");
+    let abilitiesTitle = this.i18n("tokenActionHud.abilities");
     this._combineSubcategoryWithCategory(
       category,
       abilitiesTitle,
@@ -235,15 +251,40 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
     let saveActions = Object.entries(CONFIG.SFRPG.saves).map((e) => {
       let name = e[1];
-      let encodedValue = [macroType, token.data._id, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
     });
     let savesCategory = this.initializeEmptySubcategory();
     savesCategory.actions = saveActions;
 
-    let savesTitle = this.i18n("tokenactionhud.saves");
+    let savesTitle = this.i18n("tokenActionHud.saves");
     this._combineSubcategoryWithCategory(category, savesTitle, savesCategory);
     this._combineCategoryWithList(actionList, savesTitle, category);
+  }
+
+  _buildUtilityCategory(token, actionList) {
+    let category = this.initializeEmptyCategory("utility");
+    let macroType = "utility";
+    const utilityTitle = this.i18n("tokenActionHud.utility");
+    const tokenId = token.id;
+
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenActionHud.endTurn"),
+      };
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    const combatTitle = this.i18n("tokenActionHud.combat");
+    this._combineSubcategoryWithCategory(category, combatTitle, combatSubcategory);
+    this._combineCategoryWithList(actionList, utilityTitle, category);
   }
 
   _addSubcategoryByActionType(
@@ -257,7 +298,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     let subCategory = this.initializeEmptySubcategory();
 
     let itemsOfType = itemList.filter(
-      (item) => item.data.data.actionType == actionType
+      (item) => item.system.actionType == actionType
     );
     subCategory.actions = itemsOfType.map((item) =>
       this._buildItemAction(tokenId, macroType, item)
@@ -328,7 +369,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   ) {
     let subCategory = this.initializeEmptySubcategory();
 
-    let itemsOfType = itemList.filter((item) => item.data.data.level === level);
+    let itemsOfType = itemList.filter((item) => item.system.level === level);
     subCategory.actions = itemsOfType.map((item) => {
       let action = this._buildItemAction(tokenId, macroType, item);
       if (settings.get("showSpellInfo")) this._addSpellInfo(item, action);
@@ -363,7 +404,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _buildItemAction(tokenId, macroType, item) {
     let encodedValue = [macroType, tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
-    let icon = this._getActionIcon(item.data.data.activation?.type);
+    let icon = this._getActionIcon(item.system.activation?.type);
     let result = {
       name: item.name,
       id: item.id,
@@ -384,8 +425,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
-    if (item.data.data.quantity > 1) {
-      result = item.data.data.quantity;
+    if (item.system.quantity > 1) {
+      result = item.system.quantity;
     }
 
     return result;
@@ -395,7 +436,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _getUsesOrUsageData(item) {
     let result = "";
 
-    let uses = item.data.data.uses;
+    let uses = item.system.uses;
     if (uses?.max || uses?.value) {
       result = uses.value ?? "";
 
@@ -405,7 +446,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       return result;
     }
 
-    let usage = item.data.usage;
+    let usage = item.system.usage;
     if (usage?.value) {
       result = usage.value ?? "";
 
@@ -422,7 +463,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
   _getCapacityData(item) {
     let result = "";
 
-    let capacity = item.data.data.capacity;
+    let capacity = item.system.capacity;
     if (!capacity) return result;
 
     result = capacity.value ?? "";
@@ -465,13 +506,13 @@ export class ActionHandlerSfrpg extends ActionHandler {
   /** @private */
   _addStarshipWeapons(token, actor, actionList) {
     const itemType = "starshipWeapon";
-    const weapons = actor.data.items.filter((i) => i.type === itemType); //.filter(w => w.data.mount.mounted && w.data.mount.activated);
+    const weapons = actor.items.filter((i) => i.type === itemType); //.filter(w => w.system.mount.mounted && w.system.mount.activated);
     if (weapons.length === 0) return;
 
     const category = this.initializeEmptyCategory(itemType);
 
     const groupedWeapons = weapons.reduce((grouped, w) => {
-      const groupName = w.data.data.mount.arc;
+      const groupName = w.system.mount.arc;
       if (!grouped.hasOwnProperty(groupName)) grouped[groupName] = [];
 
       grouped[groupName].push(w);
@@ -496,7 +537,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           id: a.id,
           img: this._getImage(a),
         };
-        action.info1 = a.data.data.pcu ?? "";
+        action.info1 = a.system.pcu ?? "";
 
         subcategory.actions.push(action);
       });
@@ -508,7 +549,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    var categoryName = this.i18n("tokenactionhud.weapons");
+    var categoryName = this.i18n("tokenActionHud.weapons");
     this._combineCategoryWithList(actionList, categoryName, category);
   }
 
@@ -523,7 +564,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       .getDocuments();
 
     const groupedActions = actions.reduce((grouped, a) => {
-      const role = a.data.data.role;
+      const role = a.system.role;
       if (!grouped.hasOwnProperty(role)) grouped[role] = [];
 
       grouped[role].push(a);
@@ -544,7 +585,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     ];
 
     order.forEach((role) => {
-      const crew = actor.data.data.crew;
+      const crew = actor.system.crew;
       const crewRole = crew[role];
       const npcRole = crew.npcData[role];
 
@@ -562,7 +603,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
           id: a.id,
           img: this._getImage(a),
         };
-        action.info1 = a.data.data.resolvePointCost ?? "";
+        action.info1 = a.system.resolvePointCost ?? "";
 
         subcategory.actions.push(action);
       });
@@ -573,8 +614,8 @@ export class ActionHandlerSfrpg extends ActionHandler {
         } else {
           subcategory.info1 =
             crewRole.limit > 0
-              ? `${crewRole.actors.length}/${crewRole.limit}`
-              : crewRole.actors.length;
+              ? `${crewRole.actorIds.length}/${crewRole.limit}`
+              : crewRole.actorIds.length;
         }
       }
 
@@ -583,14 +624,14 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    const catName = this.i18n("tokenactionhud.crewActions");
+    const catName = this.i18n("tokenActionHud.sfrpg.crewActions");
     this._combineCategoryWithList(actionList, catName, category);
   }
 
   _shouldShowCrewOptions(crew, crewRole, npcRole) {
     if (!crewRole) return true;
 
-    if (crewRole.actors?.length > 0 && !crew.useNPCCrew) return true;
+    if (crewRole.actorIds?.length > 0 && !crew.useNPCCrew) return true;
 
     if (crew.useNPCCrew && npcRole?.numberOfUses > 0) return true;
 
@@ -602,7 +643,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
     const macroType = "shields";
     const category = this.initializeEmptySubcategory(macroType);
 
-    const shields = actor.data.data.attributes?.shields;
+    const shields = actor.system.attributes?.shields;
     if (!shields) return actionList;
 
     category.info1 = `${shields.value}/${shields.max}`;
@@ -617,7 +658,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       { name: "+10", value: "+10" },
     ];
 
-    const quadrants = actor.data.data.quadrants;
+    const quadrants = actor.system.quadrants;
     sides.forEach((side) => {
       const currShields = quadrants[side]["shields"];
       if (!currShields) return;
@@ -645,7 +686,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
       this._combineSubcategoryWithCategory(category, subName, subcategory);
     });
 
-    const catName = this.i18n("tokenactionhud.shields");
+    const catName = this.i18n("tokenActionHud.sfrpg.shields");
     this._combineCategoryWithList(actionList, catName, category);
   }
 }

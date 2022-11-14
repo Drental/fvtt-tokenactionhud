@@ -15,6 +15,10 @@ export class CategoryResizer {
 
     if (actions.length === 0) return;
 
+    const categoryId = catId.replace("tah-category-", "");
+    const customWidth = game.user.getFlag("token-action-hud", `categories.${categoryId}.advancedCategoryOptions.customWidth`);
+    if (customWidth) return CategoryResizer.resizeActions(actions, customWidth);
+
     // reset content to original width
     let contentDefaultWidth = 300;
     let minWidth = 200;
@@ -47,7 +51,6 @@ export class CategoryResizer {
       CategoryResizer.resizeActions(actions, newWidth);
     }
 
-    let priorWidth;
     while (
       CategoryResizer.shouldShrinkWidth(
         content,
@@ -65,9 +68,15 @@ export class CategoryResizer {
       if (boxWidth < minWidth) return;
 
       let newWidth = cssWidth - step;
-
+      
       CategoryResizer.resizeActions(actions, newWidth);
     }
+
+    // SET MAX-HEIGHT
+    const contentRect = content[0].getBoundingClientRect();
+    const maxHeight = window.innerHeight - contentRect.top - (window.innerHeight - bottomLimit);
+    const newHeight = (maxHeight < 100) ? 100 : maxHeight;
+    content.css({ "max-height": newHeight + "px" });
   }
 
   static calculateMaxRequiredWidth(actions) {
@@ -85,9 +94,9 @@ export class CategoryResizer {
           parseInt(child.css("marginLeft")) +
           parseInt(child.css("marginRight"));
 
-        totalWidth += childWidth + marginWidth;
+        totalWidth += childWidth + marginWidth + 5; // 5 is the gap width on parent element
       });
-
+      totalWidth = totalWidth - 5; //Remove the last gap width as gaps only exist between buttons
       if (totalWidth > maxWidth) maxWidth = totalWidth;
     });
 

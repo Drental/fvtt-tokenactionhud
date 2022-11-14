@@ -27,9 +27,9 @@ export class ItemMacroActionListExtender extends ActionListExtender {
     if (ItemMacroActionListExtender.isModuleActive("midi-qol")) {
       itemIds = items
         .filter(this.isUnsupportedByMidiQoL)
-        .map((item) => item.data._id);
+        .map((item) => item.id);
     } else {
-      itemIds = items.map((item) => item.data._id);
+      itemIds = items.map((item) => item.id);
     }
 
     if (!itemIds) return;
@@ -103,6 +103,6 @@ export class ItemMacroActionListExtender extends ActionListExtender {
   }
 
   getActor(tokenId) {
-    return canvas.tokens.placeables.find((t) => t.data._id === tokenId)?.actor;
+    return canvas.tokens.placeables.find((t) => t.id === tokenId)?.actor;
   }
 }

@@ -14,7 +14,7 @@ export class CompendiumHelper {
       })
       .filter((p) => game.user.isGM || !p.private)
       .map((p) => {
-        let key = `${p.metadata.package}.${p.metadata.name}`;
+        let key = p.metadata.id ?? `${p.metadata.packageName}.${p.metadata.name}`;
         return { id: key, value: p.metadata.label, type: "comp" };
       });
   }

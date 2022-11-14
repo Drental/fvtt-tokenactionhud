@@ -12,43 +12,35 @@ export class ActionHandlerGURPS extends ActionHandler {
       let result = this.initializeEmptyActionList();
       if (!GURPS) return result;  // If the GURPS Global is not defined, do nothing
       if (!token) return result;
-      let tokenId = token.data._id;
+      let tokenId = token.id;
       result.tokenId = tokenId;
       let actor = token.actor;
       if (!actor) return result;
-      result.actorId = actor.data._id;
+      result.actorId = actor.id;
         
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.attributes"),
+        this.i18n("tokenActionHud.attributes"),
         this._attributes(actor, tokenId)
       );
       
       this._combineCategoryWithList(
         result,
-        this.i18n("tokenactionhud.defenses"),
+        this.i18n("tokenActionHud.defenses"),
         this._defenses(actor, tokenId)
       );
       
-      if (Object.keys(actor.data.data.melee).length > 0)
-        this._combineCategoryWithList(
-          result,
-          this.i18n("tokenactionhud.melee"),
-          this._melee(actor, tokenId)
-        );
+      if (Object.keys(actor.system.melee).length > 0)
+        this._melee(result, this.i18n("tokenActionHud.melee"), actor, tokenId)
      
-      if (Object.keys(actor.data.data.ranged).length > 0)
-        this._combineCategoryWithList(
-          result,
-          this.i18n("tokenactionhud.ranged"),
-          this._ranged(actor, tokenId)
-        );
+      if (Object.keys(actor.system.ranged).length > 0)
+        this._ranged(result, this.i18n("tokenActionHud.ranged"), actor, tokenId)
      
-      if (Object.keys(actor.data.data.skills).length > 0)
-        this._skillsspells(result, this.i18n("tokenactionhud.skills"), actor, tokenId, 'skills', 'Sk')
+      if (Object.keys(actor.system.skills).length > 0)
+        this._addToList(result, this.i18n("tokenActionHud.skills"), actor, tokenId, 'skills', 'Sk')
         
-      if (Object.keys(actor.data.data.spells).length > 0)
-        this._skillsspells(result, this.i18n("tokenactionhud.spells"), actor, tokenId, 'spells', 'Sp')
+      if (Object.keys(actor.system.spells).length > 0)
+        this._addToList(result, this.i18n("tokenActionHud.spells"), actor, tokenId, 'spells', 'Sp')
       
       this._advantages(result, actor, tokenId)
       this._addQuickNotes(result, actor, tokenId)
@@ -60,47 +52,21 @@ export class ActionHandlerGURPS extends ActionHandler {
           this._maneuvers(actor, tokenId)
         );
   
-      if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+     this._combineCategoryWithList(
+      result,
+      this.i18n("GURPS.modifierPosture"),
+      this._postures(actor, tokenId)
+    );
+
+     if (settings.get("showHudTitle")) result.hudTitle = token.name;
   
       return result;
     }
     
-  _skillsspells(mainList, label, actor, tokenId, key, otfprefix) {
-    let limit = settings.get('maxListSize')
-    let cnt = 0
-    let columns = 0
-    let result = this.initializeEmptyCategory(key);
-    GURPS.recurselist(actor.data.data[key], (e, k, d) => {
-      if (e.level > 0) {
-        cnt++
-        let attributeCategory = this.initializeEmptySubcategory();
-        let q = '"'
-        if (e.name.includes(q)) q = "'"
-        attributeCategory.actions.push({
-          name: e.name + ' (' + e.level + ')',
-          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter)
-        }); 
-        this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
-        
-        this._combineSubcategoryWithCategory(result, '', attributeCategory);
-        if (cnt >= limit) {
-          cnt = 0
-          columns++
-          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
-          result = this.initializeEmptyCategory(key + columns);
-        }
-      }
-    })
-    if (cnt > 0) {
-      columns++
-      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
-    }
-  }
-
   _advantages(result, actor, tokenId) {
     let any = false
     let cat = this.initializeEmptyCategory("ads");
-    GURPS.recurselist(actor.data.data.ads, (e, k, d) => {
+    GURPS.recurselist(actor.system.ads, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
       if (this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)) {
         any = true
@@ -119,66 +85,115 @@ export class ActionHandlerGURPS extends ActionHandler {
     let any = false
     let cat = this.initializeEmptyCategory("qn");
     let attributeCategory = this.initializeEmptySubcategory();
-    if (this._addNoteOTFs(attributeCategory, tokenId, actor.data.data.additionalresources.qnotes))
+    if (this._addNoteOTFs(attributeCategory, tokenId, actor.system.additionalresources.qnotes))
       this._combineSubcategoryWithCategory(cat, '', attributeCategory);
       this._combineCategoryWithList(result, this.i18n("GURPS.quicknotes"), cat);
    }
  
-  _ranged(actor, tokenId) {
-    let result = this.initializeEmptyCategory("ranged");
-    GURPS.recurselist(actor.data.data.ranged, (e, k, d) => {
+  _ranged(mainList, label, actor, tokenId) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let key = "ranged"
+    let result = this.initializeEmptyCategory(key);
+    GURPS.recurselist(actor.system.ranged, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
       if (e.name.includes(q)) q = "'"
       let usage = !!e.mode ? ' (' + e.mode + ')' : ''
       let name = e.name + usage
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
+        name: this.i18n("tokenActionHud.attack") + ' (' + e.level + ')',
         encodedValue: ["otf", tokenId, 'R:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.acc))) {
         let acc = (e.acc >= 0 ? '+':'') + e.acc
         attributeCategory.actions.push({
-          name: this.i18n("tokenactionhud.gurps.addacc") + ' (' + acc +')',
+          name: this.i18n("tokenActionHud.gurps.addAcc") + ' (' + acc +')',
           encodedValue: ["otf", tokenId, acc + ' ' + name + ' ' + this.i18n('GURPS.acc')].join(this.delimiter),
         }); 
       }
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
+        name: this.i18n("tokenActionHud.damage") + ' (' + e.damage + ')',
+        encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, name + ' ' + e.notes)
 
       this._combineSubcategoryWithCategory(result, name, attributeCategory);
+      
+      if (++cnt >= limit) {
+        cnt = 0
+        columns++
+        this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+        result = this.initializeEmptyCategory(key + columns);
+      }
     })
-    return result
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
   }
   
+  _addToList(mainList, label, actor, tokenId, key, otfprefix) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let result = this.initializeEmptyCategory(key);
+    GURPS.recurselist(actor.system[key], (e, k, d) => {
+      if (e.level > 0) {
+        let attributeCategory = this.initializeEmptySubcategory();
+        let q = '"'
+        if (e.name.includes(q)) q = "'"
+        attributeCategory.actions.push({
+          name: e.name + ' (' + e.level + ')',
+          encodedValue: ["otf", tokenId, otfprefix + ':' + q + e.name + q].join(this.delimiter)
+        }); 
+        this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
+        
+        this._combineSubcategoryWithCategory(result, '', attributeCategory);
+        if (++cnt >= limit) {
+          cnt = 0
+          columns++
+          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+          result = this.initializeEmptyCategory(key + columns);
+        }
+      }
+    })
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
+  }
+
   _addNoteOTFs(attributeCategory, tokenId, notes) {
     let any = false
     if (!!notes)
       GURPS.gurpslink(notes, false, true).forEach(a => {
         any = true
         attributeCategory.actions.push({
-          name: a.text, // a.text.match(/<span.*>(.*)<\/span>/)[1],
+          name: a.text, 
+          useRawHtmlName: true,
           encodedValue: ["otf", tokenId, a.action.orig].join(this.delimiter),
-          //cssClass: 'standalonggurpslink'
         }); 
       })
     return any
   }
   
-  _melee(actor, tokenId) {
-    let result = this.initializeEmptyCategory("melee");
-    GURPS.recurselist(actor.data.data.melee, (e, k, d) => {
+  _melee(mainList, label, actor, tokenId) {
+    let limit = settings.get('maxListSize')
+    let cnt = 0
+    let columns = 0
+    let key = "melee"
+    let result = this.initializeEmptyCategory(key);
+    GURPS.recurselist(actor.system.melee, (e, k, d) => {
       let attributeCategory = this.initializeEmptySubcategory();
       let q = '"'
       if (e.name.includes(q)) q = "'"
       let usage = !!e.mode ? ' (' + e.mode + ')' : ''
       let name = e.name + usage
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.attack") + ' (' + e.level + ')',
+        name: this.i18n("tokenActionHud.attack") + ' (' + e.level + ')',
         encodedValue: ["otf", tokenId, 'M:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.parry)))
@@ -192,14 +207,23 @@ export class ActionHandlerGURPS extends ActionHandler {
           encodedValue: ["otf", tokenId, 'B:' + q + name + q].join(this.delimiter),
         }); 
       attributeCategory.actions.push({
-        name: this.i18n("tokenactionhud.damage") + ' (' + e.damage + ')',
-        encodedValue: ["otf", tokenId, 'D:' + q + name + q].join(this.delimiter),
+        name: this.i18n("tokenActionHud.damage") + ' (' + e.damage + ')',
+        encodedValue: ["dam", tokenId, 'D:' + q + name + q].join(this.delimiter),
       }); 
 
       this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)
       this._combineSubcategoryWithCategory(result, name, attributeCategory);
+        if (++cnt >= limit) {
+          cnt = 0
+          columns++
+          this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+          result = this.initializeEmptyCategory(key + columns);
+        }
     })
-    return result
+    if (cnt > 0) {
+      columns++
+      this._combineCategoryWithList(mainList, label + (columns > 1 ? '-' + columns :''), result);  
+    }
   }
   
   _maneuvers(actor, tokenId) {
@@ -216,25 +240,41 @@ export class ActionHandlerGURPS extends ActionHandler {
     this._combineSubcategoryWithCategory(result, '', attributeCategory);
     return result
   }
+  
+  _postures(actor, tokenId) {
+    let result = this.initializeEmptyCategory("postures");
+    let attributeCategory = this.initializeEmptySubcategory();
+    let postures = {...GURPS.StatusEffect.getAllPostures()}
+    postures[GURPS.StatusEffectStanding] = { id: GURPS.StatusEffectStanding, label: GURPS.StatusEffectStandingLabel, icon: 'icons/svg/invisible.svg' }
+    Object.values(postures).forEach(m => {
+      attributeCategory.actions.push({
+        name: this.i18n(m.label),
+        encodedValue: ["otf", tokenId, '/st + ' + m.id].join(this.delimiter),
+        img: m.icon
+      }); 
+    })   
+    this._combineSubcategoryWithCategory(result, '', attributeCategory);
+    return result
+  }
     
   _defenses(actor, tokenId) {
     let result = this.initializeEmptyCategory("defenses");
 
-    let cat = this._addDefense(tokenId, this.i18n('GURPS.dodge') + ' (' + actor.data.data.currentdodge + ')', 'DODGE')
-    this._addDefense(tokenId, this.i18n('tokenactionhud.gurps.retreatdodge') + ' (' + (actor.data.data.currentdodge + 3) + ')', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat'), cat)
+    let cat = this._addDefense(tokenId, this.i18n('GURPS.dodge') + ' (' + actor.system.currentdodge + ')', 'DODGE')
+    this._addDefense(tokenId, this.i18n('tokenActionHud.gurps.retreatDodge') + ' (' + (actor.system.currentdodge + 3) + ')', 'DODGE +3 ' + this.i18n('GURPS.modifierDodgeRetreat'), cat)
     this._combineSubcategoryWithCategory(result, '', cat);
     
-    if (!!actor.data.data.equippedparry) {
-      cat = this._addDefense(tokenId, this.i18n('GURPS.parry') + ' (' + actor.data.data.equippedparry + ')', 'PARRY')
-      if (!!actor.data.data.equippedparryisfencing)
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparryfence") + ' (' + (actor.data.data.equippedparry + 3) + ')', 'PARRY +3 fencing retreat', cat)
+    if (!!actor.system.equippedparry) {
+      cat = this._addDefense(tokenId, this.i18n('GURPS.parry') + ' (' + actor.system.equippedparry + ')', 'PARRY')
+      if (!!actor.system.equippedparryisfencing)
+        this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatParryFencing") + ' (' + (actor.system.equippedparry + 3) + ')', 'PARRY +3 fencing retreat', cat)
       else
-        this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatparry") + ' (' + (actor.data.data.equippedparry + 1) + ')', 'PARRY +1 retreating', cat)
+        this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatParry") + ' (' + (actor.system.equippedparry + 1) + ')', 'PARRY +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
-    if (!!actor.data.data.equippedblock) {
-      cat = this._addDefense(tokenId, this.i18n('GURPS.block') + ' (' + actor.data.data.equippedblock + ')', 'BLOCK')
-      this._addDefense(tokenId, this.i18n("tokenactionhud.gurps.retreatblock") + ' (' + (actor.data.data.equippedblock + 1) + ')', 'BLOCK +1 retreating', cat)
+    if (!!actor.system.equippedblock) {
+      cat = this._addDefense(tokenId, this.i18n('GURPS.block') + ' (' + actor.system.equippedblock + ')', 'BLOCK')
+      this._addDefense(tokenId, this.i18n("tokenActionHud.gurps.retreatBlock") + ' (' + (actor.system.equippedblock + 1) + ')', 'BLOCK +1 retreating', cat)
       this._combineSubcategoryWithCategory(result, '', cat);
     }
     return result;
@@ -254,17 +294,17 @@ export class ActionHandlerGURPS extends ActionHandler {
   _attributes(actor, tokenId) {
     let result = this.initializeEmptyCategory("attributes");
 
-    for (let attribute in actor.data.data.attributes) {
+    for (let attribute in actor.system.attributes) {
       let attributeCategory = this.initializeEmptySubcategory();
       
-      let name = this.i18n(`GURPS.attributes${attribute}`) + ' (' + actor.data.data.attributes[attribute].value + ')'
+      let name = this.i18n(`GURPS.attributes${attribute}`) + ' (' + actor.system.attributes[attribute].value + ')'
 
       attributeCategory.actions.push({
         name: name,
         encodedValue: ["otf", tokenId, attribute].join(this.delimiter),
       });
       attributeCategory.actions.push({
-        name: this.i18n('tokenactionhud.gurps.blindroll') + ' ' + name,
+        name: this.i18n('tokenActionHud.gurps.blindRoll') + ' ' + name,
         encodedValue: ["otf", tokenId, '!' + attribute].join(this.delimiter),
       });
      
@@ -272,8 +312,8 @@ export class ActionHandlerGURPS extends ActionHandler {
     }
     let any = false
     let attributeCategory = this.initializeEmptySubcategory();
-    for (let rkey in actor.data.data.reactions) {
-      let mod = actor.data.data.reactions[rkey]
+    for (let rkey in actor.system.reactions) {
+      let mod = actor.system.reactions[rkey]
       any = true
       let prefix = mod.modifier >= 0 ? '+' : ''
       let s = !!mod.situation ? ' ' + mod.situation : ''
@@ -283,8 +323,8 @@ export class ActionHandlerGURPS extends ActionHandler {
     if (any) this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.reaction`), attributeCategory);
     any = false
     attributeCategory = this.initializeEmptySubcategory();
-    for (let rkey in actor.data.data.conditionalmods) {
-      let mod = actor.data.data.conditionalmods[rkey]
+    for (let rkey in actor.system.conditionalmods) {
+      let mod = actor.system.conditionalmods[rkey]
       any = true
       let prefix = mod.modifier >= 0 ? '+' : ''
       let s = !!mod.situation ? ' ' + mod.situation : ''

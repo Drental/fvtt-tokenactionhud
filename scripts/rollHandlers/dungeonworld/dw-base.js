@@ -17,7 +17,7 @@ export class RollHandlerBaseDw extends RollHandler {
     let actionId = payload[2];
 
     let actor = super.getActor(tokenId);
-    let charType = actor.data.type;
+    let charType = actor.type;
 
     if (charType === "character") {
       switch (macroType) {
@@ -51,14 +51,14 @@ export class RollHandlerBaseDw extends RollHandler {
   }
 
   _handleDamage(macroType, event, actor, actionId) {
-    let damage = actor.data.data.attributes.damage;
+    let damage = actor.system.attributes.damage;
     let damageDie = `${damage.value}`;
-    let damageMod = damage.misc.length > 0 ? damage.misc.length : 0;
+    let damageMod = damage.misc.value > 0 ? damage.misc.value : 0;
 
     let flavour = damage.piercing;
 
     let formula = damageMod > 0 ? `${damageDie}+${damageMod}` : damageDie;
-    let title = this.i18n("tokenactionhud.damage");
+    let title = this.i18n("tokenActionHud.damage");
 
     let templateData = {
       title: title,
@@ -79,12 +79,12 @@ export class RollHandlerBaseDw extends RollHandler {
   }
 
   _handleAbility(macroType, event, actor, actionId) {
-    let ability = actor.data.data.abilities[actionId];
+    let ability = actor.system.abilities[actionId];
 
     let mod = ability.mod;
     let formula = `2d6+${mod}`;
 
-    let title = `${ability.label} ${game.i18n.localize("tokenactionhud.roll")}`;
+    let title = `${ability.label} ${game.i18n.localize("tokenActionHud.roll")}`;
     let abilityText = ability.label.toLowerCase();
 
     let templateData = {

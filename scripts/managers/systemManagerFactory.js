@@ -24,13 +24,19 @@ import { ForbiddenLandsSystemManager } from './forbiddenlands.js'
 import { DnD4eSystemManager } from './dnd4e.js'
 import { ED4eSystemManager } from './ed4e.js'
 import { GURPSSystemManager } from './gurps.js'
+import { Space1889SystemManager } from './space1889.js'
+import { CoC7SystemManager } from './coc7.js'
+import { CypherSystemSystemManager } from './cyphersystem.js'
+import { CleenmainSystemManager } from './cleenmain.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
     switch (system) {
       case "blades-in-the-dark":
         return new BitDSystemManager(appName);
-      case "demonlord":
+        case "cyphersystem":
+          return new CypherSystemSystemManager(appName);
+        case "demonlord":
         return new DemonlordSystemManager(appName);
       case "dnd5e":
         return new Dnd5eSystemManager(appName);
@@ -84,6 +90,12 @@ export class SystemManagerFactory {
         return new ED4eSystemManager(appName);
       case 'gurps':
         return new GURPSSystemManager(appName);
+      case 'space1889':
+        return new Space1889SystemManager(appName);
+      case 'CoC7':
+        return new CoC7SystemManager(appName);
+      case 'cleenmain':
+        return new CleenmainSystemManager(appName);
     }
   }
 }

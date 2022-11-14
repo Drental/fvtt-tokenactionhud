@@ -25,7 +25,7 @@ export class RollHandlerMidiQolSW5e extends RollHandlerBaseSW5e {
     }
 
     var versatile;
-    if (item.data.data.properties?.ver) {
+    if (item.system.properties?.ver) {
       versatile = this.rightClick;
     }
 

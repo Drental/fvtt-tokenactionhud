@@ -11,7 +11,7 @@ export class ExampleActionHandler extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -25,7 +25,7 @@ export class ExampleActionHandler extends ActionHandler {
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.inventory"),
+      this.i18n("tokenActionHud.inventory"),
       inventoryCategory
     ); // combines the inventory category with the list with the title given by the second argument.
 
@@ -39,7 +39,7 @@ export class ExampleActionHandler extends ActionHandler {
     let items = actor.items;
 
     let weapons = items.filter(
-      (i) => i.data.type === "weapons" && i.data.data.equipped
+      (i) => i.type === "weapons" && i.system.equipped
     );
     let weaponsActions = this._produceMap(tokenId, weapons, macroType);
     let weaponsSubcategory = this.initializeEmptySubcategory();
@@ -47,14 +47,14 @@ export class ExampleActionHandler extends ActionHandler {
     this._combineSubcategoryWithCategory(result, "weapons", weaponsSubcategory);
 
     let armor = items.filter(
-      (i) => i.data.type === "armor" && i.data.data.equipped
+      (i) => i.type === "armor" && i.system.equipped
     );
     let armorActions = this._produceMap(tokenId, armor, macroType);
     let armorSubcategory = this.initializeEmptySubcategory();
     armorSubcategory.actions = armorActions;
     this._combineSubcategoryWithCategory(result, "armor", armorSubcategory);
 
-    let consumables = items.filter((i) => i.data.type === "consumables");
+    let consumables = items.filter((i) => i.type === "consumables");
     let consumablesActions = this._produceMap(tokenId, consumables, macroType);
     let consumablesSubcategory = this.initializeEmptySubcategory();
     consumablesSubcategory.actions = consumablesActions;
@@ -72,8 +72,8 @@ export class ExampleActionHandler extends ActionHandler {
     return itemSet
       .filter((i) => !!i)
       .map((i) => {
-        let encodedValue = [macroType, tokenId, i.data.id].join(this.delimiter);
-        return { name: i.name, encodedValue: encodedValue, id: i.data.id };
+        let encodedValue = [macroType, tokenId, i.id].join(this.delimiter);
+        return { name: i.name, encodedValue: encodedValue, id: i.id };
       });
   }
 }
