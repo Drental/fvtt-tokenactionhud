@@ -83,7 +83,7 @@ export class ActionHandlerOD6S extends ActionHandler {
         const resistanceTypes = ["pr", "er"];
         let resistances = [];
         for (let r of resistanceTypes) {
-            let name = game.i18n.localize(actor.data[r].label);
+            let name = game.i18n.localize(actor.system[r].label);
             let encodedValue = [macroType, tokenId, r].join(this.delimiter);
             resistances.push({name: name, id: r, encodedValue: encodedValue});
         }
@@ -132,7 +132,7 @@ export class ActionHandlerOD6S extends ActionHandler {
                         const name =
                             game.i18n.localize("OD6S.ACTION_PARRY") +
                             " (" +
-                            meleeWeapons[weapon].data.name +
+                            meleeWeapons[weapon].system.name +
                             ")";
                         const encodedValue = [
                             "parry",
