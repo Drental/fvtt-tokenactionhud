@@ -9,3 +9,4 @@ foundry.js
 token-action-hud.lock
 scripts/bundle.min.js
 scripts/bundle.min.js.map
+.eslintrc.json

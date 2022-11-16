@@ -426,7 +426,7 @@
           "hint": "アイテムマクロを含むマクロはオリジナルを上書きします。それ以外では両方が表示されます。",
           "name": "アイテムマクロ：オリジナルを上書き"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "これがオフになっていると初級呪文、生得、契約等の呪文はすべて手動で「準備状態」にしないと表示されなくなります。",
           "name": "すべての非準備呪文も表示する"
         },
@@ -465,16 +465,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "基本",
+      "book": "Book",
       "charts": "チャート",
       "gm": "GM",
-      "instinct": "直感",
+      "instincts": "直感",
       "monsterMoves": "モンスター行動",
-      "moves": "行動",
-      "special": "特殊",
-      "specialQualities": "特徴",
-      "starting": "開始",
-      "tags": "タグ",
       "treasure": "財宝",
       "settings": {
         "showGmCompendiums": {

@@ -32,10 +32,9 @@
   width: 100%;
 }
 
-#token-action-hud:hover > #tah-reposition,
+#token-action-hud:hover > #tah-collapse-expand #tah-collapse-hud,
 #token-action-hud:hover > #tah-buttons {
   display: flex;
-  position: absolute;
 }
 
 #tah-character-name {
@@ -59,51 +58,49 @@
   gap: 2px;
 }
 
-#tah-reposition,
+#tah-collapse-hud,
 #tah-buttons {
   display: none;
   font-style: normal;
   font-weight: normal;
 }
 
-#tah-reposition {
-  left: -20px;
+#tah-collapse-expand:hover {
+  cursor: pointer;
 }
 
-#tah-buttons {
-  display: flex;
-  left: 100%;
+#tah-collapse-expand {
+  font-style: normal;
+  font-weight: normal;
+  left: -16px;
+  position: absolute;
 }
 
+#tah-collapse-hud,
 #tah-buttons button {
   background: transparent;
   border: 0;
   line-height: unset;
+  margin: 0;
+  padding: 0;
 }
 
+#tah-collapse-hud:hover, 
+#tah-collapse-hud:focus,
 #tah-buttons button:hover, 
 #tah-buttons button:focus {
   box-shadow: none;
 }
 
-#tah-reposition > .fa,
-#tah-reposition > .fas {
-  font-size: small;
-  margin: 3px;
-  padding: 3px;
-}
-
-#tah-buttons > button.fa,
-#tah-buttons > button.fas {
-  font-size: large;
-}
-
-#tah-reposition > .fa,
-#tah-reposition > .fas,
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas,
 #tah-buttons button > .fa,
 #tah-buttons button > .fas {
   color: #ddd;
+  margin: 3px;
+  padding: 3px;
   pointer-events: none;
+  position: relative;
   text-align: center;
   text-shadow:
     1px 1px 1px rgba(52, 52, 52, 1),
@@ -112,14 +109,20 @@
     1px 1px 1px rgba(52, 52, 52, 1);
 }
 
-#tah-reposition:hover > i,
-#tah-buttons button:hover > i {
-  color: #fff;
-  text-shadow: 0 0 10px #ff6400;
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas {
+  font-size: small;
 }
 
-.tah-hidden {
-  display: none !important;
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
+  font-size: large;
+}
+
+#tah-collapse-expand:hover button > i,
+#tah-edit-categories:hover > i {
+  color: #fff;
+  text-shadow: 0 0 10px #ff6400;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -129,6 +132,12 @@
   position: relative;
 }
 
+#tah-expand-hud {
+  position: relative;
+  top: 18px;
+}
+
+#tah-expand-hud,
 .tah-title-button {
   height: auto;
   padding: 3px;
@@ -176,10 +185,15 @@
   flex-direction: column;
 }
 
-/* Show the dropdown menu on hover */
+.tah-category {
+  cursor: default;
+  display: block;
+  position: relative;
+}
+
 .tah-category.hover .tah-subcategories {
   background: none;
-  display: flex;
+  display: block;
   left: -176px;
   position: absolute;
 }
@@ -200,6 +214,8 @@
   align-items: center;
   color: #fff;
   display: flex;
+  flex-wrap: wrap;
+  font-size: small;
   justify-content: flex-end;
   line-height: 1.1;
   padding-right: 5px;
@@ -210,7 +226,7 @@
     1px 1px 1px rgba(52, 52, 52, 1), 
     1px 1px 1px rgba(52, 52, 52, 1),
     1px 1px 1px rgba(52, 52, 52, 1);
-    width: 175px;   
+  width: 175px;
 }
 
 .tah-filterholder {
@@ -273,6 +289,12 @@
   min-width: 25px;
   padding: 0px;
   width: auto;
+}
+
+.tah-actionSet {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
 }
 
 /* Links inside the dropdown */
@@ -388,7 +410,6 @@
   width: 100%;
 }
 
-/* Change color of dropdown links on hover */
 .tah-action button:hover {
   border: 0;
   box-shadow: 0 0 10px #ff6400, 0 2px 0 -1px #ff6400, 0 0 0 1px red;
@@ -422,6 +443,17 @@
   content: "*";
 }
 
+#tah-expand-hud {
+  height: 34px;
+  position: relative;
+  top: 18px;
+}
+
+#tah-expand-hud {
+  padding: 3px;
+}
+
+#tah-expand-hud,
 .tah-category button,
 .tah-action button {
 	background-color: var(--tah-button, #00000080);
@@ -434,6 +466,7 @@
 	transition: all 0.1s ease-in-out;
 }
 
+#tah-expand-hud:hover,
 .tah-category button:hover,
 .tah-category.hover > button,
 .tah-action button:hover {
@@ -454,6 +487,10 @@
     0 0 0 1px var(--tah-button-outline-hover, red),
     0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
 	color: var(--tah-button-active-contrast, #fff);
+}
+
+.tah-hidden {
+  display: none !important;
 }
 
 .token-action-hud-taginput {

@@ -4,7 +4,29 @@
     "dev": "rollup -wcm"
   },
   "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.3.0",
+    "eslint-plugin-promise": "^6.1.0",
     "rollup": "^2.56.3",
     "rollup-plugin-terser": "^7.0.2"
-  }
+  },
+  "name": "fvtt-tokenactionhud-customisable-categories",
+  "description": "This module populates a repositionable HUD showing the most common actions for a selected token.",
+  "version": "1.0.0",
+  "main": "rollup.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drental/fvtt-tokenactionhud.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Drental/fvtt-tokenactionhud/issues"
+  },
+  "homepage": "https://github.com/Drental/fvtt-tokenactionhud#readme"
 }

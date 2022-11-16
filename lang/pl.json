@@ -413,7 +413,7 @@
           "hint": "If enabled, items with an item macro will overwrite their original, otherwise both options will be shown.",
           "name": "Item-Macro: overwrite original item"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "If disabled, spells such as cantrips, innate, pact, and at-will spells need to be 'prepared' via the spell details to be shown on the HUD.",
           "name": "Show all non-preparable spells"
         },
@@ -448,16 +448,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "Podstawowe",
+      "book": "Book",
       "charts": "Wykresy",
       "gm": "MG",
-      "instinct": "Instynkt",
+      "instincts": "Instynkt",
       "monsterMoves": "Monster Moves",
-      "moves": "Moves",
-      "special": "Special",
-      "specialQualities": "Specjalne Cechy",
-      "starting": "Starting",
-      "tags": "Tagi",
       "treasure": "Skarby",
       "settings": {
         "showGmCompendiums": {

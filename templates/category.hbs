@@ -1,3 +1,4 @@
+
 <div class="tah-category{{~#if cssClass}} {{cssClass}}{{~/if~}}" {{~#if this.id~}}id="tah-category-{{this.id}}"{{~/if~}}>
     <button class="tah-title-button" value="{{this.id}}">
         {{cap this.name}}
@@ -8,7 +9,7 @@
     </button>
     <div class="tah-subcategories expand-down" {{~#if background~}}style='background: {{background}}'{{~/if~}}>
         {{#each subcategories}}
-        {{>"modules/token-action-hud/templates/subcategory.hbs" categoryId=../id }}
+        {{>"modules/token-action-hud/templates/subcategory.hbs" categoryId=../id}}
         {{/each}}
     </div>
 </div>

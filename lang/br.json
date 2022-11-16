@@ -418,7 +418,7 @@
           "hint": "Select which of the items will be shown in the inventory.",
           "name": "Item-Macro: item macro, original item, or both"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "Se desativado, magias como cantrips, magias inatas, pactos e à vontade precisam ser 'preparadas' através dos detalhes da magia que serão mostrados no HUD. ",
           "name": "Exibe todas as magias não preparadas"
         },
@@ -453,16 +453,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "Básico",
+      "book": "Book",
       "charts": "Tabelas",
       "gm": "Mestre",
-      "instinct": "Instinct",
+      "instincts": "Instincts",
       "monsterMoves": "Movimentos do Monstro",
-      "moves": "Movimentos",
-      "special": "Especial",
-      "specialQualities": "Qualidades Especiais",
-      "starting": "Iniciais",
-      "tags": "Etiquetas",
       "treasure": "Tesouro",
       "settings": {
         "showGmCompendiums": {

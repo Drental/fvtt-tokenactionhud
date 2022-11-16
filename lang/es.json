@@ -414,7 +414,7 @@
           "hint": "Selecciona qué elementos se mostrarán en el inventario.",
           "name": "Objeto-Macro: macro del objeto, objeto original, o ambos"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "Si se desactiva, los conjuros como los trucos, innatos, del pactos y los conjuros a voluntad, se deben 'preparar' a través de los detalles del conjuro para que se muestren en el HUD.",
           "name": "Mostrar todos los conjuros no preparables"
         },
@@ -449,16 +449,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "Básico",
+      "book": "Book",
       "charts": "Charts",
       "gm": "GM",
-      "instinct": "Instincto",
+      "instincts": "Instincto",
       "monsterMoves": "Movimientos de monstruo",
-      "moves": "Movimientos",
-      "special": "Especial",
-      "specialQualities": "Cualidades especiales",
-      "starting": "Iniciales",
-      "tags": "Etiquetas",
       "treasure": "Tesoro",
       "settings": {
         "showGmCompendiums": {

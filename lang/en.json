@@ -381,6 +381,20 @@
       "weapons": "Weapons"
     },
     "dnd4e": {
+      "abilities": "Abilities",
+      "attributes": "Attributes",
+      "conditions": "Conditions",
+      "consumables": "Consumables",
+      "containers": "Containers",
+      "equipment": "Equipment",
+      "features": "Features",
+      "inventory": "Inventory",
+      "loot": "Loot",
+      "other": "Other",
+      "powers": "Powers",
+      "skills": "Skills",
+      "tools": "Tools",
+      "weapons": "Weapons",
       "settings": {
         "hideUsedPowers": {
           "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
@@ -442,7 +456,7 @@
           "hint": "Select which of the items will be shown in the inventory.",
           "name": "Item-Macro: item macro, original item, or both"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "If disabled, spells such as cantrips, innate, pact, and at-will spells need to be 'prepared' via the spell details to be shown on the HUD.",
           "name": "Show all non-preparable spells"
         },
@@ -480,16 +494,12 @@
       }
     },
     "dungeonWorld": {
-      "basic": "Basic",
+      "abilities": "Abilities",
+      "book": "Book",
       "charts": "Charts",
       "gm": "GM",
-      "instinct": "Instinct",
+      "instincts": "Instincts",
       "monsterMoves": "Monster Moves",
-      "moves": "Moves",
-      "special": "Special",
-      "specialQualities": "Special Qualities",
-      "starting": "Starting",
-      "tags": "Tags",
       "treasure": "Treasure",
       "settings": {
         "showGmCompendiums": {

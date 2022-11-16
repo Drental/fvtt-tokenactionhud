@@ -420,7 +420,7 @@
           "name": "아이템 매크로: 원항목 덮어쓰기",
           "hint": "활성화될 경우 아이템 매크로가 있는 아이템은 원래 아이템을 덮어쓰게 되며 그렇지 않을 경우 두 옵션이 모두 표시된다."
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "name": "모든 준비 불가능한 주문들 표시",
           "hint": "비활성화할 경우 캔트립(소마법), 선천적, 계약, 의지(At-will) 주문들은 주문 상세 정보에서 '준비'하여야 HUD에 표시된다."
         },
@@ -455,16 +455,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "기본",
+      "book": "Book",
       "charts": "차트",
       "gm": "GM",
-      "instinct": "본능",
+      "instincts": "본능",
       "monsterMoves": "괴물 이동",
-      "moves": "이동",
-      "special": "특수",
-      "specialQualities": "특수 능력",
-      "starting": "Starting",
-      "tags": "태그",
       "treasure": "전리품",
       "settings": {
         "showGmCompendiums": {

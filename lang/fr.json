@@ -418,7 +418,7 @@
           "hint": "Sélectionne quels objets seront montrés dans l'inventaire.",
           "name": "Item-Macro: macro d'objet, objet original, ou les deux"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "hint": "Si désactivée, les sorts tels que les tours de magie, innés, de pacte et à volonté doivent être préparés dans le détail du sort pour être affiché dans le HUD.",
           "name": "Afficher tous les sorts non préparés"
         },
@@ -457,16 +457,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "Basique",
+      "book": "Book",
       "charts": "Statistiques",
       "gm": "MJ",
-      "instinct": "Instinct",
+      "instincts": "Instincts",
       "monsterMoves": "Déplacements Créature",
-      "moves": "Déplacements",
-      "special": "Spécial",
-      "specialQualities": "Qualités spéciales",
-      "starting": "Démarre",
-      "tags": "Tags",
       "treasure": "Trésor",
       "settings": {
         "showGmCompendiums": {

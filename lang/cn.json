@@ -280,7 +280,7 @@
           "name": "显示所有NPC物品",
           "hint": "启用后，NPC的所有物品都会显示，而不仅仅是已装备的物品。"
         },
-        "showAllNonpreparableSpells": {
+        "showAllNonPreparableSpells": {
           "name": "显示所有未准备法术",
           "hint": "禁用后，戏法、天生、契约和随意使用的法术需要在法术详情页设置为‘准备’状态才能显示在HUD上。"
         },
@@ -311,16 +311,11 @@
       }
     },
     "dungeonWorld": {
-      "basic": "基础",
+      "book": "Book",
       "charts": "表单",
       "gm": "GM",
-      "instinct": "直感",
+      "instincts": "直感",
       "monsterMoves": "怪物移动",
-      "moves": "移动",
-      "special": "特別的",
-      "specialQualities": "特殊数量",
-      "starting": "启动",
-      "tags": "标记",
       "treasure": "财宝",
       "settings": {
         "showGmCompendiums": {
