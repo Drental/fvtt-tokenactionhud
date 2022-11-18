@@ -3,7 +3,6 @@ import { RollHandler } from "../rollHandler.js";
 export class RollHandlerBaseCypherSystem extends RollHandler {
 
     doHandleActionEvent(event, encodedValue) {
-        console.log('doHandleActionEvent', event, encodedValue)
         let payload = encodedValue.split("|");
     
         if (payload.length != 3) {
