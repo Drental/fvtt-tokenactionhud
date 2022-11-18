@@ -24,6 +24,7 @@ Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/
 - Chroniques Oubliées Fantasy
 - Clé en main
 - Cthulhu Hack
+- Cypher System
 - DnD 4th Edition
 - DnD5e, including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
 - Dungeon World

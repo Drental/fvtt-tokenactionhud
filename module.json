@@ -16,10 +16,10 @@
   ],
   "url": "https://github.com/Drental/fvtt-tokenactionhud",
   "flags": {},
-  "version": "3.0.14",
+  "version": "3.0.15",
   "compatibility": {
     "minimum": "10",
-    "verified": "10.288"
+    "verified": "10.290"
   },
   "scripts": [
     "./lib/tagify/tagify.min.js",
@@ -87,7 +87,31 @@
   "relationships": {
     "systems": [
       {
-        "id": "dnd5e",
+        "id": "alienrpg",
+        "type": "system"
+      },
+      {
+        "id": "blades-in-the-dark",
+        "type": "system"
+      },
+      {
+        "id": "cleenmain",
+        "type": "system"
+      },
+      {
+        "id": "coc",
+        "type": "system"
+      },
+      {
+        "id": "CoC7",
+        "type": "system"
+      },
+      {
+        "id": "cof",
+        "type": "system"
+      },
+      {
+        "id": "cthack",
         "type": "system"
       },
       {
@@ -95,23 +119,7 @@
         "type": "system"
       },
       {
-        "id": "dungeonworld",
-        "type": "system"
-      },
-      {
-        "id": "pf2e",
-        "type": "system"
-      },
-      {
-        "id": "wfrp4e",
-        "type": "system"
-      },
-      {
-        "id": "sfrpg",
-        "type": "system"
-      },
-      {
-        "id": "sw5e",
+        "id": "D35E",
         "type": "system"
       },
       {
@@ -119,7 +127,35 @@
         "type": "system"
       },
       {
-        "id": "pf1",
+        "id": "dnd4e",
+        "type": "system"
+      },
+      {
+        "id": "dnd5e",
+        "type": "system"
+      },
+      {
+        "id": "ds4",
+        "type": "system"
+      },
+      {
+        "id": "dungeonworld",
+        "type": "system"
+      },
+      {
+        "id": "earthdawn4e",
+        "type": "system"
+      },
+      {
+        "id": "forbidden-lands",
+        "type": "system"
+      },
+      {
+        "id": "gurps",
+        "type": "system"
+      },
+      {
+        "id": "kamigakari",
         "type": "system"
       },
       {
@@ -127,7 +163,27 @@
         "type": "system"
       },
       {
-        "id": "D35E",
+        "id": "od6s",
+        "type": "system"
+      },
+      {
+        "id": "pf1",
+        "type": "system"
+      },
+      {
+        "id": "pf2e",
+        "type": "system"
+      },
+      {
+        "id": "sfrpg",
+        "type": "system"
+      },
+      {
+        "id": "space1889",
+        "type": "system"
+      },
+      {
+        "id": "sw5e",
         "type": "system"
       },
       {
@@ -139,31 +195,7 @@
         "type": "system"
       },
       {
-        "id": "tormenta20",
-        "type": "system"
-      },
-      {
-        "id": "blades-in-the-dark",
-        "type": "system"
-      },
-      {
         "id": "symbaroum",
-        "type": "system"
-      },
-      {
-        "id": "od6s",
-        "type": "system"
-      },
-      {
-        "id": "alienrpg",
-        "type": "system"
-      },
-      {
-        "id": "cthack",
-        "type": "system"
-      },
-      {
-        "id": "kamigakari",
         "type": "system"
       },
       {
@@ -175,43 +207,11 @@
         "type": "system"
       },
       {
-        "id": "ds4",
+        "id": "tormenta20",
         "type": "system"
       },
       {
-        "id": "coc",
-        "type": "system"
-      },
-      {
-        "id": "cof",
-        "type": "system"
-      },
-      {
-        "id": "forbidden-lands",
-        "type": "system"
-      },
-      {
-        "id": "dnd4e",
-        "type": "system"
-      },
-      {
-        "id": "earthdawn4e",
-        "type": "system"
-      },
-      {
-        "id": "gurps",
-        "type": "system"
-      },
-      {
-        "id": "space1889",
-        "type": "system"
-      },
-      {
-        "id": "CoC7",
-        "type": "system"
-      },
-      {
-        "id": "cleenmain",
+        "id": "wfrp4e",
         "type": "system"
       }
     ],
@@ -235,7 +235,7 @@
   },
   "socket": false,
   "manifest": "https://github.com/Drental/fvtt-tokenactionhud/releases/latest/download/module.json",
-  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/3.0.14/module.zip",
+  "download": "https://github.com/Drental/fvtt-tokenactionhud/releases/download/3.0.15/module.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false

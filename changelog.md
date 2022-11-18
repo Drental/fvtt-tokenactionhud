@@ -1,5 +1,10 @@
 # Changelog
 
+# [3.0.15] 2022-11-18
+- Cypher System - Add support for the Cypher System system - Provided by farling42 (#331).
+- OpenD6 Space - Fix HUD for v10-compatible release - Provided by madseumas (#332).
+- Tormenta20 - Fix HUD for v10-compatible release (#333).
+
 # [3.0.14] 2022-11-10
 - D&D5e - Fix error when Ruins of Symbaroum module is enabled and the actor has spells (#186).
 - Pathfinder 1e - Use spellbook labels for categories (#320).

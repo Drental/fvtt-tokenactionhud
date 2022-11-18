@@ -34,9 +34,9 @@ export class SystemManagerFactory {
     switch (system) {
       case "blades-in-the-dark":
         return new BitDSystemManager(appName);
-        case "cyphersystem":
-          return new CypherSystemSystemManager(appName);
-        case "demonlord":
+      case "cyphersystem":
+        return new CypherSystemSystemManager(appName);
+      case "demonlord":
         return new DemonlordSystemManager(appName);
       case "dnd5e":
         return new Dnd5eSystemManager(appName);
