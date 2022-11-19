@@ -140,42 +140,53 @@ export class ActionHandlerCypherSystem extends ActionHandler {
         return result;
     }
 
-    _getSkills(actor, tokenId) {
-        let result = this.initializeEmptyCategory("skills");
+    createList(parent, actor, tokenId, itemtype, sorting, label) {
         let subcat = this.initializeEmptySubcategory();
-
-        for (const item of actor.items.filter( item => item.type === 'skill')) {
+        for (const item of actor.items.filter( item => item.type === itemtype && item.system.settings.general.sorting === sorting)) {
             subcat.actions.push({
                 name: item.name,
-                encodedValue: ["skill", tokenId, item.id].join(this.delimiter),
+                encodedValue: [itemtype, tokenId, item.id].join(this.delimiter),
             });
         }
+        if (subcat.actions.length) {
+            this._combineSubcategoryWithCategory(
+                parent,
+                this.i18n(label),
+                subcat
+            );
+        }
+    }
 
-        this._combineSubcategoryWithCategory(
-            result,
-            this.i18n(`ACTOR.Type${actor.type.capitalize()}`),
-            subcat
-        );
+    _getSkills(actor, tokenId) {
+        let result = this.initializeEmptyCategory("skills");
+
+        const table = {
+            Skill:      actor.system.settings.skills.labelCategory1 || 'CYPHERSYSTEM.Skills',
+            SkillTwo:   actor.system.settings.skills.labelCategory2 || 'CYPHERSYSTEM.SkillCategoryTwo',
+            SkillThree: actor.system.settings.skills.labelCategory3 || 'CYPHERSYSTEM.SkillCategoryThree',
+            SkillFour:  actor.system.settings.skills.labelCategory4 || 'CYPHERSYSTEM.SkillCategoryFour',
+        }
+        for (const sorting of Object.keys(table)){
+            this.createList(result, actor, tokenId, 'skill', sorting, table[sorting]);
+        }
 
         return result;
     }
 
     _getAbilities(actor, tokenId) {
         let result = this.initializeEmptyCategory("abilities");
-        let subcat = this.initializeEmptySubcategory();
 
-        for (const item of actor.items.filter( item => item.type === 'ability')) {
-            subcat.actions.push({
-                name: item.name,
-                encodedValue: ["ability", tokenId, item.id].join(this.delimiter),
-            });
+        const table = {
+            Ability:      actor.system.settings.abilities.labelCategory1 || 'CYPHERSYSTEM.Abilities',
+            AbilityTwo:   actor.system.settings.abilities.labelCategory2 || 'CYPHERSYSTEM.AbilityCategoryTwo',
+            AbilityThree: actor.system.settings.abilities.labelCategory3 || 'CYPHERSYSTEM.AbilityCategoryThree',
+            AbilityFour:  actor.system.settings.abilities.labelCategory4 || 'CYPHERSYSTEM.AbilityCategoryFour',
+            Spell:        'CYPHERSYSTEM.Spells'
         }
 
-        this._combineSubcategoryWithCategory(
-            result,
-            this.i18n(`ACTOR.Type${actor.type.capitalize()}`),
-            subcat
-        );
+        for (const sorting of Object.keys(table)){
+            this.createList(result, actor, tokenId, 'ability', sorting, table[sorting]);
+        }
 
         return result;
     }
