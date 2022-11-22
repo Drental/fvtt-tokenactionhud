@@ -584,14 +584,14 @@ export class ActionHandlerPf1 extends ActionHandler {
     let allSkills = new Set();
 
     Object.entries(skills).forEach((s) => {
-      if (s[0].startsWith("skill")) s[1].isCustomSkill = true;
-
+      s[1].id = s[0];
+      s[1].isSubSkill = false;
       allSkills.add(s);
 
       if (s[1].subSkills) {
         Object.entries(s[1].subSkills).forEach((ss) => {
-          ss[1].isCustomSkill = true;
-          ss[1].mainSkill = s[0];
+          ss[1].id = `${s[0]}.subSkills.${ss[0]}`;
+          ss[1].isSubSkill = true;
           allSkills.add(ss);
         });
       }
@@ -599,7 +599,7 @@ export class ActionHandlerPf1 extends ActionHandler {
 
     let skillsActions = [...allSkills]
       .map((e) => {
-        let id = e[0];
+        let id = e[1].id;
         let data = e[1];
 
         // rt: requires training
@@ -607,14 +607,9 @@ export class ActionHandlerPf1 extends ActionHandler {
           return null;
         }
 
-        let name = abbr ? id : CONFIG.PF1.skills[id];
-
-        if (data.isCustomSkill || !name) {
-          name = data.name ?? "?";
-          id = `${data.mainSkill}.subSkills.${id}`;
-        }
-
+        let name = abbr ? id : CONFIG.PF1.skills[id] ?? data.name ?? '?';
         name = name.charAt(0).toUpperCase() + name.slice(1);
+        
         let encodedValue = [macroType, tokenId, id].join(this.delimiter);
         let info1 = this._getSkillRankInfo(data.rank);
         return { name: name, id: id, encodedValue: encodedValue, info1: info1 };
