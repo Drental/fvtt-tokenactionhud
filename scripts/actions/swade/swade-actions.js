@@ -78,14 +78,14 @@ export class ActionHandlerSwade extends ActionHandler {
     this._combineSubcategoryWithCategory(cat, subcatName, subcat);
 
     const derivedStatsSubcatName = this.i18n("SWADE.Derived");
-    const derivedStatsSubcat = this._getDerivedStatsSubcategory(tokenId);
+    const derivedStatsSubcat = this._getDerivedStatsSubcategory(tokenId, actor);
     this._combineSubcategoryWithCategory(cat, derivedStatsSubcatName, derivedStatsSubcat);
 
     this._combineCategoryWithList(list, catName, cat);
   }
 
   /** @private */
-  _getDerivedStatsSubcategory(tokenId) {
+  _getDerivedStatsSubcategory(tokenId, actor) {
     const subcat = this.initializeEmptySubcategory("derivedStats");
     
     // Running Die
@@ -94,7 +94,8 @@ export class ActionHandlerSwade extends ActionHandler {
     const runningDieName = game.i18n.localize("SWADE.RunningDie")
     const runningDieEncodedValue = [runningDieMacroType, tokenId, runningDieId].join(this.delimiter);
     const runningDieAction = { name: runningDieName, encodedValue: runningDieEncodedValue, id: runningDieId };
-    runningDieAction.info1 = "d6";
+    const runningDieValue = actor.system.stats.speed.runningDie
+    runningDieAction.info1 = `d${runningDieValue}`;
 
     subcat.actions.push(runningDieAction);
 
