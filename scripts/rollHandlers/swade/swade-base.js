@@ -111,8 +111,11 @@ export class RollHandlerBaseSwade extends RollHandler {
 
   /** @private */
   async _adjustAttributes(event, actor, macroType, actionId) {
+    const actionIdArray = actionId.split(">");
+    const changeType = actionIdArray[0];
+    const pool = (actionIdArray.length > 0) ? actionIdArray[1] : null;
     let attribute = (macroType === 'powerPoints')
-      ? actor.system[macroType].general
+      ? actor.system[macroType][pool]
       : actor.system[macroType];
 
     if (!attribute) return;
@@ -122,7 +125,7 @@ export class RollHandlerBaseSwade extends RollHandler {
     const min = attribute.min ?? 0;
 
     let value;
-    switch (actionId) {
+    switch (changeType) {
       case "increase":
         value = Math.clamped(curValue + 1, min, max);
         break;
@@ -134,7 +137,7 @@ export class RollHandlerBaseSwade extends RollHandler {
     let update = { data: {} };
 
     update.data[macroType] = (macroType === 'powerPoints')
-      ? { general: { value: value } }
+      ? { [pool]: { value: value } }
       : { value: value };
 
     await actor.update(update);

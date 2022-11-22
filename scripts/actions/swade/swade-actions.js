@@ -134,31 +134,51 @@ export class ActionHandlerSwade extends ActionHandler {
     const macroType = "powerPoints";
     const cat = this.initializeEmptyCategory(macroType);
 
-    if (!settings.get("noPowerPoints")) {
-      const pp = actor.system.powerPoints.general;
-      pp.value = pp.value ?? 0;
-      pp.max = pp.max ?? 0;
-      cat.info1 = `${pp.value}/${pp.max}`;
+    const noPowerPoints = game.settings.get("swade", "noPowerPoints");
+    const powerPointPools = (noPowerPoints) 
+      ? Object.entries(actor.system.powerPoints)
+      .filter((powerPointPool) => powerPointPool[0] === 'general')
+      : Object.entries(actor.system.powerPoints)
+      .filter((powerPointPool) => powerPointPool[1].value)
 
-      this._addCounterSubcategory(
-        cat,
-        tokenId,
-        pp,
-        this.i18n("tokenActionHud.swade.points"),
-        macroType
-      );
-    }
+    powerPointPools.forEach((powerPointPool) => {
+      const arcane = powerPointPool[0] === 'general' ? '' : powerPointPool[0];
+      if (!noPowerPoints && powers.some((power) => power.system.arcane === arcane)) {
+        const name = powerPointPool[0].charAt(0).toUpperCase() + powerPointPool[0].slice(1);
+        const pp = powerPointPool[1];
+        pp.value = pp.value ?? 0;
+        pp.max = pp.max ?? 0;
   
+        if (powerPointPools.length === 0) {
+          cat.info1 = `${pp.value}/${pp.max}`;
+        }
+
+        this._addCounterSubcategory(
+          cat,
+          tokenId,
+          pp,
+          name,
+          macroType,
+          powerPointPool[0]
+        );
+      }
+
+      const poolPowers = (noPowerPoints) 
+        ? powers
+        : powers.filter((power) => power.system.arcane === arcane);
+      
+      const groupedPowers = this._groupPowers(poolPowers);
+
+      Object.entries(groupedPowers).forEach((g) => {
+        const key = g[0];
+        const groupPowers = g[1];
+        this._addPowersSubcategory(tokenId, key, groupPowers, macroType, cat);
+      });
+
+    })
+
     const powersName = this.i18n("tokenActionHud.powers");
-
-    const groupedPowers = this._groupPowers(powers);
-    Object.entries(groupedPowers).forEach((g) => {
-      const key = g[0];
-      const groupPowers = g[1];
-      this._addPowersSubcategory(tokenId, key, groupPowers, macroType, cat);
-    });
-
-    this._combineCategoryWithList(list, powersName, cat);
+    this._combineCategoryWithList(list, powersName, cat); 
   }
 
   /** @private */
@@ -253,22 +273,23 @@ export class ActionHandlerSwade extends ActionHandler {
   }
 
   /** @private */
-  _addCounterSubcategory(category, tokenId, countItem, name, macroType) {
+  _addCounterSubcategory(category, tokenId, countItem, name, macroType, id = null) {
     if (!countItem || (countItem.max < 1 && countItem.value < 1)) return;
 
-    const decreaseValue = [macroType, tokenId, "decrease"].join(this.delimiter);
+    const actionId = (id) ? `>${id}` : '';
+    const decreaseValue = [macroType, tokenId, `decrease${actionId}`].join(this.delimiter);
     const decreaseAction = {
       name: "-",
       encodedValue: decreaseValue,
-      id: `${macroType}Decrease`,
+      id: `${id}_${macroType}Decrease`,
       cssClass: "shrink",
     };
 
-    const increaseValue = [macroType, tokenId, "increase"].join(this.delimiter);
+    const increaseValue = [macroType, tokenId, `increase${actionId}`].join(this.delimiter);
     const increaseAction = {
       name: "+",
       encodedValue: increaseValue,
-      id: `${macroType}Increase`,
+      id: `${id}_${macroType}Increase`,
       cssClass: "shrink",
     };
 
