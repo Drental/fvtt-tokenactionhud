@@ -1,5 +1,12 @@
 # Changelog
 
+# [3.0.16] 2022-11-22
+- Cypher System - Sort Abilities and Skills into categories - Provided by farling42 (#336).
+- Dungeonslayers 4 - Use item.roll() instead of item.use() - Fixed by Athemis (#340).
+- Pathfinder 1e - Fix parentless custom skills not working (#334).
+- SWADE - Add support for additional Power Points pools (#330).
+- SWADE - Fix 'Running Die' action not working on core and displaying wrong die in subcategory name (#335).
+
 # [3.0.15] 2022-11-18
 - Cypher System - Add support for the Cypher System system - Provided by farling42 (#331).
 - OpenD6 Space - Fix HUD for v10-compatible release - Provided by madseumas (#332).
