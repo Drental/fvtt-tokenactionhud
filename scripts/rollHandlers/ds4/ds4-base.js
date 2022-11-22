@@ -44,6 +44,6 @@ export class RollHandlerBaseDs4 extends RollHandler {
   async _rollItemMacro(event, tokenId, itemId) {
     const actor = super.getActor(tokenId);
     const item = super.getItem(actor, itemId);
-    return item.use();
+    return item.roll();
   }
 }
