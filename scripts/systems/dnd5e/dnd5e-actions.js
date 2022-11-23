@@ -240,8 +240,8 @@ export class ActionHandler5e extends ActionHandler {
         const subcategoryId = 'combat'
 
         const combatTypes = {
-            initiative: { label: this.i18n('tokenActionHud.rollInitiative') },
-            endTurn: { label: this.i18n('tokenActionHud.endTurn') }
+            initiative: { id: 'initiative', name: this.i18n('tokenActionHud.rollInitiative') },
+            endTurn: { id: 'endTurn', name: this.i18n('tokenActionHud.endTurn') }
         }
 
         // Delete endTurn for multiple tokens
@@ -249,8 +249,8 @@ export class ActionHandler5e extends ActionHandler {
 
         // Get actions
         const actions = Object.entries(combatTypes).map((combatType) => {
-            const id = combatType[0]
-            const name = combatType[1].label
+            const id = combatType[1].id
+            const name = combatType[1].name
             const encodedValue = [actionType, actorId, tokenId, id].join(this.delimiter)
             let info1 = ''
             let cssClass = ''
