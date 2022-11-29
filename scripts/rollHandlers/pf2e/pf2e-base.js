@@ -280,6 +280,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       default:
         strike.variants[strikeType]?.roll({
           event,
+          altUsage
         });
         break;
     }
