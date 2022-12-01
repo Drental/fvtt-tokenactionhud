@@ -1,4 +1,29 @@
 export function register(appName, updateFunc) {
+  const showCategorySettings = [
+    'Inventory',
+    'Powers',
+    'Features',
+    'Skills',
+    'Abilities',
+    'Effects', 
+    'Conditions',
+    'Utility'
+  ]
+
+  for (const category of showCategorySettings) {
+    game.settings.register(appName, `show${category}Category`, {
+      name: game.i18n.localize(`tokenActionHud.settings.show${category}Category.name`),
+      hint: game.i18n.localize(`tokenActionHud.settings.show${category}Category.hint`),
+      scope: "client",
+      config: true,
+      type: Boolean,
+      default: true,
+      onChange: (value) => {
+        updateFunc(value);
+      },
+    })
+  }
+
   game.settings.register(appName, "ignorePassiveFeats", {
     name: game.i18n.localize(
       "tokenActionHud.sw5e.settings.ignorePassiveFeats.name"

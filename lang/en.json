@@ -678,13 +678,41 @@
       }
     },
     "sw5e": {
+      "abilities": "Abilities",
+      "actions": "Actions",
+      "attributes": "Attributes", 
+      "bonusActions": "Bonus Actions",
+      "checks": "Checks",
+      "consumables": "Consumables",
+      "crewActions": "Crew Actions",
       "deathSave": "Death Save",
       "destructionSave": "Destruction Save",
+      "equipment": "Equipment",
+      "lair": "Lair",
+      "lairActions": "Lair Actions",
+      "legendary": "Legendary",
+      "legendaryActions": "Legendary Actions",
       "naturalPowers": "Natural Powers",
+      "other": "Other",
+      "reactions": "Reactions",
+      "saves": "Saves",
+      "skills": "Skills",
+      "specialActions": "Special Actions",
+      "tools": "Tools",
+      "weapons": "Weapons",
       "settings": {
         "abbreviateSkills": {
           "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
           "name": "Abbreviate Skill and Ability Names"
+        },
+        "categoriseAttributes": {
+          "hint": "Categorise abilities and skills into Attributes, Abilities/Skills or Checks/Saves/Skills",
+          "name": "Categorise Attributes",
+          "choices": {
+            "attributes": "Attributes",
+            "abilitiesSkills": "Abilities/Skills",
+            "checksSavesSkills": "Checks/Saves/Skills"
+          }
         },
         "hideLongerActions": {
           "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
@@ -699,7 +727,7 @@
           "name": "Item-Macro: item macro, original item, or both"
         },
         "showAllNonpreparablePowers": {
-          "hint": "If disabled, powers such as cantrips, innate, pact, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
+          "hint": "If disabled, powers such as cantrips, innate, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
           "name": "Show all non-preparable powers"
         },
         "showAllNpcItems": {
@@ -726,7 +754,7 @@
           "hint": "If enabled, abilities will be separated into checks and saves.",
           "name": "Show separate ability check and save categories"
         }
-      }  
+      }
     },
     "swade": {
       "bennies": "Bennies",
