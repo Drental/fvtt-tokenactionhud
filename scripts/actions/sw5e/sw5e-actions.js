@@ -41,24 +41,38 @@ export class ActionHandlerSW5e extends ActionHandler {
   }
 
   _buildCategories(token) {
-    return [
-      this._buildItemsCategory(token),
-      this._buildPowersCategory(token),
-      this._buildFeaturesCategory(token),
-      this._buildSkillsCategory(token),
-      this._buildAbilitiesCategory(token),
-      this._buildEffectsCategory(token),
-      this._buildConditionsCategory(token),
-      this._buildUtilityCategory(token),
-    ];
+    const actor = token.actor;
+    
+    if (["character", "npc", "starship"].includes(actor.type)) {
+      return [
+        this._buildItemsCategory(token),
+        this._buildPowersCategory(token),
+        this._buildFeaturesCategory(token),
+        this._buildSkillsCategory(token),
+        this._buildAbilitiesCategory(token),
+        this._buildEffectsCategory(token),
+        this._buildConditionsCategory(token),
+        this._buildUtilityCategory(token),
+      ];
+    }
+    if (actor.type === "vehicle") {
+      return [
+        this._buildWeaponsCategory(token),
+        this._buildFeaturesCategory(token),
+        this._buildAbilitiesCategory(token),
+        this._buildEffectsCategory(token),
+        this._buildConditionsCategory(token),
+      ];
+    }
   }
 
   _buildAbilitiesCategory(token) {
+    if (settings.get("showAbilitiesCategory") === false) return;
     const actor = token.actor;
     const abilities = actor.system.abilities;
 
     if (settings.get("splitAbilities")) {
-      const savesTitle = this.i18n("tokenActionHud.saves");
+      const savesTitle = this.i18n("tokenActionHud.sw5e.saves");
       const savesCat = this._getAbilityList(
         token.id,
         abilities,
@@ -68,12 +82,12 @@ export class ActionHandlerSW5e extends ActionHandler {
       );
       savesCat.name = savesTitle;
 
-      const checksTitle = this.i18n("tokenActionHud.checks");
+      const checksTitle = this.i18n("tokenActionHud.sw5e.checks");
       const checksCat = this._getAbilityList(
         token.id,
         abilities,
         "checks",
-        this.i18n("tokenActionHud.checks"),
+        checksTitle,
         "abilityCheck"
       );
       checksCat.name = checksTitle;
@@ -85,7 +99,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       token.id,
       abilities,
       "abilities",
-      this.i18n("tokenActionHud.abilities"),
+      this.i18n("tokenActionHud.sw5e.abilities"),
       "ability"
     );
   }
@@ -95,8 +109,8 @@ export class ActionHandlerSW5e extends ActionHandler {
     list.tokenId = "multi";
     list.actorId = "multi";
 
-    const allowedTypes = (canvas.tokens.controlled.every((a) => a.type === "starship")) ? ["starship"] : ["npc", "character"];
-    const multiStarships = (allowedTypes === ["starships"]);
+    const allowedTypes = (canvas.tokens.controlled.every((a) => a.actor.type === "starship")) ? ["starship"] : ["npc", "character"];
+    const multiStarships = (allowedTypes[0] === "starship");
     
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
@@ -108,8 +122,8 @@ export class ActionHandlerSW5e extends ActionHandler {
     else this._addMultiSkills(list, tokenId);
 
     if (settings.get("splitAbilities")) {
-      let savesTitle = this.i18n("tokenActionHud.saves");
-      let checksTitle = this.i18n("tokenActionHud.checks");
+      let savesTitle = this.i18n("tokenActionHud.sw5e.saves");
+      let checksTitle = this.i18n("tokenActionHud.sw5e.checks");
       this._addMultiAbilities(
         list,
         tokenId,
@@ -125,7 +139,7 @@ export class ActionHandlerSW5e extends ActionHandler {
         "abilityCheck"
       );
     } else {
-      let abilitiesTitle = this.i18n("tokenActionHud.abilities");
+      let abilitiesTitle = this.i18n("tokenActionHud.sw5e.abilities");
       this._addMultiAbilities(
         list,
         tokenId,
@@ -147,6 +161,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildItemsCategory(token) {
+    if (settings.get("showInventoryCategory") === false) return;
     const actor = token.actor;
     const tokenId = token.id;
 
@@ -184,7 +199,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = activeEquipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment"
+      (i) => i.type != "weapon" && i.type != "equipment" && i.type != "tool"
     );
     let otherActions = other.map((o) =>
       this._buildEquipmentItem(tokenId, actor, macroType, o)
@@ -233,6 +248,39 @@ export class ActionHandlerSW5e extends ActionHandler {
     return result;
   }
 
+  /** WEAPONS **/
+
+  /** @private */
+  _buildWeaponsCategory(token) {
+    const actor = token.actor;
+    const tokenId = token.id;
+
+    let validWeapons = this._filterLongerActions(
+      actor.items.filter((i) => i.type === 'weapon')
+    );
+    let sortedWeapons = this._sortByItemSort(validWeapons);
+    let macroType = "weapon";
+
+    let equipped = sortedWeapons.filter((i) => i.system.equipped);
+    let activeEquipped = this._getActiveEquipment(equipped);
+
+    let weapons = activeEquipped;
+    let weaponActions = weapons.map((w) =>
+      this._buildEquipmentItem(tokenId, actor, macroType, w)
+    );
+    let weaponsCat = this.initializeEmptySubcategory();
+    weaponsCat.actions = weaponActions;
+
+    let weaponsTitle = this.i18n("tokenActionHud.weapons");
+
+    let result = this.initializeEmptyCategory("weapons");
+    result.name = this.i18n("tokenActionHud.weapons");
+
+    this._combineSubcategoryWithCategory(result, weaponsTitle, weaponsCat);
+
+    return result;
+  }
+
   /** @private */
   _getActiveEquipment(equipment) {
     let activeEquipment = []
@@ -259,6 +307,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildPowersCategory(token) {
+    if (settings.get("showSpellsCategory") === false) return;
     const actor = token.actor;
     if (["vehicle", "starship"].includes (actor.type)) return;
 
@@ -389,7 +438,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let result = this.initializeEmptyCategory("powers");
     result.name = this.i18n("tokenActionHud.powers");
 
-    let naturalPowersTitle = this.i18n("tokenActionHud.naturalPowers");
+    let naturalPowersTitle = this.i18n("tokenActionHud.sw5e.naturalPowers");
     let booksTitle = this.i18n("tokenActionHud.books");
 
     this._combineSubcategoryWithCategory(result, naturalPowersTitle, naturalPowers);
@@ -429,6 +478,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildFeaturesCategory(token) {
+    if (settings.get("showFeaturesCategory") === false) return;
     let validFeats = this._filterLongerActions(
       token.actor.items.filter((i) => ["feat", "classfeature", "deploymentfeature", "maneuver", "starshipfeature"].includes(i.type))
     );
@@ -442,6 +492,9 @@ export class ActionHandlerSW5e extends ActionHandler {
     let passive = this.initializeEmptySubcategory();
     let lair = this.initializeEmptySubcategory();
     let legendary = this.initializeEmptySubcategory();
+    let actions = this.initializeEmptySubcategory();
+    let features = this.initializeEmptySubcategory();
+    let reactions = this.initializeEmptySubcategory();
 
     let dispose = feats.reduce(
       function (dispose, f) {
@@ -450,24 +503,45 @@ export class ActionHandlerSW5e extends ActionHandler {
 
         let feat = this._buildEquipmentItem(tokenId, actor, macroType, f);
 
-        if (!activationType || activationType === "") {
-          passive.actions.push(feat);
-          return;
+        if (actor.type === "vehicle") {
+          if (activationType && activationType !== "none" && activationType !== "reaction") {
+            actions.actions.push(feat);
+            return;
+          }
+
+          if (!activationType || activationType === "none") {
+            features.actions.push(feat);
+            return;
+          }
+
+          if (activationType == "reaction") {
+            reactions.actions.push(feat);
+            return;
+          }
+
+          actions.actions.push(feat);
+          return
         }
 
-        if (activationType == "lair") {
-          lair.actions.push(feat);
+        if (actor.type === "character" || actor.type === "npc") {
+          if (!activationType || activationType === "") {
+            passive.actions.push(feat);
+            return;
+          }
+
+          if (activationType == "lair") {
+            lair.actions.push(feat);
+            return;
+          }
+
+          if (activationType == "legendary") {
+            legendary.actions.push(feat);
+            return;
+          }
+
+          active.actions.push(feat);
           return;
         }
-
-        if (activationType == "legendary") {
-          legendary.actions.push(feat);
-          return;
-        }
-
-        active.actions.push(feat);
-
-        return;
       }.bind(this),
       {}
     );
@@ -476,12 +550,19 @@ export class ActionHandlerSW5e extends ActionHandler {
     result.name = this.i18n("tokenActionHud.features");
 
     let activeTitle = this.i18n("tokenActionHud.active");
-    let legendaryTitle = this.i18n("tokenActionHud.dnd5e.legendary");
-    let lairTitle = this.i18n("tokenActionHud.dnd5e.lair");
+    let legendaryTitle = this.i18n("tokenActionHud.sw5e.legendary");
+    let lairTitle = this.i18n("tokenActionHud.sw5e.lair");
+    let actionsTitle = this.i18n("tokenActionHud.actions");
+    let featuresTitle = this.i18n("tokenActionHud.features");
+    let reactionsTitle = this.i18n("tokenActionHud.reactions");
+  
     this._combineSubcategoryWithCategory(result, activeTitle, active);
     this._combineSubcategoryWithCategory(result, legendaryTitle, legendary);
     this._combineSubcategoryWithCategory(result, lairTitle, lair);
-
+    this._combineSubcategoryWithCategory(result, actionsTitle, actions);
+    this._combineSubcategoryWithCategory(result, featuresTitle, features);
+    this._combineSubcategoryWithCategory(result, reactionsTitle, reactions);
+    
     if (!settings.get("ignorePassiveFeats")) {
       let passiveTitle = this.i18n("tokenActionHud.passive");
       this._combineSubcategoryWithCategory(result, passiveTitle, passive);
@@ -492,9 +573,8 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildSkillsCategory(token) {
+    if (settings.get("showSkillsCategory") === false) return;
     const actor = token.actor;
-    if (actor.type === "vehicle") return;
-
     const skills = actor.system.skills;
 
     let result = this.initializeEmptyCategory("skills");
@@ -508,7 +588,7 @@ export class ActionHandlerSW5e extends ActionHandler {
         try {
           let skillId = e[0];
           const skillset = (actor.type !== "starship") ? game.sw5e.config.skills : game.sw5e.config.starshipSkills;
-          let name = abbr ? skillId : skillset[skillId];
+          let name = abbr ? skillId : skillset[skillId].label;
           name = name.charAt(0).toUpperCase() + name.slice(1);
           let encodedValue = [macroType, token.id, e[0]].join(this.delimiter);
           let icon = this._getProficiencyIcon(skills[skillId].value);
@@ -527,7 +607,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenActionHud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.sw5e.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
 
     return result;
@@ -540,7 +620,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let abbr = settings.get("abbreviateSkills");
 
     let skillsActions = Object.entries(game.sw5e.config.skills).map((e) => {
-      let name = abbr ? e[0] : e[1];
+      let name = abbr ? e[0] : e[1].label;
       name = name.charAt(0).toUpperCase() + name.slice(1);
       let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
@@ -548,7 +628,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenActionHud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.sw5e.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
     this._combineCategoryWithList(list, skillsTitle, result, true);
   }
@@ -560,7 +640,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let abbr = settings.get("abbreviateSkills");
 
     let skillsActions = Object.entries(game.sw5e.config.starshipSkills).map((e) => {
-      let name = abbr ? e[0] : e[1];
+      let name = abbr ? e[0] : e[1].label;
       name = name.charAt(0).toUpperCase() + name.slice(1);
       let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
       return { name: name, id: e[0], encodedValue: encodedValue };
@@ -568,7 +648,7 @@ export class ActionHandlerSW5e extends ActionHandler {
     let skillsCategory = this.initializeEmptySubcategory();
     skillsCategory.actions = skillsActions;
 
-    let skillsTitle = this.i18n("tokenActionHud.skills");
+    let skillsTitle = this.i18n("tokenActionHud.sw5e.skills");
     this._combineSubcategoryWithCategory(result, skillsTitle, skillsCategory);
     this._combineCategoryWithList(list, skillsTitle, result, true);
   }
@@ -621,6 +701,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildUtilityCategory(token) {
+    if (settings.get("showUtilityCategory") === false) return;
     const actor = token.actor;
 
     let result = this.initializeEmptyCategory("utility");
@@ -738,6 +819,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildEffectsCategory(token) {
+    if (settings.get("showEffectsCategory") === false) return;
     let result = this.initializeEmptyCategory("effects");
     result.name = this.i18n("tokenActionHud.effects");
     this._addEffectsSubcategories(token.actor, token.id, result);
@@ -746,7 +828,7 @@ export class ActionHandlerSW5e extends ActionHandler {
 
   /** @private */
   _buildConditionsCategory(token) {
-    if (!settings.get("showConditionsCategory")) return;
+    if (settings.get("showConditionsCategory") === false) return;
     let result = this.initializeEmptyCategory("conditions");
     result.name = this.i18n("tokenActionHud.conditions");
     this._addConditionsSubcategory(token.actor, token.id, result);
@@ -766,7 +848,8 @@ export class ActionHandlerSW5e extends ActionHandler {
     effects.forEach((e) => {
       const name = e.label;
       const encodedValue = [macroType, tokenId, e.id].join(this.delimiter);
-      const cssClass = e.disabled ? "" : "active";
+      const active = e.disabled ? "" : " active";
+      const cssClass = `toggle${active}`;
       const image = e.icon;
       let action = {
         name: name,
@@ -812,17 +895,18 @@ export class ActionHandlerSW5e extends ActionHandler {
     availableConditions.forEach((c) => {
       const name = this.i18n(c.label);
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
-      const cssClass = actors.every((actor) => {
+      const active = actors.every((actor) => {
         const effects =
           "some" in actor.effects.entries
             ? actor.effects.entries
             : actor.effects;
         effects.some((e) => e.flags.core?.statusId === c.id);
       })
-        ? "active"
+        ? " active"
         : "";
-      const image = c.icon;
-      const action = {
+        const cssClass = `toggle${active}`
+        const image = c.icon;
+        const action = {
         name: name,
         id: c.id,
         encodedValue: encodedValue,
@@ -855,9 +939,10 @@ export class ActionHandlerSW5e extends ActionHandler {
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const effects =
         "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-      const cssClass = effects.some((e) => e.flags.core?.statusId === c.id)
-        ? "active"
-        : "";
+        const active = effects.some((e) => e.flags.core?.statusId === c.id)
+          ? " active"
+          : "";
+      const cssClass = `toggle${active}`
       const image = c.icon;
       const action = {
         name: name,
@@ -931,6 +1016,7 @@ export class ActionHandlerSW5e extends ActionHandler {
       encodedValue: initiativeValue,
       name: this.i18n("tokenActionHud.rollInitiative"),
     };
+
     let isActive;
     if (combat) {
       let tokenIds = canvas.tokens.controlled.map((t) => t.id);
@@ -939,7 +1025,9 @@ export class ActionHandlerSW5e extends ActionHandler {
       );
       isActive = tokenCombatants.every((c) => !!c?.initiative);
     }
+
     initiativeAction.cssClass = isActive ? "active" : "";
+    
     combatSubcategory.actions.push(initiativeAction);
 
     this._combineSubcategoryWithCategory(

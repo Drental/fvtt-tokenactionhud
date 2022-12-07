@@ -43,6 +43,7 @@ export class RollHandlerBaseSW5e extends RollHandler {
         this.rollAbilityCheckMacro(event, tokenId, actionId);
         break;
       case "item":
+      case "weapon":
       case "power":
       case "feat":
         if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
@@ -165,7 +166,7 @@ export class RollHandlerBaseSW5e extends RollHandler {
 
     const statusId = effect.flags.core?.statusId;
     if (statusId) {
-      await this.toggleCondition(event, tokenId, statusId);
+      await this.toggleCondition(event, tokenId, statusId, effect);
       return;
     }
 
@@ -173,7 +174,7 @@ export class RollHandlerBaseSW5e extends RollHandler {
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  async toggleCondition(event, tokenId, effectId) {
+  async toggleCondition(event, tokenId, effectId, effect = null) {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
     if (
@@ -192,8 +193,8 @@ export class RollHandlerBaseSW5e extends RollHandler {
       if (!condition) return;
 
       isRightClick
-        ? await token.toggleOverlay(condition)
-        : await token.toggleEffect(condition);
+      ? await token.toggleEffect(condition, { overlay: true })
+      : await token.toggleEffect(condition);
     }
 
     Hooks.callAll("forceUpdateTokenActionHUD");
