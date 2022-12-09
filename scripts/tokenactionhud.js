@@ -220,6 +220,7 @@ export class TokenActionHUD extends Application {
     if (settings.get("clickOpenCategory")) {
       html.find(titleButton).click("click", toggleCategory);
     } else {
+      html.find(titleButton).on("touchstart", toggleCategory);
       html.find(category).hover(openCategory, closeCategory);
     }
 
@@ -262,11 +263,11 @@ export class TokenActionHUD extends Application {
       game.user.setFlag("token-action-hud", "isCollapsed", false);
     });
 
-    html.find(expandHudButton).mousedown((ev) => {
+    html.find(expandHudButton).on("touchstart mousedown", (ev) => {
       this.dragEvent(ev);
     });
 
-    html.find(titleButton).mousedown((ev) => {
+    html.find(titleButton).on("touchstart mousedown", (ev) => {
       this.dragEvent(ev);
     });
 
@@ -277,26 +278,31 @@ export class TokenActionHUD extends Application {
   }
 
   dragEvent(ev) {
-    ev.preventDefault();
     ev = ev || window.event;
     if (!settings.get("drag")) return
+    const element = ev.target.parentElement.closest('div#token-action-hud')
     document.onmousemove = mouseMoveEvent;
     document.onmouseup = mouseUpEvent;
+    element.ontouchmove = mouseMoveEvent;
+    element.ontouchend = mouseUpEvent;
 
-    const element = ev.target.parentElement.closest('div#token-action-hud')
+    const clientX = ev.clientX ?? ev.changedTouches[0].clientX;
+    const clientY = ev.clientY ?? ev.changedTouches[0].clientY;
     let pos1 = 0,
     pos2 = 0,
-    pos3 = ev.clientX,
-    pos4 = ev.clientY,
+    pos3 = clientX,
+    pos4 = clientY,
     elementTop = element.offsetTop,
     elementLeft = element.offsetLeft;
 
     function mouseMoveEvent (e) {
       e = e || window.event;
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
+      const clientX = e.clientX ?? e.changedTouches[0].clientX;
+      const clientY = e.clientY ?? e.changedTouches[0].clientY;
+      pos1 = pos3 - clientX;
+      pos2 = pos4 - clientY;
+      pos3 = clientX;
+      pos4 = clientY;
       elementTop = element.offsetTop - pos2;
       elementLeft = element.offsetLeft - pos1;
       
@@ -309,6 +315,8 @@ export class TokenActionHUD extends Application {
     function mouseUpEvent () {
       document.onmousemove = null;
       document.onmouseup = null;
+      element.ontouchmove = null;
+      element.ontouchend = null;
 
       game.user.update({
         flags: {

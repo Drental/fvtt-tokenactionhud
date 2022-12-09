@@ -1,5 +1,13 @@
 # Changelog
 
+# [3.0.17] 2022-12-09
+- Core - Added touch support for dragging the HUD (#341).
+- Core - Update Dorako style - Provided by Dorako (#350).
+- Core - Fixed keybindings event listener not firing when clicking buttons on the HUD (#352).
+- Pathfinder 2e - Update BR language file - Provided by zengerbr (#344).
+- Pathfinder 2e - Fixed thrown strike actions not passing alt usage to roll (#347).
+- Star Wars 5e - Fixed skill functionality and brought in line with D&D 5e - Provided by supervj (#348).
+
 # [3.0.16] 2022-11-22
 - Cypher System - Sort Abilities and Skills into categories - Provided by farling42 (#336).
 - Dungeonslayers 4 - Use item.roll() instead of item.use() - Fixed by Athemis (#340).
