@@ -76,7 +76,7 @@ export class PcActionHandlerPf2e {
     let saves = this.baseHandler._getSaveList(actor, tokenId);
     let effects = this.baseHandler._getEffectsList(actor, tokenId);
     let utilities = this.baseHandler._getUtilityList(actor, tokenId);
-    
+
     this.baseHandler._combineCategoryWithList(
       result,
       this.i18n("tokenActionHud.toggles"),
@@ -197,16 +197,15 @@ export class PcActionHandlerPf2e {
       const attMod =
         att.totalModifier < 0 ? att.totalModifier : `+${att.totalModifier}`;
 
-      let name = att.name.charAt(0).toUpperCase() + att.name.slice(1);
+      let name = att.slug.charAt(0).toUpperCase() + att.slug.slice(1);
 
-      let encodedValue = [macroType, tokenId, att.name].join(
+      let encodedValue = [macroType, tokenId, att.label].join(
         this.baseHandler.delimiter
       );
 
       let action = {
         name: name,
         encodedValue: encodedValue,
-        encodedValue,
         info1: attMod,
       };
 
