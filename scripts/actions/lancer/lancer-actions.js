@@ -119,6 +119,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
     [
       this._skillsSubCategory(mm, actorId),
+      this._gritSubCategory(actorId),
       this._talentsSubCategory(mm, actorId),
       this._pilotGearSubCategory(mm, actorId),
       this._pilotWeaponSubCategory(mm, actorId),
@@ -156,12 +157,22 @@ export class ActionHandlerLancer extends ActionHandler {
   }
 
   _npcWeaponSubCat(actor, actorId) {
-    return this._makeNPCItemSubCat(
+    let weaponSubCat = this._makeNPCItemSubCat(
       this.i18n("tokenactionhud.weapons"),
       "Weapon",
       actor,
       actorId
     );
+
+    let basicAttack = this._makeAction(
+      this.i18n("tokenactionhud.basicattack"),
+      "stat",
+      actorId,
+      "BasicAttack"
+    );
+    weaponSubCat.actions.push(basicAttack);
+
+    return weaponSubCat
   }
 
   _npcTraitSubCat(actor, actorId) {
@@ -183,12 +194,22 @@ export class ActionHandlerLancer extends ActionHandler {
   }
 
   _npcTechSubCat(actor, actorId) {
-    return this._makeNPCItemSubCat(
+    let techSubCat = this._makeNPCItemSubCat(
       this.i18n("tokenactionhud.techs"),
       "Tech",
       actor,
       actorId
     );
+
+    let basicTechAttack = this._makeAction(
+      this.i18n("tokenactionhud.techattack"),
+      "stat",
+      actorId,
+      "TechAttack"
+    );
+    techSubCat.actions.push(basicTechAttack)
+
+    return techSubCat;
   }
 
   _npcReactionSubCat(actor, actorId) {
@@ -207,6 +228,16 @@ export class ActionHandlerLancer extends ActionHandler {
       mm._skills,
       actorId
     );
+  }
+
+  _gritSubCategory(actorId) {
+    let result = this.initializeEmptySubcategory();
+
+    result.id = "grit";
+    result.name = this.i18n("tokenactionhud.grit");
+    result.actions = [ this._makeAction(this.i18n("tokenactionhud.grit"), "stat", actorId, "Pilot.Grit") ];
+
+    return result;
   }
 
   _talentsSubCategory(mm, actorId) {
@@ -269,7 +300,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
     [
       this._haseSubCategory(actorId),
-      this._statSubCategory(actorId),
+      this._frameSubCategory(mm, actorId),
       this._coreBonSubCategory(mm, actorId),
       this._corePowerSubCategory(mm.Loadout.Frame, actorId),
     ].forEach((subCat) => {
@@ -307,18 +338,18 @@ export class ActionHandlerLancer extends ActionHandler {
     return result;
   }
 
-  _statSubCategory(actorId) {
+  _basicSubCategory(actorId) {
     let result = this.initializeEmptySubcategory();
     let macro = "stat";
 
     result.id = "stat";
-    result.name = this.i18n("tokenactionhud.stat");
+    result.name = this.i18n("tokenactionhud.basic");
 
-    let grit = this.i18n("tokenactionhud.grit");
+    let basicAttack = this.i18n("tokenactionhud.basicattack");
     let techAttack = this.i18n("tokenactionhud.techattack");
 
     let statActionData = [
-      { name: grit, data: "Pilot.Grit" },
+      { name: basicAttack, data: "BasicAttack" },
       { name: techAttack, data: "TechAttack" },
     ];
 
@@ -327,6 +358,24 @@ export class ActionHandlerLancer extends ActionHandler {
     });
 
     result.actions = statActions;
+
+    return result;
+  }
+
+  _frameSubCategory(mm, actorId) {
+    let result = this.initializeEmptySubcategory();
+    let overchargeSequence = ["+1", "+1d3", "+1d6", "+1d6 + 4"];
+    let overchargeCount = Math.min(mm.OverchargeCount, overchargeSequence.length - 1);
+
+    result.id = "frame";
+    result.name = this.i18n("tokenactionhud.frame");
+
+    let overchargeText = this.i18n("tokenactionhud.overcharge") + " (" + overchargeSequence[overchargeCount] + ")";
+
+    result.actions = [
+      this._makeAction(overchargeText, "frame", actorId, "Overcharge"),
+      this._makeAction(this.i18n("tokenactionhud.stabilize"), "frame", actorId, "Stabilize")
+    ];
 
     return result;
   }
@@ -394,6 +443,8 @@ export class ActionHandlerLancer extends ActionHandler {
 
       return subcat;
     });
+
+    itemSubCats = [this._basicSubCategory(actorId)].concat(itemSubCats);
 
     itemSubCats.forEach((subCat) => {
       this._combineSubcategoryWithCategory(result, subCat.name, subCat);

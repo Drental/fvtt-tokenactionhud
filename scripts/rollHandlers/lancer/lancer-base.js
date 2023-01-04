@@ -32,8 +32,21 @@ export class RollHandlerBaseLancer extends RollHandler {
         this._rollHaseMacro(actorID, actionId);
         break;
       case "stat":
-        if (actionId == "TechAttack") this._rollTechMacro(actorID, null);
-        else this._rollStatMacro(actorID, actionId);
+        if (actionId == "TechAttack") {
+          this._rollTechMacro(actorID);
+        } else if (actionId == "BasicAttack") {
+          this._rollBasicAttackMacro();
+        } else {
+          this._rollStatMacro(actorID, actionId);
+        }
+        break;
+      case "frame":
+        if (actionId == "Stabilize") {
+          this._promptStabilizeMacro(actorID);
+        } else {
+          this._rollOverchargeMacro(actorID);
+        }
+
         break;
       case "item":
         this._rollWeaponOrFeatureMacro(actorID, actionId, option);
@@ -61,8 +74,20 @@ export class RollHandlerBaseLancer extends RollHandler {
     game.lancer.prepareStatMacro(actorID, `mm.${action}`);
   }
 
-  _rollTechMacro(actorID, action) {
+  _rollTechMacro(actorID) {
     game.lancer.prepareTechMacro(actorID, null);
+  }
+
+  _rollBasicAttackMacro() {
+    game.lancer.prepareEncodedAttackMacro();
+  }
+
+  _promptStabilizeMacro(actorID) {
+    game.lancer.stabilizeMacro(actorID);
+  }
+
+  _rollOverchargeMacro(actorID) {
+    game.lancer.prepareOverchargeMacro(actorID);
   }
 
   _rollWeaponOrFeatureMacro(actorID, itemId, option) {
