@@ -43,6 +43,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         this._addToList(result, this.i18n("tokenActionHud.spells"), actor, tokenId, 'spells', 'Sp')
       
       this._advantages(result, actor, tokenId)
+      this._equipment(result, actor, tokenId)
       this._addQuickNotes(result, actor, tokenId)
       
       if (settings.get('showManeuvers') && !!game.combats.combats.find(c => (c.isActive && !!c.getCombatantByToken(tokenId))))
@@ -81,6 +82,31 @@ export class ActionHandlerGURPS extends ActionHandler {
         );
   }
   
+  _equipment(result, actor, tokenId) {
+    let any = false
+    let cat = this.initializeEmptyCategory("eqt");
+    GURPS.recurselist(actor.system.equipment.carried, (e, k, d) => {
+      let attributeCategory = this.initializeEmptySubcategory();
+      if (this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)) {
+        any = true
+        this._combineSubcategoryWithCategory(cat, e.name, attributeCategory);
+      }
+    })
+    GURPS.recurselist(actor.system.equipment.other, (e, k, d) => {
+      let attributeCategory = this.initializeEmptySubcategory();
+      if (this._addNoteOTFs(attributeCategory, tokenId, e.name + ' ' + e.notes)) {
+        any = true
+        this._combineSubcategoryWithCategory(cat, e.name, attributeCategory);
+      }
+    })
+    if (any)
+        this._combineCategoryWithList(
+          result,
+          this.i18n("GURPS.equipment"),
+          cat
+        );
+  }
+
   _addQuickNotes(result, actor, tokenId) {
     let any = false
     let cat = this.initializeEmptyCategory("qn");
@@ -107,7 +133,7 @@ export class ActionHandlerGURPS extends ActionHandler {
         encodedValue: ["otf", tokenId, 'R:' + q + name + q].join(this.delimiter),
       }); 
       if (!isNaN(parseInt(e.acc))) {
-        let acc = (e.acc >= 0 ? '+':'') + e.acc
+        let acc = (e.acc >= 0 ? '+':'') + +e.acc
         attributeCategory.actions.push({
           name: this.i18n("tokenActionHud.gurps.addAcc") + ' (' + acc +')',
           encodedValue: ["otf", tokenId, acc + ' ' + name + ' ' + this.i18n('GURPS.acc')].join(this.delimiter),
@@ -290,14 +316,50 @@ export class ActionHandlerGURPS extends ActionHandler {
     return attributeCategory
   }
 
-    
   _attributes(actor, tokenId) {
     let result = this.initializeEmptyCategory("attributes");
+    
+    let attributeCategory = this.initializeEmptySubcategory();
+    attributeCategory.actions.push({
+      name: this.i18n("GURPS.attributesHPNAME") + " + 1",
+      encodedValue: ["otf", tokenId, "/hp +1"].join(this.delimiter),
+    });
+    attributeCategory.actions.push({
+      name: this.i18n("GURPS.attributesHPNAME") + " - 1",
+      encodedValue: ["otf", tokenId, "/hp -1"].join(this.delimiter),
+    });
+    attributeCategory.actions.push({
+      name: this.i18n("GURPS.attributesFPNAME") + " + 1",
+      encodedValue: ["otf", tokenId, "/fp +1"].join(this.delimiter),
+    });
+    attributeCategory.actions.push({
+      name: this.i18n("GURPS.attributesFPNAME") + " - 1",
+      encodedValue: ["otf", tokenId, "/fp -1"].join(this.delimiter),
+    });
+    this._combineSubcategoryWithCategory(result, '', attributeCategory);
 
     for (let attribute in actor.system.attributes) {
-      let attributeCategory = this.initializeEmptySubcategory();
+      let v = actor.system.attributes[attribute].value
+      if (v > 0) {
+        let name = this.i18n(`GURPS.attributes${attribute}`) + ' (' + v + ')'
+        attributeCategory = this.initializeEmptySubcategory();
+  
+        attributeCategory.actions.push({
+          name: name,
+          encodedValue: ["otf", tokenId, attribute].join(this.delimiter),
+        });
+        attributeCategory.actions.push({
+          name: this.i18n('tokenActionHud.gurps.blindRoll') + ' ' + name,
+          encodedValue: ["otf", tokenId, '!' + attribute].join(this.delimiter),
+        });
+       
+        this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.attributes${attribute}NAME`), attributeCategory);
+      }
+    }
+    for (let attribute of ['vision', 'hearing', 'tastesmell', 'touch']) {
+      attributeCategory = this.initializeEmptySubcategory();
       
-      let name = this.i18n(`GURPS.attributes${attribute}`) + ' (' + actor.system.attributes[attribute].value + ')'
+      let name = this.i18n(`GURPS.${attribute}`) + ' (' + actor.system[attribute] + ')'
 
       attributeCategory.actions.push({
         name: name,
@@ -308,10 +370,10 @@ export class ActionHandlerGURPS extends ActionHandler {
         encodedValue: ["otf", tokenId, '!' + attribute].join(this.delimiter),
       });
      
-     this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.attributes${attribute}NAME`), attributeCategory);
+     this._combineSubcategoryWithCategory(result, this.i18n(`GURPS.${attribute}`), attributeCategory);      
     }
     let any = false
-    let attributeCategory = this.initializeEmptySubcategory();
+    attributeCategory = this.initializeEmptySubcategory();
     for (let rkey in actor.system.reactions) {
       let mod = actor.system.reactions[rkey]
       any = true
