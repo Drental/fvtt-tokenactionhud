@@ -54,7 +54,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       .filter((t) => t.actor)
       .map((t) => t.actor)
       .filter((a) => allowedTypes.includes(a.type));
-    
+
     if (actors.length === 0) return;
 
     const tokenId = list.tokenId;
@@ -315,12 +315,9 @@ export class ActionHandlerPf2e extends ActionHandler {
     let macroType = "item";
     let result = this.initializeEmptyCategory("effects");
 
-    let filter = ["effect"];
-    let items = (actor.items ?? [])
-      .filter((i) => filter.includes(i.type))
+    let effectsList = (actor.items ?? [])
+      .filter((i) => i.type === "effect" && (!(i.unidentified ?? false) || game.user.isGM))
       .sort(this._foundrySort);
-
-    let effectsList = items.filter((i) => i.type === "effect");
     let effectActions = this._buildItemActions(tokenId, macroType, effectsList);
     let effects = this.initializeEmptySubcategory();
     effects.actions = effectActions;
@@ -337,8 +334,8 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
-    let strikes = actor.system.actions?.filter((a) => 
-      a.type === macroType && 
+    let strikes = actor.system.actions?.filter((a) =>
+      a.type === macroType &&
       (a.item.system.quantity > 0 || actor.type === 'npc')
     );
 
@@ -356,7 +353,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let subcategory = this.initializeEmptySubcategory();
     let glyph = s.glyph;
     if (usage === "thrown") {
-      subcategory.icon = 
+      subcategory.icon =
       `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/thrown.svg" title="Thrown Usage" style="
       border: 0;
       filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
@@ -364,9 +361,9 @@ export class ActionHandlerPf2e extends ActionHandler {
       padding-top: 3px;
       position: relative;
       ">`
-    } 
+    }
     if (usage === "melee") {
-      subcategory.icon = 
+      subcategory.icon =
       `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/sword.svg" title="Melee Usage" style="
       border: 0;
       filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
