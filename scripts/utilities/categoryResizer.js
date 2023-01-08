@@ -26,8 +26,10 @@ export class CategoryResizer {
 
     let step = 30;
 
-    let bottomLimit = $(document).find("#hotbar").offset().top - 20;
-    let rightLimit = $(document).find("#sidebar").offset().left - 20;
+    const hotbarOffsetTop = $(document).find("#hotbar").offset().top
+    let bottomLimit = ((hotbarOffsetTop === 0) ? window.innerHeight : hotbarOffsetTop) - 20;
+    const sidebarOffsetLeft = $(document).find("#sidebar").offset().left
+    let rightLimit = ((sidebarOffsetLeft === 0) ? window.innerWidth : sidebarOffsetLeft) - 20;
 
     let maxRequiredWidth = CategoryResizer.calculateMaxRequiredWidth(actions);
     while (
