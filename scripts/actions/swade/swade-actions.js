@@ -139,7 +139,7 @@ export class ActionHandlerSwade extends ActionHandler {
       ? Object.entries(actor.system.powerPoints)
       .filter((powerPointPool) => powerPointPool[0] === 'general')
       : Object.entries(actor.system.powerPoints)
-      .filter((powerPointPool) => powerPointPool[1].value)
+      .filter((powerPointPool) => powerPointPool[1].value >= 0)
 
     powerPointPools.forEach((powerPointPool) => {
       const arcane = powerPointPool[0] === 'general' ? '' : powerPointPool[0];
