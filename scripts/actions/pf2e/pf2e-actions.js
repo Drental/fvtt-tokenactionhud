@@ -374,6 +374,10 @@ export class ActionHandlerPf2e extends ActionHandler {
     } else if (usage !== "thrown" && glyph) {
       subcategory.icon = `<span style='font-family: "Pathfinder2eActions"'>${glyph}</span>`;
     }
+    const id = s.sourceId ?? s.slug
+    const subcategoryName = (s.attackRollType) 
+      ? `${s.label} - ${this.i18n(s.attackRollType)}`
+      :  s.label
     if (s.ready) {
       let map = Math.abs(parseInt(s.variants[1].label.split(" ")[1]));
       let attackMod = s.totalModifier;
@@ -393,7 +397,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           currentMap -= map;
           currentBonus -= map;
           return {
-            id: encodeURIComponent(`${this.label}>${this.variants.indexOf(v)}>` + usage),
+            id: encodeURIComponent(`${id}>${this.variants.indexOf(v)}>` + usage),
             name: name,
           };
         }.bind(s)
@@ -409,22 +413,22 @@ export class ActionHandlerPf2e extends ActionHandler {
       let damageEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.label + ">damage>" + usage),
+        encodeURIComponent(id + ">damage>" + usage),
       ].join(this.delimiter);
       let critEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.label + ">critical>" + usage),
+        encodeURIComponent(id + ">critical>" + usage),
       ].join(this.delimiter);
       subcategory.actions.push({
         name: this.i18n("tokenActionHud.damage"),
         encodedValue: damageEncodedValue,
-        id: encodeURIComponent(s.label + ">damage>" + usage),
+        id: encodeURIComponent(id + ">damage>" + usage),
       });
       subcategory.actions.push({
         name: this.i18n("tokenActionHud.critical"),
         encodedValue: critEncodedValue,
-        id: encodeURIComponent(s.label + ">critical>" + usage),
+        id: encodeURIComponent(id + ">critical>" + usage),
       });
 
       let ammoAction = this._ammoInfo(tokenId, actor, s);
@@ -437,7 +441,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       const auxActionsMap = s.auxiliaryActions.map(
         function (a) {
           return {
-            id: encodeURIComponent(`${this.label}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+            id: encodeURIComponent(`${id}>${this.auxiliaryActions.indexOf(a)}>` + usage),
             name: a.label,
           };
         }.bind(s)
@@ -455,7 +459,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       });
     }
 
-    this._combineSubcategoryWithCategory(category, usage ? usage : s.label, subcategory);
+    this._combineSubcategoryWithCategory(category, usage ? usage : subcategoryName, subcategory);
     if (!usage && s.altUsages) {
       for (const altUsage of s.altUsages) {
         this._buildStrikeSubcategory(altUsage, category, altUsage.item.isMelee ? "melee" : "thrown", tokenId, actor);

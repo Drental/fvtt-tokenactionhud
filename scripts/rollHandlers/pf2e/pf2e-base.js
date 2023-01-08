@@ -246,18 +246,19 @@ export class RollHandlerBasePf2e extends RollHandler {
   _rollStrikeChar(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
 
-    let strikeName = actionParts[0];
+    let strikeId = actionParts[0];
     let strikeType = actionParts[1];
     let altUsage = actionParts[2] ? actionParts[2] : null;
 
+
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => s.label === strikeName);
+      .find((s) => (s.sourceId ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => s.label === strikeName).item;
+        .find((s) => (s.sourceId ?? s.slug) === strikeId).item;
       if (item) return this.doRenderItem(tokenId, item.id);
     }
 
@@ -290,18 +291,18 @@ export class RollHandlerBasePf2e extends RollHandler {
   _performAuxAction(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
 
-    let strikeName = actionParts[0];
+    let strikeId = actionParts[0];
     let strikeType = actionParts[1];
     let strikeUsage = actionParts[2];
 
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => s.label === strikeName);
+      .find((s) => (s.sourceId ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => s.label === strikeName).origin;
+        .find((s) => (s.sourceId ?? s.slug) === strikeId).origin;
       if (item) return this.doRenderItem(tokenId, item.id);
     }
 
