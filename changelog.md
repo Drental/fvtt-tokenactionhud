@@ -1,12 +1,20 @@
 # Changelog
 
+# [3.0.18] 2022-01-08
+- Core - Resize menus to the window height when the hotbar is hidden (#327).
+- GURPS - Add attributes, equipment and HP/FP buttons - Provided by crnormand (#366).
+- Pathfinder 2e - Fix multiple strikes with the same name causing the wrong strike to be rolled (#361).
+- Pathfinder 2e - Fix warning when selecting a familiar tokeb - Provided by xdy (#362).
+- Pathfinder 2e - Hide unidentified effects for non-GM users - Provided by Felerius (#367).
+- SWADE - Show Power Points with zero available points (#353).
+
 # [3.0.17] 2022-12-09
-- Core - Added touch support for dragging the HUD (#341).
+- Core - Add touch support for dragging the HUD (#341).
 - Core - Update Dorako style - Provided by Dorako (#350).
-- Core - Fixed keybindings event listener not firing when clicking buttons on the HUD (#352).
+- Core - Fix keybindings event listener not firing when clicking buttons on the HUD (#352).
 - Pathfinder 2e - Update BR language file - Provided by zengerbr (#344).
-- Pathfinder 2e - Fixed thrown strike actions not passing alt usage to roll (#347).
-- Star Wars 5e - Fixed skill functionality and brought in line with D&D 5e - Provided by supervj (#348).
+- Pathfinder 2e - Fix thrown strike actions not passing alt usage to roll (#347).
+- Star Wars 5e - Fix skill functionality and brought in line with D&D 5e - Provided by supervj (#348).
 
 # [3.0.16] 2022-11-22
 - Cypher System - Sort Abilities and Skills into categories - Provided by farling42 (#336).
