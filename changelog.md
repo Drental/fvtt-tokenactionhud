@@ -4,7 +4,7 @@
 - Core - Resize menus to the window height when the hotbar is hidden (#327).
 - GURPS - Add attributes, equipment and HP/FP buttons - Provided by crnormand (#366).
 - Pathfinder 2e - Fix multiple strikes with the same name causing the wrong strike to be rolled (#361).
-- Pathfinder 2e - Fix warning when selecting a familiar tokeb - Provided by xdy (#362).
+- Pathfinder 2e - Fix warning when selecting a familiar token - Provided by xdy (#362).
 - Pathfinder 2e - Hide unidentified effects for non-GM users - Provided by Felerius (#367).
 - SWADE - Show Power Points with zero available points (#353).
 
