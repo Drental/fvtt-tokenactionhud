@@ -50,6 +50,7 @@ Hooks.on("init", () => {
     "starwarsffg": "starwarsffg",
     "sw5e": "sw5e",
     "swade": "swade",
+    "swnr": "swnr",
     "symbaroum": "symbaroum",
     "tagmar": "tagmar",
     "tagmar_rpg": "tagmar_rpg",
@@ -61,6 +62,7 @@ Hooks.on("init", () => {
   
   const system = game.system.id;
   const supportedSystem = systemManagers[system];
+  console.log("System: " + system + " detected")
   if(!supportedSystem) {
     console.error("Token Action HUD: System not supported")
     /* handle the error case somehow. If this happens, it means the current system is not supported */
