@@ -62,7 +62,6 @@ Hooks.on("init", () => {
   
   const system = game.system.id;
   const supportedSystem = systemManagers[system];
-  console.log("System: " + system + " detected")
   if(!supportedSystem) {
     console.error("Token Action HUD: System not supported")
     /* handle the error case somehow. If this happens, it means the current system is not supported */
