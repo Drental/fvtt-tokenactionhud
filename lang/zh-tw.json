@@ -1,0 +1,624 @@
+{
+  "tokenActionHud": {
+    "title": "Token Action HUD",
+    "abilities": "屬性",
+    "accept": "接受",
+    "actions": "動作",
+    "activate": "Activate",
+    "active": "主動",
+    "addToCombat": "新增到戰鬥",
+    "advanced": "高級",
+    "advancedCategoryOptions": {
+      "customWidth": "Custom Width (leave blank for default)",
+      "compactView": "Compact View",
+      "characterCount": "Characters per Word to Display in Compact View (0 for icons only)"
+    },
+    "allowlist": "白名單",
+    "armour": "護甲",
+    "attack": "攻擊",
+    "attacks": "攻擊",
+    "attribute": {
+      "strength": "Strength",
+      "agility": "Agility",
+      "intellect": "Intellect",
+      "will": "Will",
+      "perception": "Perception"
+    },
+    "attributes": "屬性",
+    "blockList": "黑名單",
+    "blockListLabel": "黑名單：隱藏 / 白名單：展示",
+    "book": "書籍",
+    "books": "書籍",
+    "cancel": "取消",
+    "cantrips": "戲法",
+    "categoryTagExplanation": "新增和移除額外的自定義分類。",
+    "categoryTagTitle": "新增/移除 分類",
+    "characteristics": "特性",
+    "checks": "檢定",
+    "clearButton": "清除",
+    "combat": "戰鬥",
+    "conditions": "狀態",
+    "consumables": "消耗品",
+    "coreBonus": "Core Bonus",
+    "critical": "重擊",
+    "damage": "傷害",
+    "defenses": "Defenses",
+    "effects": "效果",
+    "endTurn": "End Turn",
+    "equipment": "裝備",
+    "experimental": "Experimental",
+    "feats": "專長",
+    "features": "特性",
+    "filterPlaceholder": "選項（分號分隔)",
+    "filterTagExplanation": "在這裡新增條目用以展示特定分類。",
+    "filterTitle": "篩選",
+    "handlerNotFound": "未找到，還原到核心系統擲骰。",
+    "healing": "治療",
+    "initiative": "先攻",
+    "inspiration": "激勵",
+    "inventory": "所持物",
+    "level": "環位",
+    "levelAbbreviation": "環",
+    "longRest": "長休",
+    "magic": "魔法",
+    "magicItems": "魔法物品",
+    "makeInvisible": "使隱形",
+    "makeVisible": "使可見",
+    "melee": "近戰",
+    "other": "其他",
+    "passive": "被動",
+    "powers": "能力",
+    "profession": "專業",
+    "push": "右",
+    "pushLabelExplanation": "分類展示在哪邊？",
+    "ranged": "遠端",
+    "reactions": "反應",
+    "recharge": "充能",
+    "removeFromCombat": "從戰鬥中移除",
+    "rest": "Rest",
+    "rests": "休息",
+    "roll": "擲骰",
+    "rollInitiative": "先攻擲骰",
+    "saves": "豁免",
+    "shortRest": "短休",
+    "skills": "技能",
+    "specialActions": "Special Actions",
+    "spells": "法術",
+    "subcategoryTagExplanation": "新增和移除子分類：為宏的子分類輸入任意文字或者選擇鏈接的合集。",
+    "subcategoryTagTitle": "新增/移除 子分類",
+    "talents": "天賦",
+    "temporary": "臨時",
+    "toggleCombatState": "切換戰鬥狀態",
+    "toggleVisibility": "切換可見性",
+    "token": "指示物",
+    "tools": "工具",
+    "traits": "特性",
+    "unshift": "左",
+    "utility": "實用項",
+    "weapons": "武器",
+    "settings": {
+      "alwaysShowAdditionalCategories": {
+        "name": "始終顯示自定義分類",
+        "hint": "啟用后，自定義分類在沒有選擇指示物時也會顯示出來。"
+      },
+      "alwaysShowHud": {
+        "name": "始終顯示HUD",
+        "hint": "如果使用者有關聯的角色，HUD會在沒有選擇指示物時預設顯示出來該角色的動作。"
+      },
+      "clickOpenCategory": {
+        "name": "點選打開分類",
+        "hint": "啟用后，需要點選而非懸浮來展開分類。"
+      },
+      "debug": {
+        "name": "啟用除錯模式",
+        "hint": "啟用除錯日誌記錄。（這個功能做一半跑路了，別想著會很有用）。"
+      },
+      "direction": {
+        "hint": "設置 HUD 展開的方向",
+        "name": "方向",
+        "choices": {
+          "down": "下",
+          "up": "向上"
+        }
+      },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
+      "enabledForUser": {
+        "name": "為目前使用者啟用HUD",
+        "hint": "啟用后，目前使用者HUD啟用。不會覆蓋玩家的許可權設定。"
+      },     
+      "onTokenHover": {
+        "name": "啟用滑鼠懸浮",
+        "hint": "啟用后，滑鼠懸停在受控指示物上時會顯示HUD。\n警告：由於指示物在畫布上的位置無法預測，某些動作的位置可能超出螢幕範圍。"
+      },
+      "playerPermission": {
+        "name": "為玩家啟用HUD",
+        "hint": "啟用后，玩家可以使用HUD。"
+      },
+      "renderItemOnRightClick": {
+        "name": "右鍵單擊展示物品卡片。",
+        "hint": "啟用后，在HUD上右鍵單擊物品會打開該物品的物品卡片（可能與其他使用右鍵單擊的設定衝突）。"
+      },
+      "rollHandler": {
+        "name": "HUD擲骰處理器",
+        "hint": "選擇用哪個模組來接手HUD進行的動作。"
+      },
+      "showHudTitle": {
+        "name": "顯示HUD標題",
+        "hint": "在HUD上顯示標題，通常是受控指示物的別名。"
+      },
+      "showIcons": {
+        "name": "顯示動作圖示",
+        "hint": "啟用后，HUD的動作按鈕上在可用時就會顯示該動作的影象。"
+      },
+      "style": {
+        "hint": "設置 HUD 的樣式",
+        "name": "風格"
+      }
+    },
+    "alienRpg": {
+      "acidSplash": "酸性血液",
+      "agenda": "目標",
+      "agility": "敏捷",
+      "air": "氧氣",
+      "armorRating": "護甲",
+      "armorVersusFire": "護甲 V 火",
+      "closeCombat": "肉搏",
+      "command": "指揮",
+      "comtech": "科技",
+      "conditions": "狀態",
+      "consumables": "消耗品",
+      "creatureAttack": "攻擊骰",
+      "dehydrated": "脫水",
+      "empathy": "共情",
+      "exhausted": "疲憊",
+      "food": "食物",
+      "freezing": "寒冷",
+      "health": "生命",
+      "heavyMachinery": "機械",
+      "manipulation": "操縱",
+      "medicalAid": "醫療",
+      "mobility": "機動",
+      "observation": "觀察",
+      "panic": "恐慌",
+      "piloting": "駕駛",
+      "power": "動力",
+      "rangedCombat": "射擊",
+      "rollCrit": "重擊",
+      "rollStress": "滾動應力",
+      "skill": "技能",
+      "speed": "速度",
+      "stamina": "耐力",
+      "starving": "飢餓",
+      "strength": "力量",
+      "stressPoints": "壓力點",
+      "survival": "求生",
+      "water": "水",
+      "wits": "機智"
+    },
+    "bitd": {
+      "resistance": "Resistance"
+    },
+    "co": {
+      "attacks": "Attacks",
+      "capacities": "Capacities",
+      "combat": "Combat",
+      "protections": "Protections"
+    },
+    "d35e": {
+      "buffs": "Buffs",
+      "concentration": "Concentration",
+      "fullAttack": "Full Attack",
+      "grapple": "Grapple",
+      "inconsumables": "非消耗品"
+    },
+    "demonLord": {
+      "challenge": "Challenge Roll",
+      "attackoptions": "Attack Options",
+      "specialattacks": "Special Attacks",
+      "rest": "Rest"
+    },
+    "dnd4e": {
+      "settings": {
+        "hideUsedPowers": {
+          "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
+          "name": "Hide used powers"
+        },
+        "forcePowerColours": {
+          "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
+          "name": "Colour Powers By Use Type"
+        },
+        "hideUnequippedInventory": {
+          "hint": "If enabled, only inventory items that are set as equipped will be shown",
+          "name": "Hide Unequipped Inventory"
+        },
+        "hideQuantityZero": {
+          "hint": "If enabled, inventory with a quantity 0 will be hidden (useful for consumables)",
+          "name": "Hide inventory with quantity of 0"
+        },
+        "equipmentCategoryList": {
+          "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
+          "name": "Visible Inventory Categories"
+        }
+      }
+    },
+    "dnd5e": {
+      "abilities": "屬性",
+      "actions": "動作",
+      "attributes": "屬性", 
+      "bonusActions": "獎勵行動",
+      "checks": "檢定",
+      "consumables": "消耗品",
+      "crewActions": "Crew Actions",
+      "deathSave": "死亡豁免",
+      "equipment": "裝備",
+      "lair": "巢穴",
+      "lairActions": "巢穴行動",
+      "legendary": "傳奇",
+      "legendaryActions": "傳奇動作",
+      "other": "其他",
+      "reactions": "反應",
+      "saves": "豁免",
+      "skills": "技能",
+      "specialActions": "Special Actions",
+      "tools": "工具",
+      "weapons": "武器",
+      "settings": {
+        "abbreviateSkills": {
+          "name": "縮寫技能和屬性名",
+          "hint": "啟用后，技能和屬性都會用其三字母縮寫。"
+        },
+        "categoriseAttributes": {
+          "hint": "將能力和技能分類為屬性、能力/技能或檢查/儲存/技能",
+          "name": "對屬性進行分類",
+          "choices": {
+            "attributes": "屬性",
+            "abilitiesSkills": "屬性/技能",
+            "checksSavesSkills": "檢定/豁免/技能"
+          }
+        },
+        "hideLongerActions": {
+          "name": "隱藏需要超過一輪啟用的動作",
+          "hint": "啟用后，需要更長時間啟用的動作型別（分鐘、小時或天）不會顯示。"
+        },
+        "ignorePassiveFeats": {
+          "name": "忽略被動特性",
+          "hint": "啟用后，被動特性不會顯示。"
+        },
+        "itemMacroReplace": {
+          "name": "物品宏：覆蓋原有物品",
+          "hint": "啟用后，有宏的物品的物品宏將會覆蓋原本的物品，否則兩個都會顯示。"
+        },
+        "showAllNpcItems": {
+          "name": "顯示所有NPC物品",
+          "hint": "啟用后，NPC的所有物品都會顯示，而不僅僅是已裝備的物品。"
+        },
+        "showAllNonpreparableSpells": {
+          "name": "顯示所有未準備法術",
+          "hint": "禁用后，戲法、天生、契約和隨意使用的法術需要在法術詳情頁設定為『準備』狀態才能顯示在HUD上。"
+        },
+        "showConditionsCategory": {
+          "name": "顯示狀態分類",
+          "hint": "啟用后，HUD將會顯示指示物可用的狀態和正常生效的效果的類別。"
+        },
+        "showEmptyItems": {
+          "name": "顯示空物品（包含物品和法術）",
+          "hint": "啟用后，HUD上會顯示沒有剩餘充能的物品。"
+        },
+        "showSpellInfo": {
+          "name": "顯示法術資訊",
+          "hint": "啟用后，法術構材資訊、專注、儀式狀態會在法術名旁標記出來。"
+        },
+        "splitAbilities": {
+          "name": "分開顯示屬性檢定和豁免的分類",
+          "hint": "啟用后，屬性會分為檢定和豁免。"
+        }
+      }
+    },
+    "ds4": {
+      "settings": {
+        "displayCheckTargetNumbers": {
+          "name": "Show Check Target Numbers",
+          "hint": "If enabled, Check Target Numbers are displayed for each check."
+        }
+      }
+    },
+    "dungeonWorld": {
+      "basic": "基礎",
+      "charts": "表單",
+      "gm": "GM",
+      "instinct": "直感",
+      "monsterMoves": "怪物移動",
+      "moves": "移動",
+      "special": "特別的",
+      "specialQualities": "特殊數量",
+      "starting": "啟動",
+      "tags": "標記",
+      "treasure": "財寶",
+      "settings": {
+        "showGmCompendiums": {
+          "name": "Show GM Compendiums",
+          "hint": "If enabled, and if the user is a GM, the HUD bar will include GM moves, treasure rollable-tables, and charts."
+        }
+      }
+    },
+    "ed4e": {
+      "systems": "Systems"
+    },
+    "forbiddenLands": {
+      "agility": "Agility",
+      "animalHandling": "Animal Handling",
+      "arrows": "Arrows",
+      "cold": "Cold",
+      "conditions": "Conditions",
+      "consumables": "消耗品",
+      "crafting": "Crafting",
+      "empathy": "Empathy",
+      "endurance": "Endurance",
+      "food": "Food",
+      "healing": "Healing",
+      "hungry": "Hungry",
+      "insight": "Insight",
+      "lore": "Lore",
+      "manipulation": "Manipulation",
+      "marksmanship": "Marksmanship",
+      "melee": "Melee",
+      "might": "Might",
+      "monsterAttack": "Monster Attack",
+      "move": "Move",
+      "performance": "Performance",
+      "scouting": "Scouting",
+      "sleightOfHand": "Sleight of Hand",
+      "sleepy": "Sleepy",
+      "stealth": "Stealth",
+      "strength": "Strength",
+      "survival": "Survival",
+      "thirsty": "Thirsty",
+      "torches": "Torches",
+      "water": "Water",
+      "wits": "Wits"
+    },
+    "gurps": {
+      "addAcc": "Add Acc",
+      "blindRoll": "Blind Roll",
+      "retreatBlock": "Retreating Block",
+      "retreatDodge": "Retreating Dodge",
+      "retreatParry": "Retreating Parry",
+      "retreatParryFencing": "Retreating Parry (Fencing)"
+    },
+    "kamigakari": {
+      "attack": "Attack",
+      "conceptDestruction": "Concept Destruction",
+      "constant": "Constant",
+      "consumables": "消耗品",
+      "defense": "Defense",
+      "end": "End",
+      "free": "Free",
+      "items": "items",
+      "mainStats": "Main Stats",
+      "prep": "Prep",
+      "sacraments": "Sacraments",
+      "spiritBurn": "Spirit Burn",
+      "start": "Start",
+      "subStats": "Sub Stats",
+      "transcend": "Transcend",
+      "vitalIgnition": "Vital Ignition"
+    },
+    "lancer": {
+      "engineering": "工程",
+      "gear": "裝備",
+      "grit": "Grit",
+      "hase": "HASE",
+      "hull": "船殼",
+      "mech": "Mech",
+      "pilot": "飛行員",
+      "rank": "Rank",
+      "skillTriggers": "Skill Triggers",
+      "stat": "Stat",
+      "stats": "Stats",
+      "systems": "Systems",
+      "techAttack": "Tech Attack",
+      "techs": "Techs"
+    },
+    "pf1": {
+      "bonuses": "Bonuses",
+      "buffs": "Buffs",
+      "casterlevel": "Caster Level",
+      "concentration": "Concentration",
+      "disabled": "Disabled",
+      "inconsumables": "非消耗品",
+      "settings": {
+        "showDisabled": {
+          "hint": "If enabled, disabled features won't be shown.",
+          "name": "Hide disabled features"
+        }
+      }
+    },
+    "pf2e": {
+      "atk": "攻擊",
+      "bonusFeats": "Bonus Feats",
+      "classFeats": "Class Feats",
+      "classFeatures": "班級特色",
+      "commonSkills": "Common skills",
+      "dc": "DC",
+      "doomed": "毀滅",
+      "downtime": "休整",
+      "dying": "瀕死",
+      "exploration": "探索",
+      "free": "自由",
+      "generalFeats": "General Feats",
+      "heroPoints": "英雄點",
+      "lore": "學識",
+      "noAmmo": "No ammo",
+      "recoveryCheck": "Recovery Check",
+      "restNight": "完整休息",
+      "strikes": "打擊",
+      "takeBreather": "Take a Breather",
+      "treatWounds": "治療傷害",
+      "useTwoHandedLabel": "Use weapon two-handed",
+      "wounded": "受傷",
+      "settings": {
+        "showPcAbilities": {
+          "name": "Show PC abilities",
+          "hint": "If enabled, PCs will also have an Abilities category on their HUD."
+        },
+        "showNpcAbilities": {
+          "name": "Show NPC abilities",
+          "hint": "If enabled, NPCs will also have an Abilities category on their HUD."
+        },
+        "calculateAttackPenalty": {
+          "name": "Show calculated MAP",
+          "hint": "If enabled, strikes will show their calculated attack bonus (attack bonus - MAP) instead of the flat MAP."
+        },
+        "printSpellCard": {
+          "name": "Print spell card to chat",
+          "hint": "If disabled, left-clicking a spell will roll attack (shift right-click for bonus dialogue), right-clicking will roll damage (ctrl right-click for bonus dialogue). If neither are applicable, the spell card will be printed to chat anyway."
+        },
+        "abbreviateSkills": {
+          "name": "Abbreviate Skill and Ability Names",
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation."
+        },
+        "ignorePassiveActions": {
+          "name": "Ignore passive actions",
+          "hint": "If enabled, passive actions are not shown."
+        },
+        "separateTogglesCategory": {
+          "name": "Separate Toggles Category",
+          "hint": "If enabled, rule toggles will be placed in their own category, otherwise they will fall under strikes."
+        },
+        "showOldNpcStrikes": {
+          "name": "Show old NPC Strikes",
+          "hint": "If enabled, the HUD will show the old NPC strike actions as well as the new (experimental) strikes for NPCs."
+        }
+      }
+    },
+    "sfrpg": {
+      "activeFeats": "主動專長",
+      "crewActions": "Crew Actions",
+      "misc": "雜項",
+      "msa": "近戰法術攻擊",
+      "mwa": "近戰武器攻擊",
+      "passiveFeats": "被動專長",
+      "rsa": "遠端法術攻擊",
+      "rwa": "遠端武器攻擊",
+      "shields": "Shields",
+      "spellbook": "法術書",
+      "settings": {
+        "showMiscFeats": {
+          "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
+          "name": "Display miscellaneous feats"
+        },
+        "showSpellInfo": {
+          "hint": "If enabled, spell resistance, dismissible, concentration and save information noted next to the spell name.",
+          "name": "Display spell information"
+        }
+      }
+    },
+    "sw5e": {
+      "deathSave": "死亡豁免",
+      "destructionSave": "Destruction Save",
+      "naturalPowers": "Natural Powers",
+      "settings": {
+        "abbreviateSkills": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "hideLongerActions": {
+          "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
+          "name": "Hide actions with an activation longer than 1 round"
+        },
+        "ignorePassiveFeats": {
+          "hint": "If enabled, passive feats are not shown.",
+          "name": "Ignore passive feats"
+        },
+        "itemMacroReplace": {
+          "hint": "Select which of the items will be shown in the inventory.",
+          "name": "Item-Macro: item macro, original item, or both"
+        },
+        "showAllNonpreparablePowers": {
+          "hint": "If disabled, powers such as cantrips, innate, pact, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
+          "name": "Show all non-preparable powers"
+        },
+        "showAllNpcItems": {
+          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
+          "name": "Show all NPC items"
+        },
+        "showConditionsCategory": {
+          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
+          "name": "Show Conditions Category"
+        },
+        "showEmptyItems": {
+          "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
+          "name": "Show empty items (includes items and powers)"
+        },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
+        "showPowerInfo": {
+          "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
+          "name": "Display power information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
+        }
+      }  
+    },
+    "swade": {
+      "bennies": "Bennies",
+      "edges": "Edges",
+      "edgesAndHindrances": "Edges/Hindrances",
+      "fatigue": "Fatigue",
+      "gear": "Gear",
+      "give": "給",
+      "gm": "GM",
+      "hindrances": "Hindrances",
+      "misc": "雜項",
+      "mods": "Mods",
+      "points": "Points",
+      "shields": "Shields",
+      "specialAbilities": "特殊的能力",
+      "spend": "花費",
+      "status": "Status",
+      "wounds": "Wounds",
+      "woundsAndFatigue": "Wounds/Fatigue",
+      "settings": {
+        "abbreviateAttributes": {
+          "name": "Abbreviate Skill and Ability Names",
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation."
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
+        }
+      }
+    },
+    "symbaroum": {
+      "abilities": "Abilities",
+      "mysticalPowers": "Mystical Powers"
+    },
+    "wfrp": {
+      "basic": "基礎",
+      "blessing": "祝福",
+      "dodge": "躲閃",
+      "improvisedWeapon": "Improvised Weapon",
+      "melee": "近戰",
+      "petty": "戲法",
+      "ranged": "遠程",
+      "religion": "宗教",
+      "rollable": "可擲骰",
+      "stomp": "Stomp!",
+      "unarmed": "Unarmed",
+      "unrollable": "不可擲骰"
+    }
+  }
+}
