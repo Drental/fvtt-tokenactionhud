@@ -50,6 +50,7 @@ Hooks.on("init", () => {
     "starwarsffg": "starwarsffg",
     "sw5e": "sw5e",
     "swade": "swade",
+    "swnr": "swnr",
     "symbaroum": "symbaroum",
     "tagmar": "tagmar",
     "tagmar_rpg": "tagmar_rpg",
