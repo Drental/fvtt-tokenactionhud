@@ -73,6 +73,11 @@
       "path": "lang/cn.json"
     },
     {
+      "lang": "zh-tw",
+      "name": "正體中文",
+      "path": "lang/zh-tw.json"
+    },
+    {
       "lang": "it",
       "name": "italiano",
       "path": "lang/it.json"
