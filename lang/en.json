@@ -408,7 +408,7 @@
     "dnd5e": {
       "abilities": "Abilities",
       "actions": "Actions",
-      "attributes": "Attributes",
+      "attributes": "Attributes", 
       "bonusActions": "Bonus Actions",
       "checks": "Checks",
       "consumables": "Consumables",
@@ -685,7 +685,7 @@
     "sw5e": {
       "abilities": "Abilities",
       "actions": "Actions",
-      "attributes": "Attributes",
+      "attributes": "Attributes", 
       "bonusActions": "Bonus Actions",
       "checks": "Checks",
       "consumables": "Consumables",
