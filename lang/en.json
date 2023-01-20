@@ -568,6 +568,7 @@
       "vitalIgnition": "Vital Ignition"
     },
     "lancer": {
+      "basic": "Basic",
       "basicAttack": "Basic Attack",
       "engineering": "Engineering",
       "frame": "Frame",
