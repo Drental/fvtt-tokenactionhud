@@ -22,23 +22,23 @@ export class ActionHandlerCleenmain extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let actorType = actor.data.type;
+    let actorType = actor.type;
 
     let weapons = this._getWeapons(actor, tokenId);
     let skills = this._getSkills(actor, tokenId);
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -54,7 +54,7 @@ export class ActionHandlerCleenmain extends ActionHandler {
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       skillsCategory
     );
     return result;
@@ -72,7 +72,7 @@ export class ActionHandlerCleenmain extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.roll"),
+      this.i18n("tokenActionHud.roll"),
       weaponsCategory
     );
     return result;

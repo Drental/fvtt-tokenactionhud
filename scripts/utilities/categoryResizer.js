@@ -26,8 +26,10 @@ export class CategoryResizer {
 
     let step = 30;
 
-    let bottomLimit = $(document).find("#hotbar").offset().top - 20;
-    let rightLimit = $(document).find("#sidebar").offset().left - 20;
+    const hotbarOffsetTop = $(document).find("#hotbar").offset().top
+    let bottomLimit = ((hotbarOffsetTop === 0) ? window.innerHeight : hotbarOffsetTop) - 20;
+    const sidebarOffsetLeft = $(document).find("#sidebar").offset().left
+    let rightLimit = ((sidebarOffsetLeft === 0) ? window.innerWidth : sidebarOffsetLeft) - 20;
 
     let maxRequiredWidth = CategoryResizer.calculateMaxRequiredWidth(actions);
     while (
@@ -51,7 +53,6 @@ export class CategoryResizer {
       CategoryResizer.resizeActions(actions, newWidth);
     }
 
-    let priorWidth;
     while (
       CategoryResizer.shouldShrinkWidth(
         content,
@@ -72,6 +73,12 @@ export class CategoryResizer {
       
       CategoryResizer.resizeActions(actions, newWidth);
     }
+
+    // SET MAX-HEIGHT
+    const contentRect = content[0].getBoundingClientRect();
+    const maxHeight = window.innerHeight - contentRect.top - (window.innerHeight - bottomLimit);
+    const newHeight = (maxHeight < 100) ? 100 : maxHeight;
+    content.css({ "max-height": newHeight + "px" });
   }
 
   static calculateMaxRequiredWidth(actions) {
@@ -89,9 +96,9 @@ export class CategoryResizer {
           parseInt(child.css("marginLeft")) +
           parseInt(child.css("marginRight"));
 
-        totalWidth += childWidth + marginWidth;
+        totalWidth += childWidth + marginWidth + 5; // 5 is the gap width on parent element
       });
-
+      totalWidth = totalWidth - 5; //Remove the last gap width as gaps only exist between buttons
       if (totalWidth > maxWidth) maxWidth = totalWidth;
     });
 

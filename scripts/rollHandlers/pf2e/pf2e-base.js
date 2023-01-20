@@ -2,7 +2,7 @@ import { RollHandler } from "../rollHandler.js";
 import * as settings from "../../settings.js";
 
 export class RollHandlerBasePf2e extends RollHandler {
-  BLIND_ROLL_MODE = "blindroll";
+  BLIND_ROLL_MODE = "blindRoll";
 
   constructor() {
     super();
@@ -27,10 +27,10 @@ export class RollHandlerBasePf2e extends RollHandler {
       const knownCharacters = ["character", "familiar", "npc"];
       if (tokenId === "multi") {
         const controlled = canvas.tokens.controlled.filter((t) =>
-          knownCharacters.includes(t.actor?.data.type)
+          knownCharacters.includes(t.actor?.type)
         );
         for (let token of controlled) {
-          let idToken = token.data._id;
+          let idToken = token.id;
           await this._handleMacros(event, macroType, idToken, actionId);
         }
       } else {
@@ -44,7 +44,7 @@ export class RollHandlerBasePf2e extends RollHandler {
   async _handleMacros(event, macroType, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let charType;
-    if (actor) charType = actor.data.type;
+    if (actor) charType = actor.type;
 
     let sharedActions = [
       "ability",
@@ -246,19 +246,20 @@ export class RollHandlerBasePf2e extends RollHandler {
   _rollStrikeChar(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
 
-    let strikeName = actionParts[0];
+    let strikeId = actionParts[0];
     let strikeType = actionParts[1];
     let altUsage = actionParts[2] ? actionParts[2] : null;
 
+
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => s.name === strikeName);
+      .find((s) => (s.sourceId ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => s.name === strikeName).item;
-      if (item) return this.doRenderItem(tokenId, item.data.id);
+        .find((s) => (s.sourceId ?? s.slug) === strikeId).item;
+      if (item) return this.doRenderItem(tokenId, item.id);
     }
 
     if (altUsage !== null) {
@@ -280,6 +281,7 @@ export class RollHandlerBasePf2e extends RollHandler {
       default:
         strike.variants[strikeType]?.roll({
           event,
+          altUsage
         });
         break;
     }
@@ -289,19 +291,19 @@ export class RollHandlerBasePf2e extends RollHandler {
   _performAuxAction(event, tokenId, actor, actionId) {
     let actionParts = decodeURIComponent(actionId).split(">");
 
-    let strikeName = actionParts[0];
+    let strikeId = actionParts[0];
     let strikeType = actionParts[1];
     let strikeUsage = actionParts[2];
 
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => s.name === strikeName);
+      .find((s) => (s.sourceId ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => s.name === strikeName).origin;
-      if (item) return this.doRenderItem(tokenId, item.data.id);
+        .find((s) => (s.sourceId ?? s.slug) === strikeId).origin;
+      if (item) return this.doRenderItem(tokenId, item.id);
     }
 
     if (strikeUsage !== "") {
@@ -391,7 +393,7 @@ export class RollHandlerBasePf2e extends RollHandler {
     return;
   }
 
-  _performUtilityMacro(event, tokenId, actionId) {
+  async _performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -411,6 +413,9 @@ export class RollHandlerBasePf2e extends RollHandler {
         break;
       case "toggleVisibility":
         token.toggleVisibility();
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

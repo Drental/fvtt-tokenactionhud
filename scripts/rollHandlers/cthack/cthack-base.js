@@ -67,14 +67,14 @@ export class RollHandlerBaseCthack extends RollHandler {
       if ( game.user.targets.size > 0) {
           const target = [...game.user.targets][0];
           if (target.actor.type=="opponent") {
-              mod = target.actor.data.data.malus;
+              mod = target.actor.system.malus;
           }
       }
       if (mod < 0) {
-          item.data.data.range === "" ? actor.rollSave("str", {modifier: mod}) : actor.rollSave("dex", {modifier: mod}); 
+          item.system.range === "" ? actor.rollSave("str", {modifier: mod}) : actor.rollSave("dex", {modifier: mod}); 
       }
       else {
-          item.data.data.range === "" ? actor.rollSave("str") : actor.rollSave("dex"); 
+          item.system.range === "" ? actor.rollSave("str") : actor.rollSave("dex"); 
       }
     }
 
@@ -89,7 +89,7 @@ export class RollHandlerBaseCthack extends RollHandler {
   _handleAbility(macroType, event, actor, actionId) {
     let ability = actor.items.get(actionId);
 
-    if (ability.data.data.uses.value > 0) actor.useAbility(ability);
+    if (ability.system.uses.value > 0) actor.useAbility(ability);
     else actor.resetAbility(ability);
   }
 }

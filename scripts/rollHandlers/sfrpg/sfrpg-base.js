@@ -46,6 +46,11 @@ export class RollHandlerBaseSfrpg extends RollHandler {
         break;
       case "crewAction":
         this._handleCrewAction(event, tokenId, actionId);
+      case "utility":
+        if (actionId === 'endTurn') {
+          if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        }
+        break;
       default:
         break;
     }
@@ -72,24 +77,29 @@ export class RollHandlerBaseSfrpg extends RollHandler {
   }
 
   rollItemMacro(event, tokenId, itemId) {
-    let actor = super.getActor(tokenId);
-    let item = actor.items.get(itemId);
+    const actor = super.getActor(tokenId);
+    const item = actor.items.get(itemId);
+    const shiftKey = event.shiftKey;
+    const ctrlKey = event.ctrlKey;
 
     if (this.needsRecharge(item)) {
       item.rollRecharge();
       return;
     }
-
-    if (item.data.type === "spell") return actor.useSpell(item);
-
+    if (shiftKey && item.type === "weapon") {
+      return item.rollAttack();
+    }
+    if (ctrlKey && (item.type === "weapon" || item.type === "spell")) {
+      return item.rollDamage();
+    }
     return item.roll();
   }
 
   needsRecharge(item) {
     return (
-      item.data.data.recharge &&
-      !item.data.data.recharge.charged &&
-      item.data.data.recharge.value
+      item.system.recharge &&
+      !item.system.recharge.charged &&
+      item.system.recharge.value
     );
   }
 
@@ -101,8 +111,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     let shieldChange = parseInt(payload[1]);
     if (shieldChange === NaN) return;
 
-    const shields = actor.data.data.attributes.shields;
-    const shield = actor.data.data.quadrants[side]["shields"];
+    const shields = actor.system.attributes.shields;
+    const shield = actor.system.quadrants[side]["shields"];
 
     let newValue;
     if (shieldChange < 0) {
@@ -113,8 +123,8 @@ export class RollHandlerBaseSfrpg extends RollHandler {
 
     if (newValue === shield.value) return;
 
-    const update = { data: { quadrants: {} } };
-    update.data.quadrants[side] = { shields: { value: newValue } };
+    const update = { system: { quadrants: {} } };
+    update.system.quadrants[side] = { shields: { value: newValue } };
 
     await actor.update(update);
   }

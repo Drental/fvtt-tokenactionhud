@@ -1,0 +1,492 @@
+:root {
+  --tah-background: #00000000;
+  --tah-button: #00000080;
+  --tah-button-outline: #000000ff;
+  --tah-button-outline-hover: red;
+  --tah-button-outline-hover-glow: #ff6400;
+  --tah-button-toggle: #00000080;
+  --tah-button-toggle-active: #3c0078bf;
+  --tah-button-toggle-outline: #000000ff;
+  --tah-button-toggle-outline-active: #9b8dff;
+  --tah-button-toggle-outline-hover: #9b8dff;
+  --tah-button-toggle-outline-hover-glow: #9b8dff;
+}
+
+#token-action-hud {
+  align-items: center;
+  background: var(--tah-background, #00000000);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  height: auto;
+  left: 150px;
+  margin-bottom: 1px;
+  position: fixed;
+  top: 80px;
+  width: auto;
+  z-index: 100;
+}
+
+#token-action-hud [class*="icon-"] {
+  display: inline-block;
+  width: 100%;
+}
+
+#tah-character-name {
+  color: #fff;
+  left: 4px;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+  top: -20px !important;
+}
+
+#token-action-hud:hover > #tah-collapse-expand #tah-collapse-hud,
+#token-action-hud:hover > #tah-buttons #tah-edit-categories {
+  display: flex;
+}
+
+#tah-collapse-expand {
+  font-style: normal;
+  font-weight: normal;
+  left: -20px;
+  position: absolute;
+}
+
+#tah-collapse-hud {
+  background: transparent;
+  border: 0;
+  display: none;
+  line-height: unset;
+}
+
+#tah-collapse-hud:hover, 
+#tah-collapse-hud:focus {
+  box-shadow: none;
+}
+
+#tah-expand-hud {
+  height: 22px;
+  left: 5px;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  top: 12px;
+}
+
+#tah-categories {
+  display: flex;
+  gap: 2px;
+}
+
+#tah-buttons {
+  display: flex;
+  height: 22px;
+}
+
+#tah-edit-categories {
+  align-items: center;
+  display: none;
+  font-style: normal;
+  font-weight: normal;
+  left: 100%;
+}
+
+#tah-collapse-expand:hover,
+#tah-edit-categories:hover {
+  cursor: pointer;
+}
+
+#tah-collapse-expand {
+  font-style: normal;
+  font-weight: normal;
+  left: -20px;
+  position: absolute;
+}
+
+#tah-collapse-hud {
+  background: transparent;
+  border: 0;
+  display: none;
+  line-height: unset;
+}
+
+#tah-collapse-hud:hover, 
+#tah-collapse-hud:focus {
+  box-shadow: none;
+}
+
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas,
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
+  color: #ddd;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  position: relative;
+  text-align: center;
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas {
+  font-size: small;
+  padding: 3px;
+}
+
+#tah-collapse-expand:hover button > i,
+#tah-edit-categories:hover > i {
+  color: #fff;
+  text-shadow: 0 0 10px #ff6400;
+}
+
+.tah-title-button {
+  height: auto;
+  line-height: 1;
+  margin-right: 2px;
+  min-height: 22px;
+  padding: 3px;
+  text-align: center;
+  text-shadow:
+    0px 0px 2px rgb(0 0 0 / 50%),
+    0px 0px 5px rgb(0 0 0 / 25%);
+  width: auto;
+}
+
+.tah-title-button > .fa,
+.tah-title-button > .fas {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 6px;
+  pointer-events: none;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  visibility: hidden;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.tah-content {
+  background: var(--tah-background, #00000000);
+  border-radius: 3px;
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 20px;
+  flex-direction: column-reverse;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
+  padding-top: 3px;
+}
+
+.tah-category {
+  cursor: default;
+  display: block;
+  position: relative;
+}
+
+.tah-category.hover .tah-content {
+  display: flex;
+  left: -178px;
+  position: absolute;
+}
+
+.tah-subcategory {
+  cursor: default;
+  display: flex;
+  padding: 1.5px;
+}
+
+.tah-subtitle-wrapper {
+  align-items: center;
+  display: flex;
+  height: 22px;
+}
+
+.tah-subtitle {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: small;
+  justify-content: flex-end;
+  line-height: 1.1;
+  padding-right: 5px;
+  position: relative;
+  text-align: right;
+  text-shadow: 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1), 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+    width: 175px;   
+}
+
+.tah-filterholder {
+  height: 0;
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  width: 0;
+}
+
+.tah-subtitle > .tah-filterholder > .fa,
+.tah-subtitle > .tah-filterholder > .fas {
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 6px;
+  height: auto;
+  left: -3px;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 3px;
+  visibility: hidden;
+  width: auto;
+}
+
+.tah-actions {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 5px;
+  grid-column: 2;
+  margin-bottom: 2px;
+  width: 400px;
+}
+
+.tah-actions .stickLeft {
+  font-size: small;
+  font-weight: bold;
+  height: 22px;
+  line-height: 0px;
+  margin: 0px;
+  min-width: 22px;
+  padding: 0px;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+.tah-actions .shrink {
+  display: flex;
+  font-size: small;
+  font-weight: bold;
+  justify-content: center;
+  line-height: 0px;
+  min-width: 25px;
+  padding: 0px;
+  width: auto;
+}
+
+.tah-actionSet {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+/* Links inside the dropdown */
+.tah-action {
+  background: none;
+  flex-basis: auto;
+  flex-grow: 0;
+}
+
+.tah-action-name {
+  margin: auto;
+  padding: 0 5px 0 5px;
+}
+
+.tah-info1,
+.tah-info2,
+.tah-info3 {
+  display: inline;
+  font-size: smaller;
+  margin-left: 2px;
+}
+
+.tah-info1 {
+  text-shadow: 
+    0 0 1px rgba(2, 248, 14, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info2 {
+  text-shadow:
+    0 0 1px rgba(240, 2, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info3 {
+  text-shadow: 
+    0 0 1px rgba(2, 240, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-icon {
+  display: inline;
+  margin-right: 2px;
+}
+
+.tah-img {
+  border-radius: 3px 0 0 3px;
+  display: inline-flex;
+  height: 22px;
+  width: 22px;
+}
+
+.tah-icon > .fa,
+.tah-icon > .fas {
+  font-size: x-small;
+  margin: 0px 2px 0px 0px;
+}
+
+.tah-subtitle > .tah-icon > .fa,
+.tah-subtitle > .tah-icon > .fas {
+  text-shadow:
+    0 0 1px rgb(255, 255, 255),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info1:before {
+  content: "(";
+}
+
+.tah-info1:after {
+  content: ")";
+}
+
+.tah-info2:before {
+  content: "[";
+}
+
+.tah-info2:after {
+  content: "]";
+}
+
+.tah-info3:before {
+  content: "{";
+}
+
+.tah-info3:after {
+  content: "}";
+}
+
+.tah-action button {
+  color: #ddd;
+  display: flex;
+  line-height: 1;
+  margin: 0;
+  min-height: 22px;
+  min-width: 22px;
+  padding: 0;
+  text-decoration: none;
+  text-shadow:
+    0px 0px 2px rgb(0 0 0 / 50%),
+    0px 0px 5px rgb(0 0 0 / 25%);
+  width: 100%;
+}
+
+.tah-action button:hover {
+  border: 0;
+  box-shadow: 0 0 10px #ff6400, 0 2px 0 -1px #ff6400, 0 0 0 1px red;
+  color: #fff;
+  cursor: pointer;
+  font-weight: inherit;
+}
+
+.tah-action .toggle {
+  background: var(--tah-button, #00000080);
+  box-shadow:
+    0 0 0 1px var(--tah-button-outline, #000000ff),
+    inset 0 0 10px #ffffff1a;
+}
+
+.tah-action .active {
+  background: var(--tah-button-toggle-active, #3c0078bf);
+  box-shadow:
+    0 0 0 1px var(--tah-button-toggle-outline-active, #9b8dff),
+    inset 0 0 10px #ffffff1a;
+}
+
+.tah-action .toggle:hover {
+  background: var(--tah-button-toggle-hover, #3c0078bf);
+  box-shadow: 
+    0 0 0 1px var(--tah-button-toggle-outline-hover, 9b8dff),
+    0 0 10px var(--tah-button-toggle-outline-hover-glow, #9b8dff)
+}
+
+.tah-action .activeText:after {
+  content: "*";
+}
+
+#tah-expand-hud,
+.tah-category button,
+.tah-action button {
+	background-color: var(--tah-button, #00000080);
+  border: 0;
+  box-shadow: 
+    0 0 0 1px var(--tah-button-outline, #000000ff),
+    0 0 10px var(--tah-button-outline, #000000ff),
+    inset 0 0 10px #ffffff1a;
+	color: var(--tah-button-contrast, #ddd);
+	transition: all 0.1s ease-in-out;
+}
+
+#tah-expand-hud:hover,
+.tah-category button:hover,
+.tah-category.hover > button,
+.tah-action button:hover {
+	background-color: var(--tah-button, #00000080);
+  border: 0;
+  box-shadow: 
+    0 2px 0 -1px var(--tah-button-outline-hover-glow, #ff6400),
+    0 0 0 1px var(--tah-button-outline-hover, red),
+    0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
+	color: var(--tah-button-hover-contrast, #fff);
+}
+
+.tah-category button:active {
+	background-color: var(--tah-button-active, #00000080);
+  border: 0;
+  box-shadow: 
+    0 2px 0 -1px var(--tah-button-outline-hover-glow, #ff6400),
+    0 0 0 1px var(--tah-button-outline-hover, red),
+    0 0 10px var(--tah-button-outline-hover-glow, #ff6400);
+	color: var(--tah-button-active-contrast, #fff);
+}
+
+.tah-hidden {
+  display: none !important;
+}

@@ -1,10 +1,10 @@
 export function register(app, updateSettings) {
   game.settings.register(app, "showSpellInfo", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.sfrpg.showSpellInfo.name"
+      "tokenActionHud.sfrpg.settings.showSpellInfo.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.sfrpg.showSpellInfo.hint"
+      "tokenActionHud.sfrpg.settings.showSpellInfo.hint"
     ),
     scope: "client",
     config: true,
@@ -17,10 +17,10 @@ export function register(app, updateSettings) {
 
   game.settings.register(app, "showMiscFeats", {
     name: game.i18n.localize(
-      "tokenactionhud.settings.sfrpg.showMiscFeats.name"
+      "tokenActionHud.sfrpg.settings.showMiscFeats.name"
     ),
     hint: game.i18n.localize(
-      "tokenactionhud.settings.sfrpg.showMiscFeats.hint"
+      "tokenActionHud.sfrpg.settings.showMiscFeats.hint"
     ),
     scope: "client",
     config: true,

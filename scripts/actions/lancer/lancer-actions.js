@@ -15,55 +15,55 @@ export class ActionHandlerLancer extends ActionHandler {
     let actorId = token.actor.id;
     result.actorId = actorId;
     let actor = token.actor;
-    let mm = await actor.data.data.derived.mm;
+    let mm = await actor.system.derived.mm;
 
     if (!actor) return result;
 
-    switch (actor.data.type) {
+    switch (actor.type) {
       case "pilot":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.pilot"),
+          this.i18n("tokenActionHud.lancer.pilot"),
           this._pilotCategory(mm, actorId)
         );
         break;
       case "mech":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.pilot"),
+          this.i18n("tokenActionHud.lancer.pilot"),
           this._pilotCategory(mm.Pilot, mm.Pilot.RegistryID)
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.mech"),
+          this.i18n("tokenActionHud.lancer.mech"),
           this._mechCategory(mm, actorId)
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.weapons"),
+          this.i18n("tokenActionHud.weapons"),
           this._weaponsCategory(mm.Loadout.WepMounts, actorId)
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.systems"),
+          this.i18n("tokenActionHud.lancer.systems"),
           this._systemsCategory(mm.Loadout.SysMounts, actorId)
         );
         break;
       case "npc":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.stats"),
+          this.i18n("tokenActionHud.lancer.stats"),
           this._npcBaseCategory(actor, actorId)
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.features"),
+          this.i18n("tokenActionHud.features"),
           this._npcFeatureCategory(actor, actorId)
         );
         break;
     }
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -101,12 +101,12 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "item";
 
     result.name = name;
-    result.actions = actor.data.items
+    result.actions = actor.items
       .filter((item) => {
-        if (item != null) return item.data.type === "npc_feature";
+        if (item != null) return item.type === "npc_feature";
       })
       .filter((item) => {
-        return item.data.data.type === itemType;
+        return item.system.type === itemType;
       })
       .map((item) => {
         return this._makeAction(item.name, macro, actorId, item.id);
@@ -158,17 +158,17 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _npcWeaponSubCat(actor, actorId) {
     let weaponSubCat = this._makeNPCItemSubCat(
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       "Weapon",
       actor,
       actorId
     );
 
     let basicAttack = this._makeAction(
-      this.i18n("tokenactionhud.basicattack"),
+      this.i18n("tokenactionhud.lancer.basicAttack"),
       "stat",
       actorId,
-      "BasicAttack"
+      "basicattack"
     );
     weaponSubCat.actions.push(basicAttack);
 
@@ -177,7 +177,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _npcTraitSubCat(actor, actorId) {
     return this._makeNPCItemSubCat(
-      this.i18n("tokenactionhud.traits"),
+      this.i18n("tokenActionHud.traits"),
       "Trait",
       actor,
       actorId
@@ -186,7 +186,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _npcSystemSubCat(actor, actorId) {
     return this._makeNPCItemSubCat(
-      this.i18n("tokenactionhud.systems"),
+      this.i18n("tokenActionHud.lancer.systems"),
       "System",
       actor,
       actorId
@@ -195,17 +195,17 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _npcTechSubCat(actor, actorId) {
     let techSubCat = this._makeNPCItemSubCat(
-      this.i18n("tokenactionhud.techs"),
+      this.i18n("tokenActionHud.lancer.techs"),
       "Tech",
       actor,
       actorId
     );
 
     let basicTechAttack = this._makeAction(
-      this.i18n("tokenactionhud.techattack"),
+      this.i18n("tokenactionhud.techAttack"),
       "stat",
       actorId,
-      "TechAttack"
+      "techattack"
     );
     techSubCat.actions.push(basicTechAttack)
 
@@ -214,7 +214,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _npcReactionSubCat(actor, actorId) {
     return this._makeNPCItemSubCat(
-      this.i18n("tokenactionhud.reactions"),
+      this.i18n("tokenActionHud.reactions"),
       "Reaction",
       actor,
       actorId
@@ -223,7 +223,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _skillsSubCategory(mm, actorId) {
     return this._makeItemSubCat(
-      this.i18n("tokenactionhud.skilltriggers"),
+      this.i18n("tokenActionHud.lancer.skillTriggers"),
       "skill",
       mm._skills,
       actorId
@@ -234,8 +234,8 @@ export class ActionHandlerLancer extends ActionHandler {
     let result = this.initializeEmptySubcategory();
 
     result.id = "grit";
-    result.name = this.i18n("tokenactionhud.grit");
-    result.actions = [ this._makeAction(this.i18n("tokenactionhud.grit"), "stat", actorId, "Pilot.Grit") ];
+    result.name = this.i18n("tokenactionhud.lancer.grit");
+    result.actions = [ this._makeAction(this.i18n("tokenactionhud.lancer.grit"), "stat", actorId, "Pilot.Grit") ];
 
     return result;
   }
@@ -245,7 +245,7 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "item";
 
     result.id = "talent";
-    result.name = this.i18n("tokenactionhud.talents");
+    result.name = this.i18n("tokenActionHud.talents");
 
     let itemSubCats = mm._talents
       .filter((item) => {
@@ -258,7 +258,7 @@ export class ActionHandlerLancer extends ActionHandler {
         for (let i = 0; i < talent.CurrentRank; i++) {
           let option = { rank: `${i}` };
           let action = this._makeAction(
-            `${this.i18n("tokenactionhud.rank")} ${i + 1}`,
+            `${this.i18n("tokenActionHud.lancer.rank")} ${i + 1}`,
             macro,
             actorId,
             talent.RegistryID,
@@ -279,7 +279,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _pilotWeaponSubCategory(mm, actorId) {
     return this._makeItemSubCat(
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       "pilot_weapon",
       mm.Loadout.Weapons,
       actorId
@@ -288,7 +288,7 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _pilotGearSubCategory(mm, actorId) {
     return this._makeItemSubCat(
-      this.i18n("tokenactionhud.gear"),
+      this.i18n("tokenActionHud.lancer.gear"),
       "pilot_gear",
       mm.Loadout.Gear,
       actorId
@@ -315,12 +315,12 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "hase";
 
     result.id = "hase";
-    result.name = this.i18n("tokenactionhud.hase");
+    result.name = this.i18n("tokenActionHud.lancer.hase");
 
-    let hull = this.i18n("tokenactionhud.hull");
-    let agility = this.i18n("tokenactionhud.attribute.agility");
-    let systems = this.i18n("tokenactionhud.systems");
-    let engineering = this.i18n("tokenactionhud.engineering");
+    let hull = this.i18n("tokenActionHud.lancer.hull");
+    let agility = this.i18n("tokenActionHud.attribute.agility");
+    let systems = this.i18n("tokenActionHud.lancer.systems");
+    let engineering = this.i18n("tokenActionHud.lancer.engineering");
 
     let haseActionData = [
       { name: hull, id: "Hull" },
@@ -343,14 +343,14 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "stat";
 
     result.id = "stat";
-    result.name = this.i18n("tokenactionhud.basic");
+    result.name = this.i18n("tokenactionhud.lancer.basic");
 
-    let basicAttack = this.i18n("tokenactionhud.basicattack");
-    let techAttack = this.i18n("tokenactionhud.techattack");
+    let basicAttack = this.i18n("tokenactionhud.lancer.basicAttack");
+    let techAttack = this.i18n("tokenactionhud.lancer.techAttack");
 
     let statActionData = [
-      { name: basicAttack, data: "BasicAttack" },
-      { name: techAttack, data: "TechAttack" },
+      { name: basicAttack, data: "basicattack" },
+      { name: techAttack, data: "techattack" },
     ];
 
     let statActions = statActionData.map((actionData) => {
@@ -368,13 +368,13 @@ export class ActionHandlerLancer extends ActionHandler {
     let overchargeCount = Math.min(mm.OverchargeCount, overchargeSequence.length - 1);
 
     result.id = "frame";
-    result.name = this.i18n("tokenactionhud.frame");
+    result.name = this.i18n("tokenactionhud.lancer.frame");
 
-    let overchargeText = this.i18n("tokenactionhud.overcharge") + " (" + overchargeSequence[overchargeCount] + ")";
+    let overchargeText = this.i18n("tokenactionhud.lancer.overcharge") + " (" + overchargeSequence[overchargeCount] + ")";
 
     result.actions = [
-      this._makeAction(overchargeText, "frame", actorId, "Overcharge"),
-      this._makeAction(this.i18n("tokenactionhud.stabilize"), "frame", actorId, "Stabilize")
+      this._makeAction(overchargeText, "frame", actorId, "overcharge"),
+      this._makeAction(this.i18n("tokenactionhud.lancer.stabilize"), "frame", actorId, "stabilize")
     ];
 
     return result;
@@ -382,9 +382,9 @@ export class ActionHandlerLancer extends ActionHandler {
 
   _coreBonSubCategory(mm, actorId) {
     let result = this.initializeEmptySubcategory();
-    let corebonus = mm.Pilot.CoreBonuses;
+    let coreBonus = mm.Pilot.CoreBonuses;
     result.name = "Core Bonuses";
-    result.actions = corebonus.map((bonus) => {
+    result.actions = coreBonus.map((bonus) => {
       let option = {};
       option.pilot = mm.Pilot.RegistryID;
       return this._makeAction(
@@ -424,7 +424,7 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "item";
 
     result.id = "weapons";
-    result.name = this.i18n("tokenactionhud.weapons");
+    result.name = this.i18n("tokenActionHud.weapons");
 
     let itemSubCats = WepMounts.map((mount, i) => {
       let subcat = this.initializeEmptySubcategory("Mount_" + i);
@@ -458,7 +458,7 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "item";
 
     result.id = "systems";
-    result.name = this.i18n("tokenactionhud.systems");
+    result.name = this.i18n("tokenActionHud.lancer.systems");
 
     let itemSubCats = loadout
       .flatMap((mount) => mount.System)

@@ -20,7 +20,7 @@ export class RollHandlerBaseT20 extends RollHandler {
 
     if (tokenId === "multi") {
       for (let t of canvas.tokens.controlled) {
-        let idToken = t.data._id;
+        let idToken = t.id;
         await this._handleMacros(event, macroType, idToken, actionId);
       }
     } else {
@@ -45,8 +45,8 @@ export class RollHandlerBaseT20 extends RollHandler {
       // case 'effect':
       // await this.toggleEffect(event, tokenId, actionId);
       // break;
-      // case 'condition':
-      // await this.toggleCondition(event, tokenId, actionId);
+      case 'condition':
+        await this.toggleCondition(event, tokenId, actionId);
       default:
         break;
     }
@@ -59,25 +59,13 @@ export class RollHandlerBaseT20 extends RollHandler {
 
   rollSkillMacro(event, tokenId, checkId) {
     const actor = super.getActor(tokenId);
-    const skillData = {
-      actor: actor,
-      type: "perícia",
-      data: actor.data.data.pericias[checkId],
-      name: actor.data.data.pericias[checkId].label,
-      id: checkId,
-    };
-    actor.rollPericia(skillData);
+    actor.rollPericia(checkId);
   }
 
   rollItemMacro(event, tokenId, itemId) {
     let actor = super.getActor(tokenId);
     let item = super.getItem(actor, itemId);
-
-    // if (item.data.type === 'magia')
-    // return actor._onItemRoll(item);
-
-    return item.roll({ event });
-    // return actor._onItemRoll(item);
+    return item.roll();
   }
 
   async performInitiativeMacro(tokenId) {
@@ -94,38 +82,25 @@ export class RollHandlerBaseT20 extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
       await this.toggleCondition(event, tokenId, statusId);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
   async toggleCondition(event, tokenId, effectId) {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
-    if (
-      effectId.includes("combat-utility-belt.") &&
-      game.cub &&
-      !isRightClick
-    ) {
-      const cubCondition = this.findCondition(effectId)?.label;
-      if (!cubCondition) return;
+    const condition = this.findCondition(effectId);
+    if (!condition) return;
 
-      game.cub.hasCondition(cubCondition, token)
-        ? await game.cub.removeCondition(cubCondition, token)
-        : await game.cub.addCondition(cubCondition, token);
-    } else {
-      const condition = this.findCondition(effectId);
-      if (!condition) return;
-
-      isRightClick
-        ? await token.toggleOverlay(condition)
-        : await token.toggleEffect(condition);
-    }
+    isRightClick
+      ? await token.toggleEffect(condition, { overlay: true })
+      : await token.toggleEffect(condition);
 
     Hooks.callAll("forceUpdateTokenActionHUD");
   }

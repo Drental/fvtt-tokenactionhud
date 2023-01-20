@@ -88,16 +88,14 @@ export class RollHandlerBaseDnD4e extends RollHandler {
   }
 
   needsRecharge(actor, item) {
-    const itemData = this._getDocumentData(item);
     return (
-        itemData.useType === "recharge" && !game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, item)
+        item.system.useType === "recharge" && !game.dnd4eBeta.tokenBarHooks.isPowerAvailable(actor, item)
     );
   }
 
   async performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
-
 
     switch (actionId) {
       case "toggleCombat":
@@ -117,7 +115,7 @@ export class RollHandlerBaseDnD4e extends RollHandler {
         game.dnd4eBeta.tokenBarHooks.healDialog(actor, event)
         break;
       case "initiative":
-        await this.performInitiativeMacro(tokenId);
+        await this.performInitiativeMacro(tokenId, event);
         break;
       case "actionPoint":
         game.dnd4eBeta.tokenBarHooks.actionPoint(actor, event)
@@ -128,13 +126,16 @@ export class RollHandlerBaseDnD4e extends RollHandler {
       case "deathSave":
         game.dnd4eBeta.tokenBarHooks.deathSave(actor, event)
         break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        break;
     }
   }
 
-  async performInitiativeMacro(tokenId) {
+  async performInitiativeMacro(tokenId, event) {
     let actor = super.getActor(tokenId);
 
-    await actor.rollInitiative({ createCombatants: true });
+    await actor.rollInitiative({ createCombatants: true, event });
 
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
@@ -147,13 +148,13 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
       await this.toggleCondition(event, tokenId, statusId);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
@@ -185,9 +186,5 @@ export class RollHandlerBaseDnD4e extends RollHandler {
 
   findCondition(id) {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
-  }
-
-  _getDocumentData(entity) {
-    return entity.data.data ?? entity.data;
   }
 }

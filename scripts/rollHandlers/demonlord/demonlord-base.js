@@ -18,7 +18,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
 
     if (tokenId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.data._id;
+        let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {
@@ -35,7 +35,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
 
     switch (macroType) {
       case "challenge":
-        const attribute = actor ? actor.data.data.attributes[actionId] : null;
+        const attribute = actor ? actor.system.attributes[actionId] : null;
         actor.rollChallenge(attribute, actionId);
         break;
       case "weapon":
@@ -55,7 +55,7 @@ export class RollHandlerBaseDemonlord extends RollHandler {
     }
   }
 
-  performUtilityMacro(event, tokenId, actionId) {
+  async performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -69,6 +69,9 @@ export class RollHandlerBaseDemonlord extends RollHandler {
       case "toggleCombat":
         token.toggleCombat();
         Hooks.callAll("forceUpdateTokenActionHUD");
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

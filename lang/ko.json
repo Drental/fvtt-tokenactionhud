@@ -1,15 +1,16 @@
 {
-  "tokenactionhud": {
+  "tokenActionHud": {
     "abilities": "능력치",
     "accept": "확인",
     "actions": "액션",
     "activate": "활성화",
     "active": "활성화",
+    "addToCombat": "전투에 추가",
     "advanced": "고급",
     "allowlist": "허가 목록",
     "armour": "방어구",
-    "atk": "공격",
     "attack": "공격",
+    "attacks": "공격",
     "attribute": {
       "agility": "민첩",
       "intellect": "지능",
@@ -18,145 +19,70 @@
       "will": "의지"
     },
     "attributes": "특성",
-    "bab": "BAB",
-    "basic": "기본",
-    "bennies": "Bennies",
-    "blessing": "축복",
-    "blocklist": "차단 목록",
-    "blocklistLabel": "차단 목록: 숨김 / 허가 목록: 보임",
+    "blockList": "차단 목록",
+    "blockListLabel": "차단 목록: 숨김 / 허가 목록: 보임",
     "bonusActions": "보너스 액션",
-    "bonuses": "보너스",
     "book": "책",
     "books": "책",
-    "buffs": "버프",
     "cancel": "취소",
     "cantrips": "소마법",
-    "casterlevel": "Caster Level",
     "categoryTagTitle": "카테고리 추가/삭제",
     "categoryTagExplanation": "사용자 지정 가능한 카테고리를 추가/제거한다",
     "characteristics": "캐릭터성",
-    "charts": "차트",
     "checks": "판정",
-    "classFeatures": "클래스 능력",
     "clearButton": "클리어",
-    "cmb": "CMB",
-    "commonSkills": "일반 기술",
-    "concentration": "집중",
+    "combat": "전투",
     "conditions": "상태",
     "consumables": "소모품",
-    "corebonus": "기본 보너스",
-    "crewActions": "승무원 액션",
+    "coreBonus": "기본 보너스",
     "critical": "치명타",
-    "d35e": {
-      "grapple": "Grapple"
-    },
     "damage": "피해",
-    "dc": "DC",
-    "deathSave": "죽음 내성",
     "defenses": "방어",
-    "dmg": "Dmg",
-    "dodge": "회피",
-    "doomed": "죽음",
-    "downtime": "Downtime",
-    "dying": "죽어감",
-    "edges": "Edges",
-    "edgesAndHindrances": "Edges/Hindrances",
     "effects": "효과",
-    "engineering": "엔지니어링",
+    "endTurn": "End Turn",
     "equipment": "장비",
     "experimental": "실험적",
-    "exploration": "탐험",
-    "fatigue": "Fatigue",
     "feats": "피트",
     "features": "피처",
     "filterPlaceholder": "선택 (세미 콜론으로 구분)",
     "filterTagExplanation": "특정 카테고리 항목을 표시하거나 숨기려면 여기에 항목을 추가한다.",
     "filterTitle": "필터",
-    "free": "자유",
-    "gear": "Gear",
-    "get": "Get",
-    "gm": "GM",
-    "grit": "Grit",
     "handlerNotFound": "찾을 수 없습니다. 기본 굴림으로 돌아갑니다.",
-    "hase": "HASE",
     "healing": "회복",
-    "heroPoints": "영웅 점수",
-    "hindrances": "Hindrances",
-    "hull": "Hull",
-    "improvisedWeapon": "급조 무기",
-    "inconsumables": "비소모품",
     "initiative": "우선권",
     "inspiration": "고양감",
-    "instinct": "본능",
     "inventory": "소지품",
-    "lair": "소굴",
-    "lairActions": "소굴 액션",
-    "legendary": "전설적",
-    "legendaryActions": "전설적 액션",
     "level": "레벨",
     "levelAbbreviation": "Lvl",
     "longRest": "긴 휴식",
-    "lore": "지식",
     "magic": "마법",
     "magicItems": "매직 아이템",
-    "mech": "Mech",
+    "makeInvisible": "보이지 않게 만들기",
+    "makeVisible": "보이게 하기",
     "melee": "근거리",
-    "misc": "Misc",
-    "monsterMoves": "괴물 이동",
-    "moves": "이동",
-    "msa": "근거리 주문 공격",
-    "mwa": "근거리 무기 공격",
-    "noammo": "탄약 없음",
     "other": "기타",
     "passive": "상시",
-    "petty": "Petty",
-    "pf1": {
-      "disabled": "Disabled"
-    },
-    "pilot": "Pilot",
-    "points": "포인트",
     "powers": "파워",
     "profession": "Profession",
     "push": "오른쪽",
     "pushLabelExplanation": "카테고리를 어느 쪽에 배치하는가?",
     "ranged": "원거리",
-    "rank": "Rank",
     "reactions": "리액션",
     "recharge": "재충전",
     "religion": "종교",
-    "resistance": "Resistance",
+    "removeFromCombat": "전투에서 제거",
     "rest": "Rest",
-    "restNight": "밤 동안 휴식",
-    "takeBreather": "Take a Breather",
     "rests": "휴식",
     "roll": "굴림",
-    "rollable": "굴림 가능",
     "rollInitiative": "우선권 굴림",
-    "rsa": "원거리 주문 공격",
-    "rwa": "원거리 무기 공격",
     "saves": "내성 굴림",
-    "shields": "방패",
     "shortRest": "짧은 휴식",
     "skills": "기술",
-    "skilltriggers": "Skill Triggers",
-    "special": "특수",
     "specialActions": "특수 행동",
-    "specialQualities": "특수 능력",
-    "spellbook": "주문서",
     "spells": "주문",
-    "spend": "소모",
-    "starting": "Starting",
-    "stat": "스탯",
-    "stats": "스탯",
-    "status": "스테이터스",
-    "strikes": "스트라이크",
     "subcategoryTagTitle": "하위 카테고리 추가/삭제",
     "subcategoryTagExplanation": "하위 카테고리 추가/제거: 매크로 하위 카테고리를 자유 입력하거나 연결된 컴펜디움을 선택한다. ",
-    "systems": "시스템",
-    "tags": "태그",
     "talents": "탤런트",
-    "techattack": "Tech Attack",
-    "techs": "Techs",
     "temporary": "임시",
     "title": "Token Action HUD",
     "toggleCombatState": "전투 상태 전환",
@@ -165,17 +91,9 @@
     "token": "토큰",
     "tools": "도구",
     "traits": "특성",
-    "treasure": "전리품",
-    "treatWounds": "Treat Wounds",
-    "unarmed": "비무장",
-    "stomp": "Stomp!",
-    "unrollable": "굴림 불가능",
     "unshift": "왼쪽",
     "utility": "유틸리티",
     "weapons": "무기",
-    "wounded": "부상",
-    "wounds": "상처",
-    "woundsAndFatigue": "Wounds/Fatigue",
     "settings": {
       "activeCssAsText": {
         "name": "텍스트로 활성화 CSS 표시",
@@ -197,9 +115,17 @@
         "name": "디버깅 활성화",
         "hint": "디버그 기록을 활성화한다."
       },
-      "dropdown": {
-        "hint": "활성화시 카테고리를 드롭다운 형식으로 설정하며 그 외엔 (주의!)구린 드롭업을 사용한다. 버그가 있으면 언제든지 신고해주세요.",
-        "name": "카테고리 드롭다운"
+      "direction": {
+        "hint": "HUD가 확장되는 방향 설정",
+        "name": "방향",
+        "choices": {
+          "down": "아래에",
+          "up": "위로"
+        }
+      },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
       },
       "enabledForUser": {
         "name": "현재 유저에게 HUD를 활성화",
@@ -230,9 +156,133 @@
         "hint": "백분율 단위로 HUD 크기를 조정한다(기본값 100)",
         "name": "HUD 크기"
       },
+      "showAbilitiesCategory": {
+        "hint": "Show the Abilities category on the HUD",
+        "name": "Show Abilities"
+      },
+      "showActionsCategory": {
+        "hint": "Show the Actions category on the HUD",
+        "name": "Show Actions"
+      },
+      "showAttacksCategory": {
+        "hint": "Show the Attacks category on the HUD",
+        "name": "Show Attacks"
+      },
+      "showAttributesCategory": {
+        "hint": "Show the Attributes category on the HUD",
+        "name": "Show Attributes"
+      },
+      "showBenniesCategory": {
+        "hint": "Show the Bennies category on the HUD",
+        "name": "Show Bennies"
+      },
+      "showBuffsCategory": {
+        "hint": "Show the Buffs category on the HUD",
+        "name": "Show Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Show the Characteristics category on the HUD",
+        "name": "Show Characteristics"
+      },
+      "showChecksCategory": {
+        "hint": "Show the Checks category on the HUD",
+        "name": "Show Checks"
+      },
+      "showConditionsCategory": {
+        "hint": "Show the Conditions category on the HUD",
+        "name": "Show Conditions"
+      },
+      "showConsumablesCategory": {
+        "hint": "Show the Consumables category on the HUD",
+        "name": "Show Consumables"
+      },
+      "showEdgesHindrancesCategory": {
+        "hint": "Show the Edges/Hindrances category on the HUD",
+        "name": "Show Edges/Hindrances"
+      },
+      "showEffectsCategory": {
+        "hint": "Show the Effects category on the HUD",
+        "name": "Show Effects"
+      },
+      "showFeaturesCategory": {
+        "hint": "Show the Features category on the HUD",
+        "name": "Show Features"
+      },
+      "showGearCategory": {
+        "hint": "Show the Gear category on the HUD",
+        "name": "Show Gear"
+      },
+      "showInventoryCategory": {
+        "hint": "Show the Inventory category on the HUD",
+        "name": "Show Inventory"
+      },
+      "showMagicCategory": {
+        "hint": "Show the Magic category on the HUD",
+        "name": "Show Magic"
+      },
+      "showPowersCategory": {
+        "hint": "Show the Powers category on the HUD",
+        "name": "Show Powers"
+      },
+      "showReligionCategory": {
+        "hint": "Show the Religion category on the HUD",
+        "name": "Show Religion"
+      },
+      "showSavesCategory": {
+        "hint": "Show the Saves category on the HUD",
+        "name": "Show Saves"
+      },
+      "showSkillsCategory": {
+        "hint": "Show the Skills category on the HUD",
+        "name": "Show Skills"
+      },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Show the Special Abilities category on the HUD",
+        "name": "Show Special Abilities"
+      },
+      "showSpellsCategory": {
+        "hint": "Show the Spells category on the HUD",
+        "name": "Show Spells"
+      },
+      "showStatusCategory": {
+        "hint": "Show the Status category on the HUD",
+        "name": "Show Status"
+      },
+      "showStrikesCategory": {
+        "hint": "Show the Strikes category on the HUD",
+        "name": "Show Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Show the Talents category on the HUD",
+        "name": "Show Talents"
+      },
+      "showTraitsCategory": {
+        "hint": "Show the Traits category on the HUD",
+        "name": "Show Traits"
+      },
+      "showUtilityCategory": {
+        "hint": "Show the Utility category on the HUD",
+        "name": "Show Utility"
+      },
+      "showWeaponsCategory": {
+        "hint": "Show the Weapons category on the HUD",
+        "name": "Show Weapons"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Show the Wounds/Fatigue category on the HUD",
+        "name": "Show Wounds/Fatigue"
+      },
       "background": {
-        "hint": "HTML 색상(예. 'red', '#000055', '#FFF', 기타)을 사용하여 배경에 사용한다. 코드의 유효성은 체크되지 않는다.",
-        "name": "HUD 배경 색상"
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI",
+        "name": "HUD Background Color"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI",
+        "name": "Button Background Color"
+      },
+      "buttonBorderColor": {
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI",
+        "name": "Button Border Color"
       },
       "showHudTitle": {
         "name": "HUD 제목 표시",
@@ -242,14 +292,135 @@
         "name": "액션 아이콘 표시",
         "hint": "활성화될 경우 HUD 버튼에 액션 아이콘이 표시된다."
       },
+      "style": {
+        "hint": "HUD의 스타일 설정",
+        "name": "스타일"
+      },
       "useActionList": {
         "name": "액션 타입별로 그룹화",
         "hint": "Character Actions 5e 모듈이 있어야 하며 활성화시 버튼이 액션 유형별로 그룹화된다."
-      },
-      "dnd5e": {
+      }
+    },
+    "alienRpg": {
+      "acidSplash": "Acid Splash",
+      "agenda": "Agenda/Story Cards",
+      "agility": "Agility",
+      "air": "Air",
+      "armorRating": "Armor",
+      "armorVersusFire": "Armor V Fire",
+      "command": "Command",
+      "closeCombat": "Close Combat",
+      "comtech": "Comtech",
+      "consumables": "소모품",
+      "conditions": "Conditions",
+      "creatureAttack": "Creature Attack",
+      "dehydrated": "Dehydrated",
+      "empathy": "Empathy",
+      "exhausted": "Exhausted",
+      "food": "Food",
+      "freezing": "Freezing",
+      "health": "Health",
+      "heavyMachinery": "Heavy Machinery",
+      "manipulation": "Manipulation",
+      "medicalAid": "Medical Aid",
+      "mobility": "Mobility",
+      "observation": "Observation",
+      "panic": "Panic",
+      "piloting": "Piloting",
+      "power": "Power",
+      "rangedCombat": "Ranged Combat",
+      "rollCrit": "Roll Crit",
+      "rollStress": "Roll Stress",
+      "skill": "Skill",
+      "speed": "Speed",
+      "stamina": "Stamina",
+      "starving": "Starving",
+      "strength": "Strength",
+      "stressPoints": "Stress Points",
+      "survival": "Survival",
+      "water": "Water",
+      "wits": "Wits"
+    },
+    "bitd": {
+      "resistance": "Resistance"
+    },
+    "co": {
+      "attacks": "Attacks",
+      "capacities": "Capacities",
+      "combat": "Combat",
+      "protections": "Protections"
+    },
+    "d35e": {
+      "buffs": "버프",
+      "concentration": "집중",
+      "fullAttack": "Full Attack",
+      "grapple": "Grapple",
+      "inconsumables": "비소모품"
+    },
+    "demonLord": {
+      "attackoptions": "Attack Options",
+      "challenge": "Challenge Roll",
+      "rest": "Rest",
+      "specialattacks": "Special Attacks"
+    },
+    "dnd4e": {
+      "settings": {
+        "hideUsedPowers": {
+          "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
+          "name": "Hide used powers"
+        },
+        "forcePowerColours": {
+          "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
+          "name": "Colour Powers By Use Type"
+        },
+        "hideUnequippedInventory": {
+          "hint": "If enabled, only inventory items that are set as equipped will be shown",
+          "name": "Hide Unequipped Inventory"
+        },
+        "hideQuantityZero": {
+          "hint": "If enabled, inventory with a quantity 0 will be hidden (useful for consumables)",
+          "name": "Hide inventory with quantity of 0"
+        },
+        "equipmentCategoryList": {
+          "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
+          "name": "Visible Inventory Categories"
+        }
+      }
+    },
+    "dnd5e": {
+      "abilities": "능력치",
+      "actions": "액션",
+      "attributes": "특성",
+      "bonusActions": "보너스 액션",
+      "checks": "판정",
+      "consumables": "소모품",
+      "crewActions": "승무원 액션",
+      "deathSave": "죽음 내성",
+      "equipment": "장비",
+      "lair": "소굴",
+      "lairActions": "소굴 액션",
+      "legendary": "전설적",
+      "legendaryActions": "전설적 액션",
+      "other": "기타",
+      "reactions": "리액션",
+      "saves": "내성 굴림",
+      "skills": "기술",
+      "specialActions": "특수 행동",
+      "tools": "도구",
+      "weapons": "무기",
+      "settings": {
         "abbreviateSkills": {
           "name": "기술 및 능력치 이름을 줄임",
           "hint": "활성화할 경우 기술 및 능력치는 3 글자 약어로 표시된다."
+        },
+        "categoriseAttributes": {
+          "hint": "Categorise abilities and skills into Attributes, Abilities/Skills or Checks/Saves/Skills",
+          "name": "Categorise Attributes",
+          "choices": {
+            "attributes": "특성",
+            "abilitiesSkills": "능력치/기술",
+            "checksSavesSkills": "판정/내성 굴림/기술"
+          }
         },
         "hideLongerActions": {
           "name": "사용에 1 라운드 이상 시간이 드는 액션을 숨김",
@@ -287,92 +458,290 @@
           "name": "별도의 능력 판정과 내성굴림 카테고리 보기",
           "hint": "활성화할 경우 능력치가 판정과 내성굴림으로 구분된다."
         }
-      },
-      "pf2e": {
-        "showPcAbilities": {
-          "name": "PC 능력치 보기",
-          "hint": "활성화된 경우 PC의 HUD에 능력치 카테고리가 표기된다."
-        },
-        "showNpcAbilities": {
-          "name": "NPC 능력치 보기",
-          "hint": "활성화된 경우 NPC의 HUD에 능력치 카테고리가 표기된다."
+      }
+    },
+    "ds4": {
+      "settings": {
+        "displayCheckTargetNumbers": {
+          "name": "샘플 값 표시",
+          "hint": "이 설정이 활성화되면 개별 샘플의 샘플 값이 표시됩니다."
+        }
+      }
+    },
+    "dungeonWorld": {
+      "basic": "기본",
+      "charts": "차트",
+      "gm": "GM",
+      "instinct": "본능",
+      "monsterMoves": "괴물 이동",
+      "moves": "이동",
+      "special": "특수",
+      "specialQualities": "특수 능력",
+      "starting": "Starting",
+      "tags": "태그",
+      "treasure": "전리품",
+      "settings": {
+        "showGmCompendiums": {
+          "name": "GM 컴펜디움 보기",
+          "hint": "활성화 했을 때 사용자가 GM인 경우 HUD바에 GM 이동, 전리품 굴림표, 차트가 포함된다."
+        }
+      } 
+    },
+    "ed4e": {
+      "systems": "시스템"
+    },
+    "forbiddenLands": {
+      "agility": "Agility",
+      "animalHandling": "Animal Handling",
+      "arrows": "Arrows",
+      "cold": "Cold",
+      "conditions": "Conditions",
+      "consumables": "소모품",
+      "crafting": "Crafting",
+      "empathy": "Empathy",
+      "endurance": "Endurance",
+      "food": "Food",
+      "healing": "Healing",
+      "hungry": "Hungry",
+      "insight": "Insight",
+      "lore": "Lore",
+      "manipulation": "Manipulation",
+      "marksmanship": "Marksmanship",
+      "melee": "Melee",
+      "might": "Might",
+      "monsterAttack": "Monster Attack",
+      "move": "Move",
+      "performance": "Performance",
+      "scouting": "Scouting",
+      "sleightOfHand": "Sleight of Hand",
+      "sleepy": "Sleepy",
+      "stealth": "Stealth",
+      "strength": "Strength",
+      "survival": "Survival",
+      "thirsty": "Thirsty",
+      "torches": "Torches",
+      "water": "Water",
+      "wits": "Wits"
+    },
+    "gurps": {
+      "addAcc": "Add Acc",
+      "blindRoll": "Blind Roll",
+      "retreatBlock": "Retreating Block",
+      "retreatDodge": "Retreating Dodge",
+      "retreatParry": "Retreating Parry",
+      "retreatParryFencing": "Retreating Parry (Fencing)"
+    },
+    "kamigakari": {
+      "attack": "공격",
+      "conceptDestruction": "개념 파괴",
+      "constant": "상시",
+      "consumables": "소모품",
+      "defense": "방어",
+      "end": "종료",
+      "free": "특수",
+      "items": "아이템",
+      "mainStats": "주능력치",
+      "prep": "준비",
+      "sacraments": "상비",
+      "spiritBurn": "영문 연소",
+      "start": "개시",
+      "subStats": "부능력치",
+      "transcend": "물리 초월",
+      "vitalIgnition": "생명 연소"
+    },
+    "lancer": {
+      "engineering": "엔지니어링",
+      "gear": "장치",
+      "grit": "Grit",
+      "hase": "HASE",
+      "hull": "Hull",
+      "mech": "Mech",
+      "pilot": "조종사",
+      "rank": "Rank",
+      "skillTriggers": "Skill Triggers",
+      "stat": "스탯",
+      "stats": "스탯",
+      "systems": "시스템",
+      "techAttack": "Tech Attack",
+      "techs": "Techs"
+    },
+    "pf1": {
+      "bonuses": "보너스",
+      "buffs": "버프",
+      "casterlevel": "Caster Level",
+      "concentration": "집중",
+      "disabled": "Disabled",
+      "inconsumables": "비소모품",
+      "settings": {
+        "showDisabled": {
+          "hint": "If enabled, disabled features won't be shown.",
+          "name": "Hide disabled features"
+        }
+      }
+    },
+    "pf2e": {
+      "atk": "공격",
+      "bonusFeats": "Bonus Feats",
+      "classFeats": "Class Feats",
+      "classFeatures": "클래스 능력",
+      "commonSkills": "일반 기술",
+      "dc": "DC",
+      "doomed": "죽음",
+      "downtime": "Downtime",
+      "dying": "죽어감",
+      "exploration": "탐험",
+      "free": "자유",
+      "generalFeats": "General Feats",
+      "heroPoints": "영웅 점수",
+      "lore": "지식",
+      "noAmmo": "탄약 없음",
+      "recoveryCheck": "Recovery Check",
+      "restNight": "밤 동안 휴식",
+      "strikes": "스트라이크",
+      "takeBreather": "Take a Breather",
+      "treatWounds": "Treat Wounds",
+      "useTwoHandedLabel": "Use weapon two-handed",
+      "wounded": "부상",
+      "settings": {
+        "abbreviateSkills": {
+          "name": "기술 및 능력치 이름을 줄임",
+          "hint": "활성화할 경우 기술 및 능력치는 3 글자 약어로 표시된다."
         },
         "calculateAttackPenalty": {
           "name": "계산된 MAP 보기",
           "hint": "활성화할 경우 스트라이크는 플랫 MAP 대신 계산된 공격 보너스(MAP)을 표시한다."
         },
+        "ignorePassiveActions": {
+          "name": "패시브 액션 무시",
+          "hint": "활성화될 경우 패시브 액션이 표시되지 않는다."
+        },
         "printSpellCard": {
           "name": "주문 카드를 채팅에 출력",
           "hint": "비활성화 될 경우 마우스 왼쪽 클릭을 하면 공격이 굴려지고(보너스 대화 상자의 경우 Shift+오른 클릭) 마우스 오른 클릭을 하면 피해가 굴려진다.(보너스 대화 상자의 경우 Ctrl+오른 클릭). 해당되지 않는 경우 주문 카드가 채팅에 출력된다."
         },
-        "abbreviateSkills": {
-          "name": "기술 및 능력치 이름을 줄임",
-          "hint": "활성화할 경우 기술 및 능력치는 3 글자 약어로 표시된다."
+        "separateTogglesCategory": {
+          "hint": "If enabled, rule toggles will be placed in their own category, otherwise they will fall under strikes.",
+          "name": "Separate Toggles Category"
         },
-        "ignorePassiveActions": {
-          "name": "패시브 액션 무시",
-          "hint": "활성화될 경우 패시브 액션이 표시되지 않는다."
-        }
-      },
-      "sfrpg": {
+        "showNpcAbilities": {
+          "name": "NPC 능력치 보기",
+          "hint": "활성화된 경우 NPC의 HUD에 능력치 카테고리가 표기된다."
+        },
+        "showOldNpcStrikes": {
+          "hint": "If enabled, the HUD will show the old NPC strike actions as well as the new (experimental) strikes for NPCs.",
+          "name": "Show old NPC Strikes"
+        },
+        "showPcAbilities": {
+          "name": "PC 능력치 보기",
+          "hint": "활성화된 경우 PC의 HUD에 능력치 카테고리가 표기된다."
+        }  
+      } 
+    },
+    "sfrpg": {
+      "activeFeats": "활성 위업",
+      "crewActions": "승무원 액션",
+      "misc": "Misc",
+      "msa": "근거리 주문 공격",
+      "mwa": "근거리 무기 공격",
+      "passiveFeats": "패시브 피트",
+      "rsa": "원거리 주문 공격",
+      "rwa": "원거리 무기 공격",
+      "shields": "방패",
+      "spellbook": "주문서",
+      "settings": {
+        "showMiscFeats": {
+          "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
+          "name": "Display miscellaneous feats"
+        },
         "showSpellInfo": {
           "name": "주문 정보 표시",
           "hint": "활성화될 경우 주문 이름 옆에 주문 저항, 차단, 집중, 내성 굴림 정보가 표기된다."
         }
-      },
-      "dungeonworld": {
-        "showGmCompendiums": {
-          "name": "GM 컴펜디움 보기",
-          "hint": "활성화 했을 때 사용자가 GM인 경우 HUD바에 GM 이동, 전리품 굴림표, 차트가 포함된다."
+      }
+    },
+    "sw5e": {
+      "deathSave": "죽음 내성",
+      "destructionSave": "Destruction Save",
+      "naturalPowers": "Natural Powers",
+      "settings": {
+        "abbreviateSkills": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "hideLongerActions": {
+          "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
+          "name": "Hide actions with an activation longer than 1 round"
+        },
+        "ignorePassiveFeats": {
+          "hint": "If enabled, passive feats are not shown.",
+          "name": "Ignore passive feats"
+        },
+        "itemMacroReplace": {
+          "hint": "Select which of the items will be shown in the inventory.",
+          "name": "Item-Macro: item macro, original item, or both"
+        },
+        "showAllNonpreparablePowers": {
+          "hint": "If disabled, powers such as cantrips, innate, pact, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
+          "name": "Show all non-preparable powers"
+        },
+        "showAllNpcItems": {
+          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
+          "name": "Show all NPC items"
+        },
+        "showConditionsCategory": {
+          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
+          "name": "Show Conditions Category"
+        },
+        "showEmptyItems": {
+          "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
+          "name": "Show empty items (includes items and powers)"
+        },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
+        "showPowerInfo": {
+          "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
+          "name": "Display power information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
         }
-      },
-      "alienrpg": {
-        "consumables": "Consumables",
-        "conditions": "Conditions",
-        "skill": "Skill",
-        "stresspoints": "Stress Points",
-        "rollStress": "Roll Stress",
-        "starving": "Starving",
-        "dehydrated": "Dehydrated",
-        "exhausted": "Exhausted",
-        "freezing": "Freezing",
-        "panic": "Panic",
-        "attributestr": "Strength",
-        "attributewit": "Wits",
-        "attributeagl": "Agility",
-        "attributeemp": "Empathy",
-        "skillheavyMach": "Heavy Machinery",
-        "skillcloseCbt": "Close Combat",
-        "skillstamina": "Stamina",
-        "skillrangedCbt": "Ranged Combat",
-        "skillmobility": "Mobility",
-        "skillpiloting": "Piloting",
-        "skillcommand": "Command",
-        "skillmanipulation": "Manipulation",
-        "skillmedicalAid": "Medical Aid",
-        "skillobservation": "Observation",
-        "skillsurvival": "Survival",
-        "skillcomtech": "Comtech",
-        "consumablesair": "Air",
-        "consumablespower": "Power",
-        "consumablesfood": "Food",
-        "consumableswater": "Water",
-        "agenda": "Agenda/Story Cards",
-        "power": "Power",
-        "attributespeed": "Speed",
-        "attributearmorvfire": "Armor V Fire",
-        "attributearmorrating": "Armor",
-        "attributeacidSplash": "Acid Splash",
-        "attributemobility": "Mobility",
-        "attributeobservation": "Observation",
-        "creatureAttack": "Creature Attack",
-        "health": "Health",
-        "rollCrit": "Roll Crit"
-      },
-      "ds4": {
-        "displayCheckTargetNumbers": {
-          "name": "샘플 값 표시",
-          "hint": "이 설정이 활성화되면 개별 샘플의 샘플 값이 표시됩니다."
+      }  
+    },
+    "swade": {
+      "bennies": "Bennies",
+      "edges": "Edges",
+      "edgesAndHindrances": "Edges/Hindrances",
+      "fatigue": "Fatigue",
+      "gear": "장치",
+      "give": "주다",
+      "gm": "GM",
+      "hindrances": "Hindrances",
+      "misc": "Misc",
+      "mods": "Mods",
+      "points": "포인트",
+      "shields": "방패",
+      "specialAbilities": "특수 능력",
+      "spend": "소모",
+      "status": "스테이터스",
+      "wounds": "상처",
+      "woundsAndFatigue": "Wounds/Fatigue",
+      "settings": {
+        "abbreviateAttributes": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
         }
       }
     },
@@ -381,26 +750,17 @@
       "mysticalPowers": "Mystical Powers"
     },
     "wfrp": {
-      "meleeSkillPrefix": "Melee",
-      "rangedSkillPrefix": "Ranged"
-    },
-    "kamigakari": {
-      "mainStats": "주능력치",
-      "subStats": "부능력치",
-      "start": "개시",
-      "prep": "준비",
-      "attack": "공격",
-      "defense": "방어",
-      "end": "종료",
-      "constant": "상시",
-      "free": "특수",
-      "spiritBurn": "영문 연소",
-      "transcend": "물리 초월",
-      "vitalIgnition": "생명 연소",
-      "conceptDestruction": "개념 파괴",
-      "items": "아이템",
-      "sacraments": "상비",
-      "consumables": "소비"
+      "basic": "기본",
+      "blessing": "축복",
+      "dodge": "회피",
+      "improvisedWeapon": "급조 무기",
+      "melee": "난투",
+      "petty": "Petty",
+      "ranged": "원거리",
+      "rollable": "굴림 가능",
+      "stomp": "Stomp!",
+      "unarmed": "비무장",
+      "unrollable": "굴림 불가능"
     }
   }
 }

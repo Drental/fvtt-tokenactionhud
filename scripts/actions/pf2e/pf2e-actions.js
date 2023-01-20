@@ -22,25 +22,25 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
     result.tokenId = tokenId;
 
     let actor = token.actor;
     if (!actor) return result;
 
     let knownActors = ["character", "npc", "familiar"];
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (!knownActors.includes(actorType)) return result;
 
     result.actorId = actor.id;
 
     if (actorType === "character" || actorType === "familiar")
-      this.pcActionHandler.buildActionList(result, tokenId, actor);
+      await this.pcActionHandler.buildActionList(result, tokenId, actor);
 
     if (actorType === "npc")
-      this.npcActionHandler.buildActionList(result, tokenId, actor);
+      await this.npcActionHandler.buildActionList(result, tokenId, actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -51,8 +51,11 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     const allowedTypes = ["npc", "character", "familiar"];
     let actors = canvas.tokens.controlled
+      .filter((t) => t.actor)
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
+
+    if (actors.length === 0) return;
 
     const tokenId = list.tokenId;
 
@@ -96,7 +99,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       subcategory.actions.push(action);
     });
 
-    const skillsName = this.i18n("tokenactionhud.commonSkills");
+    const skillsName = this.i18n("tokenActionHud.pf2e.commonSkills");
     this._combineSubcategoryWithCategory(category, skillsName, subcategory);
     this._combineCategoryWithList(list, skillsName, category);
   }
@@ -118,7 +121,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       subcategory.actions.push(action);
     });
 
-    const savesName = this.i18n("tokenactionhud.saves");
+    const savesName = this.i18n("tokenActionHud.saves");
     this._combineSubcategoryWithCategory(category, savesName, subcategory);
     this._combineCategoryWithList(list, savesName, category);
   }
@@ -139,13 +142,13 @@ export class ActionHandlerPf2e extends ActionHandler {
       macroType
     );
 
-    const attributesName = this.i18n("tokenactionhud.attributes");
+    const attributesName = this.i18n("tokenActionHud.attributes");
     this._combineSubcategoryWithCategory(result, attributesName, attributes);
     this._combineCategoryWithList(list, attributesName, result);
   }
 
   _addMultiUtilities(list, tokenId, actors) {
-    if (!actors.every((actor) => actor.data.type === "character")) return;
+    if (!actors.every((actor) => actor.type === "character")) return;
 
     let result = this.initializeEmptyCategory("utility");
     let macroType = "utility";
@@ -158,7 +161,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     );
     let treatWoundsAction = {
       id: "treatWounds",
-      name: this.i18n("tokenactionhud.treatWounds"),
+      name: this.i18n("tokenActionHud.pf2e.treatWounds"),
       encodedValue: treatWoundsValue,
     };
     restActions.push(treatWoundsAction);
@@ -166,7 +169,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     let longRestValue = ["utility", tokenId, "longRest"].join(this.delimiter);
     let longRestAction = {
       id: "longRest",
-      name: this.i18n("tokenactionhud.restNight"),
+      name: this.i18n("tokenActionHud.pf2e.restNight"),
       encodedValue: longRestValue,
     };
     restActions.push(longRestAction);
@@ -177,7 +180,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       );
       let takeBreatherAction = {
         id: "takeABreather",
-        name: this.i18n("tokenactionhud.takeBreather"),
+        name: this.i18n("tokenActionHud.pf2e.takeBreather"),
         encodedValue: takeBreatherValue,
       };
 
@@ -186,10 +189,10 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     rests.actions = restActions;
 
-    const utilityName = this.i18n("tokenactionhud.utility");
+    const utilityName = this.i18n("tokenActionHud.utility");
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rests"),
+      this.i18n("tokenActionHud.rests"),
       rests
     );
     this._combineCategoryWithList(list, utilityName, result);
@@ -197,6 +200,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _getItemsList(actor, tokenId) {
+    if (settings.get("showInventoryCategory") === false) return;
     let macroType = "item";
     let result = this.initializeEmptyCategory("items");
 
@@ -206,18 +210,18 @@ export class ActionHandlerPf2e extends ActionHandler {
         (a) =>
           ["held","worn"].includes(a.system.equipped?.carryType) && !a.system.containerId?.value?.length
       )
-      .filter((i) => filter.includes(i.data.type))
+      .filter((i) => filter.includes(i.type) && i.system.quantity > 0)
       .sort(this._foundrySort);
 
     let weaponList = items.filter((i) => i.type === "weapon");
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       weaponList = weaponList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let weaponActions = this._buildItemActions(tokenId, macroType, weaponList);
     let weapons = this.initializeEmptySubcategory();
     weapons.actions = weaponActions;
 
     let armourList = items.filter((i) => i.type === "armor");
-    if (actor.data.type === "character")
+    if (actor.type === "character")
       armourList = armourList.filter((i) => ["held","worn"].includes(i.system.equipped?.carryType));
     let armourActions = this._buildItemActions(tokenId, macroType, armourList);
     let armour = this.initializeEmptySubcategory();
@@ -245,22 +249,22 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       weapons
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.armour"),
+      this.i18n("tokenActionHud.armour"),
       armour
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       equipment
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.consumables"),
+      this.i18n("tokenActionHud.consumables"),
       consumables
     );
     this._addContainerSubcategories(tokenId, macroType, result, actor, items);
@@ -307,22 +311,20 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _getEffectsList(actor, tokenId) {
+    if (settings.get("showEffectsCategory") === false) return;
     let macroType = "item";
     let result = this.initializeEmptyCategory("effects");
 
-    let filter = ["effect"];
-    let items = (actor.items ?? [])
-      .filter((i) => filter.includes(i.data.type))
+    let effectsList = (actor.items ?? [])
+      .filter((i) => i.type === "effect" && (!(i.unidentified ?? false) || game.user.isGM))
       .sort(this._foundrySort);
-
-    let effectsList = items.filter((i) => i.type === "effect");
     let effectActions = this._buildItemActions(tokenId, macroType, effectsList);
     let effects = this.initializeEmptySubcategory();
     effects.actions = effectActions;
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.effects"),
       effects
     );
 
@@ -332,11 +334,12 @@ export class ActionHandlerPf2e extends ActionHandler {
   /** @private */
   _addStrikesCategories(actor, tokenId, category) {
     let macroType = "strike";
-    let strikes = actor.system.actions?.filter((a) => a.type === macroType);
-
+    let strikes = actor.system.actions?.filter((a) =>
+      a.type === macroType &&
+      (a.item.system.quantity > 0 || actor.type === 'npc')
+    );
 
     if (!strikes) return;
-
 
     strikes.forEach((s) => {
       this._buildStrikeSubcategory(s, category, "", tokenId, actor);
@@ -349,8 +352,32 @@ export class ActionHandlerPf2e extends ActionHandler {
     let calculateAttackPenalty = settings.get("calculateAttackPenalty");
     let subcategory = this.initializeEmptySubcategory();
     let glyph = s.glyph;
-    if (glyph)
+    if (usage === "thrown") {
+      subcategory.icon =
+      `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/thrown.svg" title="Thrown Usage" style="
+      border: 0;
+      filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
+      left: 2px;
+      padding-top: 3px;
+      position: relative;
+      ">`
+    }
+    if (usage === "melee") {
+      subcategory.icon =
+      `<img class="alt-usage-icon" src="systems/pf2e/icons/mdi/sword.svg" title="Melee Usage" style="
+      border: 0;
+      filter: invert(1) drop-shadow(1px 1px 1px rgba(0, 0, 0, 1));
+      left: 2px;
+      padding-top: 3px;
+      position: relative;
+      ">`
+    } else if (usage !== "thrown" && glyph) {
       subcategory.icon = `<span style='font-family: "Pathfinder2eActions"'>${glyph}</span>`;
+    }
+    const id = s.sourceId ?? s.slug
+    const subcategoryName = (s.attackRollType) 
+      ? `${s.label} - ${this.i18n(s.attackRollType)}`
+      :  s.label
     if (s.ready) {
       let map = Math.abs(parseInt(s.variants[1].label.split(" ")[1]));
       let attackMod = s.totalModifier;
@@ -370,7 +397,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           currentMap -= map;
           currentBonus -= map;
           return {
-            id: encodeURIComponent(`${this.name}>${this.variants.indexOf(v)}>` + usage),
+            id: encodeURIComponent(`${id}>${this.variants.indexOf(v)}>` + usage),
             name: name,
           };
         }.bind(s)
@@ -386,22 +413,22 @@ export class ActionHandlerPf2e extends ActionHandler {
       let damageEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.name + ">damage>" + usage),
+        encodeURIComponent(id + ">damage>" + usage),
       ].join(this.delimiter);
       let critEncodedValue = [
         macroType,
         tokenId,
-        encodeURIComponent(s.name + ">critical>" + usage),
+        encodeURIComponent(id + ">critical>" + usage),
       ].join(this.delimiter);
       subcategory.actions.push({
-        name: this.i18n("tokenactionhud.damage"),
+        name: this.i18n("tokenActionHud.damage"),
         encodedValue: damageEncodedValue,
-        id: encodeURIComponent(s.name + ">damage>" + usage),
+        id: encodeURIComponent(id + ">damage>" + usage),
       });
       subcategory.actions.push({
-        name: this.i18n("tokenactionhud.critical"),
+        name: this.i18n("tokenActionHud.critical"),
         encodedValue: critEncodedValue,
-        id: encodeURIComponent(s.name + ">critical>" + usage),
+        id: encodeURIComponent(id + ">critical>" + usage),
       });
 
       let ammoAction = this._ammoInfo(tokenId, actor, s);
@@ -414,7 +441,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       const auxActionsMap = s.auxiliaryActions.map(
         function (a) {
           return {
-            id: encodeURIComponent(`${this.name}>${this.auxiliaryActions.indexOf(a)}>` + usage),
+            id: encodeURIComponent(`${id}>${this.auxiliaryActions.indexOf(a)}>` + usage),
             name: a.label,
           };
         }.bind(s)
@@ -432,7 +459,7 @@ export class ActionHandlerPf2e extends ActionHandler {
       });
     }
 
-    this._combineSubcategoryWithCategory(category, usage ? usage : s.name, subcategory);
+    this._combineSubcategoryWithCategory(category, usage ? usage : subcategoryName, subcategory);
     if (!usage && s.altUsages) {
       for (const altUsage of s.altUsages) {
         this._buildStrikeSubcategory(altUsage, category, altUsage.item.isMelee ? "melee" : "thrown", tokenId, actor);
@@ -448,16 +475,16 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     if (!item) {
       return {
-        name: this.i18n("tokenactionhud.noammo"),
-        encodedValue: "noammo",
-        id: "noammo",
+        name: this.i18n("tokenActionHud.pf2e.noAmmo"),
+        encodedValue: "noAmmo",
+        id: "noAmmo",
       };
     }
 
     let encodedValue = ["ammo", tokenId, item.id].join(this.delimiter);
     let img = this._getImage(item);
     let action = {
-      name: item.name,
+      name: item.label,
       encodedValue: encodedValue,
       id: item.id,
       img: img,
@@ -468,6 +495,7 @@ export class ActionHandlerPf2e extends ActionHandler {
   }
 
   _getSkillsList(actor, tokenId) {
+    if (settings.get("showSkillsCategory") === false) return;
     let result = this.initializeEmptyCategory("skills");
 
     let abbreviated = settings.get("abbreviateSkills");
@@ -495,12 +523,12 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.lore"),
+      this.i18n("tokenActionHud.pf2e.lore"),
       lore
     );
 
@@ -509,6 +537,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _getActionsList(actor, tokenId) {
+    if (settings.get("showActionsCategory") === false) return;
     let macroType = "action";
     let result = this.initializeEmptyCategory("actions");
 
@@ -583,32 +612,32 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.reactions"),
+      this.i18n("tokenActionHud.reactions"),
       reactions
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.free"),
+      this.i18n("tokenActionHud.pf2e.free"),
       free
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.passive"),
+      this.i18n("tokenActionHud.passive"),
       passive
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.exploration"),
+      this.i18n("tokenActionHud.pf2e.exploration"),
       exploration
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.downtime"),
+      this.i18n("tokenActionHud.pf2e.downtime"),
       downtime
     );
 
@@ -623,7 +652,8 @@ export class ActionHandlerPf2e extends ActionHandler {
     );
   }
 
-  _getSpellsList(actor, tokenId) {
+  async _getSpellsList(actor, tokenId) {
+    if (settings.get("showSpellsCategory") === false) return;
     let result = this.initializeEmptyCategory("spells");
 
     let filter = ["spellcastingEntry"];
@@ -633,23 +663,24 @@ export class ActionHandlerPf2e extends ActionHandler {
     let spellCategories = this.initializeEmptySubcategory();
 
     for (const spellcastingEntry of items) {
-      const bookName = spellcastingEntry.name;
+      const spellsText = game.i18n.localize("tokenActionHud.spells");
+      const bookName = `<div>${spellcastingEntry.name.replace(" ", "</div>&nbsp<div>")}</div>`.replace(` ${spellsText}`, "");
       let spellcastingEntryCategory = this.initializeEmptySubcategory(bookName);
       spellcastingEntryCategory.name = bookName;
       spellCategories.subcategories.push(spellcastingEntryCategory);
 
-      const spellInfo = spellcastingEntry.getSpellData();
+      const spellInfo = await spellcastingEntry.getSpellData();
 
       const activeLevels = spellInfo.levels.filter((level) => level.active.length > 0);
       for (const [i, level] of Object.entries(activeLevels)) {
         const isFirst = Number(i) === 0;
-        let levelName = String(game.i18n.localize(level.label));
+        let levelName = String(game.i18n.localize(level.label)).replace(` ${spellsText}`, "");
         let levelSubcategory = this.initializeEmptySubcategory();
 
         this._setSpellSlotInfo(actor, tokenId, levelSubcategory, level, spellInfo, isFirst);
 
         if (isFirst) {
-          levelName = `${bookName} - ${levelName}`;
+          levelName = `${bookName}&nbsp<div>-</div>&nbsp<div>${levelName}</div>`;
           levelSubcategory.info2 = this._getSpellDcInfo(spellcastingEntry);
         }
 
@@ -658,13 +689,13 @@ export class ActionHandlerPf2e extends ActionHandler {
           let encodedValue = [
             macroType,
             tokenId,
-            `${spellInfo.id}>${level.level}>${spell.data._id}`,
+            `${spellInfo.id}>${level.level}>${spell.id}`,
           ].join(this.delimiter);
 
           const spellAction = {
             name: spell.name,
             encodedValue: encodedValue,
-            id: spell.data._id,
+            id: spell.id,
             img: this._getImage(spell),
             icon: this._getActionIcon(spell.system?.time?.value),
             spellLevel: level.level,
@@ -685,7 +716,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.spells"),
+      this.i18n("tokenActionHud.spells"),
       spellCategories
     );
     return result;
@@ -700,9 +731,9 @@ export class ActionHandlerPf2e extends ActionHandler {
     let spellatk = statistic.check.mod;
     let attackBonus =
       spellatk >= 0
-        ? `${this.i18n("tokenactionhud.atk")} +${spellatk}`
-        : `${this.i18n("tokenactionhud.atk")} ${spellatk}`;
-    let dcInfo = `${this.i18n("tokenactionhud.dc")}${spelldc}`;
+        ? `${this.i18n("tokenActionHud.pf2e.atk")} +${spellatk}`
+        : `${this.i18n("tokenActionHud.pf2e.atk")} ${spellatk}`;
+    let dcInfo = `${this.i18n("tokenActionHud.pf2e.dc")}${spelldc}`;
 
     result = `${attackBonus} ${dcInfo}`;
 
@@ -810,7 +841,17 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _getFeatsList(actor, tokenId) {
+    if (settings.get("showFeaturesCategory") === false) return;
     let macroType = "feat";
+    let featTypes = [
+      { featType: "ancestryfeature", title: this.i18n("tokenActionHud.ancestryFeatures") },
+      { featType: "classfeature", title: this.i18n("tokenActionHud.pf2e.classFeatures") },
+      { featType: "ancestry", title: this.i18n("tokenActionHud.ancestryFeats") },
+      { featType: "class", title: this.i18n("tokenActionHud.pf2e.classFeats") },
+      { featType: "skill", title: this.i18n("tokenActionHud.skillFeats") },
+      { featType: "general", title: this.i18n("tokenActionHud.pf2e.generalFeats") },
+      { featType: "bonus", title: this.i18n("tokenActionHud.pf2e.bonusFeats") }
+    ]
 
     let result = this.initializeEmptyCategory("feats");
 
@@ -819,36 +860,27 @@ export class ActionHandlerPf2e extends ActionHandler {
       .filter((a) => filter.includes(a.type))
       .sort(this._foundrySort);
 
-    let active = this.initializeEmptySubcategory();
-    active.actions = this._produceActionMap(
-      tokenId,
-      (items ?? []).filter((a) => a.system.actionType.value !== "passive"),
-      macroType
-    );
 
-    let passive = this.initializeEmptySubcategory();
-    passive.actions = this._produceActionMap(
-      tokenId,
-      (items ?? []).filter((a) => a.system.actionType.value === "passive"),
-      macroType,
-      true
-    );
+    for (const featType of featTypes) {
+      let subcategory = this.initializeEmptySubcategory();
+      subcategory.actions = this._produceActionMap(
+        tokenId,
+        (items ?? []).filter((a) => a.featType === featType.featType),
+        macroType
+      );
 
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.active"),
-      active
-    );
-    this._combineSubcategoryWithCategory(
-      result,
-      this.i18n("tokenactionhud.passive"),
-      passive
-    );
+      this._combineSubcategoryWithCategory(
+        result,
+        featType.title,
+        subcategory
+      );
+    }
 
     return result;
   }
 
   _getSaveList(actor, tokenId) {
+    if (settings.get("showSavesCategory") === false) return;
     let result = this.initializeEmptyCategory("saves");
 
     let actorSaves = Object.values(actor.saves);
@@ -859,7 +891,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.saves"),
+      this.i18n("tokenActionHud.saves"),
       saves
     );
 
@@ -891,25 +923,50 @@ export class ActionHandlerPf2e extends ActionHandler {
 
   /** @private */
   _getUtilityList(actor, tokenId) {
+    if (settings.get("showUtilityCategory") === false) return;
     let result = this.initializeEmptyCategory("utility");
     let macroType = "utility";
 
-    if (actor.data.type === "character") {
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenActionHud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    this._combineSubcategoryWithCategory(
+      result,
+      this.i18n("tokenActionHud.combat"),
+      combatSubcategory
+    );
+
+    // Attributes Subcategory
+    if (actor.type === "character") {
       let attributes = this.initializeEmptySubcategory();
       let attributeActions = [];
 
+      // Hero Points
       let heroPoints = actor.system.resources?.heroPoints;
       if (heroPoints)
         attributeActions.push(
           this._getAttributeAction(
             tokenId,
             "heroPoint",
-            this.i18n("tokenactionhud.heroPoints"),
+            this.i18n("tokenActionHud.pf2e.heroPoints"),
             heroPoints.value,
             heroPoints.max
           )
         );
 
+      // Dying
       let doomedPoints = actor.system.attributes?.doomed;
       let dyingPoints = actor.system.attributes?.dying;
       if (dyingPoints) {
@@ -920,13 +977,14 @@ export class ActionHandlerPf2e extends ActionHandler {
           this._getAttributeAction(
             tokenId,
             "dying",
-            this.i18n("tokenactionhud.dying"),
+            this.i18n("tokenActionHud.pf2e.dying"),
             dyingVal,
             dyingMax
           )
         );
       }
 
+      // Recovery Check
       if (dyingPoints?.value >= 1) {
         let recoveryCheckValue = ["recoveryCheck", tokenId, "recoveryCheck"].join(
           this.delimiter
@@ -934,29 +992,31 @@ export class ActionHandlerPf2e extends ActionHandler {
         let recoveryCheckAction = {
           id: "recoveryCheck",
           encodedValue: recoveryCheckValue,
-          name: this.i18n("tokenactionhud.pf2e.recoveryCheck"),
+          name: this.i18n("tokenActionHud.pf2e.recoveryCheck"),
         };
         attributeActions.push(recoveryCheckAction);
       }
 
+      // Wounded
       let woundedPoints = actor.system.attributes?.wounded;
       if (woundedPoints)
         attributeActions.push(
           this._getAttributeAction(
             tokenId,
             "wounded",
-            this.i18n("tokenactionhud.wounded"),
+            this.i18n("tokenActionHud.pf2e.wounded"),
             woundedPoints.value,
             woundedPoints.max
           )
         );
 
+      // Doomed
       if (doomedPoints)
         attributeActions.push(
           this._getAttributeAction(
             tokenId,
             "doomed",
-            this.i18n("tokenactionhud.doomed"),
+            this.i18n("tokenActionHud.pf2e.doomed"),
             doomedPoints.value,
             doomedPoints.max
           )
@@ -966,38 +1026,43 @@ export class ActionHandlerPf2e extends ActionHandler {
 
       this._combineSubcategoryWithCategory(
         result,
-        this.i18n("tokenactionhud.attributes"),
+        this.i18n("tokenActionHud.attributes"),
         attributes
       );
 
+      // Rests Subcategory
       let rests = this.initializeEmptySubcategory();
 
       let restActions = [];
+
+      // Treat Wounds
       let treatWoundsValue = ["utility", tokenId, "treatWounds"].join(
         this.delimiter
       );
       let treatWoundsAction = {
         id: "treatWounds",
-        name: this.i18n("tokenactionhud.treatWounds"),
+        name: this.i18n("tokenActionHud.pf2e.treatWounds"),
         encodedValue: treatWoundsValue,
       };
       restActions.push(treatWoundsAction);
 
+      // Rest for the Night
       let longRestValue = ["utility", tokenId, "longRest"].join(this.delimiter);
       let longRestAction = {
         id: "longRest",
-        name: this.i18n("tokenactionhud.restNight"),
+        name: this.i18n("tokenActionHud.pf2e.restNight"),
         encodedValue: longRestValue,
       };
       restActions.push(longRestAction);
 
+      // Take a Breather
       if (game.settings.get("pf2e", "staminaVariant")) {
         let takeBreatherValue = ["utility", tokenId, "takeABreather"].join(
           this.delimiter
         );
         let takeBreatherAction = {
           id: "takeABreather",
-          name: this.i18n("tokenactionhud.takeBreather"),
+          name: this.i18n("tokenActionHud.pf2e.takeBreather"),
           encodedValue: takeBreatherValue,
         };
 
@@ -1008,7 +1073,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
       this._combineSubcategoryWithCategory(
         result,
-        this.i18n("tokenactionhud.rests"),
+        this.i18n("tokenActionHud.rests"),
         rests
       );
     }
@@ -1036,7 +1101,7 @@ export class ActionHandlerPf2e extends ActionHandler {
 
     result.forEach((i) =>
       this._addItemInfo(
-        itemList.find((item) => item.data._id === i.id),
+        itemList.find((item) => item.id === i.id),
         i
       )
     );
@@ -1069,8 +1134,8 @@ export class ActionHandlerPf2e extends ActionHandler {
   _produceAction(tokenId, item, type, isPassive = false) {
     let encodedValue = [type, tokenId, item.id].join(this.delimiter);
     let icon;
-    let actions = item.data?.data?.actions;
-    let actionType = item.data?.data?.actionType?.value;
+    let actions = item.system?.actions;
+    let actionType = item.system?.actionType?.value;
     if (["free", "reaction", "passive"].includes(actionType)) {
       icon = this._getActionIcon(actionType);
     } else if (actions && !isPassive) {

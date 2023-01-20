@@ -26,13 +26,17 @@ import { ED4eSystemManager } from './ed4e.js'
 import { GURPSSystemManager } from './gurps.js'
 import { Space1889SystemManager } from './space1889.js'
 import { CoC7SystemManager } from './coc7.js'
+import { CypherSystemSystemManager } from './cyphersystem.js'
 import { CleenmainSystemManager } from './cleenmain.js'
+import { SWNSystemManager } from './swn.js'
 
 export class SystemManagerFactory {
   static create(system, appName) {
     switch (system) {
       case "blades-in-the-dark":
         return new BitDSystemManager(appName);
+      case "cyphersystem":
+        return new CypherSystemSystemManager(appName);
       case "demonlord":
         return new DemonlordSystemManager(appName);
       case "dnd5e":
@@ -93,6 +97,8 @@ export class SystemManagerFactory {
         return new CoC7SystemManager(appName);
       case 'cleenmain':
         return new CleenmainSystemManager(appName);
+      case 'swnr':
+        return new SWNSystemManager(appName);
     }
   }
 }

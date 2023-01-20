@@ -1,0 +1,527 @@
+/*
+  Style made by Dorako
+  many thanks for allowing usage of it!
+*/
+
+:root {
+    --border-width: 1px;
+    --header-color: #fff;
+    --header-bg: var(--primary);
+    --body-padding: 0.0em 0.0em 0em 0em;
+    --edge-margin: 5px;
+
+    --dorako-bg-glass: rgba(120, 120, 120, 0.20);
+    --dorako-bg-glass: rgba(120, 120, 120, 0.50);
+    --dorako-sheet-light: rgba(20, 20, 20, 0.60);
+    --dorako-orange: rgba(255, 100, 0, 0.5);
+    /* --dorako-bg-current: var(--dorako-bg-glass); */
+    --dorako-bg-current: var(--dorako-sheet-light);
+    /* --dorako-bg-current: hsl(0,0%, 10%); */
+
+    --blind-bg: #A57aA5;
+    --whisper-bg: #E3E3FF;
+
+    --dorako-vibrancy: none;
+    /* 
+    --dorako-vibrancy: brightness(2.0) contrast(1.2) blur(5px);
+    --dorako-vibrancy-active: brightness(1.5) contrast(1.0) blur(15px);
+    --dorako-vibrancy-inactive: brightness(0.5) contrast(1.0) blur(15px);
+    */
+    --gold-and-glow: 0 0 0 1px var(--tertiary), 0 0 0 2px #9f725b, inset 0 0 3px rgba(255, 255, 255, .5);
+    --glassy: 
+    0px 0px 2px rgba(255, 255, 255, 0.4) inset, 
+    0px 0px 6px rgba(255, 255, 255, 0.2) inset, 
+    1px  1px 1px rgba(0, 0, 0, 1), 
+    1px -1px 1px rgba(0, 0, 0, 1), 
+    -1px -1px 1px rgba(0, 0, 0, 1), 
+    -1px  1px 1px rgba(0, 0, 0, 1), 
+    0px 0px 3px rgba(0, 0, 0, 1), 
+    0px 0px 4px rgba(0, 0, 0, 0.5);
+
+
+    --primary-hue: 0;
+    --primary-sat: 100%;
+    --primary-lvl: 18%;
+
+    --secondary-hue: 234;
+    --secondary-sat: 64%;
+    --secondary-lvl: 25%;
+
+    --paizo-red-dark: hsl(var(--primary-hue), var(--primary-sat), calc(var(--primary-lvl) - 10%));
+    --paizo-red: hsl(var(--primary-hue), var(--primary-sat), var(--primary-lvl));
+    --paizo-red-bright: hsl(var(--primary-hue), var(--primary-sat), calc(var(--primary-lvl) + 10%));
+
+    --paizo-blue-dark: hsl(var(--secondary-hue), var(--secondary-sat), calc(var(--secondary-lvl) - 10%));
+    --paizo-blue: hsl(var(--secondary-hue), var(--secondary-sat), var(--secondary-lvl));
+    --paizo-blue-bright: hsl(var(--secondary-hue), var(--secondary-sat), calc(var(--secondary-lvl) + 10%));
+
+    --color-shadow-highlight: var(--paizo-red);
+    --color-shadow-primary: var(--paizo-blue);
+
+    --dorako-text-shadow: 0px 0px 3px black;
+    --dorako-box-shadow: 0px 0px 3px black;
+    --dorako-radius: 3px;
+}
+
+#token-action-hud {
+  align-items: center;
+  background: none;
+  border-radius: var(--dorako-radius);
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  height: auto;
+  left: 150px;
+  position: fixed;
+  top: 80px;
+  width: auto;
+  z-index: 100;
+}
+
+#token-action-hud [class*="icon-"] {
+  display: inline-block;
+  width: 100%;
+}
+
+#token-action-hud:hover > #tah-edit-categories {
+  display: block;
+  position: absolute;
+}
+
+#tah-character-name {
+  color: #fff;
+  left: 4px;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+  top: -20px !important;
+}
+
+#tah-categories {
+  display: flex;
+  gap: 2px;
+}
+
+#tah-edit-categories {
+  display: none;
+  font-style: normal;
+  font-weight: normal;
+  left: 100%;
+}
+
+#tah-collapse-expand:hover,
+#tah-edit-categories:hover {
+  cursor: pointer;
+}
+
+#tah-collapse-expand {
+  font-style: normal;
+  font-weight: normal;
+  left: -25px;
+  position: absolute;
+}
+
+#tah-collapse-hud {
+  background: transparent;
+  border: 0;
+  display: none;
+  line-height: unset;
+}
+
+#tah-collapse-hud:hover, 
+#tah-collapse-hud:focus {
+  box-shadow: none;
+}
+
+#token-action-hud:hover > #tah-collapse-expand #tah-collapse-hud,
+#token-action-hud:hover > #tah-buttons #tah-edit-categories {
+  display: flex;
+}
+
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas,
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
+  color: #ddd;
+  margin: 3px;
+  padding: 3px;
+  pointer-events: none;
+  position: relative;
+  text-align: center;
+  text-shadow:
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+#tah-collapse-expand button > .fa,
+#tah-collapse-expand button > .fas {
+  font-size: small;
+}
+
+#tah-edit-categories > .fa,
+#tah-edit-categories > .fas {
+  font-size: large;
+}
+
+#tah-collapse-expand:hover button > i,
+#tah-edit-categories:hover > i {
+  color: #fff;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.tah-category {
+  cursor: default;
+  display: block;
+  position: relative;
+}
+
+#tah-expand-hud {
+  position: relative;
+  top: 18px;
+}
+
+#tah-expand-hud,
+.tah-title-button {
+  backdrop-filter: var(--dorako-vibrancy);
+  background-color: var(--dorako-bg-current);
+  border: none;
+  box-shadow: var(--glassy);
+  color: #ddd;
+  height: auto;
+  padding: 3px;
+  text-align: center;
+  text-shadow: var(--dorako-text-shadow);
+  width: auto;
+}
+
+#tah-expand-hud:hover,
+.tah-title-button:hover {
+  box-shadow: var(--glassy);
+  color: #fff;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.tah-title-button:focus {
+  box-shadow: var(--glassy);
+}
+
+.tah-title-button > .fa {
+  display: none;
+}
+
+.tah-title-button > .fa,
+.tah-title-button > .fas { 
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 6px;
+  pointer-events: none;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  visibility: hidden;
+}
+
+.tah-title-button:hover > .fa,
+.tah-title-button:hover > .fas {
+  cursor: pointer;
+  visibility: visible;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.tah-content {
+  border-radius: var(--dorako-radius);
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px;
+}
+
+.tah-content.expand-up {
+  bottom: 32px;
+  flex-direction: column-reverse;
+  margin-bottom: 2px;
+}
+
+.tah-content.expand-down {
+  flex-direction: column;
+}
+
+.tah-category.hover .tah-content {
+  background: none;
+  display: flex;
+  left: -178px;
+  position: absolute;
+}
+
+.tah-subcategory {
+  cursor: default;
+  display: flex;
+  padding: 2px;
+}
+
+.tah-subtitle-wrapper {
+  align-items: center;
+  display: flex;
+  height: 32px;
+}
+
+.tah-subtitle {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: small;
+  justify-content: flex-end;
+  line-height: 1.1;
+  padding-right: 5px;
+  position: relative;
+  text-align: right;
+  text-shadow: 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1), 
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+  width: 175px;
+}
+
+.tah-filterholder {
+  height: 0;
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  width: 0;
+}
+
+.tah-subtitle > .tah-filterholder > .fa,
+.tah-subtitle > .tah-filterholder > .fas {
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 6px;
+  height: auto;
+  left: -3px;
+  margin: 2px;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 3px;
+  visibility: hidden;
+  width: auto;
+}
+
+.tah-subtitle:hover > .tah-filterholder > .fa,
+.tah-subtitle:hover > .tah-filterholder > .fas {
+  visibility: visible;
+}
+
+.tah-actions {
+  align-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 5px;
+  grid-column: 2;
+  width: 400px;
+}
+
+.tah-actions .stickLeft {
+  font-size: small;
+  font-weight: bold;
+  height: 20px;
+  line-height: 0px;
+  margin: 0px;
+  min-width: 20px;
+  padding: 0px;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+.tah-actions .shrink {
+  display: flex;
+  font-size: small;
+  font-weight: bold;
+  justify-content: center;
+  line-height: 0px;
+  min-width: 25px;
+  padding: 0px;
+  width: auto;
+}
+
+.tah-actionSet {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+/* Links inside the dropdown */
+.tah-action {
+  background: none;
+  flex-basis: auto;
+  flex-grow: 0;
+}
+
+.tah-action-name {
+  margin: auto;
+  padding: 0 5px 0 5px;
+}
+
+.tah-info1,
+.tah-info2,
+.tah-info3 {
+  display: inline;
+  font-size: smaller;
+  margin-left: 2px;
+}
+
+.tah-info1 {
+  text-shadow: 
+    0 0 1px rgba(2, 248, 14, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info2 {
+  text-shadow:
+    0 0 1px rgba(240, 2, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info3 {
+  text-shadow: 
+    0 0 1px rgba(2, 240, 248, 0.95),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-icon {
+  display: inline;
+  margin-right: 2px;
+}
+
+.tah-img {
+  border-radius: 3px 0 0 3px;
+  display: inline-flex;
+  height: 30px;
+  width: 30px;
+}
+
+.tah-icon > .fa,
+.tah-icon > .fas {
+  font-size: x-small;
+  margin: 0px 2px 0px 0px;
+}
+
+.tah-subtitle > .tah-icon > .fa,
+.tah-subtitle > .tah-icon > .fas {
+  text-shadow:
+    0 0 1px rgb(255, 255, 255),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1),
+    1px 1px 1px rgba(52, 52, 52, 1);
+}
+
+.tah-info1:before {
+  content: "(";
+}
+
+.tah-info1:after {
+  content: ")";
+}
+
+.tah-info2:before {
+  content: "[";
+}
+
+.tah-info2:after {
+  content: "]";
+}
+
+.tah-info3:before {
+  content: "{";
+}
+
+.tah-info3:after {
+  content: "}";
+}
+
+.tah-action button {
+  align-items: center;
+  backdrop-filter: var(--dorako-vibrancy);
+  background-color: var(--dorako-bg-current);
+  border: none;
+  border-radius: var(--dorako-radius);
+  box-shadow: var(--glassy);
+  color: #ddd;
+  display: flex;
+  margin: 0;
+  min-height: 32px;
+  min-width: 50px;
+  width: 100%;
+  padding: 0;
+  text-decoration: none;
+  text-shadow: var(--dorako-text-shadow);
+}
+
+.tah-action button[value*="toggle"]:hover {
+  background-color: var(--paizo-blue);
+}
+
+.tah-action.active,
+.tah-action.active button[value*="toggle"] {
+  background-color: var(--paizo-blue-bright) !important;
+}
+
+#tah-expand-hud:hover,
+.tah-title-button:hover,
+.tah-action button:hover {
+  background-color: var(--paizo-red);
+  border: none;
+  box-shadow: var(--glassy);
+  transition: backdrop-filter 0.15s ease-out;
+  transition: background-color 0.15s ease-out;
+}
+
+
+.tah-action button:hover {
+  color: #fff;
+  cursor: pointer;
+  font-weight: inherit;
+}
+
+.tah-action button[value^="toggle"]:hover {
+  background-color: var(--paizo-blue);
+  border: none;
+  box-shadow: var(--glassy);
+  transition: backdrop-filter 0.15s ease-out;
+  transition: background-color 0.15s ease-out;
+}
+
+.tah-action .tah-img {
+  border: none;
+  box-shadow: none;
+  box-shadow: 0 0 0 1px var(--tertiary);
+}
+
+.tah-action .activeText:after {
+  content: "*";
+}
+
+.tah-hidden {
+  display: none !important;
+}

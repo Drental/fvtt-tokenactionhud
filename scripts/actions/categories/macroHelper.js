@@ -5,25 +5,25 @@ export class MacroHelper {
 
   static exists(key, macros) {
     if (!!macros) {
-      return macros.some((m) => m.data._id === key);
+      return macros.some((m) => m._id === key);
     }
 
     const macroEntries =
       "some" in game.macros.entries ? game.macros.entries : game.macros;
 
-    return !!macroEntries.some((m) => m.data._id === key);
+    return !!macroEntries.some((m) => m._id === key);
   }
 
   static getEntriesForActions(delimiter) {
     let macroType = "macro";
     let entries = MacroHelper.getMacros();
     return entries.map((m) => {
-      let encodedValue = [macroType, macroType, m.data._id].join(delimiter);
+      let encodedValue = [macroType, macroType, m._id].join(delimiter);
       let img = MacroHelper.getImage(m);
       return {
-        name: m.data.name,
+        name: m.name,
         encodedValue: encodedValue,
-        id: m.data._id,
+        id: m._id,
         img: img,
       };
     });
@@ -31,7 +31,7 @@ export class MacroHelper {
 
   static getMacrosForFilter() {
     return MacroHelper.getMacros().map((m) => {
-      return { id: m.data._id, value: m.data.name };
+      return { id: m._id, value: m.name };
     });
   }
 
@@ -40,7 +40,7 @@ export class MacroHelper {
       "filter" in game.macros.entries ? game.macros.entries : game.macros;
 
     return macros.filter((m) => {
-      let permissions = m.data.permission;
+      let permissions = m.ownership;
       if (permissions[game.userId]) return permissions[game.userId] > 0;
 
       return permissions.default > 0;
@@ -49,7 +49,7 @@ export class MacroHelper {
 
   static getImage(macro) {
     let result = "";
-    if (settings.get("showIcons")) result = macro.data.img;
+    if (settings.get("showIcons")) result = macro.img;
 
     return !result?.includes("icons/svg/mystery-man.svg") ? result : "";
   }

@@ -23,74 +23,80 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     result.actorId = actor.id;
 
-    let weapons = this._getItemsList(actor, tokenId, "weapon");
     let characteristics = this._getCharacteristics(actor, tokenId);
     let skills = this._getSkills(actor, tokenId);
-
+    let talents = this._getTalents(actor, tokenId);
+    let weapons = this._getItemsList(actor, tokenId, "weapon");
     let magic = this._getSpells(actor, tokenId);
     let prayers = this._getPrayers(actor, tokenId);
-    let talents = this._getTalents(actor, tokenId);
     let traits = this._getTraits(actor, tokenId);
+    let utility = this._getUtility(tokenId);
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.weapons"),
-      weapons
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.characteristics"),
+      this.i18n("tokenActionHud.characteristics"),
       characteristics
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.magic"),
-      magic
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.religion"),
-      prayers
-    );
-    this._combineCategoryWithList(
-      result,
-      this.i18n("tokenactionhud.talents"),
+      this.i18n("tokenActionHud.talents"),
       talents
     );
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.traits"),
+      this.i18n("tokenActionHud.weapons"),
+      weapons
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenActionHud.magic"),
+      magic
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenActionHud.wfrp.religion"),
+      prayers
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenActionHud.traits"),
       traits
+    );
+    this._combineCategoryWithList(
+      result,
+      this.i18n("tokenActionHud.utility"),
+      utility
     );
 
     this._setFilterSuggestions(actor);
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
 
   _getItemsList(actor, tokenId, type) {
+    if (settings.get("showWeaponsCategory") === false) return;
     let types = type + "s";
     let result = this.initializeEmptyCategory("items");
 
     let basicSubcategory = this._getBasicActions(actor, tokenId);
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.basic"),
+      this.i18n("tokenActionHud.wfrp.basic"),
       basicSubcategory
     );
 
     let subcategory = this.initializeEmptySubcategory();
     let items = actor.getItemTypes(type);
     let filtered =
-      actor.data.type === "character"
-        ? items.filter((i) => i.data.data.equipped)
+      actor.type === "character"
+        ? items.filter((i) => i.system.equipped)
         : items;
     subcategory.actions = this._produceMap(tokenId, filtered, type);
 
@@ -105,7 +111,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let unarmed = ["unarmed", tokenId, "unarmed"].join(this.delimiter);
     const unarmedAction = {
       id: "unarmed",
-      name: this.i18n("tokenactionhud.unarmed"),
+      name: this.i18n("tokenActionHud.wfrp.unarmed"),
       encodedValue: unarmed,
     };
     basicActions.actions.push(unarmedAction);
@@ -113,7 +119,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let stompValue = ["stomp", tokenId, "stomp"].join(this.delimiter);
     const stompAction = {
       id: "stomp",
-      name: this.i18n("tokenactionhud.stomp"),
+      name: this.i18n("tokenActionHud.wfrp.stomp"),
       encodedValue: stompValue,
     };
     basicActions.actions.push(stompAction);
@@ -123,7 +129,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     );
     const improvisedAction = {
       id: "improvise",
-      name: this.i18n("tokenactionhud.improvisedWeapon"),
+      name: this.i18n("tokenActionHud.wfrp.improvisedWeapon"),
       encodedValue: improvisedValue,
     };
     basicActions.actions.push(improvisedAction);
@@ -131,7 +137,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     let dodgeValue = ["dodge", tokenId, "dodge"].join(this.delimiter);
     const dodgeAction = {
       id: "dodge",
-      name: this.i18n("tokenactionhud.dodge"),
+      name: this.i18n("tokenActionHud.wfrp.dodge"),
       encodedValue: dodgeValue,
     };
     basicActions.actions.push(dodgeAction);
@@ -140,6 +146,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getCharacteristics(actor, tokenId) {
+    if (settings.get("showCharacteristicsCategory") === false) return;
     let result = this.initializeEmptyCategory("characteristics");
     let macroType = "characteristic";
 
@@ -156,7 +163,7 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.characteristics"),
+      this.i18n("tokenActionHud.characteristics"),
       characteristicsCategory
     );
 
@@ -164,6 +171,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getSkills(actor, tokenId) {
+    if (settings.get("showSkillsCategory") === false) return;
     let categoryId = "skills";
     let macroType = "skill";
 
@@ -172,12 +180,12 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     result.choices = skills.length;
 
-    let transMelee = game.i18n.localize("tokenactionhud.wfrp.meleeSkillPrefix");
+    let transMelee = game.i18n.localize("tokenActionHud.wfrp.melee");
     let transRanged = game.i18n.localize(
-      "tokenactionhud.wfrp.rangedSkillPrefix"
+      "tokenActionHud.wfrp.ranged"
     );
 
-    let meleeSkills = skills.filter((s) => s.data.name.startsWith(transMelee));
+    let meleeSkills = skills.filter((s) => s.name.startsWith(transMelee));
     let meleeId = `${categoryId}_melee`;
     this._setFilterSuggestions(meleeId, meleeSkills);
     let meleeCat = this.initializeEmptySubcategory(meleeId);
@@ -190,7 +198,7 @@ export class ActionHandlerWfrp extends ActionHandler {
     );
 
     let rangedSkills = skills.filter((s) =>
-      s.data.name.startsWith(transRanged)
+      s.name.startsWith(transRanged)
     );
     let rangedId = `${categoryId}_ranged`;
     this._setFilterSuggestions(rangedId, rangedSkills);
@@ -206,9 +214,9 @@ export class ActionHandlerWfrp extends ActionHandler {
     let basicSkills = skills.filter(
       (s) =>
         !(
-          s.data.name.startsWith(transMelee) ||
-          s.data.name.startsWith(transRanged)
-        ) && s.data.data.advanced.value !== "adv"
+          s.name.startsWith(transMelee) ||
+          s.name.startsWith(transRanged)
+        ) && s.system.advanced.value !== "adv"
     );
     let basicId = `${categoryId}_basic`;
     this._setFilterSuggestions(basicId, basicSkills);
@@ -224,9 +232,9 @@ export class ActionHandlerWfrp extends ActionHandler {
     let advancedSkills = skills.filter(
       (s) =>
         !(
-          s.data.name.startsWith(transMelee) ||
-          s.data.name.startsWith(transRanged)
-        ) && s.data.data.advanced.value === "adv"
+          s.name.startsWith(transMelee) ||
+          s.name.startsWith(transRanged)
+        ) && s.system.advanced.value === "adv"
     );
     let advancedId = `${categoryId}_advanced`;
     this._setFilterSuggestions(advancedId, advancedSkills);
@@ -244,22 +252,22 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.melee"),
+      this.i18n("tokenActionHud.melee"),
       meleeCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.ranged"),
+      this.i18n("tokenActionHud.ranged"),
       rangedCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.basic"),
+      this.i18n("tokenActionHud.wfrp.basic"),
       basicSkillsCat
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.advanced"),
+      this.i18n("tokenActionHud.advanced"),
       advancedSkillsCat
     );
 
@@ -290,24 +298,25 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getSpells(actor, tokenId) {
+    if (settings.get("showMagicCategory") === false) return;
     let macroType = "spell";
     let result = this.initializeEmptyCategory("spells");
 
     let spells = actor.getItemTypes("spell");
 
-    let petties = spells.filter((i) => i.data.data.lore.value === "petty");
+    let petties = spells.filter((i) => i.system.lore.value === "petty");
     let pettyCategory = this.initializeEmptySubcategory();
     pettyCategory.actions = this._produceMap(tokenId, petties, macroType);
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.petty"),
+      this.i18n("tokenActionHud.wfrp.petty"),
       pettyCategory
     );
 
-    let lores = spells.filter((i) => i.data.data.lore.value !== "petty");
+    let lores = spells.filter((i) => i.system.lore.value !== "petty");
     let loresCategorised = lores.reduce((output, spell) => {
-      let loreType = spell.data.data.lore.value;
+      let loreType = spell.system.lore.value;
       if (!output.hasOwnProperty(loreType)) {
         output[loreType] = [];
       }
@@ -335,6 +344,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getPrayers(actor, tokenId) {
+    if (settings.get("showReligionCategory") === false) return;
     let macroType = "prayer";
     let result = this.initializeEmptyCategory("prayers");
 
@@ -346,13 +356,13 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.blessing"),
+      this.i18n("tokenActionHud.wfrp.blessing"),
       blessingCategory
     );
 
     let miracles = prayers.filter((i) => i.type.value !== "blessing");
     let miraclesCategorised = miracles.reduce((output, prayer) => {
-      let miracleType = prayer.data.data.type.value;
+      let miracleType = prayer.system.type.value;
       if (!output.hasOwnProperty(miracleType)) {
         output[miracleType] = [];
       }
@@ -380,6 +390,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getTalents(actor, tokenId) {
+    if (settings.get("showTalentsCategory") === false) return;
     let macroType = "talent";
     let result = this.initializeEmptyCategory("talents");
 
@@ -403,12 +414,12 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rollable"),
+      this.i18n("tokenActionHud.wfrp.rollable"),
       rollableCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.unrollable"),
+      this.i18n("tokenActionHud.wfrp.unrollable"),
       unrollableCategory
     );
 
@@ -416,6 +427,7 @@ export class ActionHandlerWfrp extends ActionHandler {
   }
 
   _getTraits(actor, tokenId) {
+    if (settings.get("showTraitsCategory") === false) return;
     let macroType = "trait";
     let result = this.initializeEmptyCategory("traits");
 
@@ -439,13 +451,43 @@ export class ActionHandlerWfrp extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.rollable"),
+      this.i18n("tokenActionHud.wfrp.rollable"),
       rollableCategory
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.unrollable"),
+      this.i18n("tokenActionHud.wfrp.unrollable"),
       unrollableCategory
+    );
+
+    return result;
+  }
+
+  _getUtility(tokenId) {
+    if (settings.get("showUtilityCategory") === false) return;
+    let result = this.initializeEmptyCategory("utility");
+    let macroType = "utility";
+
+    // Combat Subcategory
+    let combatSubcategory = this.initializeEmptySubcategory();
+  
+    // End Turn
+    if (game.combat?.current?.tokenId === tokenId) {
+      let endTurnValue = [macroType, tokenId, "endTurn"].join(this.delimiter);
+      let endTurnAction = {
+        id: "endTurn",
+        encodedValue: endTurnValue,
+        name: this.i18n("tokenActionHud.endTurn"),
+      };
+
+      combatSubcategory.actions.push(endTurnAction);
+    }
+
+    const combatTitle = this.i18n("tokenActionHud.combat")
+    this._combineSubcategoryWithCategory(
+      result,
+      combatTitle,
+      combatSubcategory
     );
 
     return result;

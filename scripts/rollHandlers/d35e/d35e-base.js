@@ -20,7 +20,7 @@ export class RollHandlerBaseD35E extends RollHandler {
 
     if (tokenId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.data._id;
+        let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {
@@ -114,7 +114,7 @@ export class RollHandlerBaseD35E extends RollHandler {
     let actor = super.getActor(tokenId);
     let buff = super.getItem(actor, buffId);
 
-    let update = { "data.active": !buff.data.data.active };
+    let update = { "data.active": !buff.system.active };
 
     await buff.update(update);
   }

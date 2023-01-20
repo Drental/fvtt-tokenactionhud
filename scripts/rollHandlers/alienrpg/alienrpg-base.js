@@ -18,7 +18,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     let attributename = payload[3];
     let actor = super.getActor(tokenId);
     let charType;
-    if (actor) charType = actor.data.type;
+    if (actor) charType = actor.type;
     let item = actionId ? actor.items.get(actionId) : null;
 
     let renderable = ["item", "armor"];
@@ -30,7 +30,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         this.performMultiToggleUtilityMacro(actionId);
       } else {
         canvas.tokens.controlled.forEach((t) => {
-          let idToken = t.data._id;
+          let idToken = t.id;
           this._handleMacros(
             event,
             macroType,
@@ -62,8 +62,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
       switch (macroType) {
         case "attribute":
           rData = {
-            roll: actor.data.data.attributes[actionId].value,
-            label: actor.data.data.attributes[actionId].label,
+            roll: actor.system.attributes[actionId].value,
+            label: actor.system.attributes[actionId].label,
           };
           if (event.type === "click") {
             actor.rollAbility(actor, rData);
@@ -76,15 +76,15 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
             case "mobility":
             case "observation":
               rData = {
-                roll: actor.data.data.general[actionId].value,
-                label: actor.data.data.general[actionId].label,
+                roll: actor.system.general[actionId].value,
+                label: actor.system.general[actionId].label,
               };
               break;
             default:
               let clabel =
                 attributename[0].toUpperCase() + attributename.substring(1);
               rData = {
-                roll: actor.data.data.attributes[actionId].value,
+                roll: actor.system.attributes[actionId].value,
                 label: [clabel],
               };
               break;
@@ -97,8 +97,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           break;
         case "skill":
           rData = {
-            roll: actor.data.data.skills[actionId].mod,
-            label: actor.data.data.skills[actionId].label,
+            roll: actor.system.skills[actionId].mod,
+            label: actor.system.skills[actionId].label,
           };
           if (event.type === "click") {
             actor.rollAbility(actor, rData);
@@ -118,7 +118,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
           break;
         case "armor":
           rData = {
-            roll: actor.data.data.general.armor.value,
+            roll: actor.system.general.armor.value,
             spbutt: "armor",
           };
           actor.rollAbility(actor, rData);
@@ -162,8 +162,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         await this._adjustAttribute(event, actor, "stress", "value", actionId);
         break;
       case "rollStress":
-        if (actor.data.type === "character") {
-          rData = { panicroll: actor.data.data.header.stress };
+        if (actor.type === "character") {
+          rData = { panicroll: actor.system.header.stress };
         } else {
           rData = { panicroll: { value: 0, label: "Stress" } };
         }
@@ -177,24 +177,24 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         await this._adjustAttribute(event, actor, "health", "value", actionId);
         break;
       case "creatureAttack":
-        let rAttData = { atttype: actor.data.data.rTables };
+        let rAttData = { atttype: actor.system.rTables };
         actor.creatureAttackRoll(actor, rAttData);
         break;
       case "acidSplash":
         let aSplashData = {
-          roll: actor.data.data.general.acidSplash.value,
-          label: actor.data.data.general.acidSplash.label,
+          roll: actor.system.general.acidSplash.value,
+          label: actor.system.general.acidSplash.label,
         };
         actor.creatureAcidRoll(actor, aSplashData);
         break;
       case "rollCrit":
-        actor.rollCrit(actor.data.type);
+        actor.rollCrit(actor.type);
         break;
     }
   }
 
   async _adjustAttribute(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.header[property][valueName];
+    let value = actor.system.header[property][valueName];
     let max = "10";
 
     if (this.rightClick) {
@@ -210,8 +210,8 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     await actor.update(update);
   }
 
-  async togggleConditionState(event, actor, property, valueName, actionId) {
-    let value = actor.data.data.general[property][valueName];
+  async toggleConditionState(event, actor, property, valueName, actionId) {
+    let value = actor.system.general[property][valueName];
     let max = "1";
 
     if (this.rightClick) {
@@ -232,7 +232,7 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
     await actor.update(update);
   }
 
-  performUtilityMacro(event, tokenId, actionId) {
+  async performUtilityMacro(event, tokenId, actionId) {
     let actor = super.getActor(tokenId);
     let token = super.getToken(tokenId);
 
@@ -244,25 +244,28 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
         token.toggleCombat();
         Hooks.callAll("forceUpdateTokenActionHUD");
         break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
+        break;
     }
   }
 
   async performMultiToggleUtilityMacro(actionId) {
     if (actionId === "toggleVisibility") {
-      const allVisible = canvas.tokens.controlled.every((t) => !t.data.hidden);
+      const allVisible = canvas.tokens.controlled.every((t) => !t.document.hidden);
       canvas.tokens.controlled.forEach((t) => {
         if (allVisible) t.toggleVisibility();
-        else if (t.data.hidden) t.toggleVisibility();
+        else if (t.document.hidden) t.toggleVisibility();
       });
     }
 
     if (actionId === "toggleCombat") {
       const allInCombat = canvas.tokens.controlled.every(
-        (t) => t.data.inCombat
+        (t) => t.inCombat
       );
       for (let t of canvas.tokens.controlled) {
         if (allInCombat) await t.toggleCombat();
-        else if (!t.data.inCombat) await t.toggleCombat();
+        else if (!t.inCombat) await t.toggleCombat();
       }
       Hooks.callAll("forceUpdateTokenActionHUD");
     }
@@ -274,19 +277,19 @@ export class RollHandlerBaseAlienrpg extends RollHandler {
 
     switch (actionId) {
       case "toggleStarving":
-        this.togggleConditionState(event, actor, "starving", "value");
+        this.toggleConditionState(event, actor, "starving", "value");
         break;
       case "toggleDehydrated":
-        this.togggleConditionState(event, actor, "dehydrated", "value");
+        this.toggleConditionState(event, actor, "dehydrated", "value");
         break;
       case "toggleExhausted":
-        this.togggleConditionState(event, actor, "exhausted", "value");
+        this.toggleConditionState(event, actor, "exhausted", "value");
         break;
       case "toggleFreezing":
-        this.togggleConditionState(event, actor, "freezing", "value");
+        this.toggleConditionState(event, actor, "freezing", "value");
         break;
       case "togglePanic":
-        this.togggleConditionState(event, actor, "panic", "value");
+        this.toggleConditionState(event, actor, "panic", "value");
         break;
     }
   }

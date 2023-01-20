@@ -20,7 +20,7 @@ export class RollHandlerBasePf1 extends RollHandler {
 
     if (tokenId === "multi") {
       canvas.tokens.controlled.forEach((t) => {
-        let idToken = t.data._id;
+        let idToken = t.id;
         this._handleMacros(event, macroType, idToken, actionId);
       });
     } else {
@@ -137,8 +137,13 @@ export class RollHandlerBasePf1 extends RollHandler {
   rollItemMacro(event, tokenId, itemId) {
     const actor = super.getActor(tokenId);
     const item = super.getItem(actor, itemId);
+    const skipActionDialogs = (game.settings.settings.get("pf1.skipActionDialogs")) 
+      ? game.settings.get("pf1", "skipActionDialogs")
+      : false;
+    const shiftKey = event.shiftKey;
+    const skipDialog = (skipActionDialogs) ? !shiftKey : shiftKey;
 
-    item.use({ ev: event, skipDialog: false });
+    item.use({ ev: event, skipDialog: skipDialog });
   }
 
   rollDefenses(event, tokenId, itemId) {
@@ -150,7 +155,7 @@ export class RollHandlerBasePf1 extends RollHandler {
     let actor = super.getActor(tokenId);
     let buff = super.getItem(actor, buffId);
 
-    let update = { data: { active: !buff.data.data.active } };
+    let update = { data: { active: !buff.system.active } };
 
     await buff.update(update);
   }
@@ -158,10 +163,10 @@ export class RollHandlerBasePf1 extends RollHandler {
   async adjustCondition(event, tokenId, conditionKey) {
     let actor = super.getActor(tokenId);
 
-    const value = actor.data.data.attributes.conditions[conditionKey];
+    const value = actor.system.attributes.conditions[conditionKey];
 
-    let update = { data: { attributes: { conditions: {} } } };
-    update.data.attributes.conditions[conditionKey] = !value;
+    let update = { system: { attributes: { conditions: {} } } };
+    update.system.attributes.conditions[conditionKey] = !value;
 
     await actor.update(update);
   }
@@ -183,6 +188,9 @@ export class RollHandlerBasePf1 extends RollHandler {
         break;
       case "initiative":
         await this.performInitiativeMacro(tokenId);
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }

@@ -43,6 +43,7 @@ export class RollHandlerBase5e extends RollHandler {
         this.rollAbilityCheckMacro(event, tokenId, actionId);
         break;
       case "item":
+      case "weapon":
       case "spell":
       case "feat":
         if (this.isRenderItem()) this.doRenderItem(tokenId, actionId);
@@ -90,15 +91,12 @@ export class RollHandlerBase5e extends RollHandler {
       return;
     }
 
-    if (item.data.type === "spell") return actor.useSpell(item);
-
-    return item.roll({ event });
+    return item.use({ event });
   }
 
   needsRecharge(item) {
-    const itemData = this._getDocumentData(item);
     return (
-      itemData.recharge && !itemData.recharge.charged && itemData.recharge.value
+      item.system.recharge && !item.system.recharge.charged && item.system.recharge.value
     );
   }
 
@@ -114,7 +112,7 @@ export class RollHandlerBase5e extends RollHandler {
         actor.longRest();
         break;
       case "inspiration":
-        let update = !actor.data.data.attributes.inspiration;
+        let update = !actor.system.attributes.inspiration;
         actor.update({ "data.attributes.inspiration": update });
         break;
       case "toggleCombat":
@@ -129,6 +127,9 @@ export class RollHandlerBase5e extends RollHandler {
         break;
       case "initiative":
         await this.performInitiativeMacro(tokenId);
+        break;
+      case "endTurn":
+        if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
     }
   }
@@ -149,36 +150,31 @@ export class RollHandlerBase5e extends RollHandler {
 
     if (!effect) return;
 
-    const statusId = effect.data.flags.core?.statusId;
+    const statusId = effect.flags.core?.statusId;
     if (statusId) {
-      await this.toggleCondition(event, tokenId, statusId);
+      await this.toggleCondition(event, tokenId, statusId, effect);
       return;
     }
 
-    await effect.update({ disabled: !effect.data.disabled });
+    await effect.update({ disabled: !effect.disabled });
     Hooks.callAll("forceUpdateTokenActionHUD");
   }
 
-  async toggleCondition(event, tokenId, effectId) {
+  async toggleCondition(event, tokenId, effectId, effect = null) {
     const token = super.getToken(tokenId);
     const isRightClick = this.isRightClick(event);
     if (
-      effectId.includes("combat-utility-belt.") &&
-      game.cub &&
-      !isRightClick
+         game.dfreds &&
+         effect?.flags?.isConvenient
     ) {
-      const cubCondition = this.findCondition(effectId)?.label;
-      if (!cubCondition) return;
-
-      game.cub.hasCondition(cubCondition, token)
-        ? await game.cub.removeCondition(cubCondition, token)
-        : await game.cub.addCondition(cubCondition, token);
+      const effectLabel = effect.label;
+      game.dfreds.effectInterface.toggleEffect(effectLabel);
     } else {
       const condition = this.findCondition(effectId);
       if (!condition) return;
 
       isRightClick
-        ? await token.toggleOverlay(condition)
+        ? await token.toggleEffect(condition, { overlay: true })
         : await token.toggleEffect(condition);
     }
 
@@ -187,9 +183,5 @@ export class RollHandlerBase5e extends RollHandler {
 
   findCondition(id) {
     return CONFIG.statusEffects.find((effect) => effect.id === id);
-  }
-
-  _getDocumentData(entity) {
-    return entity.data.data ?? entity.data;
   }
 }

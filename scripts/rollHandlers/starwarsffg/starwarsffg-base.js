@@ -42,8 +42,8 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
       item = ImportHelpers.findCompendiumEntityById("Item", itemId);
     }
     const forcedice =
-      actor.data.data.stats.forcePool.max -
-      actor.data.data.stats.forcePool.value;
+      actor.system.stats.forcePool.max -
+      actor.system.stats.forcePool.value;
     if (forcedice > 0) {
       let sheet = actor.sheet.getData();
       const dicePool = new DicePoolFFG({
@@ -89,15 +89,14 @@ export class RollHandlerBaseStarWarsFFG extends RollHandler {
     } else if (!event.ctrlKey && event.shiftKey) {
       difficulty = 1;
     }
-    const actorSheet = actor.sheet.getData();
-    const skill = actor.data.data.skills[skillname];
+    const skill = actor.system.skills[skillname];
     const characteristic =
-      actorSheet.data.characteristics[skill.characteristic];
+      actor.system.characteristics[skill.characteristic];
     game.ffg.DiceHelpers.rollSkillDirect(
       skill,
       characteristic,
       difficulty,
-      actorSheet
+      actor
     );
   }
 }

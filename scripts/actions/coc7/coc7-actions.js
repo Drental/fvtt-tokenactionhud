@@ -12,7 +12,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
 
     result.tokenId = tokenId;
 
@@ -24,24 +24,24 @@ export class ActionHandlerCoC7 extends ActionHandler {
       return result;
     }
 
-    result.actorId = actor.data._id;
+    result.actorId = actor.id;
 
     let actions = this._getActions(actor, tokenId);
     let skills = this._getSkills(actor, tokenId);
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.actions"),
+      this.i18n("tokenActionHud.actions"),
       actions
     );
 
     this._combineCategoryWithList(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       skills
     );
 
-    if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+    if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
   }
@@ -53,21 +53,21 @@ export class ActionHandlerCoC7 extends ActionHandler {
     let melee = this.initializeEmptySubcategory();
     let ranged = this.initializeEmptySubcategory();
 
-    for (let characteristicKey in actor.data.data.characteristics) {
+    for (let characteristicKey in actor.system.characteristics) {
       category.actions.push({
-        name: this.i18n(actor.data.data.characteristics[characteristicKey].label),
+        name: this.i18n(actor.system.characteristics[characteristicKey].label),
         encodedValue: ["characteristic", tokenId, characteristicKey].join(this.delimiter),
       });
     }
-    if (actor.data.data.attribs.lck.value) {
+    if (actor.system.attribs.lck.value) {
       category.actions.push({
-        name: actor.data.data.attribs.lck.label,
+        name: actor.system.attribs.lck.label,
         encodedValue: ["attribute", tokenId, 'lck'].join(this.delimiter),
       });
     }
-    if (actor.data.data.attribs.san.value) {
+    if (actor.system.attribs.san.value) {
       category.actions.push({
-        name: actor.data.data.attribs.san.label,
+        name: actor.system.attribs.san.label,
         encodedValue: ["attribute", tokenId, 'san'].join(this.delimiter),
       });
     }
@@ -89,13 +89,13 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n('CoC7.Entities.' + actor.data.type.charAt(0).toUpperCase() + actor.data.type.slice(1)),
+      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
       category
     );
 
     for (let item of actor.items) {
       if (item.type === 'weapon') {
-        if (item.data.data.properties?.rngd) {
+        if (item.system.properties?.rngd) {
           ranged.actions.push({
             name: item.name,
             encodedValue: ["weapon", tokenId, item.id].join(this.delimiter),
@@ -183,7 +183,7 @@ export class ActionHandlerCoC7 extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n('CoC7.Entities.' + actor.data.type.charAt(0).toUpperCase() + actor.data.type.slice(1)),
+      this.i18n('CoC7.Entities.' + actor.type.charAt(0).toUpperCase() + actor.type.slice(1)),
       category
     );
 

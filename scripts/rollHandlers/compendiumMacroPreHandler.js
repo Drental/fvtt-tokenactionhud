@@ -71,6 +71,6 @@ export class CompendiumMacroPreHandler extends PreRollHandler {
   }
 
   handleMacro(macroType, event, tokenId, actionId) {
-    game.macros.find((i) => i.data._id === actionId).execute();
+    game.macros.find((i) => i.id === actionId).execute();
   }
 }

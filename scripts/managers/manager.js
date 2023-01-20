@@ -62,7 +62,7 @@ export class SystemManager {
     if (
       !(rollHandlerId === "core" || SystemManager.isModuleActive(rollHandlerId))
     ) {
-      Logger.error(rollHandlerId, this.i18n("tokenactionhud.handlerNotFound"));
+      Logger.error(rollHandlerId, this.i18n("tokenActionHud.handlerNotFound"));
       rollHandlerId = "core";
       settings.set("rollHandler", rollHandlerId);
     }
@@ -105,6 +105,6 @@ export class SystemManager {
   }
 
   static getModuleTitle(id) {
-    return game.modules.get(id)?.data.title ?? "";
+    return game.modules.get(id)?.title ?? "";
   }
 }

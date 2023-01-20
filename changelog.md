@@ -1,5 +1,149 @@
 # Changelog
 
+# [3.0.18] 2022-01-08
+- Core - Resize menus to the window height when the hotbar is hidden (#327).
+- GURPS - Add attributes, equipment and HP/FP buttons - Provided by crnormand (#366).
+- Pathfinder 2e - Fix multiple strikes with the same name causing the wrong strike to be rolled (#361).
+- Pathfinder 2e - Fix warning when selecting a familiar token - Provided by xdy (#362).
+- Pathfinder 2e - Hide unidentified effects for non-GM users - Provided by Felerius (#367).
+- SWADE - Show Power Points with zero available points (#353).
+
+# [3.0.17] 2022-12-09
+- Core - Add touch support for dragging the HUD (#341).
+- Core - Update Dorako style - Provided by Dorako (#350).
+- Core - Fix keybindings event listener not firing when clicking buttons on the HUD (#352).
+- Pathfinder 2e - Update BR language file - Provided by zengerbr (#344).
+- Pathfinder 2e - Fix thrown strike actions not passing alt usage to roll (#347).
+- Star Wars 5e - Fix skill functionality and brought in line with D&D 5e - Provided by supervj (#348).
+
+# [3.0.16] 2022-11-22
+- Cypher System - Sort Abilities and Skills into categories - Provided by farling42 (#336).
+- Dungeonslayers 4 - Use item.roll() instead of item.use() - Fixed by Athemis (#340).
+- Pathfinder 1e - Fix parentless custom skills not working (#334).
+- SWADE - Add support for additional Power Points pools (#330).
+- SWADE - Fix 'Running Die' action not working on core and displaying wrong die in subcategory name (#335).
+
+# [3.0.15] 2022-11-18
+- Cypher System - Add support for the Cypher System system - Provided by farling42 (#331).
+- OpenD6 Space - Fix HUD for v10-compatible release - Provided by madseumas (#332).
+- Tormenta20 - Fix HUD for v10-compatible release (#333).
+
+# [3.0.14] 2022-11-10
+- D&D5e - Fix error when Ruins of Symbaroum module is enabled and the actor has spells (#186).
+- Pathfinder 1e - Use spellbook labels for categories (#320).
+- Pathfinder 2e - Remove duplicate Effects category and fix subcategory name - Provided by Felerius.
+- Starfinder - Fix Crew Actions (#201).
+- SWADE - Add 'Running Die' action to the Attributes category under the Derived Stats subcategory (#173).
+- SWADE - Fix Entangled status still applying core statuses when the Fantasy Companion system setting was enabled (#322).
+- SWADE - Fix Power Points not updating on the HUD following change in SWADE 2.1.0 (#328).
+- Symbaroum - Fix HUD for the Symbaroum following v10 release.
+
+# [3.0.13] 2022-10-26
+- Core - Update fr.json - Provided by rectulo.
+- Core - Add 'Enable Dragging' module setting.
+- Core - Add collapse/expand button to left of HUD.
+- Core - Fix overflowing subtitles (#314).
+- Core - Fix scene and hotbar context menus appearing below the HUD (#316).
+- 3.5e SRD - Fix Psionic Power spells not showing on the HUD (#145).
+- D&D 5e - Fix title references when Group by Action Type is enabled (#318).
+- Pathfinder 1e - Fix BAB and CMB title references (#315).
+- Pathfinder 2e - Fix error caused by tokens with no actor assigned (#145).
+
+# [3.0.12] 2022-10-18
+- Core - Fix menus closing when cursor moves into space between buttons (#308).
+- Core - Replace 'Dropdown Categories' module setting with 'Direction' module setting to support left and right directions in the future. The new setting should pick up the old setting.
+- Core - Fix HUD holding focus when 'Enable for Current User' is unticked and Foundry VTT is reloaded (#311).
+- Pathfinder 2e - Fix deprecated StatisticModifier#name (#302) - Provided by Drental.
+- Pathfinder 2e - Add melee and thrown icons to actions in the Strikes category (#307).
+
+# [3.0.11] 2022-10-08
+- Core - Fix compendium subcategories (#295).
+- Core - Fix HUD appearing above dialog windows (#297). 
+- Core - Fix 's is not defined' error (#298).
+- Core - Fix color pickers defaulting to black when upgrading to Foundry VTT v10.287 and the ColorSettings module is in use (#300).
+- Core - Add Compact option to the Style module setting.
+- Starfinder - Categorise Features into Active Feats and Passive Feats subcategories (#55).
+- Star Wars FFG - Fix HUD for v1.80-alpha3 (#299).
+
+# [3.0.10] 2022-10-02
+- Core - Improve Foundry VTT style to better match core style, especially around toggleable buttons. 
+- Core - Center align names on buttons (#286).
+- Core - Bring HUD to top by clicking on the category buttons (#284).
+- D&D 5e - Fix Effects/Conditions for Combat Utility Belt's Enhanced Conditions (#291).
+- D&D 5e - Fix overlay toggle when right-clicking effects/conditions.
+- GURPS - Update GURPS support to v5 - Provided by crnormand.
+- GURPS - Fix raw HTML output (#292) - Fixed by crnormand.
+- Starfinder - Fix Equipment and Features actions not working (#290).
+- Starfinder - Add handling to roll attack on shift-click and roll damage on ctrl-click (#141).
+
+# [3.0.9] 2022-09-28
+- Core - Add support for libThemer, ColorPicker, or ColorSettings libraries for color pickers (#278) - Provided by mouse0270.
+- Core - Move ColorPicker and ColorSettings to `relationships.flags.optional` / `relationships.optional` (#278) - Provided by mouse0270.
+- D&D 4e - Fix power grouping overriding sheet with default value - Fix provided by draconas1.
+- Earthdawn - Fix equipped weapons not appearing in the Combat category (#283).
+- Pathfinder 1e - Add handling for skipping action dialogs while holding down the shift key (#138).
+- Pathfinder 2e - Remove width limit on the Strikes category (#286).
+- Misc - Add changelog.md to package.
+
+## [3.0.8] 2022-09-21
+- Core - Refactor language files - thanks Larkinabout!
+- pf2e - allow actors to strike again in 4.1.0 - handiwork.
+
+## [3.0.7] 2022-09-19
+- Core - Fix issue with loading styles on the Forge and some modules
+- SPACE 1889 - Entry "Active Defense" is missing for creatures - Fixes provided by Scepfari (#274) 
+
+## [3.0.6] 2022-09-14
+- Core - Fix Dorako UI stylesheet (#264). **NB. The Dorako UI module setting has been replaced by the Style setting.**
+- Pathfinder 2e - Fix Strikes not displaying for NPCs.
+- Space: 1889 - Fixes provided by Scepfari (#265 & #266)
+- SWADE - Add setting to allow (or disallow) roles to give bennies from the HUD (#179).
+- SWADE - Add HUD for Vehicle actors (#245).
+- SWADE - General update for Foundry VTT v10.
+
+## [3.0.5] 2022-09-13
+- Core - Rework default CSS.
+- Core - Add module settings for the button background color and button border color. The Color Picker module is required for these settings (#261).
+- Core - Rename 'Toggle Combat State' and 'Toggle Visibility' buttons to show the current state on the button (#157).
+- D&D 4e/5e, Forbidden Lands, Pathfinder 1e/2e, WFRP 4e - Add module settings to show/hide indivdual categories (#146).
+- D&D 4e/5e, Forbidden Lands, Pathfinder 1e/2e, Starfinder, WFRP 4e  - Add 'End Turn' button to the Utility category (#167).
+- D&D 5e - Add support for Dfred's Convenient Effects (#113).
+- Pathfinder 1e - Fix unprepared spells displaying for the Arcanist class (#214).
+- Pathfinder 2e - Recategorise subcategories in the Features category to match the default character sheet (#218).
+- Pathfinder 2e - Remove items with zero quantity from the HUD (#223).
+- Tormenta20 - Fix Abilities, Skills and Conditions categories (#207).
+
+## [3.0.4] 2022-09-07
+
+- tah - Make content height responsive to HUD position. A scroll bar will now appear for long lists.
+- dnd5e - Add Weapon category for Vehicle actor type (#244).
+- dnd5e - Recategorise Features for Vehicle actor type to match Default 5e Vehicle Sheet.
+- forbidden-lands - Fix some skills not including character stats (#241).
+- forbidden-lands - Fix monster attacks not working.
+- forbidden-lands - Add character spells and monster skills to the HUD.
+- pf2e - Fix error caused by missing async/await chain on getSpellData().
+
+## [3.0.3] 2022-09-05
+
+- tah - More v10 compat.
+- pf1 - Fix error when selecting token (#258).
+- dnd5e - Fix error when selecting more than one token (#259).
+
+## [3.0.2] 2022-09-04
+
+- tah - More v10 compat - big thanks to Wickermoon!!
+- forbidden-lands - add code for conditions and consumables - thank you Larkinabout!
+
+## [3.0.1] 2022-09-04
+
+- tah - replace deprecated Methods across the codebase - big thanks to Larkinabout!!
+
+## [3.0.0] 2022-09-03
+
+- tah - rough v10 migration - Work in Progress, *I might not finish this! But got it to load.*
+- SW5e - brought in line with dnd5e chhanges - thanks Kakeman89!
+- dnd4e - allow skipping dialogs on some actions - thanks Draconas!
+
 ## [2.3.0] 2022-08-26
 
 - pf2e - fixed npc strike usage - done by yours truly
@@ -1035,7 +1179,7 @@
 
 ### Added
 
-- DND5e - Adds support for Obsidian 5e thanks to Avelyne#3141 (select Obsidian Character Sheets in the setting's HUD roll handler)
+- DND5e - Adds support for Obsidian 5e thanks to Avelyne#3141 (select Obsidian Character Sheets in the setting's HUD Roll Handler)
 
 ## [0.10.19] 2021-01-01
 

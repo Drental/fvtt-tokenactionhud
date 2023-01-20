@@ -29,7 +29,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     if (!token) return result;
 
-    let tokenId = token.data._id;
+    let tokenId = token.id;
     result.tokenId = tokenId;
 
     let actor = token.actor;
@@ -37,7 +37,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     if (!actor) return result;
 
     let legitimateActors = ["character", "synthetic", "creature"];
-    let actorType = actor.data.type;
+    let actorType = actor.type;
     if (!legitimateActors.includes(actorType)) return result;
 
     result.actorId = actor.id;
@@ -58,123 +58,123 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       utility = this._getUtilityList(actor, tokenId);
     }
     // // console.log('ActionHandlerAlienRPG -> doBuildActionList -> utility', utility);
-    switch (actor.data.type) {
+    switch (actor.type) {
       case "character":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.attributes"),
+          this.i18n("tokenActionHud.attributes"),
           attributes
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.skills"),
+          this.i18n("tokenActionHud.skills"),
           skills
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.weapons"),
+          this.i18n("tokenActionHud.weapons"),
           weapons
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.inventory"),
+          this.i18n("tokenActionHud.inventory"),
           inventory
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.talents"),
+          this.i18n("tokenActionHud.talents"),
           talents
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.agenda"),
+          this.i18n("tokenActionHud.alienRpg.agenda"),
           agenda
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.consumables"),
+          this.i18n("tokenActionHud.alienRpg.consumables"),
           consumables
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.power"),
+          this.i18n("tokenActionHud.alienRpg.power"),
           power
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.conditions"),
+          this.i18n("tokenActionHud.alienRpg.conditions"),
           conditions
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.utility"),
+          this.i18n("tokenActionHud.utility"),
           utility
         );
         this._setFilterSuggestions(actor);
-        if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+        if (settings.get("showHudTitle")) result.hudTitle = token.name;
         break;
       case "synthetic":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.attributes"),
+          this.i18n("tokenActionHud.attributes"),
           attributes
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.skills"),
+          this.i18n("tokenActionHud.skills"),
           skills
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.weapons"),
+          this.i18n("tokenActionHud.weapons"),
           weapons
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.inventory"),
+          this.i18n("tokenActionHud.inventory"),
           inventory
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.talents"),
+          this.i18n("tokenActionHud.talents"),
           talents
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.agenda"),
+          this.i18n("tokenActionHud.alienRpg.agenda"),
           agenda
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.power"),
+          this.i18n("tokenActionHud.alienRpg.power"),
           power
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.utility"),
+          this.i18n("tokenActionHud.utility"),
           utility
         );
         this._setFilterSuggestions(actor);
-        if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+        if (settings.get("showHudTitle")) result.hudTitle = token.name;
         break;
       case "creature":
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.attributes"),
+          this.i18n("tokenActionHud.attributes"),
           attributes
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.attack"),
+          this.i18n("tokenActionHud.attack"),
           attack
         );
         this._combineCategoryWithList(
           result,
-          this.i18n("tokenactionhud.utility"),
+          this.i18n("tokenActionHud.utility"),
           utility
         );
         this._setFilterSuggestions(actor);
-        if (settings.get("showHudTitle")) result.hudTitle = token.data?.name;
+        if (settings.get("showHudTitle")) result.hudTitle = token.name;
         break;
 
       default:
@@ -197,7 +197,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.weapons"),
+      this.i18n("tokenActionHud.weapons"),
       subcategory
     );
 
@@ -224,12 +224,12 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.armour"),
+      this.i18n("tokenActionHud.armour"),
       armour
     );
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.equipment"),
+      this.i18n("tokenActionHud.equipment"),
       item
     );
 
@@ -249,7 +249,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     talent.actions = talentActions;
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.talents"),
+      this.i18n("tokenActionHud.talents"),
       talent
     );
 
@@ -269,7 +269,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     agenda.actions = agendaActions;
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.settings.alienrpg.agenda"),
+      this.i18n("tokenActionHud.alienRpg.agenda"),
       agenda
     );
 
@@ -282,12 +282,12 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let powConsumables = this.initializeEmptySubcategory();
     let macroType = "consumables";
 
-    let rollableConsumables = Object.entries(actor.data.data.consumables);
+    let rollableConsumables = Object.entries(actor.system.consumables);
     // remove Power from the list
     rollableConsumables.splice(1, 1);
     let consumablesMap = rollableConsumables.map((c) => {
       let name = this.i18n(
-        "tokenactionhud.settings.alienrpg.consumables" + c[0]
+        "tokenActionHud.alienRpg." + c[0]
       );
       let id = c[0];
       let encodedValue = [macroType, tokenId, id, name].join(this.delimiter);
@@ -296,7 +296,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     consumables.actions = this._produceMap(tokenId, consumablesMap, macroType);
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.settings.alienrpg.consumables"),
+      this.i18n("tokenActionHud.alienRpg.consumables"),
       consumables
     );
 
@@ -312,11 +312,11 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let items = (actor.items ?? [])
       .filter((a) => filter.includes(a.type))
       .sort(this._foundrySort);
-    let powerList = items.filter((i) => i.data.totalPower > 0);
+    let powerList = items.filter((i) => i.system.totalPower > 0);
 
     let powerMap = powerList.map((c) => {
-      let name = c.data.name;
-      let id = c.data._id;
+      let name = c.name;
+      let id = c._id;
       let pencodedValue = [macroType, tokenId, name, id].join(this.delimiter);
       return { name: name, encodedValue: pencodedValue, id: id };
     });
@@ -324,7 +324,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.settings.alienrpg.power"),
+      this.i18n("tokenActionHud.alienRpg.power"),
       powConsumables
     );
 
@@ -337,7 +337,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     result.forEach((i) =>
       this._addItemInfo(
-        itemList.find((item) => item.data._id === i.id),
+        itemList.find((item) => item.id === i.id),
         i
       )
     );
@@ -353,7 +353,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   /** @private */
   _getQuantityData(item) {
     let result = "";
-    let quantity = item.data.data.quantity?.value;
+    let quantity = item.system.quantity?.value;
     if (quantity > 1) {
       result = quantity;
     }
@@ -366,9 +366,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let attributes = this.initializeEmptySubcategory();
     let macroType = "attribute";
 
-    let rollableAttributes = Object.entries(actor.data.data.attributes);
+    let rollableAttributes = Object.entries(actor.system.attributes);
     let attributesMap = rollableAttributes.map((c) => {
-      let name = this.i18n("tokenactionhud.settings.alienrpg.attribute" + c[0]);
+      let name = this.i18n("tokenActionHud.alienRpg." + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
@@ -378,7 +378,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
 
@@ -391,18 +391,18 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let battributes = this.initializeEmptySubcategory();
     let macroType = "creatureattribute";
 
-    let rollableAttributes = Object.entries(actor.data.data.attributes);
+    let rollableAttributes = Object.entries(actor.system.attributes);
     let attributesMap = rollableAttributes.map((c) => {
-      let name = this.i18n("tokenactionhud.settings.alienrpg.attribute" + c[0]);
+      let name = this.i18n("tokenActionHud.alienRpg." + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
     });
-    let rollableGeneral = Object.entries(actor.data.data.general);
+    let rollableGeneral = Object.entries(actor.system.general);
     rollableGeneral.splice(2, 3);
 
     let generalMap = rollableGeneral.map((c) => {
-      let name = this.i18n("tokenactionhud.settings.alienrpg.attribute" + c[0]);
+      let name = this.i18n("tokenActionHud.alienRpg." + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
@@ -413,7 +413,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attributes"),
+      this.i18n("tokenActionHud.attributes"),
       attributes
     );
     this._combineSubcategoryWithCategory(result, "", battributes);
@@ -426,9 +426,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let attributes = this.initializeEmptySubcategory();
     let macroType = "skill";
 
-    let rollableSkills = Object.entries(actor.data.data.skills);
+    let rollableSkills = Object.entries(actor.system.skills);
     let skillMap = rollableSkills.map((c) => {
-      let name = this.i18n("tokenactionhud.settings.alienrpg.skill" + c[0]);
+      let name = this.i18n("tokenActionHud.alienRpg." + c[0]);
       let id = c[0];
       let encodedValue = [macroType, tokenId, id].join(this.delimiter);
       return { name: name, encodedValue: encodedValue, id: id };
@@ -438,7 +438,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.skills"),
+      this.i18n("tokenActionHud.skills"),
       attributes
     );
 
@@ -452,7 +452,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     const allowedTypes = ["monster", "character"];
     let actors = canvas.tokens.controlled
       .map((t) => t.actor)
-      .filter((a) => allowedTypes.includes(a.data.type));
+      .filter((a) => allowedTypes.includes(a.type));
 
     this._addMultiUtilities(list, list.tokenId, actors);
   }
@@ -462,7 +462,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let attack = this.initializeEmptySubcategory();
     let macroType = "attack";
 
-    if (actor.data.type === "creature") {
+    if (actor.type === "creature") {
       let header = this.initializeEmptySubcategory();
 
       let creatureAttack = [];
@@ -471,7 +471,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       );
       creatureAttack = {
         id: "creatureAttack",
-        name: this.i18n("tokenactionhud.settings.alienrpg.creatureAttack"),
+        name: this.i18n("tokenActionHud.alienRpg.creatureAttack"),
         encodedValue: cAttackValue,
       };
       header.actions.push(creatureAttack);
@@ -482,20 +482,20 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       );
       acidSplash = {
         id: "acidSplash",
-        name: this.i18n("tokenactionhud.settings.alienrpg.attributeacidSplash"),
+        name: this.i18n("tokenActionHud.alienRpg.acidSplash"),
         encodedValue: aSplashValue,
       };
       header.actions.push(acidSplash);
       this._combineSubcategoryWithCategory(
         result,
-        this.i18n("tokenactionhud.settings.alienrpg.attributeacidSplash"),
+        this.i18n("tokenActionHud.alienRpg.acidSplash"),
         header
       );
     }
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.attack"),
+      this.i18n("tokenActionHud.attack"),
       attack
     );
 
@@ -509,28 +509,28 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let header = this.initializeEmptySubcategory();
     let headerActions = [];
     let health = 0;
-    switch (actor.data.type) {
+    switch (actor.type) {
       case "character":
-        health = actor.data.data.header?.health;
+        health = actor.system.header?.health;
         if (health)
           headerActions.push(
             this._getHeaderActions(
               tokenId,
               "health",
-              this.i18n("tokenactionhud.settings.alienrpg.health"),
+              this.i18n("tokenActionHud.alienRpg.health"),
               health.value,
               "10"
             )
           );
         header.actions = headerActions;
 
-        let stress = actor.data.data.header?.stress;
+        let stress = actor.system.header?.stress;
         if (stress)
           headerActions.push(
             this._getHeaderActions(
               tokenId,
               "stress",
-              this.i18n("tokenactionhud.settings.alienrpg.stresspoints"),
+              this.i18n("tokenActionHud.alienRpg.stresspoints"),
               stress.value,
               "10"
             )
@@ -542,7 +542,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
         );
         stressActions = {
           id: "rollStress",
-          name: this.i18n("tokenactionhud.settings.alienrpg.rollStress"),
+          name: this.i18n("tokenActionHud.alienRpg.rollStress"),
           encodedValue: stressValue,
         };
         header.actions.push(stressActions);
@@ -553,26 +553,26 @@ export class ActionHandlerAlienrpg extends ActionHandler {
         );
         rollCritActions = {
           id: "rollCrit",
-          name: this.i18n("tokenactionhud.settings.alienrpg.rollCrit"),
+          name: this.i18n("tokenActionHud.alienRpg.rollCrit"),
           encodedValue: rollCrit,
         };
         header.actions.push(rollCritActions);
 
         this._combineSubcategoryWithCategory(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.health"),
+          this.i18n("tokenActionHud.alienRpg.health"),
           header
         );
         break;
 
       case "creature":
-        health = actor.data.data.header?.health;
+        health = actor.system.header?.health;
         if (health)
           headerActions.push(
             this._getHeaderActions(
               tokenId,
               "health",
-              this.i18n("tokenactionhud.settings.alienrpg.health"),
+              this.i18n("tokenActionHud.alienRpg.health"),
               health.value,
               "10"
             )
@@ -580,19 +580,19 @@ export class ActionHandlerAlienrpg extends ActionHandler {
         header.actions = headerActions;
         this._combineSubcategoryWithCategory(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.health"),
+          this.i18n("tokenActionHud.alienRpg.health"),
           header
         );
         break;
 
       case "synthetic":
-        health = actor.data.data.header?.health;
+        health = actor.system.header?.health;
         if (health)
           headerActions.push(
             this._getHeaderActions(
               tokenId,
               "health",
-              this.i18n("tokenactionhud.settings.alienrpg.health"),
+              this.i18n("tokenActionHud.alienRpg.health"),
               health.value,
               "10"
             )
@@ -605,24 +605,24 @@ export class ActionHandlerAlienrpg extends ActionHandler {
         );
         rollSynCritActions = {
           id: "rollCrit",
-          name: this.i18n("tokenactionhud.settings.alienrpg.rollCrit"),
+          name: this.i18n("tokenActionHud.alienRpg.rollCrit"),
           encodedValue: rollSynCrit,
         };
         header.actions.push(rollSynCritActions);
 
         this._combineSubcategoryWithCategory(
           result,
-          this.i18n("tokenactionhud.settings.alienrpg.health"),
+          this.i18n("tokenActionHud.alienRpg.health"),
           header
         );
-        if (actor.data.data.header.synthstress) {
+        if (actor.system.header.synthstress) {
           let stressActions = [];
           let stressValue = ["rollStress", tokenId, "rollStress", 0].join(
             this.delimiter
           );
           stressActions = {
             id: "rollStress",
-            name: this.i18n("tokenactionhud.settings.alienrpg.rollStress"),
+            name: this.i18n("tokenActionHud.alienRpg.rollStress"),
             encodedValue: stressValue,
           };
           header.actions.push(stressActions);
@@ -635,7 +635,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utility
     );
 
@@ -647,7 +647,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
     let conditions = this.initializeEmptySubcategory();
     let macroType = "conditions";
 
-    if (actor.data.type === "character") {
+    if (actor.type === "character") {
       let general = this.initializeEmptySubcategory();
       let generalActions = [];
 
@@ -657,9 +657,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       generalActions = {
         id: "toggleStarving",
         encodedValue: starvingStateValue,
-        name: this.i18n("tokenactionhud.settings.alienrpg.starving"),
+        name: this.i18n("tokenActionHud.alienRpg.starving"),
       };
-      generalActions.cssClass = actor.data.data.general.starving.value
+      generalActions.cssClass = actor.system.general.starving.value
         ? "active"
         : "";
       general.actions.push(generalActions);
@@ -673,9 +673,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       generalActions = {
         id: "toggleDehydrated",
         encodedValue: dehydratedStateValue,
-        name: this.i18n("tokenactionhud.settings.alienrpg.dehydrated"),
+        name: this.i18n("tokenActionHud.alienRpg.dehydrated"),
       };
-      generalActions.cssClass = actor.data.data.general.dehydrated.value
+      generalActions.cssClass = actor.system.general.dehydrated.value
         ? "active"
         : "";
       general.actions.push(generalActions);
@@ -689,9 +689,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       generalActions = {
         id: "toggleExhausted",
         encodedValue: exhaustedStateValue,
-        name: this.i18n("tokenactionhud.settings.alienrpg.exhausted"),
+        name: this.i18n("tokenActionHud.alienRpg.exhausted"),
       };
-      generalActions.cssClass = actor.data.data.general.exhausted.value
+      generalActions.cssClass = actor.system.general.exhausted.value
         ? "active"
         : "";
       general.actions.push(generalActions);
@@ -702,9 +702,9 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       generalActions = {
         id: "toggleFreezing",
         encodedValue: freezingStateValue,
-        name: this.i18n("tokenactionhud.settings.alienrpg.freezing"),
+        name: this.i18n("tokenActionHud.alienRpg.freezing"),
       };
-      generalActions.cssClass = actor.data.data.general.freezing.value
+      generalActions.cssClass = actor.system.general.freezing.value
         ? "active"
         : "";
       general.actions.push(generalActions);
@@ -715,22 +715,22 @@ export class ActionHandlerAlienrpg extends ActionHandler {
       generalActions = {
         id: "togglePanic",
         encodedValue: panicStateValue,
-        name: this.i18n("tokenactionhud.settings.alienrpg.panic"),
+        name: this.i18n("tokenActionHud.alienRpg.panic"),
       };
-      generalActions.cssClass = actor.data.data.general.panic.value
+      generalActions.cssClass = actor.system.general.panic.value
         ? "active"
         : "";
       general.actions.push(generalActions);
 
       this._combineSubcategoryWithCategory(
         result,
-        this.i18n("tokenactionhud.settings.alienrpg.conditions"),
+        this.i18n("tokenActionHud.alienRpg.conditions"),
         general
       );
     }
     this._combineSubcategoryWithCategory(
       result,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       conditions
     );
 
@@ -752,19 +752,19 @@ export class ActionHandlerAlienrpg extends ActionHandler {
 
     let utility = this.initializeEmptySubcategory();
 
-    // if (actors.every((actor) => actor.data.type === 'character')) {
+    // if (actors.every((actor) => actor.type === 'character')) {
     //   let shortRestValue = [macroType, tokenId, 'stress', ''].join(this.delimiter);
-    //   stress.actions.push({ id: 'stress', encodedValue: shortRestValue, name: this.i18n('tokenactionhud.settings.alienrpg.stresspoints') });
+    //   stress.actions.push({ id: 'stress', encodedValue: shortRestValue, name: this.i18n('tokenActionHud.alienRpg.stresspoints') });
     // }
 
     this._combineSubcategoryWithCategory(
       category,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       utility
     );
     this._combineCategoryWithList(
       list,
-      this.i18n("tokenactionhud.utility"),
+      this.i18n("tokenActionHud.utility"),
       category
     );
   }
@@ -772,7 +772,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   /** @override */
   _setFilterSuggestions(id, items) {
     let suggestions = items?.map((s) => {
-      return { id: s.data._id, value: s.name };
+      return { id: s._id, value: s.name };
     });
     if (suggestions?.length > 0)
       this.filterManager.setSuggestions(id, suggestions);
@@ -821,7 +821,7 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   _getUsesData(item) {
     let result = "";
 
-    let uses = item.data.data.uses;
+    let uses = item.system.uses;
     if (!uses) return result;
 
     if (!(uses.max || uses.value)) return result;
@@ -836,8 +836,8 @@ export class ActionHandlerAlienrpg extends ActionHandler {
   }
   /** @protected */
   _foundrySort(a, b) {
-    if (!(a?.data?.sort || b?.data?.sort)) return 0;
+    if (!(a?.sort || b?.sort)) return 0;
 
-    return a.data.sort - b.data.sort;
+    return a.sort - b.sort;
   }
 }
