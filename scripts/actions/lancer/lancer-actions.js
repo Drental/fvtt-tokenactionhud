@@ -165,7 +165,7 @@ export class ActionHandlerLancer extends ActionHandler {
     );
 
     let basicAttack = this._makeAction(
-      this.i18n("tokenactionhud.lancer.basicAttack"),
+      this.i18n("tokenActionHud.lancer.basicAttack"),
       "stat",
       actorId,
       "basicattack"
@@ -202,7 +202,7 @@ export class ActionHandlerLancer extends ActionHandler {
     );
 
     let basicTechAttack = this._makeAction(
-      this.i18n("tokenactionhud.techAttack"),
+      this.i18n("tokenActionHud.lancer.techAttack"),
       "stat",
       actorId,
       "techattack"
@@ -234,8 +234,8 @@ export class ActionHandlerLancer extends ActionHandler {
     let result = this.initializeEmptySubcategory();
 
     result.id = "grit";
-    result.name = this.i18n("tokenactionhud.lancer.grit");
-    result.actions = [ this._makeAction(this.i18n("tokenactionhud.lancer.grit"), "stat", actorId, "Pilot.Grit") ];
+    result.name = this.i18n("tokenActionHud.lancer.grit");
+    result.actions = [ this._makeAction(this.i18n("tokenActionHud.lancer.grit"), "stat", actorId, "Pilot.Grit") ];
 
     return result;
   }
@@ -343,10 +343,10 @@ export class ActionHandlerLancer extends ActionHandler {
     let macro = "stat";
 
     result.id = "stat";
-    result.name = this.i18n("tokenactionhud.lancer.basic");
+    result.name = this.i18n("tokenActionHud.lancer.basic");
 
-    let basicAttack = this.i18n("tokenactionhud.lancer.basicAttack");
-    let techAttack = this.i18n("tokenactionhud.lancer.techAttack");
+    let basicAttack = this.i18n("tokenActionHud.lancer.basicAttack");
+    let techAttack = this.i18n("tokenActionHud.lancer.techAttack");
 
     let statActionData = [
       { name: basicAttack, data: "basicattack" },
@@ -368,13 +368,13 @@ export class ActionHandlerLancer extends ActionHandler {
     let overchargeCount = Math.min(mm.OverchargeCount, overchargeSequence.length - 1);
 
     result.id = "frame";
-    result.name = this.i18n("tokenactionhud.lancer.frame");
+    result.name = this.i18n("tokenActionHud.lancer.frame");
 
-    let overchargeText = this.i18n("tokenactionhud.lancer.overcharge") + " (" + overchargeSequence[overchargeCount] + ")";
+    let overchargeText = this.i18n("tokenActionHud.lancer.overcharge") + " (" + overchargeSequence[overchargeCount] + ")";
 
     result.actions = [
       this._makeAction(overchargeText, "frame", actorId, "overcharge"),
-      this._makeAction(this.i18n("tokenactionhud.lancer.stabilize"), "frame", actorId, "stabilize")
+      this._makeAction(this.i18n("tokenActionHud.lancer.stabilize"), "frame", actorId, "stabilize")
     ];
 
     return result;
