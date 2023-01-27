@@ -138,7 +138,7 @@ export class TokenActionHUD extends Application {
       this.bringToTop();
     });
 
-    html.find(action).on("mousedown", (e) => {
+    html.find(action).on("click", (e) => {
       e.preventDefault();
       handleClick(e);
     });

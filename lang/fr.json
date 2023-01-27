@@ -494,6 +494,7 @@
     },
     "forbiddenlands": {
       "agility": "Agilité",
+      "animal-handling": "Dressage",
       "animalHandling": "Dressage",
       "arrows": "Flèches",
       "cold": "Glacé",
@@ -513,6 +514,7 @@
       "move": "Souplesse",
       "performance": "Représentation",
       "sleepy": "Épuisé",
+      "sleight-of-hand": "Survie",
       "sleightOfHand": "Survie",
       "stealth": "Furtivité",
       "strength": "Force",

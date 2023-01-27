@@ -349,6 +349,7 @@
     },
     "forbiddenLands": {
       "agility": "Agility",
+      "animal-handling": "Animal Handling",
       "animalHandling": "Animal Handling",
       "arrows": "Arrows",
       "cold": "Cold",
@@ -370,6 +371,7 @@
       "move": "Move",
       "performance": "Performance",
       "scouting": "Scouting",
+      "sleight-of-hand": "Sleight of Hand",
       "sleightOfHand": "Sleight of Hand",
       "sleepy": "Sleepy",
       "stealth": "Stealth",
