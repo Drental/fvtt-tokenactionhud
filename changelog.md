@@ -1,5 +1,15 @@
 # Changelog
 
+Call to Arms! Token Action HUD is moving to [Token Action HUD Core](https://foundryvtt.com/packages/token-action-hud-core) with dedicated Token Action HUD system modules. Token Action HUD Core has new customisation features over this one, but there are far too many systems for me to move over and continue to maintain. If you're interested in picking up development of the Token Action HUD system module for your favourite system, please get in touch with me at the [Token Action HUD Core repos](https://github.com/Larkinabout/fvtt-token-action-hud-core) or on Discord (Russell#7071).
+
+# [3.0.19] 2022-01-28
+- Forbidden Lands - Fix missing Animal Handling and Sleight of Hand language references (#371).
+- Forbidden Lands - Fix actions not rolling due to required click event (#378).
+- Lancer - Update actions for v10 support - Provided by dodgepong (#377).
+- Pathfinder 2 - Fix error with Strikes caused by new weapons (#368).
+- Starfinder - Replace deprecated 'data' reference (#369).
+- Starfinder - Fix spells not showing the Spell Configuration dialog (#370).
+
 # [3.0.18] 2022-01-08
 - Core - Resize menus to the window height when the hotbar is hidden (#327).
 - GURPS - Add attributes, equipment and HP/FP buttons - Provided by crnormand (#366).
