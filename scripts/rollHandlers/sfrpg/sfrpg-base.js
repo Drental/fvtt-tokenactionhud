@@ -92,7 +92,11 @@ export class RollHandlerBaseSfrpg extends RollHandler {
     if (ctrlKey && (item.type === "weapon" || item.type === "spell")) {
       return item.rollDamage();
     }
-    return item.roll();
+    if (item.type === 'spell') {
+      return actor.useSpell(item, {configureDialog: !event.shiftKey})
+    } else {
+      return item.roll();
+    }
   }
 
   needsRecharge(item) {

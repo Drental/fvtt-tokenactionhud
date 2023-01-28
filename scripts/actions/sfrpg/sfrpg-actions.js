@@ -387,7 +387,7 @@ export class ActionHandlerSfrpg extends ActionHandler {
 
   /** @private */
   _addSpellInfo(s, spell) {
-    let data = s.data;
+    let data = s.system;
 
     if (data?.sr) spell.info2 += "Sr";
 
