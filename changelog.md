@@ -1,6 +1,8 @@
 # Changelog
 
-Call to Arms! Token Action HUD is moving to [Token Action HUD Core](https://foundryvtt.com/packages/token-action-hud-core) with dedicated Token Action HUD system modules. Token Action HUD Core has new customisation features over this one, but there are far too many systems for me to move over and continue to maintain. If you're interested in picking up development of the Token Action HUD system module for your favourite system, please get in touch with me at the [Token Action HUD Core repos](https://github.com/Larkinabout/fvtt-token-action-hud-core) or on Discord (Russell#7071).
+Call to Arms! Token Action HUD is moving to [Token Action HUD Core](https://foundryvtt.com/packages/token-action-hud-core) with dedicated Token Action HUD system modules. Token Action HUD Core has new customisation features over this one, but there are far too many systems for me to move over and continue to maintain.
+
+If you're interested in picking up development of the Token Action HUD system module for your favourite system, please get in touch with me at the [Token Action HUD Core repos](https://github.com/Larkinabout/fvtt-token-action-hud-core) or on Discord (Russell#7071).
 
 # [3.0.19] 2022-01-28
 - Forbidden Lands - Fix missing Animal Handling and Sleight of Hand language references (#371).
