@@ -374,7 +374,7 @@ export class ActionHandlerPf2e extends ActionHandler {
     } else if (usage !== "thrown" && glyph) {
       subcategory.icon = `<span style='font-family: "Pathfinder2eActions"'>${glyph}</span>`;
     }
-    const id = s.sourceId ?? s.slug ?? s.item.id
+    const id = s.item.id ?? s.slug
     const subcategoryName = (s.attackRollType) 
       ? `${s.label} - ${this.i18n(s.attackRollType)}`
       :  s.label

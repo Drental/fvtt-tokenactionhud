@@ -253,12 +253,12 @@ export class RollHandlerBasePf2e extends RollHandler {
 
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => (s.sourceId ?? s.slug ?? s.item.id) === strikeId);
+      .find((s) => (s.item.id ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => (s.sourceId ?? s.slug ?? s.item.id) === strikeId).item;
+        .find((s) => (s.item.id ?? s.slug) === strikeId).item;
       if (item) return this.doRenderItem(tokenId, item.id);
     }
 
@@ -297,12 +297,12 @@ export class RollHandlerBasePf2e extends RollHandler {
 
     let strike = actor.system.actions
       .filter((a) => a.type === "strike")
-      .find((s) => (s.sourceId ?? s.slug) === strikeId);
+      .find((s) => (s.item.id ?? s.slug) === strikeId);
 
     if (this.isRenderItem()) {
       let item = actor.system.actions
         .filter((a) => a.type === "strike")
-        .find((s) => (s.sourceId ?? s.slug) === strikeId).origin;
+        .find((s) => (s.item.id ?? s.slug) === strikeId).origin;
       if (item) return this.doRenderItem(tokenId, item.id);
     }
 
