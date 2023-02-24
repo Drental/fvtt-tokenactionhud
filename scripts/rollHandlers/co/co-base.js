@@ -93,9 +93,11 @@ export class RollHandlerBaseCo extends RollHandler {
   }
 
   _handleCapacity(macroType, event, actor, actionId) {
-    let item = actor.items.get(actionId);  
 
-    actor.activateCapacity(item);
+    if (game.system.id === "cof") {
+      let item = actor.items.get(actionId);  
+      actor.activateCapacity(item);
+    }
     
   }
 
