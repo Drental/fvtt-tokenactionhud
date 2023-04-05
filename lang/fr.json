@@ -580,20 +580,20 @@
       }
     },
     "pf2e": {
-      "atk": "Atk",
-      "bonusFeats": "Bonus Feats",
-      "classFeats": "Class Feats",
+      "atk": "Att",
+      "bonusFeats": "Dons bonus",
+      "classFeats": "Dons de classe",
       "classFeatures": "Capacités de classe",
-      "commonSkills": "Compétences communes",
-      "dc": "DC",
-      "doomed": "Doomed",
-      "downtime": "Downtime",
-      "dying": "Dying",
+      "commonSkills": "Compétences courantes",
+      "dc": "DD",
+      "doomed": "Condamné",
+      "downtime": "Intermède",
+      "dying": "Mourant",
       "exploration": "Exploration",
-      "free": "Libre",
-      "generalFeats": "General Feats",
-      "heroPoints": "Points de Heros",
-      "lore": "Savoir",
+      "free": "Gratuite",
+      "generalFeats": "Dons généraux",
+      "heroPoints": "Points d'héroïsme",
+      "lore": "Connaissance",
       "noAmmo": "Pas de munitions",
       "recoveryCheck": "Test de récupération",
       "restNight": "Se reposer pour la nuit",
@@ -608,7 +608,7 @@
           "name": "Abréger les noms des caractéristiques et des compétences"
         },
         "calculateAttackPenalty": {
-          "hint": "Si cette option est activée, les attaques affichent le bonus calculé (bonus d'attaque - PAM) ; si elle est désactivée, elles affichent simplement la PAM.",
+          "hint": "Si cette option est activée, les attaques affichent le bonus calculé (bonus d'attaque - PAM) ; sinon, elles affichent simplement la PAM.",
           "name": "Afficher le bonus d'attaque calculé au lieu de juste la PAM"
         },
         "ignorePassiveActions": {
@@ -617,29 +617,29 @@
         },
         "printSpellCard": {
           "hint": "Si cette option est désactivée, un clic gauche sur un sort déclenchera un jet d'attaque (Shift + clic droit pour ouvrir la fenêtre permettant de gérer les bonus), un clic droit déclenchera le jet de dégâts (Ctrl + clic droit pour ouvrir la fenêtre permettant de gérer les bonus). Si aucune de ces choses ne s'applique pour le sort en question, la description du sort sera envoyée vers le chat.",
-          "name": "Afficher la description du sort dans le chat en cas de clic"
+          "name": "Afficher la description du sort dans la conversation sur un clic"
         },
         "separateTogglesCategory": {
-          "hint": "Si cette option est activée, les éléments de règle activables (on/off) seront affichés dans une catégorie propre à eux. Si cette option est désactivée, ils seront placés dans l'onglet Frappes.",
+          "hint": "Si cette option est activée, les éléments de règle activables (on/off) seront affichés dans une catégorie propre. Si cette option est désactivée, ils seront placés dans l'onglet Frappes.",
           "name": "Ranger les éléments de règle activables dans une catégorie à part"
         },
         "showNpcAbilities": {
-          "hint": "Si cette option est activée, les caractéristiques des PNJs seront affichées sur le HUD.",
-          "name": "Afficher les caractéristiques des PNJs"
+          "hint": "Si cette option est activée, les caractéristiques des PNJ seront affichées sur le HUD.",
+          "name": "Afficher les caractéristiques des PNJ"
         },
         "showOldNpcStrikes": {
           "hint": "Si cette option est activée, les Frappes des PNJ (ancienne version) seront affichées en plus des nouvelles versions (expérimentales).",
           "name": "Afficher également les Frappes des PNJs (ancienne version)"
         },
         "showPcAbilities": {
-          "hint": "Si cette option est activée, les caractéristiques des PJs seront affichées.",
-          "name": "Afficher les caractéristiques des PJs"
+          "hint": "Si cette option est activée, les caractéristiques des PJ seront affichées.",
+          "name": "Afficher les caractéristiques des PJ"
         }
       }  
     },
     "sfrpg": {
       "activeFeats": "Dons actifs",
-      "crewActions": "Crew Actions",
+      "crewActions": "Actions d'équipage",
       "misc": "Divers",
       "msa": "Sort de Combat",
       "mwa": "Attaque à l'arme de mêlée",
