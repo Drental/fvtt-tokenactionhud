@@ -112,7 +112,7 @@ export class ActionHandlerSwade extends ActionHandler {
     const subcat = this.initializeEmptySubcategory("skills");
     skills.forEach((s) => {
       const encodedValue = [macroType, tokenId, s.id].join(this.delimiter);
-      const action = { name: s.name, encodedValue: encodedValue, id: s.id };
+      const action = { name: s.name, img: s.img, encodedValue: encodedValue, id: s.id };
 
       let mod = this._parseDie(s.system.die, s.system["wild-die"]);
       action.info1 = mod;
