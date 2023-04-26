@@ -404,7 +404,7 @@ export class ActionHandlerSwade extends ActionHandler {
 
       const name = key.slice(2).split(/(?=[A-Z])/).join(" ");
       const id = name.toLowerCase();
-      const img = CONFIG.statusEffects.find((el) => el.id === id).icon;
+      const img = CONFIG.statusEffects.find((el) => el.id === id)?.icon ?? null;
       const encodedValue = [macroType, tokenId, id].join(this.delimiter);
       const action = { name: name, img, id: name, encodedValue: encodedValue };
       action.cssClass = value ? "active" : "";
