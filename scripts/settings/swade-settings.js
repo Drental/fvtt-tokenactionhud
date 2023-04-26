@@ -35,19 +35,8 @@ export function register(app, updateSettings) {
       updateSettings(value);
     },
   });
-  
-  const showCategorySettings = [
-    'WoundsFatigue',
-    'Status',
-    'Bennies',
-    'Attributes',
-    'Skills',
-    'EdgesHindrances',
-    'SpecialAbilities', 
-    'Powers',
-    'Gear',
-    'Utility'
-  ]
+
+  const showCategorySettings = ["WoundsFatigue", "Actions", "Status", "Bennies", "Attributes", "Skills", "EdgesHindrances", "SpecialAbilities", "Powers", "Gear", "Utility"];
 
   for (const category of showCategorySettings) {
     game.settings.register(app, `show${category}Category`, {
