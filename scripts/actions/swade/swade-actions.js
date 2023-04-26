@@ -114,7 +114,7 @@ export class ActionHandlerSwade extends ActionHandler {
       const encodedValue = [macroType, tokenId, s.id].join(this.delimiter);
       const action = { name: s.name, img: s.img, encodedValue: encodedValue, id: s.id };
 
-      let mod = this._parseDie(s.system.die, s.system["wild-die"]);
+      let mod = this._parseDie(s.system.die);
       action.info1 = mod;
 
       subcat.actions.push(action);
