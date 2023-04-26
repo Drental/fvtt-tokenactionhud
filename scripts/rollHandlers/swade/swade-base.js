@@ -24,6 +24,7 @@ export class RollHandlerBaseSwade extends RollHandler {
       return this.doRenderItem(tokenId, actionId);
 
     switch (macroType) {
+      case "action":
       case "item":
         this._rollItem(event, actor, actionId);
         break;

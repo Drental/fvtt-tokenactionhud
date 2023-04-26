@@ -25,6 +25,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addWoundsAndFatigue(result, tokenId, actor);
     this._addStatuses(result, tokenId, actor);
     if (actor.type === "character" || actor.type === "npc") {
+      this._addActions(result, tokenId, actor);
       this._addBennies(result, tokenId, actor);
       this._addAttributes(result, tokenId, actor);
       this._addSkills(result, tokenId, actor);
@@ -41,6 +42,29 @@ export class ActionHandlerSwade extends ActionHandler {
     if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
+  }
+
+  /** @private */
+  _addActions(list, tokenId, actor) {
+    if (settings.get("showActionsCategory") === false) return;
+    const cat = this.initializeEmptyCategory("actions");
+    const macroType = "action";
+    const actions = actor.items.filter((i) => i.type === macroType);
+
+    const subcat = this.initializeEmptySubcategory("actions");
+    actions.forEach((a) => {
+      const encodedValue = [macroType, tokenId, a.id].join(this.delimiter);
+      const action = { name: a.name, img: a.img, encodedValue: encodedValue, id: a.id };
+
+      let mod = this._parseDie(a.system.die);
+      action.info1 = mod;
+
+      subcat.actions.push(action);
+    });
+
+    const skillName = this.i18n("SWADE.Actions");
+    this._combineSubcategoryWithCategory(cat, skillName, subcat);
+    this._combineCategoryWithList(list, skillName, cat);
   }
 
   /** @private */
