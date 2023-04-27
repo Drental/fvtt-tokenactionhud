@@ -21,7 +21,7 @@
       "intellect": "Intelecto",
       "perception": "Percepção",
       "strength": "Força",
-      "will": "Vontade"     
+      "will": "Vontade"
     },
     "attributes": "Atributos",
     "blockList": "Lista Bloqueada",
@@ -176,8 +176,8 @@
         "name": "Mostrar Atributos"
       },
       "showBenniesCategory": {
-        "hint": "Mostrar a categoria Bennies no HUD",
-        "name": "Mostrar Bennies"
+        "hint": "Mostrar a categoria Benes no HUD",
+        "name": "Mostrar Benes"
       },
       "showBuffsCategory": {
         "hint": "Mostrar a categoria Buffs no HUD",
@@ -200,8 +200,8 @@
         "name": "Mostrar Consumíveis"
       },
       "showEdgesHindrancesCategory": {
-        "hint": "Mostrar a categoria Edges/Hindrances no HUD",
-        "name": "Mostrar Edges/Hindrances"
+        "hint": "Mostrar a categoria Vantagens/Complicações no HUD",
+        "name": "Mostrar Vantagens/Complicações"
       },
       "showEffectsCategory": {
         "hint": "Mostrar a categoria Efeitos no HUD",
@@ -212,8 +212,8 @@
         "name": "Mostrar Recursos"
       },
       "showGearCategory": {
-        "hint": "Mostrar a categoria Gear no HUD",
-        "name": "Mostrar Gear"
+        "hint": "Mostrar a categoria Equipamento no HUD",
+        "name": "Mostrar Equipamento"
       },
       "showInventoryCategory": {
         "hint": "Mostrar a categoria de Inventário no HUD",
@@ -248,8 +248,8 @@
         "name": "Mostrar Feitiços"
       },
       "showStatusCategory": {
-        "hint": "Mostrar a categoria Status no HUD",
-        "name": "Mostrar Status"
+        "hint": "Mostrar a categoria Estado no HUD",
+        "name": "Mostrar Estado"
       },
       "showStrikesCategory": {
         "hint": "Mostrar a categoria Strikes no HUD",
@@ -272,8 +272,8 @@
         "name": "Mostrar Armas"
       },
       "showWoundsFatigueCategory": {
-        "hint": "Mostrar a categoria  Wounds/Fatigueno HUD",
-        "name": "Mostrar Wounds/Fatigue"
+        "hint": "Mostrar a categoria Ferimentos/Fadiga no HUD",
+        "name": "Mostrar Ferimentos/Fadiga"
       },
       "background": {
         "hint": "Defina a cor de fundo do HUD. Esta configuração é ignorada com o Dorako UI",
@@ -709,39 +709,39 @@
           "hint": "If enabled, abilities will be separated into checks and saves.",
           "name": "Show separate ability check and save categories"
         }
-      }  
+      }
     },
     "swade": {
-      "bennies": "Bennies",
-      "edges": "Edges",
-      "edgesAndHindrances": "Edges/Hindrances",
-      "fatigue": "Fatigue",
+      "bennies": "Benes",
+      "edges": "Vantagens",
+      "edgesAndHindrances": "Vantagens/Complicações",
+      "fatigue": "Fadiga",
       "gear": "Equipamento",
       "give": "Dar",
       "gm": "Mestre",
-      "hindrances": "Hindrances",
+      "hindrances": "Complicações",
       "misc": "Misc",
       "mods": "Mods",
-      "points": "Points",
+      "points": "Pontos",
       "shields": "Escudos",
       "specialAbilities": "Habilidades Especiais",
-      "spend": "Spend",
-      "status": "Status",
-      "wounds": "Feridas",
-      "woundsAndFatigue": "Wounds/Fatigue",
+      "spend": "Gastar",
+      "status": "Estado",
+      "wounds": "Ferimentos",
+      "woundsAndFatigue": "Ferimentos/Fadiga",
       "settings": {
         "abbreviateAttributes": {
-          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
-          "name": "Abbreviate Skill and Ability Names"
+          "hint": "Nomes de perícias e habilidades serão abreviados pelos três primeiros caracteres.",
+          "name": "Abreviar Nomes de Perícias e Habilidades"
         },
-        "allowGiveBennies" : {
-          "name": "Allow Give Bennies",
-          "hint": "Allow users with this role (and above) to give bennies via the HUD",
-          "choices" : {
-            "4": "Game Master",
-            "3": "Assistant GM",
-            "2": "Trusted Player",
-            "1": "Player"
+        "allowGiveBennies": {
+          "name": "Permitir Dar Benes",
+          "hint": "Permite que usuários com pelo menos o seguinte cargo possam dar Benes pela HUD",
+          "choices": {
+            "4": "Mestre de Jogo",
+            "3": "MJ Assistente",
+            "2": "Jogador Confiável",
+            "1": "Jogador"
           }
         }
       }

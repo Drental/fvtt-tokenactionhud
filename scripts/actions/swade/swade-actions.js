@@ -25,6 +25,7 @@ export class ActionHandlerSwade extends ActionHandler {
     this._addWoundsAndFatigue(result, tokenId, actor);
     this._addStatuses(result, tokenId, actor);
     if (actor.type === "character" || actor.type === "npc") {
+      this._addActions(result, tokenId, actor);
       this._addBennies(result, tokenId, actor);
       this._addAttributes(result, tokenId, actor);
       this._addSkills(result, tokenId, actor);
@@ -41,6 +42,29 @@ export class ActionHandlerSwade extends ActionHandler {
     if (settings.get("showHudTitle")) result.hudTitle = token.name;
 
     return result;
+  }
+
+  /** @private */
+  _addActions(list, tokenId, actor) {
+    if (settings.get("showActionsCategory") === false) return;
+    const cat = this.initializeEmptyCategory("actions");
+    const macroType = "action";
+    const actions = actor.items.filter((i) => i.type === macroType);
+
+    const subcat = this.initializeEmptySubcategory("actions");
+    actions.forEach((a) => {
+      const encodedValue = [macroType, tokenId, a.id].join(this.delimiter);
+      const action = { name: a.name, img: a.img, encodedValue: encodedValue, id: a.id };
+
+      let mod = this._parseDie(a.system.die);
+      action.info1 = mod;
+
+      subcat.actions.push(action);
+    });
+
+    const skillName = this.i18n("SWADE.Actions");
+    this._combineSubcategoryWithCategory(cat, skillName, subcat);
+    this._combineCategoryWithList(list, skillName, cat);
   }
 
   /** @private */
@@ -112,9 +136,9 @@ export class ActionHandlerSwade extends ActionHandler {
     const subcat = this.initializeEmptySubcategory("skills");
     skills.forEach((s) => {
       const encodedValue = [macroType, tokenId, s.id].join(this.delimiter);
-      const action = { name: s.name, encodedValue: encodedValue, id: s.id };
+      const action = { name: s.name, img: s.img, encodedValue: encodedValue, id: s.id };
 
-      let mod = this._parseDie(s.system.die, s.system["wild-die"]);
+      let mod = this._parseDie(s.system.die);
       action.info1 = mod;
 
       subcat.actions.push(action);
@@ -380,8 +404,9 @@ export class ActionHandlerSwade extends ActionHandler {
 
       const name = key.slice(2).split(/(?=[A-Z])/).join(" ");
       const id = name.toLowerCase();
+      const img = CONFIG.statusEffects.find((el) => el.id === id)?.icon ?? null;
       const encodedValue = [macroType, tokenId, id].join(this.delimiter);
-      const action = { name: name, id: name, encodedValue: encodedValue };
+      const action = { name: name, img, id: name, encodedValue: encodedValue };
       action.cssClass = value ? "active" : "";
 
       subcat.actions.push(action);

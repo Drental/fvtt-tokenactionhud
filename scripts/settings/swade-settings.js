@@ -10,10 +10,10 @@ export function register(app, updateSettings) {
     config: true,
     type: String,
     choices: {
-      4: game.i18n.localize('tokenActionHud.swade.settings.allowGiveBennies.choices.4'),
-      3: game.i18n.localize('tokenActionHud.swade.settings.allowGiveBennies.choices.3'),
-      2: game.i18n.localize('tokenActionHud.swade.settings.allowGiveBennies.choices.2'),
-      1: game.i18n.localize('tokenActionHud.swade.settings.allowGiveBennies.choices.1')
+      4: game.i18n.localize("USER.RoleGamemaster"),
+      3: game.i18n.localize("USER.RoleAssistant"),
+      2: game.i18n.localize("USER.RoleTrusted"),
+      1: game.i18n.localize("Jogador"),
     },
     default: 1,
     onChange: (value) => {
@@ -35,19 +35,8 @@ export function register(app, updateSettings) {
       updateSettings(value);
     },
   });
-  
-  const showCategorySettings = [
-    'WoundsFatigue',
-    'Status',
-    'Bennies',
-    'Attributes',
-    'Skills',
-    'EdgesHindrances',
-    'SpecialAbilities', 
-    'Powers',
-    'Gear',
-    'Utility'
-  ]
+
+  const showCategorySettings = ["WoundsFatigue", "Actions", "Status", "Bennies", "Attributes", "Skills", "EdgesHindrances", "SpecialAbilities", "Powers", "Gear", "Utility"];
 
   for (const category of showCategorySettings) {
     game.settings.register(app, `show${category}Category`, {
