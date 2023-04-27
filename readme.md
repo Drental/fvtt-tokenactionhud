@@ -14,6 +14,21 @@ This module populates a repositionable HUD showing the most common actions for a
 ## Recommended Modules
 Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/color-picker), [libThemer](https://foundryvtt.com/packages/lib-themer) or [VTTColorSettings](https://foundryvtt.com/packages/colorsettings) library modules for its color picker settings. Only one is required.
 
+# Token Action HUD Core
+
+Token Action HUD Core is a new version of Token Action HUD designed to support dedicated system-specific modules. If your system of choice is listed here, you might find Token Action HUD Core a better fit.
+
+The following Token Action HUD system modules are available for Token Action HUD Core:
+
+- [Token Action HUD CypherSystem](https://foundryvtt.com/packages/token-action-hud-cyphersystem)
+- [Token Action HUD D&D 5e](https://foundryvtt.com/packages/token-action-hud-dnd5e)
+- [Token Action HUD Exalted Third Edition](https://foundryvtt.com/packages/token-action-hud-exaltedthird)
+- [Token Action HUD OpenD6 Space](https://foundryvtt.com/packages/token-action-hud-od6s)
+- [Token Action HUD Pathfinder 1e](https://foundryvtt.com/packages/token-action-hud-pf1)
+- [Token Action HUD Pathfinder 2](https://foundryvtt.com/packages/token-action-hud-pf2e)
+
+If you would like to support your favourite system, check out the [Token Action HUD Core](https://github.com/Larkinabout/fvtt-token-action-hud-core/issues) repos.
+
 # Supported Systems
 
 - 3.5e SRD
@@ -24,9 +39,7 @@ Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/
 - Chroniques Oubliées Fantasy
 - Clé en main
 - Cthulhu Hack
-- Cypher System
 - DnD 4th Edition
-- DnD5e, including [MinorQol](https://gitlab.com/tposney/minor-qol), [Magic Items](https://gitlab.com/riccisi/foundryvtt-magic-items/), and [Item Macro](https://github.com/Kekilla0/Item-Macro).
 - Dungeon World
 - Dungeonslayers 4
 - Earthdawn 4th Edition
@@ -34,9 +47,6 @@ Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/
 - GURPS 4th Edition Game Aid (Unofficial)
 - Kamigakari: God Hunter
 - LANCER
-- OpenD6 Space
-- Pathfinder 1
-- Pathfinder Second Edition (Official)
 - Savage Worlds Adventure Edition
 - Shadow of the Demon Lord
 - Starfinder
@@ -44,17 +54,11 @@ Token Action HUD uses either the [Color Picker](https://foundryvtt.com/packages/
 - Symbaroum
 - Tagmar RPG
 - Tormenta20
-- Warhammer Fantasy Roleplay 4th Edition
-
-## Supporting Other Systems
-If you'd like a system to be supported by Token Action HUD and are able to develop it yourself, feel free to submit a pull request. See [How to Add Support for a System/Module](adding_systems.md) for help in developing Token Action HUD. Otherwise, raise a feature request for the system [here](https://github.com/Drental/fvtt-tokenactionhud/issues).
+- Warhammer Fantasy Roleplay 4th Edition 
 
 # Usage
 
 Once activated, selecting a token that has an actor/character sheet associated with it and that you have permission to control should display an an action bar that is populated with the actions and abilities available for that token. The HUD can be disabled on a per-user basis if so desired.
-
-Offers a variety of settings including support for third-party roll handlers (Please contact me if you'd like to add yours, or improve the functionality of those offered), and can be repositioned.
-![Customizable settings](.github/readme/tah-settings_and_repositioning.gif)
 
 ## How to Use Custom Categories
 
@@ -78,9 +82,7 @@ See [How to Use Custom Categories](custom_categories.md)
 
 # Support
 
-For questions, feature requests or bug reports, please open an issue [here](https://github.com/Drental/fvtt-tokenactionhud/issues).
-
-Pull requests are welcome. Please include a reason for the request or create an issue before starting one.
+This version of Token Action HUD is now only supported via pull requests and bug fixes. Systems supported by Token Action HUD Core will no longer receive updates outside of pull requests from other developers.
 
 # Thanks
 

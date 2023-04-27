@@ -4,6 +4,15 @@ Call to Arms! Token Action HUD is moving to [Token Action HUD Core](https://foun
 
 If you're interested in picking up development of the Token Action HUD system module for your favourite system, please get in touch with me at the [Token Action HUD Core repos](https://github.com/Larkinabout/fvtt-token-action-hud-core) or on Discord (Russell#7071).
 
+# [3.0.20] 2023-04-27
+- Chroniques Oubliées - Fix capacity bug, courtesy of Qaw.
+- Pathfinder 2 - Update French localization, courtesy of rectulo.
+- SWADE - Add skill icons to Skills, courtesy of mclemente (#392).
+- SWADE - Do not display the Wild Die for Skills, courtesy of mclemente (#393).
+- SWADE - Add support for Actions, courtesy of mclemente (#394).
+- SWADE - Add icons to Status Effects, courtesy of mclemente.
+- SWADE - Update the Brazilian Portuguese localization, courtesy of mclemente.
+
 # [3.0.19] 2023-01-28
 - Forbidden Lands - Fix missing Animal Handling and Sleight of Hand language references (#371).
 - Forbidden Lands - Fix actions not rolling due to required click event (#378).
