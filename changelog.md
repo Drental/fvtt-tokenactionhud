@@ -4,6 +4,10 @@ Call to Arms! Token Action HUD is moving to [Token Action HUD Core](https://foun
 
 If you're interested in picking up development of the Token Action HUD system module for your favourite system, please get in touch with me at the [Token Action HUD Core repos](https://github.com/Larkinabout/fvtt-token-action-hud-core) or on Discord (Russell#7071).
 
+# [3.0.21] 2023-05-24
+- Alien RPG - Update strings, courtesy of Txus5012.
+- SWADE - Add equip status to items, courtesy of mclemente (#268).
+
 # [3.0.20] 2023-04-27
 - Chroniques Oubliées - Fix capacity bug, courtesy of Qaw.
 - Pathfinder 2 - Update French localization, courtesy of rectulo.

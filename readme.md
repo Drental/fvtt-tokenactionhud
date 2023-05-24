@@ -1,4 +1,4 @@
-# Token Action HUD
+# Token Action HUD Classic
 
 This module populates a repositionable HUD showing the most common actions for a selected token.
 
@@ -20,12 +20,15 @@ Token Action HUD Core is a new version of Token Action HUD designed to support d
 
 The following Token Action HUD system modules are available for Token Action HUD Core:
 
+- [Token Action HUD Coriolis](https://foundryvtt.com/packages/token-action-hud-coriolis)
 - [Token Action HUD CypherSystem](https://foundryvtt.com/packages/token-action-hud-cyphersystem)
 - [Token Action HUD D&D 5e](https://foundryvtt.com/packages/token-action-hud-dnd5e)
 - [Token Action HUD Exalted Third Edition](https://foundryvtt.com/packages/token-action-hud-exaltedthird)
+- [Token Action HUD Ghostbusters](https://foundryvtt.com/packages/token-action-hud-gb)
 - [Token Action HUD OpenD6 Space](https://foundryvtt.com/packages/token-action-hud-od6s)
 - [Token Action HUD Pathfinder 1e](https://foundryvtt.com/packages/token-action-hud-pf1)
 - [Token Action HUD Pathfinder 2](https://foundryvtt.com/packages/token-action-hud-pf2e)
+- [Token Action HUD The Witcher TRPG](https://foundryvtt.com/packages/fvtt-token-action-hud-thewitchertrpg)
 
 If you would like to support your favourite system, check out the [Token Action HUD Core](https://github.com/Larkinabout/fvtt-token-action-hud-core/issues) repos.
 
@@ -71,10 +74,6 @@ See [How to Use Custom Categories](custom_categories.md)
 ## Warhammer Fantasy Roleplay 4th Edition
 
 ![Warhammer Fantasy Roleplay 4th Edition](.github/readme/tah-wfrp.gif)
-
-## Pathfinder Second Edition (Official)
-
-![Pathfinder Second Edition (Official)](.github/readme/tah-pf2e.gif)
 
 ## Starfinder RPG
 

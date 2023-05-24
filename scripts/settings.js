@@ -48,7 +48,7 @@ export const registerSettings = function (app, systemManager, rollHandlers) {
     scope: "client",
     config: true,
     type: String,
-    default: "Down",
+    default: "down",
     choices: {
       up: game.i18n.localize("tokenActionHud.settings.direction.choices.up"),
       down: game.i18n.localize("tokenActionHud.settings.direction.choices.down")
