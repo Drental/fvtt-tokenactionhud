@@ -557,7 +557,19 @@ export class ActionHandlerSwade extends ActionHandler {
     const id = item.id;
     const name = item.name;
     const encodedValue = [macroType, tokenId, id].join(this.delimiter);
-    const action = { name: name, id: id, encodedValue: encodedValue };
+    const isWeapon = item.type === "weapon";
+    const equipStatusIcons = {
+      2: '<i class="fas fa-hand-paper"></i>',
+      4: '<i class="fas fa-hand-paper fa-flip-horizontal"></i>',
+      5: '<i class="fas fa-sign-language"></i>',
+    };
+    const icon = equipStatusIcons[item.system.equipStatus] || "";
+    const action = {
+      name: name + (isWeapon ? ` (${icon})` : ""),
+      id: id,
+      useRawHtmlName: isWeapon,
+      encodedValue: encodedValue,
+    };
 
     action.info1 = this._getItemQuantity(item);
     action.info2 = this._getItemShots(item);
