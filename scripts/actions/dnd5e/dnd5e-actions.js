@@ -42,7 +42,7 @@ export class ActionHandler5e extends ActionHandler {
 
   _buildCategories(token) {
     const actor = token.actor;
-    
+
     if (actor.type === "character" || actor.type === "npc") {
       return [
         this._buildItemsCategory(token),
@@ -196,7 +196,7 @@ export class ActionHandler5e extends ActionHandler {
     equipmentCat.actions = equipmentActions;
 
     let other = activeEquipped.filter(
-      (i) => i.type != "weapon" && i.type != "equipment" && i.type != "tool" 
+      (i) => i.type != "weapon" && i.type != "equipment" && i.type != "tool"
     );
     let otherActions = other.map((o) =>
       this._buildEquipmentItem(tokenId, actor, macroType, o)
@@ -362,16 +362,16 @@ export class ActionHandler5e extends ActionHandler {
         if (s[0].startsWith("spell")) {
           if (!slotsAvailable && s[1].max > 0 && s[1].value > 0)
             slotsAvailable = true;
-  
+
           if (!slotsAvailable && s[0] === "spell" + pactInfo[1]?.level) {
             if (pactInfo[1].max > 0 && pactInfo[1].value > 0)
               slotsAvailable = true;
           }
-  
+
           s[1].slotsAvailable = slotsAvailable;
         } else {
           if (!s[1]) s[1] = {};
-  
+
           s[1].slotsAvailable = !s[1].max || s[1].value > 0;
         }
       });
@@ -506,7 +506,7 @@ export class ActionHandler5e extends ActionHandler {
     let actions = this.initializeEmptySubcategory();
     let features = this.initializeEmptySubcategory();
     let reactions = this.initializeEmptySubcategory();
-    
+
     let dispose = feats.reduce(
       function (dispose, f) {
         const activationType = f.system.activation.type;
@@ -539,17 +539,17 @@ export class ActionHandler5e extends ActionHandler {
             passive.actions.push(feat);
             return;
           }
-  
+
           if (activationType == "lair") {
             lair.actions.push(feat);
             return;
           }
-  
+
           if (activationType == "legendary") {
             legendary.actions.push(feat);
             return;
           }
-  
+
           active.actions.push(feat);
           return;
         }
@@ -566,14 +566,14 @@ export class ActionHandler5e extends ActionHandler {
     let actionsTitle = this.i18n("tokenActionHud.actions");
     let featuresTitle = this.i18n("tokenActionHud.features");
     let reactionsTitle = this.i18n("tokenActionHud.reactions");
-  
+
     this._combineSubcategoryWithCategory(result, activeTitle, active);
     this._combineSubcategoryWithCategory(result, legendaryTitle, legendary);
     this._combineSubcategoryWithCategory(result, lairTitle, lair);
     this._combineSubcategoryWithCategory(result, actionsTitle, actions);
     this._combineSubcategoryWithCategory(result, featuresTitle, features);
     this._combineSubcategoryWithCategory(result, reactionsTitle, reactions);
-    
+
     if (!settings.get("ignorePassiveFeats")) {
       let passiveTitle = this.i18n("tokenActionHud.passive");
       this._combineSubcategoryWithCategory(result, passiveTitle, passive);
@@ -651,16 +651,16 @@ export class ActionHandler5e extends ActionHandler {
     let abbr = settings.get("abbreviateSkills");
 
     let actions = Object.entries(game.dnd5e.config.abilities).map((e) => {
-      if (abilities[e[0]].value === 0) return;
+      if (abilities[e.abbreviation].value === 0) return;
 
-      let name = abbr ? e[0] : e[1];
+      let name = abbr ? e.abbreviation : e.label;
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, tokenId, e.abbreviation].join(this.delimiter);
       let icon;
       if (categoryId === "checks") icon = "";
-      else icon = this._getProficiencyIcon(abilities[e[0]].proficient);
+      else icon = this._getProficiencyIcon(abilities[e.abbreviation].proficient);
 
-      return { name: name, id: e[0], encodedValue: encodedValue, icon: icon };
+      return { name: name, id: e.abbreviation, encodedValue: encodedValue, icon: icon };
     });
     let abilityCategory = this.initializeEmptySubcategory();
     abilityCategory.actions = actions.filter((a) => !!a);
@@ -676,11 +676,11 @@ export class ActionHandler5e extends ActionHandler {
     let abbr = settings.get("abbreviateSkills");
 
     let actions = Object.entries(game.dnd5e.config.abilities).map((e) => {
-      let name = abbr ? e[0] : e[1];
+      let name = abbr ? e.abbreviation : e.label;
       name = name.charAt(0).toUpperCase() + name.slice(1);
-      let encodedValue = [macroType, tokenId, e[0]].join(this.delimiter);
+      let encodedValue = [macroType, tokenId, e.abbreviation].join(this.delimiter);
 
-      return { name: name, id: e[0], encodedValue: encodedValue };
+      return { name: name, id: e.abbreviation, encodedValue: encodedValue };
     });
     let abilityCategory = this.initializeEmptySubcategory();
     abilityCategory.actions = actions;
@@ -883,9 +883,9 @@ export class ActionHandler5e extends ActionHandler {
       const encodedValue = [macroType, tokenId, c.id].join(this.delimiter);
       const effects =
         "some" in actor.effects.entries ? actor.effects.entries : actor.effects;
-        const active = effects.some((e) => e.flags.core?.statusId === c.id)
-          ? " active"
-          : "";
+      const active = effects.some((e) => e.flags.core?.statusId === c.id)
+        ? " active"
+        : "";
       const cssClass = `toggle${active}`
       const image = c.icon;
       const action = {
