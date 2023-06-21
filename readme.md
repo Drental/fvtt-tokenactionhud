@@ -20,7 +20,7 @@ Token Action HUD Core is a new version of Token Action HUD designed to support d
 
 The following Token Action HUD system modules are available for Token Action HUD Core:
 
-- [Token Action HUD Coriolis](https://foundryvtt.com/packages/token-action-hud-coriolis)
+- [Token Action HUD for Coriolis](https://foundryvtt.com/packages/token-action-hud-coriolis)
 - [Token Action HUD CypherSystem](https://foundryvtt.com/packages/token-action-hud-cyphersystem)
 - [Token Action HUD D&D 5e](https://foundryvtt.com/packages/token-action-hud-dnd5e)
 - [Token Action HUD Exalted Third Edition](https://foundryvtt.com/packages/token-action-hud-exaltedthird)
@@ -28,6 +28,7 @@ The following Token Action HUD system modules are available for Token Action HUD
 - [Token Action HUD OpenD6 Space](https://foundryvtt.com/packages/token-action-hud-od6s)
 - [Token Action HUD Pathfinder 1e](https://foundryvtt.com/packages/token-action-hud-pf1)
 - [Token Action HUD Pathfinder 2](https://foundryvtt.com/packages/token-action-hud-pf2e)
+- [Token Action HUD for Savage Worlds](https://foundryvtt.com/packages/token-action-hud-swade)
 - [Token Action HUD The Witcher TRPG](https://foundryvtt.com/packages/fvtt-token-action-hud-thewitchertrpg)
 
 If you would like to support your favourite system, check out the [Token Action HUD Core](https://github.com/Larkinabout/fvtt-token-action-hud-core/issues) repos.
@@ -81,7 +82,7 @@ See [How to Use Custom Categories](custom_categories.md)
 
 # Support
 
-This version of Token Action HUD is now only supported via pull requests and bug fixes. Systems supported by Token Action HUD Core will no longer receive updates outside of pull requests from other developers.
+This version of Token Action HUD is now only supported via pull requests and bug fixes. Systems supported by Token Action HUD Core will no longer receive updates or fixes.
 
 # Thanks
 
