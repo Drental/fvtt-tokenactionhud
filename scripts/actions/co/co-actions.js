@@ -91,16 +91,16 @@ export class ActionHandlerCo extends ActionHandler {
     
     this._combineSubcategoryWithCategory(result, this.i18n("tokenActionHud.weapons"), weaponsCategory);
 
-    // Spells
-    let spellsCategory = this.initializeEmptySubcategory();
+    // Activable capacities
+    let activableCapacitiesCategory = this.initializeEmptySubcategory();
 
-    let spells = actor.items.filter(item => item.type === "item" && item.system.subtype === "spell" && (item.system.properties.weapon || item.system.properties.activable));
+    let capacities = actor.items.filter(item => item.type === "capacity" && item.system.activable);
     
-    spellsCategory.actions = spells.map((w) =>
+    activableCapacitiesCategory.actions = capacities.map((w) =>
       this._buildEquipmentItem(tokenId, actor, "spell", w)
     );
     
-    this._combineSubcategoryWithCategory(result, this.i18n("tokenActionHud.spells"), spellsCategory);
+    this._combineSubcategoryWithCategory(result, this.i18n("tokenActionHud.features"), activableCapacitiesCategory);
 
     return result;
   }
