@@ -392,7 +392,7 @@ export class ActionHandlerPf2e extends ActionHandler {
           if (currentBonus === attackMod || calculatePenalty) {
             name = currentBonus >= 0 ? `+${currentBonus}` : `${currentBonus}`;
           } else {
-            name = currentMap >= 0 ? `+${currentMap}` : `${currentMap}`;
+            name = currentMap >= 0 ? `+${v.label}` : `${v.label}`;
           }
           currentMap -= map;
           currentBonus -= map;
