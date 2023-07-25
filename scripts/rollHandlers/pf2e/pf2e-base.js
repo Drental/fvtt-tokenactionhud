@@ -173,12 +173,10 @@ export class RollHandlerBasePf2e extends RollHandler {
 
   /** @private */
   _rollAttributeChar(event, actor, actionId) {
-    let attribute = actor.system.attributes[actionId];
-    if (!attribute) {
-      actor.rollAttribute(event, actionId);
-    } else {
-      const options = actor.getRollOptions(["all", attribute]);
-      attribute.roll({ event, options });
+
+    if(actionId === 'statistic')
+    {
+      actor.rollInitiative();
     }
   }
 

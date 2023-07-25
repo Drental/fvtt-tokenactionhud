@@ -228,7 +228,7 @@ export class PcActionHandlerPf2e {
     let result = this.baseHandler.initializeEmptyCategory("attributes");
     let attributes = this.baseHandler.initializeEmptySubcategory();
 
-    let rollableAttributes = Object.entries(actor.system.attributes).filter(
+    let rollableAttributes = Object.entries(actor.initiative).filter(
       (a) => !!a[1]?.roll
     );
     let attributesMap = rollableAttributes.map((a) => {
