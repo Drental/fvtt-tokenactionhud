@@ -73,6 +73,12 @@ export class RollHandlerBaseDemonlord extends RollHandler {
       case "endTurn":
         if (game.combat?.current?.tokenId === tokenId) await game.combat?.nextTurn();
         break;
+      default:
+        let action = CONFIG.statusEffects.find(i => i.id === actionId);
+        if (action != undefined) {
+          token.toggleEffect(action);
+        }
+        break;
     }
   }
 }
