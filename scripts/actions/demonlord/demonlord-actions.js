@@ -87,11 +87,11 @@ export class ActionHandlerDemonlord extends ActionHandler {
     let result = this.initializeEmptyCategory("items");
 
     let subcategory = this.initializeEmptySubcategory();
-
+    let itemList = actor.items.filter((i)=> i.type == macroType)
+    if (settings.get("hideUnequippedInventory")) itemList = itemList.filter((i) => i.system.wear)
     subcategory.actions = this._produceMap(
       tokenId,
-      actor.items
-        .filter((i) => i.type == macroType)
+      itemList
         .map((item) => {
           return {
             name: item.name,
@@ -307,6 +307,20 @@ export class ActionHandlerDemonlord extends ActionHandler {
 
     // Combat Subcategory
     let combatSubcategory = this.initializeEmptySubcategory();
+
+    // Misc Combat Actions
+    if (game.combat?.current?.tokenId === tokenId && settings.get("showAdditionalCombatActions")) {
+      let miscCombatActions = ["concentrate", "defend", "help", "prepare", "reload", "retreat", "rush", "stabilize"];
+      for (const action of miscCombatActions) {
+        let miscCombatValue = [macroType, tokenId, action].join(this.delimiter);
+        let miscCombatAction = {
+          id: action,
+          encodedValue: miscCombatValue,
+          name: this.i18n(`DL.${action}`),
+        };
+        combatSubcategory.actions.push(miscCombatAction);
+      }
+    }
 
     // End Turn
     if (game.combat?.current?.tokenId === tokenId) {

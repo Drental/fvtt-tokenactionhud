@@ -376,6 +376,12 @@
       "inconsumables": "Inconsumables"
     },
     "demonLord": {
+      "settings": {
+        "showAdditionalCombatActions": {
+          "hint": "If enabled, the concentrate, defend, help, prepare, reload, retreat, rush, and stabilize actions will be shown in the Utility category during combat",
+          "name": "Show additional combat actions"
+        }
+      },
       "attackoptions": "Attack Options",
       "challenge": "Challenge Roll",
       "rest": "Rest",
