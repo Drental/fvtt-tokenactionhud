@@ -1,0 +1,820 @@
+{
+  "tokenActionHud": {
+    "abilities": "Abilities",
+    "accept": "Accept",
+    "actions": "Actions",
+    "activate": "Activate",
+    "active": "Active",
+    "addToCombat": "Add to Combat",
+    "advanced": "Advanced",
+    "advancedCategoryOptions": {
+      "customWidth": "Custom Width (leave blank for default)",
+      "compactView": "Compact View",
+      "characterCount": "Characters per Word to Display in Compact View (0 for icons only)"
+    },
+    "allowlist": "Allowlist",
+    "ancestryFeatures": "Ancestry Features",
+    "ancestryFeats": "Ancestry Feats",
+    "armour": "Rustning",
+    "attack": "Attack",
+    "attacks": "Attacks",
+    "attribute": {
+      "agility": "Agility",
+      "intellect": "Intellect",
+      "perception": "Perception",
+      "strength": "Strength",
+      "will": "Will"
+    },
+    "attributes": "Grundegenskaper",
+    "at-will": "At-will",
+    "blockList": "Blocklist",
+    "blockListLabel": "blockList: hide / allowlist: show",
+    "bonusActions": "Bonus Actions",
+    "book": "Book",
+    "books": "Books",
+    "cancel": "Cancel",
+    "cantrips": "Cantrips",
+    "categoryTagExplanation": "Add and remove additional customisable categories.",
+    "categoryTagTitle": "Add/remove categories",
+    "characteristics": "Characteristics",
+    "checks": "Checks",
+    "clearButton": "Clear",
+    "combat": "Combat",
+    "conditions": "Conditions",
+    "consumables": "Consumables",
+    "coreBonus": "Core Bonus",
+    "critical": "Critical",
+    "damage": "Damage",
+    "defenses": "Defenses",
+    "effects": "Effects",
+    "endTurn": "End Turn",
+    "equipment": "Equipment",
+    "experimental": "Experimental",
+    "feats": "Feats",
+    "features": "Features",
+    "filterPlaceholder": "Choices (split with semi-colon)",
+    "filterTagExplanation": "Add entries here to show or hide specific category entries.",
+    "filterTitle": "Filter",
+    "general": "General",
+    "handlerNotFound": "not found, reverting to core roller.",
+    "healing": "Healing",
+    "hide": "Hide",
+    "initiative": "Initiative",
+    "inspiration": "Inspiration",
+    "inventory": "Utrustning",
+    "level": "Level",
+    "levelAbbreviation": "Lvl",
+    "longRest": "Long Rest",
+    "magic": "Magic",
+    "magicItems": "Magic Items",
+    "makeInvisible": "Make Invisible",
+    "makeVisible": "Make Visible",
+    "melee": "Melee",
+    "other": "Other",
+    "passive": "Passive",
+    "pools": "Pools",
+    "powers": "Powers",
+    "profession": "Profession",
+    "push": "Right",
+    "pushLabelExplanation": "Show categories on which side?",
+    "ranged": "Ranged",
+    "reactions": "Reactions",
+    "recharge": "Recharge",
+    "rechargeRepair": "Recharge",
+    "refittingRepair": "Refitting",
+    "regenRepair": "Regen",
+    "removeFromCombat": "Remove from Combat",
+    "repair": "Repair",
+    "rest": "Rest",
+    "rests": "Rests",
+    "repairs": "Repairs",
+    "roll": "Roll",
+    "rollInitiative": "Roll Initiative",
+    "saves": "Saves",
+    "shortRest": "Short Rest",
+    "show": "Show",
+    "skillFeats": "Skill Feats",
+    "skills": "Färdigheter",
+    "specialActions": "Special Actions",
+    "spells": "Spells",
+    "subcategoryTagExplanation": "Add and remove subcategories: enter free-text for macro subcategories or select linked compendiums.",
+    "subcategoryTagTitle": "Add/remove subcategories",
+    "talents": "Talanger",
+    "temporary": "Temporary",
+    "title": "Token Action HUD",
+    "toggleCombatState": "Toggle Combat State",
+    "toggles": "Toggles",
+    "toggleVisibility": "Toggle Visibility",
+    "token": "Token",
+    "tools": "Tools",
+    "traits": "Traits",
+    "turn": "Turn",
+    "unshift": "Left",
+    "utility": "Tillbehör",
+    "weapons": "Vapen",
+    "settings": {
+      "activeCssAsText": {
+        "name": "Mark Active CSS with Text",
+        "hint": "If enabled, buttons that can be active will also be marked with an asterisk to indicate their activity. Inactive buttons will have no asterisk."
+      },
+      "alwaysShowAdditionalCategories": {
+        "hint": "If enabled, custom categories will be shown even when no token is selected.",
+        "name": "Always Show Custom Categories"
+      },
+      "alwaysShowHud": {
+        "hint": "If the user has an assigned character, the HUD will default to this character when no token is selected.",
+        "name": "Always Display HUD"
+      },
+      "clickOpenCategory": {
+        "hint": "If enabled, categories will open on click instead of hover.",
+        "name": "Click to Open Categories"
+      },
+      "debug": {
+        "hint": "Enable debug logging. (This has sort of fallen by the wayside, don't expect it to be very useful)",
+        "name": "Enable Debugging"
+      },
+      "direction": {
+        "hint": "Set the direction the HUD will expand",
+        "name": "Direction",
+        "choices": {
+          "down": "Down",
+          "up": "Up"
+        }
+      },
+      "drag": {
+        "hint": "Move the HUD by dragging one of the category buttons",
+        "name": "Enable Dragging"
+      },
+      "enabledForUser": {
+        "hint": "Enable the HUD for the current user. Does not override the player permission setting",
+        "name": "Enable HUD for Current User"
+      },
+      "itemMacroReplace": {
+        "showBoth": "Show both original item and item macro item",
+        "showItemMacro": "Show the item macro item",
+        "showOriginal": "Show the original item"
+      },
+      "onTokenHover": {
+        "hint": "If enabled, the HUD will appear when hovering over a controllable token.\nWarning: Due to the unpredictable position of a token on the canvas, some actions may fall off the screen.",
+        "name": "Enable Hovering"
+      },
+      "playerPermission": {
+        "hint": "If enabled, players will be able to use the HUD.",
+        "name": "Enable HUD for Players"
+      },
+      "renderItemOnRightClick": {
+        "hint": "If enabled, right-clicking on an item in the HUD will bring up the item's sheet (possibly conflicts with other settings that use right-click).",
+        "name": "Show Item Sheet on Right-Click"
+      },
+      "rollHandler": {
+        "hint": "Choose which module will receive the HUD's actions.",
+        "name": "HUD Roll Handler"
+      },
+      "scale": {
+        "hint": "Adjust the scale of the HUD in percentage terms (100 being the default)",
+        "name": "HUD Scale"
+      },
+      "showAbilitiesCategory": {
+        "hint": "Show the Abilities category on the HUD",
+        "name": "Show Abilities"
+      },
+      "showActionsCategory": {
+        "hint": "Show the Actions category on the HUD",
+        "name": "Show Actions"
+      },
+      "showAttacksCategory": {
+        "hint": "Show the Attacks category on the HUD",
+        "name": "Show Attacks"
+      },
+      "showAttributesCategory": {
+        "hint": "Show the Attributes category on the HUD",
+        "name": "Show Attributes"
+      },
+      "showBenniesCategory": {
+        "hint": "Show the Bennies category on the HUD",
+        "name": "Show Bennies"
+      },
+      "showBuffsCategory": {
+        "hint": "Show the Buffs category on the HUD",
+        "name": "Show Buffs"
+      },
+      "showCharacteristicsCategory": {
+        "hint": "Show the Characteristics category on the HUD",
+        "name": "Show Characteristics"
+      },
+      "showChecksCategory": {
+        "hint": "Show the Checks category on the HUD",
+        "name": "Show Checks"
+      },
+      "showConditionsCategory": {
+        "hint": "Show the Conditions category on the HUD",
+        "name": "Show Conditions"
+      },
+      "showConsumablesCategory": {
+        "hint": "Show the Consumables category on the HUD",
+        "name": "Show Consumables"
+      },
+      "showEdgesHindrancesCategory": {
+        "hint": "Show the Edges/Hindrances category on the HUD",
+        "name": "Show Edges/Hindrances"
+      },
+      "showEffectsCategory": {
+        "hint": "Show the Effects category on the HUD",
+        "name": "Show Effects"
+      },
+      "showFeaturesCategory": {
+        "hint": "Show the Features category on the HUD",
+        "name": "Show Features"
+      },
+      "showGearCategory": {
+        "hint": "Show the Gear category on the HUD",
+        "name": "Show Gear"
+      },
+      "showInventoryCategory": {
+        "hint": "Show the Inventory category on the HUD",
+        "name": "Show Inventory"
+      },
+      "showMagicCategory": {
+        "hint": "Show the Magic category on the HUD",
+        "name": "Show Magic"
+      },
+      "showPowersCategory": {
+        "hint": "Show the Powers category on the HUD",
+        "name": "Show Powers"
+      },
+      "showReligionCategory": {
+        "hint": "Show the Religion category on the HUD",
+        "name": "Show Religion"
+      },
+      "showSavesCategory": {
+        "hint": "Show the Saves category on the HUD",
+        "name": "Show Saves"
+      },
+      "showSkillsCategory": {
+        "hint": "Show the Skills category on the HUD",
+        "name": "Show Skills"
+      },
+      "showSpecialAbilitiesCategory": {
+        "hint": "Show the Special Abilities category on the HUD",
+        "name": "Show Special Abilities"
+      },
+      "showSpellsCategory": {
+        "hint": "Show the Spells category on the HUD",
+        "name": "Show Spells"
+      },
+      "showStatusCategory": {
+        "hint": "Show the Status category on the HUD",
+        "name": "Show Status"
+      },
+      "showStrikesCategory": {
+        "hint": "Show the Strikes category on the HUD",
+        "name": "Show Strikes"
+      },
+      "showTalentsCategory": {
+        "hint": "Show the Talents category on the HUD",
+        "name": "Show Talents"
+      },
+      "showTraitsCategory": {
+        "hint": "Show the Traits category on the HUD",
+        "name": "Show Traits"
+      },
+      "showUtilityCategory": {
+        "hint": "Show the Utility category on the HUD",
+        "name": "Show Utility"
+      },
+      "showWeaponsCategory": {
+        "hint": "Show the Weapons category on the HUD",
+        "name": "Show Weapons"
+      },
+      "showWoundsFatigueCategory": {
+        "hint": "Show the Wounds/Fatigue category on the HUD",
+        "name": "Show Wounds/Fatigue"
+      },
+      "background": {
+        "hint": "Set the background color of the HUD. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
+        "name": "HUD Background Color"
+      },
+      "buttonBackgroundColor": {
+        "hint": "Set the background color of the HUD buttons. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
+        "name": "Button Background Color"
+      },
+      "buttonBorderColor": {
+        "hint": "Set the border color of the HUD buttons. This setting is ignored with the Dorako UI style and requires one module of 'Color Picker', 'Color Settings', or 'libThemer'",
+        "name": "Button Border Color"
+      },
+      "showHudTitle": {
+        "name": "Show HUD Title",
+        "hint": "Prints a title above the HUD, normally the selected token's alias."
+      },
+      "showIcons": {
+        "hint": "If enabled, the action image will be displayed on the HUD button where available.",
+        "name": "Show Action Icons"
+      },
+      "style": {
+        "hint": "Set the style of the HUD",
+        "name": "Style"
+      },
+      "useActionList": {
+        "name": "Group by Action Type",
+        "hint": "Depends on the 'Character Actions 5e' module. If enabled, buttons will be grouped by action type."
+      }
+    },
+    "alienRpg": {
+      "acidSplash": "Acid Splash",
+      "agenda": "Agenda/Story Cards",
+      "agl": "Agility",
+      "air": "Air",
+      "armorRating": "Armor",
+      "armorVersusFire": "Armor V Fire",
+      "command": "Command",
+      "closeCbt": "Close Combat",
+      "comtech": "Comtech",
+      "conditions": "Conditions",
+      "consumables": "Consumables",
+      "creatureAttack": "Creature Attack",
+      "dehydrated": "Dehydrated",
+      "emp": "Empathy",
+      "exhausted": "Exhausted",
+      "food": "Food",
+      "freezing": "Freezing",
+      "health": "Health",
+      "heavyMach": "Heavy Machinery",
+      "manipulation": "Manipulation",
+      "medicalAid": "Medical Aid",
+      "mobility": "Mobility",
+      "observation": "Observation",
+      "panic": "Panic",
+      "piloting": "Piloting",
+      "power": "Power",
+      "rangedCbt": "Ranged Combat",
+      "rollCrit": "Roll Crit",
+      "rollStress": "Roll Stress",
+      "skill": "Skill",
+      "speed": "Speed",
+      "stamina": "Stamina",
+      "starving": "Starving",
+      "str": "Strength",
+      "stresspoints": "Stress Points",
+      "survival": "Survival",
+      "water": "Water",
+      "wit": "Wits"
+    },
+    "bitd": {
+      "resistance": "Resistance"
+    },
+    "co": {
+      "attacks": "Attacks",
+      "capacities": "Capacities",
+      "combat": "Combat",
+      "protections": "Protections"
+    },
+    "d35e": {
+      "buffs": "Buffs",
+      "concentration": "Concentration",
+      "fullAttack": "Full Attack",
+      "grapple": "Grapple",
+      "inconsumables": "Inconsumables"
+    },
+    "demonLord": {
+      "attackoptions": "Attack Options",
+      "challenge": "Challenge Roll",
+      "rest": "Rest",
+      "specialattacks": "Special Attacks"
+    },
+    "dnd4e": {
+      "settings": {
+        "hideUsedPowers": {
+          "hint": "If enabled, abilities that are unavailable will be hidden (except for recharge powers that will roll to recharge)",
+          "name": "Hide used powers"
+        },
+        "forcePowerColours": {
+          "hint": "If enabled, power buttons are coloured by their use (at-will, daily, etc...) - optional as looks a bit ugly",
+          "name": "Colour Powers By Use Type"
+        },
+        "hideUnequippedInventory": {
+          "hint": "If enabled, only inventory items that are set as equipped will be shown",
+          "name": "Hide Unequipped Inventory"
+        },
+        "hideQuantityZero": {
+          "hint": "If enabled, inventory with a quantity 0 will be hidden (useful for consumables)",
+          "name": "Hide inventory with quantity of 0"
+        },
+        "equipmentCategoryList": {
+          "hint": "Comma-separated list of inventory types to show.  The default hides things without actions.  The complete list is: 'weapon, equipment, consumable, tool, backpack, loot, alchemical, ammo, potion, poison, food, scroll, trinket'",
+          "name": "Visible Inventory Categories"
+        }
+      }
+    },
+    "dnd5e": {
+      "abilities": "Abilities",
+      "actions": "Actions",
+      "attributes": "Attributes", 
+      "bonusActions": "Bonus Actions",
+      "checks": "Checks",
+      "consumables": "Consumables",
+      "crewActions": "Crew Actions",
+      "deathSave": "Death Save",
+      "equipment": "Equipment",
+      "lair": "Lair",
+      "lairActions": "Lair Actions",
+      "legendary": "Legendary",
+      "legendaryActions": "Legendary Actions",
+      "other": "Other",
+      "reactions": "Reactions",
+      "saves": "Saves",
+      "skills": "Skills",
+      "specialActions": "Special Actions",
+      "tools": "Tools",
+      "weapons": "Weapons",
+      "settings": {
+        "abbreviateSkills": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "categoriseAttributes": {
+          "hint": "Categorise abilities and skills into Attributes, Abilities/Skills or Checks/Saves/Skills",
+          "name": "Categorise Attributes",
+          "choices": {
+            "attributes": "Attributes",
+            "abilitiesSkills": "Abilities/Skills",
+            "checksSavesSkills": "Checks/Saves/Skills"
+          }
+        },
+        "hideLongerActions": {
+          "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
+          "name": "Hide actions with an activation longer than 1 round"
+        },
+        "ignorePassiveFeats": {
+          "hint": "If enabled, passive feats are not shown.",
+          "name": "Ignore passive feats"
+        },
+        "itemMacroReplace": {
+          "hint": "Select which of the items will be shown in the inventory.",
+          "name": "Item-Macro: item macro, original item, or both"
+        },
+        "showAllNonpreparableSpells": {
+          "hint": "If disabled, spells such as cantrips, innate, pact, and at-will spells need to be 'prepared' via the spell details to be shown on the HUD.",
+          "name": "Show all non-preparable spells"
+        },
+        "showAllNpcItems": {
+          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
+          "name": "Show all NPC items"
+        },
+        "showEmptyItems": {
+          "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
+          "name": "Show empty items (includes items and spells)"
+        },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
+        "showSpellInfo": {
+          "hint": "If enabled, spell component information, concentration, and ritual status will be noted next to the spell name.",
+          "name": "Display spell information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
+        }
+      }
+    },
+    "ds4": {
+      "settings": {
+        "displayCheckTargetNumbers": {
+          "name": "Show Check Target Numbers",
+          "hint": "If enabled, Check Target Numbers are displayed for each check."
+        }
+      }
+    },
+    "dungeonWorld": {
+      "basic": "Basic",
+      "charts": "Charts",
+      "gm": "GM",
+      "instinct": "Instinct",
+      "monsterMoves": "Monster Moves",
+      "moves": "Moves",
+      "special": "Special",
+      "specialQualities": "Special Qualities",
+      "starting": "Starting",
+      "tags": "Tags",
+      "treasure": "Treasure",
+      "settings": {
+        "showGmCompendiums": {
+          "hint": "If enabled, and if the user is a GM, the HUD bar will include GM moves, treasure rollable-tables, and charts.",
+          "name": "Show GM Compendiums"
+        }
+      }
+    },
+    "ed4e": {
+      "systems": "Systems"
+    },
+    "forbiddenLands": {
+      "agility": "Smidighet",
+      "animal-handling": "Djurhantering",
+      "animalHandling": "Djurhantering",
+      "arrows": "Pilar",
+      "cold": "Nedkyld",
+      "conditions": "Tillstånd",
+      "consumables": "Förbrukningsvaror",
+      "crafting": "Hantverk",
+      "empathy": "Karisma",
+      "endurance": "Uthållighet",
+      "food": "Mat",
+      "healing": "Läkekonst",
+      "hungry": "Utsvulten",
+      "insight": "Genomskåda",
+      "lore": "Bildning",
+      "manipulation": "Manipulera",
+      "marksmanship": "Skytte",
+      "melee": "Närkamp",
+      "might": "Styrkeprov",
+      "monsterAttack": "Monster Attack",
+      "move": "Rörlighet",
+      "performance": "Skaldekonst",
+      "scouting": "Speja",
+      "sleight-of-hand": "Fingerfärdighet",
+      "sleightOfHand": "Fingerfärdighet",
+      "sleepy": "Sömnlös",
+      "stealth": "Smyga",
+      "strength": "Styrka",
+      "survival": "Överlevnad",
+      "thirsty": "Uttorkad",
+      "torches": "Facklor",
+      "water": "Vatten",
+      "wits": "Intelligens"
+    },
+    "gurps": {
+      "addAcc": "Add Acc",
+      "blindRoll": "Blind Roll",
+      "retreatBlock": "Retreating Block",
+      "retreatDodge": "Retreating Dodge",
+      "retreatParry": "Retreating Parry",
+      "retreatParryFencing": "Retreating Parry (Fencing)"
+    },
+    "kamigakari": {
+      "attack": "Attack",
+      "conceptDestruction": "Concept Destruction",
+      "constant": "Constant",
+      "consumables": "Consumables",
+      "defense": "Defense",
+      "end": "End",
+      "free": "Free",
+      "items": "items",
+      "mainStats": "Main Stats",
+      "prep": "Prep",
+      "sacraments": "Sacraments",
+      "spiritBurn": "Spirit Burn",
+      "start": "Start",
+      "subStats": "Sub Stats",
+      "transcend": "Transcend",
+      "vitalIgnition": "Vital Ignition"
+    },
+    "lancer": {
+      "basic": "Basic",
+      "basicAttack": "Basic Attack",
+      "engineering": "Engineering",
+      "frame": "Frame",
+      "gear": "Gear",
+      "grit": "Grit",
+      "hase": "HASE",
+      "hull": "Hull",
+      "mech": "Mech",
+      "overcharge": "Overcharge",
+      "pilot": "Pilot",
+      "rank": "Rank",
+      "skillTriggers": "Skill Triggers",
+      "stabilize": "Stabilize",
+      "stat": "Stat",
+      "stats": "Stats",
+      "systems": "Systems",
+      "techAttack": "Tech Attack",
+      "techs": "Techs"
+    },
+    "pf1": {
+      "bonuses": "Bonuses",
+      "buffs": "Buffs",
+      "casterlevel": "Caster Level",
+      "concentration": "Concentration",
+      "disabled": "Disabled",
+      "inconsumables": "Inconsumables",
+      "settings": {
+        "showDisabled": {
+          "hint": "If enabled, disabled features won't be shown.",
+          "name": "Hide disabled features"
+        }
+      }
+    },
+    "pf2e": {
+      "atk": "Atk",
+      "bonusFeats": "Bonus Feats",
+      "classFeats": "Class Feats",
+      "classFeatures": "Class Features",
+      "commonSkills": "Common skills",
+      "dc": "DC",
+      "doomed": "Doomed",
+      "downtime": "Downtime",
+      "dying": "Dying",
+      "exploration": "Exploration",
+      "free": "Free",
+      "generalFeats": "General Feats",
+      "heroPoints": "Hero Points",
+      "lore": "Lore",
+      "noAmmo": "No ammo",
+      "recoveryCheck": "Recovery Check",
+      "restNight": "Rest for the Night",
+      "strikes": "Strikes",
+      "takeBreather": "Take a Breather",
+      "treatWounds": "Treat Wounds",
+      "useTwoHandedLabel": "Use weapon two-handed",
+      "wounded": "Wounded",
+      "settings": {
+        "abbreviateSkills": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "calculateAttackPenalty": {
+          "hint": "If enabled, strikes will show their calculated attack bonus (attack bonus - MAP) instead of the flat MAP.",
+          "name": "Show calculated MAP"
+        },
+        "ignorePassiveActions": {
+          "hint": "If enabled, passive actions are not shown.",
+          "name": "Ignore passive actions"
+        },
+        "printSpellCard": {
+          "hint": "If disabled, left-clicking a spell will roll attack (shift right-click for bonus dialogue), right-clicking will roll damage (ctrl right-click for bonus dialogue). If neither are applicable, the spell card will be printed to chat anyway.",
+          "name": "Print spell card to chat"
+        },
+        "separateTogglesCategory": {
+          "hint": "If enabled, rule toggles will be placed in their own category, otherwise they will fall under strikes.",
+          "name": "Separate Toggles Category"
+        },
+        "showNpcAbilities": {
+          "hint": "If enabled, NPCs will also have an Abilities category on their HUD.",
+          "name": "Show NPC abilities"
+        },
+        "showOldNpcStrikes": {
+          "hint": "If enabled, the HUD will show the old NPC strike actions as well as the new (experimental) strikes for NPCs.",
+          "name": "Show old NPC Strikes"
+        },
+        "showPcAbilities": {
+          "hint": "If enabled, PCs will also have an Abilities category on their HUD.",
+          "name": "Show PC abilities"
+        }
+      }
+    },
+    "sfrpg": {
+      "activeFeats": "Active Feats",
+      "crewActions": "Crew Actions",
+      "misc": "Misc",
+      "msa": "Melee Spell Attacks",
+      "mwa": "Melee Weapon Attacks",
+      "passiveFeats": "Passive Feats",
+      "rsa": "Ranged Spell Attacks",
+      "rwa": "Ranged Weapon Attacks",
+      "shields": "Shields",
+      "spellbook": "Spellbook",
+      "settings": {
+        "showMiscFeats": {
+          "hint": "If enabled, features with no assigned action type will be shown in a catch-all, miscellaneous category.",
+          "name": "Display miscellaneous feats"
+        },
+        "showSpellInfo": {
+          "hint": "If enabled, spell resistance, dismissible, concentration and save information noted next to the spell name.",
+          "name": "Display spell information"
+        }
+      }
+    },
+    "sw5e": {
+      "abilities": "Abilities",
+      "actions": "Actions",
+      "attributes": "Attributes", 
+      "bonusActions": "Bonus Actions",
+      "checks": "Checks",
+      "consumables": "Consumables",
+      "crewActions": "Crew Actions",
+      "deathSave": "Death Save",
+      "destructionSave": "Destruction Save",
+      "equipment": "Equipment",
+      "lair": "Lair",
+      "lairActions": "Lair Actions",
+      "legendary": "Legendary",
+      "legendaryActions": "Legendary Actions",
+      "naturalPowers": "Natural Powers",
+      "other": "Other",
+      "reactions": "Reactions",
+      "saves": "Saves",
+      "skills": "Skills",
+      "specialActions": "Special Actions",
+      "tools": "Tools",
+      "weapons": "Weapons",
+      "settings": {
+        "abbreviateSkills": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "categoriseAttributes": {
+          "hint": "Categorise abilities and skills into Attributes, Abilities/Skills or Checks/Saves/Skills",
+          "name": "Categorise Attributes",
+          "choices": {
+            "attributes": "Attributes",
+            "abilitiesSkills": "Abilities/Skills",
+            "checksSavesSkills": "Checks/Saves/Skills"
+          }
+        },
+        "hideLongerActions": {
+          "hint": "If enabled, actions with longer activation types (minutes, hours, or days) are not shown.",
+          "name": "Hide actions with an activation longer than 1 round"
+        },
+        "ignorePassiveFeats": {
+          "hint": "If enabled, passive feats are not shown.",
+          "name": "Ignore passive feats"
+        },
+        "itemMacroReplace": {
+          "hint": "Select which of the items will be shown in the inventory.",
+          "name": "Item-Macro: item macro, original item, or both"
+        },
+        "showAllNonpreparablePowers": {
+          "hint": "If disabled, powers such as cantrips, innate, and at-will powers need to be 'prepared' via the power details to be shown on the HUD.",
+          "name": "Show all non-preparable powers"
+        },
+        "showAllNpcItems": {
+          "hint": "If enabled, all items are shown for NPCs, not just equipped items.",
+          "name": "Show all NPC items"
+        },
+        "showConditionsCategory": {
+          "hint": "If enabled, the HUD will present a category showing the available token conditions and status effects normally available in the regular Token HUD.",
+          "name": "Show Conditions Category"
+        },
+        "showEmptyItems": {
+          "hint": "If enabled, items are shown in the HUD even if they have no remaining charges.",
+          "name": "Show empty items (includes items and powers)"
+        },
+        "showItemsWithoutAction": {
+          "hint": "If enabled, Items that have no activation information will be added to the Inventory list",
+          "name": "Show Items without Activation costs"
+        },
+        "showPowerInfo": {
+          "hint": "If enabled, power component information, concentration, and ritual status will be noted next to the power name.",
+          "name": "Display power information"
+        },
+        "splitAbilities": {
+          "hint": "If enabled, abilities will be separated into checks and saves.",
+          "name": "Show separate ability check and save categories"
+        }
+      }
+    },
+    "swade": {
+      "bennies": "Bennies",
+      "edges": "Edges",
+      "edgesAndHindrances": "Edges/Hindrances",
+      "fatigue": "Fatigue",
+      "gear": "Gear",
+      "give": "Give",
+      "gm": "GM",
+      "hindrances": "Hindrances",
+      "misc": "Misc",
+      "mods": "Mods",
+      "points": "Points",
+      "shields": "Shields",
+      "specialAbilities": "Special Abilities",
+      "spend": "Spend",
+      "status": "Status",
+      "wounds": "Wounds",
+      "woundsAndFatigue": "Wounds/Fatigue",
+      "settings": {
+        "abbreviateAttributes": {
+          "hint": "If enabled, skills and abilities will use a three-character abbreviation.",
+          "name": "Abbreviate Skill and Ability Names"
+        },
+        "allowGiveBennies" : {
+          "name": "Allow Give Bennies",
+          "hint": "Allow users with this role (and above) to give bennies via the HUD",
+          "choices" : {
+            "4": "Game Master",
+            "3": "Assistant GM",
+            "2": "Trusted Player",
+            "1": "Player"
+          }
+        }
+      }
+    },
+    "symbaroum": {
+      "abilities": "Abilities",
+      "mysticalPowers": "Mystical Powers"
+    },
+    "wfrp": {
+      "basic": "Basic",
+      "blessing": "Blessing",
+      "dodge": "Dodge",
+      "improvisedWeapon": "Improvised Weapon",
+      "melee": "Melee",
+      "petty": "Petty",
+      "ranged": "Ranged",
+      "religion": "Religion",
+      "rollable": "Rollable",
+      "stomp": "Stomp!",
+      "unarmed": "Unarmed",
+      "unrollable": "Unrollable"
+    }
+  }
+}
